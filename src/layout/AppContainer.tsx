@@ -1,0 +1,46 @@
+import { Box, CssBaseline, ThemeProvider, useTheme } from '@mui/material';
+import React, { Suspense } from 'react';
+import baseTheme from '../../src/themes/theme'
+import Footer from './Footer';
+import Router from '../Router/Router';
+import Content from './Content';
+import Header from './Header';
+
+function App() {
+  const theme = useTheme();
+
+  // const [drawerOpen, setDrawerOpen] = React.useState(false);
+  // const [footerLinks, setFooterLinks] = React.useState<Record<LinksLabel, string>>({
+  //   'discord': '#', 'docs': '#', 'medium': '#', 'privacyPolicy': '#',
+  //   'telegram': '#', 'twitter': '#', 'terms': '#'
+  // })
+
+  return (
+    <React.Fragment>
+      <Box sx={{ bgcolor: theme.palette.background.default }}>
+        <React.Fragment>
+          <Box sx={{ minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Suspense>
+              <CssBaseline />
+              <Header />
+              <Box component="main" sx={{ flex: 1, px: 1 }}>
+                <Content />
+              </Box>
+              <Footer />
+            </Suspense>
+          </Box>
+        </React.Fragment>
+      </Box>
+    </React.Fragment>
+  )
+}
+
+export const AppContainer = () => {
+  return (
+    baseTheme &&
+    <ThemeProvider theme={baseTheme}>
+      <App />
+    </ThemeProvider >
+  )
+}
+
