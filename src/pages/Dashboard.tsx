@@ -7,7 +7,7 @@ export const Dashboard = () => {
     <>
       <ImageSlider />
 
-      {/* <CardUi /> */}
+      <CardUi />
     </>
   )
 }
