@@ -133,17 +133,11 @@ export default function CardUi() {
         return () => clearInterval(interval)
     }, [visibleCards, isPaused])
 
-    const cardWidth = `calc(${100 / visibleCards}% - 16px)`
+    const cardWidth = visibleCards === 1 ? "100%" : `calc(${100 / visibleCards}% - 16px)`
     const translateX = -(currentStartIndex * (100 / visibleCards))
 
     return (
         <Container maxWidth="xl" sx={{ padding: "0 !important" }}>
-            <Box sx={{ textAlign: "center", mb: 2 }}>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Showing cards {currentStartIndex + 1}-{Math.min(currentStartIndex + visibleCards, products.length)} of{" "}
-                    {products.length}
-                </Typography>
-            </Box>
 
             <Box
                 ref={containerRef}
@@ -160,7 +154,7 @@ export default function CardUi() {
                         transition: "transform 0.5s ease-in-out",
                         transform: `translateX(${translateX}%)`,
                         gap: 2,
-                        width: `${(products.length / visibleCards) * 100}%`,
+                        width: 'auto',
                     }}
                 >
                     {products.map((product) => (
@@ -174,7 +168,7 @@ export default function CardUi() {
                         >
                             <Card
                                 sx={{
-                                    height: 380,
+                                    width: 'auto',
                                     display: "flex",
                                     flexDirection: "column",
                                     cursor: "pointer",
