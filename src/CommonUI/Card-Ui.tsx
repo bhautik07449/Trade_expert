@@ -133,7 +133,7 @@ export default function CardUi() {
         return () => clearInterval(interval)
     }, [visibleCards, isPaused])
 
-    const cardWidth = visibleCards === 1 ? "100%" : `calc(${100 / visibleCards}% - 16px)`
+    const cardWidth = `calc(100% / ${visibleCards})`
     const translateX = -(currentStartIndex * (100 / visibleCards))
 
     return (
@@ -152,23 +152,22 @@ export default function CardUi() {
                     sx={{
                         display: "flex",
                         transition: "transform 0.5s ease-in-out",
-                        transform: `translateX(${translateX}%)`,
-                        gap: 2,
-                        width: 'auto',
+                        width: `${products.length * (100 / visibleCards)}%`,
+                        transform: `translateX(-${currentStartIndex * (100 / products.length)}%)`,
                     }}
                 >
                     {products.map((product) => (
                         <Box
                             key={product.id}
                             sx={{
-                                minWidth: cardWidth,
-                                maxWidth: cardWidth,
+                                width: `${100 / products.length}%`,
                                 flexShrink: 0,
+                                px: 1,
                             }}
                         >
                             <Card
                                 sx={{
-                                    width: 'auto',
+                                    width: '100%',
                                     display: "flex",
                                     flexDirection: "column",
                                     cursor: "pointer",
