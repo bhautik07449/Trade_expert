@@ -103,13 +103,15 @@ export default function CardUi() {
         const updateVisibleCards = () => {
             const width = window.innerWidth
             if (width < 600) {
-                setVisibleCards(1) 
+                setVisibleCards(1)  // mobile
             } else if (width < 900) {
-                setVisibleCards(4)
+                setVisibleCards(2)  // small tablets
             } else if (width < 1200) {
-                setVisibleCards(5)
+                setVisibleCards(3)  // tablets
+            } else if (width < 1536) {
+                setVisibleCards(4)  // laptops
             } else {
-                setVisibleCards(4)
+                setVisibleCards(5)  // large screens
             }
         }
 
