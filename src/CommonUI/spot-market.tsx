@@ -147,10 +147,6 @@ const columns = [
     { key: "redOnionPowder", label: "Red Onion Powder" },
     { key: "garlicGranules", label: "Garlic Granules" },
     { key: "onionGranules", label: "Onion Granules" },
-    { key: "turmericPowder", label: "Turmeric Powder" },
-    { key: "corianderSeeds", label: "Coriander Seeds" },
-    { key: "cuminSeeds", label: "Cumin Seeds" },
-    { key: "fennelSeeds", label: "Fennel Seeds" },
 ]
 
 export default function SpotMarketTable() {

@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, Typography, Button, Chip, Box, Container, Rating, IconButton } from "@mui/material"
-import Grid from "@mui/material/Grid"
 import { Favorite, Share, ShoppingCart } from "@mui/icons-material"
 
 const products = [
@@ -95,285 +94,356 @@ const products = [
 
 export default function CardUi() {
     const [hoveredCard, setHoveredCard] = useState<number | null>(null)
+    const [currentStartIndex, setCurrentStartIndex] = useState(0)
+    const [visibleCards, setVisibleCards] = useState(4)
+    const [isPaused, setIsPaused] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const updateVisibleCards = () => {
+            const width = window.innerWidth
+            if (width < 600) {
+                setVisibleCards(1) 
+            } else if (width < 900) {
+                setVisibleCards(4)
+            } else if (width < 1200) {
+                setVisibleCards(5)
+            } else {
+                setVisibleCards(4)
+            }
+        }
+
+        updateVisibleCards()
+        window.addEventListener("resize", updateVisibleCards)
+        return () => window.removeEventListener("resize", updateVisibleCards)
+    }, [])
+
+    useEffect(() => {
+        if (isPaused) return
+
+        const interval = setInterval(() => {
+            setCurrentStartIndex((prevIndex) => {
+                const nextIndex = prevIndex + 1
+                return nextIndex + visibleCards > products.length ? 0 : nextIndex
+            })
+        }, 2000)
+
+        return () => clearInterval(interval)
+    }, [visibleCards, isPaused])
+
+    const cardWidth = `calc(${100 / visibleCards}% - 16px)`
+    const translateX = -(currentStartIndex * (100 / visibleCards))
 
     return (
-        <Container maxWidth="xl" sx={{ padding: "0 !important", }}>
-            <Grid container spacing={4}>
-                {products.map((product) => (
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 3 }} key={product.id}>
-                        <Card
+        <Container maxWidth="xl" sx={{ padding: "0 !important" }}>
+            <Box sx={{ textAlign: "center", mb: 2 }}>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    Showing cards {currentStartIndex + 1}-{Math.min(currentStartIndex + visibleCards, products.length)} of{" "}
+                    {products.length}
+                </Typography>
+            </Box>
+
+            <Box
+                ref={containerRef}
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                sx={{
+                    overflow: "hidden",
+                    width: "100%",
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        transition: "transform 0.5s ease-in-out",
+                        transform: `translateX(${translateX}%)`,
+                        gap: 2,
+                        width: `${(products.length / visibleCards) * 100}%`,
+                    }}
+                >
+                    {products.map((product) => (
+                        <Box
+                            key={product.id}
                             sx={{
-                                height: 380,
-                                display: "flex",
-                                flexDirection: "column",
-                                cursor: "pointer",
-                                position: "relative",
-                                borderRadius: 3,
-                                overflow: "hidden",
-                                bgcolor: "white",
-                                boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                                transition: "all 0.3s ease-in-out",
-                                "&:hover": {
-                                    transform: "translateY(-4px)",
-                                    boxShadow: "0 8px 25px rgba(0,0,0,0.12)",
-                                },
+                                minWidth: cardWidth,
+                                maxWidth: cardWidth,
+                                flexShrink: 0,
                             }}
-                            onMouseEnter={() => setHoveredCard(product.id)}
-                            onMouseLeave={() => setHoveredCard(null)}
                         >
-                            <Box
+                            <Card
                                 sx={{
-                                    bgcolor: "white",
-                                    p: 3,
-                                    height: 220,
-                                    position: "relative",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    padding: "0 !important",
-                                }}
-                            >
-                                <Chip
-                                    label={product.category}
-                                    sx={{
-                                        position: "absolute",
-                                        top: 16,
-                                        right: 16,
-                                        bgcolor: product.categoryColor,
-                                        color: "white",
-                                        fontWeight: "600",
-                                        fontSize: "0.75rem",
-                                        zIndex: 2,
-                                        borderRadius: 2,
-                                    }}
-                                />
-
-                                <Box
-                                    component="img"
-                                    src={product.image}
-                                    alt={product.name}
-                                    sx={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "fill",
-                                        borderRadius: "2 0",
-                                    }}
-                                />
-                            </Box>
-
-                            <CardContent
-                                sx={{
-                                    flexGrow: 1,
+                                    height: 380,
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
-                                    p: 3,
+                                    cursor: "pointer",
+                                    position: "relative",
+                                    borderRadius: 3,
+                                    overflow: "hidden",
                                     bgcolor: "white",
+                                    boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                                    transition: "all 0.3s ease-in-out",
+                                    "&:hover": {
+                                        transform: "translateY(-4px)",
+                                        boxShadow: "0 8px 25px rgba(0,0,0,0.12)",
+                                    },
                                 }}
+                                onMouseEnter={() => setHoveredCard(product.id)}
+                                onMouseLeave={() => setHoveredCard(null)}
                             >
-                                <Typography
-                                    variant="h6"
-                                    component="h3"
-                                    sx={{
-                                        fontWeight: "600",
-                                        mb: 3,
-                                        color: "text.primary",
-                                        textAlign: "center",
-                                        fontSize: "1.1rem",
-                                        lineHeight: 1.3,
-                                    }}
-                                >
-                                    {product.name}
-                                </Typography>
-
-                                <Box sx={{ display: "flex", gap: 1.5 }}>
-                                    <Button
-                                        variant="contained"
-                                        fullWidth
-                                        sx={{
-                                            bgcolor: "#4CAF50",
-                                            "&:hover": {
-                                                bgcolor: "#45a049",
-                                            },
-                                            fontWeight: "600",
-                                            textTransform: "none",
-                                            py: 1.2,
-                                            borderRadius: 2,
-                                            fontSize: "0.9rem",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                        }}
-                                    >
-                                        Enquire Now
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        fullWidth
-                                        sx={{
-                                            bgcolor: "#4CAF50",
-                                            "&:hover": {
-                                                bgcolor: "#45a049",
-                                            },
-                                            fontWeight: "600",
-                                            textTransform: "none",
-                                            py: 1.2,
-                                            borderRadius: 2,
-                                            fontSize: "0.9rem",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                        }}
-                                    >
-                                        Request Sample
-                                    </Button>
-                                </Box>
-                            </CardContent>
-
-                            {hoveredCard === product.id && (
                                 <Box
                                     sx={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        bgcolor: "rgba(255, 255, 255, 0.98)",
-                                        backdropFilter: "blur(10px)",
-                                        zIndex: 10,
+                                        bgcolor: "white",
                                         p: 3,
+                                        height: 220,
+                                        position: "relative",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        padding: "0 !important",
+                                    }}
+                                >
+                                    <Chip
+                                        label={product.category}
+                                        sx={{
+                                            position: "absolute",
+                                            top: 16,
+                                            right: 16,
+                                            bgcolor: product.categoryColor,
+                                            color: "white",
+                                            fontWeight: "600",
+                                            fontSize: "0.75rem",
+                                            zIndex: 2,
+                                            borderRadius: 2,
+                                        }}
+                                    />
+
+                                    <Box
+                                        component="img"
+                                        src={product.image}
+                                        alt={product.name}
+                                        sx={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "fill",
+                                            borderRadius: "2 0",
+                                        }}
+                                    />
+                                </Box>
+
+                                <CardContent
+                                    sx={{
+                                        flexGrow: 1,
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "space-between",
-                                        borderRadius: 3,
-                                        animation: "fadeIn 0.3s ease-in-out",
-                                        "@keyframes fadeIn": {
-                                            from: { opacity: 0, transform: "scale(0.95)" },
-                                            to: { opacity: 1, transform: "scale(1)" },
-                                        },
+                                        p: 3,
+                                        bgcolor: "white",
                                     }}
                                 >
-                                    <Box>
-                                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 2 }}>
-                                            <Typography variant="h6" sx={{ fontWeight: "700", color: "text.primary", fontSize: "1.1rem" }}>
-                                                {product.name}
-                                            </Typography>
-                                            <Box sx={{ display: "flex", gap: 0.5 }}>
-                                                <IconButton size="small" sx={{ color: "text.secondary" }}>
-                                                    <Favorite fontSize="small" />
-                                                </IconButton>
-                                                <IconButton size="small" sx={{ color: "text.secondary" }}>
-                                                    <Share fontSize="small" />
-                                                </IconButton>
-                                            </Box>
-                                        </Box>
+                                    <Typography
+                                        variant="h6"
+                                        component="h3"
+                                        sx={{
+                                            fontWeight: "600",
+                                            mb: 3,
+                                            color: "text.primary",
+                                            textAlign: "center",
+                                            fontSize: "1.1rem",
+                                            lineHeight: 1.3,
+                                        }}
+                                    >
+                                        {product.name}
+                                    </Typography>
 
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-                                            <Typography variant="h5" sx={{ fontWeight: "700", color: "#4CAF50" }}>
-                                                {product.price}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    textDecoration: "line-through",
-                                                    color: "text.secondary",
-                                                    fontSize: "0.9rem",
-                                                }}
-                                            >
-                                                {product.originalPrice}
-                                            </Typography>
-                                        </Box>
-
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-                                            <Rating value={product.rating} precision={0.1} size="small" readOnly />
-                                            <Typography variant="body2" sx={{ color: "text.secondary", fontSize: "0.8rem" }}>
-                                                ({product.reviews} reviews)
-                                            </Typography>
-                                        </Box>
-
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                color: "text.secondary",
-                                                mb: 2,
-                                                fontSize: "0.85rem",
-                                                lineHeight: 1.4,
-                                            }}
-                                        >
-                                            {product.description}
-                                        </Typography>
-
-                                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 2 }}>
-                                            {product.features.map((feature, index) => (
-                                                <Chip
-                                                    key={index}
-                                                    label={feature}
-                                                    size="small"
-                                                    sx={{
-                                                        bgcolor: "#f5f5f5",
-                                                        color: "text.secondary",
-                                                        fontSize: "0.7rem",
-                                                        height: "24px",
-                                                    }}
-                                                />
-                                            ))}
-                                        </Box>
-
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                color: product.inStock ? "#4CAF50" : "#f44336",
-                                                fontWeight: "600",
-                                                fontSize: "0.8rem",
-                                            }}
-                                        >
-                                            {product.inStock ? "✓ In Stock" : "✗ Out of Stock"}
-                                        </Typography>
-                                    </Box>
-
-                                    <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+                                    <Box sx={{ display: "flex", gap: 1.5 }}>
                                         <Button
                                             variant="contained"
                                             fullWidth
-                                            startIcon={<ShoppingCart />}
-                                            disabled={!product.inStock}
                                             sx={{
                                                 bgcolor: "#4CAF50",
-                                                "&:hover": { bgcolor: "#45a049" },
-                                                "&:disabled": { bgcolor: "#ccc" },
-                                                fontWeight: "600",
-                                                textTransform: "none",
-                                                py: 1,
-                                                fontSize: "0.85rem",
-                                            }}
-                                        >
-                                            Add to Cart
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            fullWidth
-                                            sx={{
-                                                borderColor: "#4CAF50",
-                                                color: "#4CAF50",
                                                 "&:hover": {
-                                                    borderColor: "#45a049",
-                                                    bgcolor: "rgba(76, 175, 80, 0.04)",
+                                                    bgcolor: "#45a049",
                                                 },
                                                 fontWeight: "600",
                                                 textTransform: "none",
-                                                py: 1,
-                                                fontSize: "0.85rem",
+                                                py: 1.2,
+                                                borderRadius: 2,
+                                                fontSize: "0.9rem",
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
                                             }}
                                         >
-                                            Quick View
+                                            Enquire Now
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            sx={{
+                                                bgcolor: "#4CAF50",
+                                                "&:hover": {
+                                                    bgcolor: "#45a049",
+                                                },
+                                                fontWeight: "600",
+                                                textTransform: "none",
+                                                py: 1.2,
+                                                borderRadius: 2,
+                                                fontSize: "0.9rem",
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                        >
+                                            Request Sample
                                         </Button>
                                     </Box>
-                                </Box>
-                            )}
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+                                </CardContent>
+
+                                {hoveredCard === product.id && (
+                                    <Box
+                                        sx={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            bgcolor: "rgba(255, 255, 255, 0.98)",
+                                            backdropFilter: "blur(10px)",
+                                            zIndex: 10,
+                                            p: 3,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "space-between",
+                                            borderRadius: 3,
+                                            animation: "fadeIn 0.3s ease-in-out",
+                                            "@keyframes fadeIn": {
+                                                from: { opacity: 0, transform: "scale(0.95)" },
+                                                to: { opacity: 1, transform: "scale(1)" },
+                                            },
+                                        }}
+                                    >
+                                        <Box>
+                                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 2 }}>
+                                                <Typography variant="h6" sx={{ fontWeight: "700", color: "text.primary", fontSize: "1.1rem" }}>
+                                                    {product.name}
+                                                </Typography>
+                                                <Box sx={{ display: "flex", gap: 0.5 }}>
+                                                    <IconButton size="small" sx={{ color: "text.secondary" }}>
+                                                        <Favorite fontSize="small" />
+                                                    </IconButton>
+                                                    <IconButton size="small" sx={{ color: "text.secondary" }}>
+                                                        <Share fontSize="small" />
+                                                    </IconButton>
+                                                </Box>
+                                            </Box>
+
+                                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+                                                <Typography variant="h5" sx={{ fontWeight: "700", color: "#4CAF50" }}>
+                                                    {product.price}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        textDecoration: "line-through",
+                                                        color: "text.secondary",
+                                                        fontSize: "0.9rem",
+                                                    }}
+                                                >
+                                                    {product.originalPrice}
+                                                </Typography>
+                                            </Box>
+
+                                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+                                                <Rating value={product.rating} precision={0.1} size="small" readOnly />
+                                                <Typography variant="body2" sx={{ color: "text.secondary", fontSize: "0.8rem" }}>
+                                                    ({product.reviews} reviews)
+                                                </Typography>
+                                            </Box>
+
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: "text.secondary",
+                                                    mb: 2,
+                                                    fontSize: "0.85rem",
+                                                    lineHeight: 1.4,
+                                                }}
+                                            >
+                                                {product.description}
+                                            </Typography>
+
+                                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 2 }}>
+                                                {product.features.map((feature, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        label={feature}
+                                                        size="small"
+                                                        sx={{
+                                                            bgcolor: "#f5f5f5",
+                                                            color: "text.secondary",
+                                                            fontSize: "0.7rem",
+                                                            height: "24px",
+                                                        }}
+                                                    />
+                                                ))}
+                                            </Box>
+
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: product.inStock ? "#4CAF50" : "#f44336",
+                                                    fontWeight: "600",
+                                                    fontSize: "0.8rem",
+                                                }}
+                                            >
+                                                {product.inStock ? "✓ In Stock" : "✗ Out of Stock"}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+                                            <Button
+                                                variant="contained"
+                                                fullWidth
+                                                startIcon={<ShoppingCart />}
+                                                disabled={!product.inStock}
+                                                sx={{
+                                                    bgcolor: "#4CAF50",
+                                                    "&:hover": { bgcolor: "#45a049" },
+                                                    "&:disabled": { bgcolor: "#ccc" },
+                                                    fontWeight: "600",
+                                                    textTransform: "none",
+                                                    py: 1,
+                                                    fontSize: "0.85rem",
+                                                }}
+                                            >
+                                                Add to Cart
+                                            </Button>
+                                            <Button
+                                                variant="outlined"
+                                                fullWidth
+                                                sx={{
+                                                    borderColor: "#4CAF50",
+                                                    color: "#4CAF50",
+                                                    "&:hover": {
+                                                        borderColor: "#45a049",
+                                                        bgcolor: "rgba(76, 175, 80, 0.04)",
+                                                    },
+                                                    fontWeight: "600",
+                                                    textTransform: "none",
+                                                    py: 1,
+                                                    fontSize: "0.85rem",
+                                                }}
+                                            >
+                                                Quick View
+                                            </Button>
+                                        </Box>
+                                    </Box>
+                                )}
+                            </Card>
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
         </Container>
     )
 }
