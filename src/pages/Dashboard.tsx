@@ -8,7 +8,9 @@ export const Dashboard = () => {
     <>
       <ImageSlider />
       <SpotMarketTable />
-      <CardUi />
+      <CardUi title='All Season' label='Availability' />
+      <CardUi title='Current' label='Season' />
+      <CardUi title='Upcoming' label='Season' />
     </>
   )
 }

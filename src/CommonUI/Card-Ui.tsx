@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, Typography, Button, Chip, Box, Container, Rating, IconButton } from "@mui/material"
 import { Favorite, Share, ShoppingCart } from "@mui/icons-material"
+import Title from "./Title"
 
 const products = [
     {
@@ -92,7 +93,7 @@ const products = [
     },
 ]
 
-export default function CardUi() {
+export default function CardUi({ title, label }: { title: string, label: string }) {
     const [hoveredCard, setHoveredCard] = useState<number | null>(null)
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [visibleCards, setVisibleCards] = useState(4)
@@ -111,7 +112,7 @@ export default function CardUi() {
             } else if (width < 1536) {
                 setVisibleCards(4)  // laptops
             } else {
-                setVisibleCards(5)  // large screens
+                setVisibleCards(4)  // large screens
             }
         }
 
@@ -133,12 +134,10 @@ export default function CardUi() {
         return () => clearInterval(interval)
     }, [visibleCards, isPaused])
 
-    const cardWidth = `calc(100% / ${visibleCards})`
-    const translateX = -(currentStartIndex * (100 / visibleCards))
 
     return (
         <Container maxWidth="xl" sx={{ padding: "0 !important" }}>
-
+            <Title title={title} label={label} />
             <Box
                 ref={containerRef}
                 onMouseEnter={() => setIsPaused(true)}
