@@ -5,9 +5,16 @@ import Footer from './Footer';
 import Router from '../Router/Router';
 import Content from './Content';
 import Header from './Header';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const theme = useTheme();
+  const location = useLocation()
+
+  const hideLayoutRoutes = ['/login', '/sign-up']
+
+  const hideLayout = hideLayoutRoutes.includes(location.pathname)
+
 
   // const [drawerOpen, setDrawerOpen] = React.useState(false);
   // const [footerLinks, setFooterLinks] = React.useState<Record<LinksLabel, string>>({
@@ -22,11 +29,11 @@ function App() {
           <Box sx={{ minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Suspense>
               <CssBaseline />
-              <Header />
+              {!hideLayout && <Header />}
               <Box component="main" sx={{ flex: 1, px: 1 }}>
                 <Content />
               </Box>
-              <Footer />
+              {!hideLayout && <Footer />}
             </Suspense>
           </Box>
         </React.Fragment>

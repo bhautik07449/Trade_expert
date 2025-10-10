@@ -16,9 +16,11 @@ import {
     ListItemText,
     ListItem,
     ListItemButton,
+    Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { Link as RouterLink} from "react-router-dom";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -72,7 +74,7 @@ export default function Header() {
                 >
                     <Toolbar
                         sx={{
-                            display: {xs:"none", sm:"flex"},
+                            display: { xs: "none", sm: "flex" },
                             justifyContent: "space-between",
                             px: { xs: 2, sm: 4, md: 6 },
                             flexDirection: { xs: "column", sm: "row" },
@@ -149,10 +151,33 @@ export default function Header() {
 
                     <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            Login
+                            <Link
+                                component={RouterLink}
+                                to="/login"
+                                underline="none"
+                                sx={{
+                                    color: "text.primary",
+                                    "&:hover": { color: "primary.main" },
+                                    fontWeight: 500,
+                                }}
+                            >
+                                Login
+                            </Link>
                         </Typography>
+
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            Register
+                            <Link
+                                component={RouterLink}
+                                to="/sign-up"
+                                underline="none"
+                                sx={{
+                                    color: "text.primary",
+                                    "&:hover": { color: "primary.main" },
+                                    fontWeight: 500,
+                                }}
+                            >
+                                Register
+                            </Link>
                         </Typography>
                     </Box>
 
