@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -35,6 +35,7 @@ export default function Header() {
     const [language, setLanguage] = useState("en");
     const [country, setCountry] = useState("in");
     const [mobileOpen, setMobileOpen] = useState(false);
+    const navigate = useNavigate()
 
     const handleLanguageChange = (event: SelectChangeEvent) => {
         setLanguage(event.target.value);
@@ -260,7 +261,7 @@ export default function Header() {
                                     },
                                 }}
                             >
-                                <ListItemText primary="Login" />
+                                <ListItemText primary="Login" onClick={() => navigate('/login')} />
                             </ListItemButton>
                         </ListItem>
 
@@ -277,7 +278,7 @@ export default function Header() {
                                     },
                                 }}
                             >
-                                <ListItemText primary="Register" />
+                                <ListItemText primary="Register" onClick={() => navigate('/sign-up')}/>
                             </ListItemButton>
                         </ListItem>
                     </List>
