@@ -4,6 +4,7 @@ import { Dashboard } from '../pages/Dashboard';
 import { PageNotFound } from '../pages/PageNotFound';
 import SignupForm from '../pages/Signup/Signup';
 import LoginForm from '../pages/Login/Login';
+import ProductPage from '../pages/ProductDetail/ProductDetail';
 
 export default function Router(): JSX.Element {
   const location = useLocation();
@@ -16,6 +17,7 @@ export default function Router(): JSX.Element {
       <Route path="/" element={<Dashboard />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/sign-up" element={<SignupForm />} />
+      <Route path="/product-details" element={<ProductPage />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

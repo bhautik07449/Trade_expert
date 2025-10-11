@@ -1,7 +1,7 @@
 import React from 'react'
-import ImageSlider from '../CommonUI/image-slider'
-import CardUi from '../CommonUI/Card-Ui'
-import SpotMarketTable from '../CommonUI/spot-market'
+import ImageSlider from '../commonUI/image-slider'
+import CardUi from '../commonUI/Card-Ui'
+import SpotMarketTable from '../commonUI/spot-market'
 
 export const Dashboard = () => {
   return (
