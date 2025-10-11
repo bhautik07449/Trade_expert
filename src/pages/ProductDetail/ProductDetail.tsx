@@ -35,7 +35,7 @@ const product = {
 
 export default function ProductPage() {
     return (
-        <Container maxWidth="lg" sx={{ py: { xs: 3, md: 6 } }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
             <Grid container spacing={4}>
                 {/* Left: Gallery */}
                 <Grid size={{ xs: 12, md: 5 }}>
@@ -50,10 +50,7 @@ export default function ProductPage() {
                         </Typography>
                     </Box>
                     <Typography variant="body1" color="text.secondary" sx={{ mb: 1.5 }}>
-                        {product.description}{" "}
-                        <a href="#" aria-label="Read more about Cleaned Suran">
-                            Read more
-                        </a>
+                        {product.description}
                     </Typography>
 
                     <ProductSpecsTabs specs={product.specs} />

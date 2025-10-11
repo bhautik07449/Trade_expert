@@ -40,7 +40,7 @@ export default function NewsletterSignup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-label="Email address"
-              sx={{ bgcolor: "#ffffff" }}
+              sx={{ bgcolor: "#ffffff", borderRadius: 2 }}
             />
           </Box>
           <Button

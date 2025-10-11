@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { Box, ImageList, ImageListItem, Paper, useTheme } from "@mui/material"
 
@@ -17,7 +15,6 @@ export default function ProductGallery({ images, title }: Props) {
       <Paper
         elevation={0}
         sx={{
-          p: 1,
           borderRadius: 2,
           border: "1px solid",
           borderColor: "divider",
@@ -30,7 +27,7 @@ export default function ProductGallery({ images, title }: Props) {
           alt={`${title} image ${active + 1}`}
           sx={{
             width: "100%",
-            height: { xs: 260, md: 320 },
+            height: { xs: 280, md: 350 },
             objectFit: "cover",
             borderRadius: 1.5,
           }}
