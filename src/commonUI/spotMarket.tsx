@@ -11,7 +11,7 @@ import {
     Paper,
     Box,
 } from "@mui/material"
-import Title from "./Title"
+import Title from "./labelTitle"
 
 
 const marketData = [

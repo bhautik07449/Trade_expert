@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Box, Button, Card, CardContent, Container, Link, Typography } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom";
-import Title from "./Title"
+import Title from "./labelTitle"
 
 type Product = {
     id: number

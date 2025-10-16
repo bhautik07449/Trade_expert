@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export default function Title({title, label}: {title: string, label: string}) {
+export default function labelTitle({title, label}: {title: string, label: string}) {
     return (
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', gap: 2, py: 4 }}>
             <Typography
