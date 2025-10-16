@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Box, Button, Card, CardContent, Container, Link, Typography } from "@mui/material"
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Title from "./Title"
 
 type Product = {
@@ -126,7 +126,7 @@ export default function CardUi({
                 >
                     {products.map((product) => (
                         <Box key={product.id} sx={{ width: `${100 / products.length}%`, flexShrink: 0, px: 1 }}>
-                             <Link
+                            <Link
                                 component={RouterLink}
                                 to="/product-details"
                                 underline="none"
@@ -136,125 +136,125 @@ export default function CardUi({
                                     fontWeight: 500,
                                 }}
                             >
-                            <Card
-                                sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    position: "relative",
-                                    borderRadius: 3,
-                                    overflow: "hidden",
-                                    bgcolor: "white",
-                                    boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                                    transition: "box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out",
-                                    "&:hover": {
-                                        transform: "translateY(-2px)",
-                                        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                                    },
-                                }}
-                                onMouseEnter={() => setHoveredCard(product.id)}
-                                onMouseLeave={() => setHoveredCard(null)}
-                            >
-                                <Box
+                                <Card
                                     sx={{
-                                        position: "relative",
-                                        bgcolor: "white",
-                                        height: 220,
+                                        width: "100%",
                                         display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        p: 0,
+                                        flexDirection: "column",
+                                        position: "relative",
+                                        borderRadius: 3,
+                                        overflow: "hidden",
+                                        bgcolor: "white",
+                                        boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                                        transition: "box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out",
+                                        "&:hover": {
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                                        },
                                     }}
+                                    onMouseEnter={() => setHoveredCard(product.id)}
+                                    onMouseLeave={() => setHoveredCard(null)}
                                 >
                                     <Box
-                                        component="img"
-                                        src={product.image}
-                                        alt={product.name}
-                                        sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                    />
-
-                                    {hoveredCard === product.id && (
+                                        sx={{
+                                            position: "relative",
+                                            bgcolor: "white",
+                                            height: 220,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            p: 0,
+                                        }}
+                                    >
                                         <Box
-                                            sx={{
-                                                position: "absolute",
-                                                inset: 0,
-                                                bgcolor: "rgba(0,0,0,0.45)",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                gap: 1.5,
-                                                p: 2,
-                                            }}
-                                        >
-                                            <Typography
-                                                variant="subtitle1"
-                                                sx={{ color: "white", fontWeight: 700, textAlign: "center", px: 2 }}
-                                            >
-                                                {product.name}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
+                                            component="img"
+                                            src={product.image}
+                                            alt={product.name}
+                                            sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                        />
+
+                                        {hoveredCard === product.id && (
+                                            <Box
                                                 sx={{
-                                                    color: "white",
-                                                    opacity: 0.9,
-                                                    textAlign: "center",
-                                                    px: 2,
-                                                    mb: 0.5,
-                                                    lineHeight: 1.4,
+                                                    position: "absolute",
+                                                    inset: 0,
+                                                    bgcolor: "rgba(0,0,0,0.45)",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    gap: 1.5,
+                                                    p: 2,
                                                 }}
                                             >
-                                                {product.description}
-                                            </Typography>
-                                            <Box sx={{ display: "flex", gap: 1, width: "100%", px: 2 }}>
-                                                <Button
-                                                    fullWidth
-                                                    variant="contained"
-                                                    sx={{ bgcolor: "#4CAF50", "&:hover": { bgcolor: "#45a049" }, textTransform: "none" }}
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onEnquire?.(product)
-                                                    }}
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{ color: "white", fontWeight: 700, textAlign: "center", px: 2 }}
                                                 >
-                                                    Enquire Now
-                                                </Button>
-                                                <Button
-                                                    fullWidth
-                                                    variant="outlined"
+                                                    {product.name}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
                                                     sx={{
-                                                        borderColor: "white",
                                                         color: "white",
-                                                        "&:hover": { borderColor: "white", bgcolor: "rgba(255,255,255,0.08)" },
-                                                        textTransform: "none",
-                                                    }}
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onRequestSample?.(product)
+                                                        opacity: 0.9,
+                                                        textAlign: "center",
+                                                        px: 2,
+                                                        mb: 0.5,
+                                                        lineHeight: 1.4,
                                                     }}
                                                 >
-                                                    Request Sample
-                                                </Button>
+                                                    {product.description}
+                                                </Typography>
+                                                <Box sx={{ display: "flex", gap: 1, width: "100%", px: 2 }}>
+                                                    <Button
+                                                        fullWidth
+                                                        variant="contained"
+                                                        sx={{ bgcolor: "#4CAF50", "&:hover": { bgcolor: "#45a049" }, textTransform: "none" }}
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            onEnquire?.(product)
+                                                        }}
+                                                    >
+                                                        Enquire Now
+                                                    </Button>
+                                                    <Button
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        sx={{
+                                                            borderColor: "white",
+                                                            color: "white",
+                                                            "&:hover": { borderColor: "white", bgcolor: "rgba(255,255,255,0.08)" },
+                                                            textTransform: "none",
+                                                        }}
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            onRequestSample?.(product)
+                                                        }}
+                                                    >
+                                                        Request Sample
+                                                    </Button>
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                    )}
-                                </Box>
+                                        )}
+                                    </Box>
 
-                                <CardContent sx={{ flexGrow: 1, bgcolor: "white", p: 3 }}>
-                                    <Typography
-                                        variant="h6"
-                                        component="h3"
-                                        sx={{ fontWeight: 600, color: "text.primary", textAlign: "center", fontSize: "1.05rem" }}
-                                    >
-                                        {product.name}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
+                                    <CardContent sx={{ flexGrow: 1, bgcolor: "white", p: 3 }}>
+                                        <Typography
+                                            variant="h6"
+                                            component="h3"
+                                            sx={{ fontWeight: 600, color: "text.primary", textAlign: "center", fontSize: "1.05rem" }}
+                                        >
+                                            {product.name}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
                             </Link>
                         </Box>
                     ))}
                 </Box>
             </Box>
-            
+
         </Container>
     )
 }
