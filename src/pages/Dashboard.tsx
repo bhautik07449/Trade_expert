@@ -1,7 +1,7 @@
 import React from 'react'
 import ImageSlider from '../commonUI/ImageSlider'
-import CardUi from '../commonUI/Card-Ui'
-import SpotMarketTable from '../commonUI/spot-market'
+import CardUi from '../commonUI/CardUi'
+import SpotMarketTable from '../commonUI/spotMarket'
 import InquiryDialog from '../componenet/Dialog/inquiry-dialog'
 
 export const Dashboard = () => {

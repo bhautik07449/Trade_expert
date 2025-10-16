@@ -10,7 +10,6 @@ import {
     TableRow,
     Paper,
     Box,
-    Typography,
 } from "@mui/material"
 import Title from "./Title"
 
