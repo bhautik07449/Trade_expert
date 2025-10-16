@@ -52,8 +52,6 @@ export default function InquiryDialog({
         })
         obj.getLatestPrice = fd.get("getLatestPrice") === "on"
         if (onSubmit) onSubmit(obj)
-        // Debug: log the payload
-        // console.log('[v0] Inquiry submitted:', obj);
         onClose()
     }
 

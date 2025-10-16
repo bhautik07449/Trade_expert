@@ -254,6 +254,7 @@ export default function CardUi({
                     ))}
                 </Box>
             </Box>
+            
         </Container>
     )
 }
