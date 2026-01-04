@@ -193,7 +193,6 @@ export default function Header() {
             </AppBar>
 
             {/* Mobile Drawer */}
-            {/* Mobile Drawer */}
             <Drawer anchor="left" open={mobileOpen} onClose={toggleDrawer(false)}>
                 <Box sx={{ width: 250, p: 2 }}>
                     <List>
