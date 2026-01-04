@@ -10,9 +10,9 @@ interface SlideData {
 }
 
 const slides: SlideData[] = [
-    { id: 1, image: "/modern-wireless-headphones.png" },
-    { id: 2, image: "/sleek-smartwatch-fitness-tracker.png" },
-    { id: 3, image: "/rgb-gaming-mouse-ergonomic-design.png" },
+    { id: 1, image: "https://sourceseas.itcoders.in/files/banners/2d98e64446c07c883abb60c91e34d34f.jpeg" },
+    { id: 2, image: "https://sourceseas.itcoders.in/files/banners/fb151fe7abf87625d133f442b822bd84.jpeg" },
+    { id: 3, image: "https://sourceseas.itcoders.in/files/banners/c8099d42684c2ab0882eb03f51a0ab01.jpeg" },
 ]
 
 export default function ImageSlider() {
@@ -36,10 +36,10 @@ export default function ImageSlider() {
             sx={{
                 position: "relative",
                 width: "100%",
-                height: { xs: 250, md: 400 },
+                height: { xs: 250, md: 500 },
                 my: 4,
                 overflow: "hidden",
-                borderRadius: 2,
+                borderRadius: 1,
             }}
         >
             <Box
@@ -59,7 +59,7 @@ export default function ImageSlider() {
                         sx={{
                             minWidth: "100%",
                             height: "100%",
-                            objectFit: "cover",
+                            objectFit: "fill",
                         }}
                     />
                 ))}
