@@ -2,7 +2,6 @@ import { Box, CssBaseline, ThemeProvider, useTheme } from '@mui/material';
 import React, { Suspense } from 'react';
 import baseTheme from '../../src/themes/theme'
 import Footer from './Footer';
-import Router from '../Router/Router';
 import Content from './Content';
 import Header from './Header';
 import { useLocation } from 'react-router-dom';

@@ -1,5 +1,5 @@
 "use client"
-import { ThemeProvider, CssBaseline, Container, Grid, Box, Typography, Divider } from "@mui/material"
+import { Container, Grid, Box, Typography, Divider } from "@mui/material"
 import ProductGallery from "../../componenet/Product/ProductGallery"
 import ProductSpecsTabs from "../../componenet/Product/ProductSpecsTabs"
 import CtaButtons from "../../componenet/Product/CtaButtons"
