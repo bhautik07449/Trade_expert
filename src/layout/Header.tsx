@@ -40,10 +40,17 @@ export default function Header() {
     const handleCountryChange = (event: SelectChangeEvent) => setCountry(event.target.value);
     const toggleDrawer = (open: boolean) => () => setMobileOpen(open);
 
-    const navItems: { label: string; subItems?: string[]; path?: string }[] = [
+    const navItems: { label: string; subItems?: any[]; path?: string }[] = [
         { label: "Home", path: "/" },
-        { label: "About", path: "/about" },
-        { label: "Products", subItems: ["Suran", "Ginger", "Spices"] },
+        {
+            label: "About", subItems: [
+                { label: "Know Us", path: "/about" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }]
+        },
+        {
+            label: "Products", subItems: [
+
+                { label: "Suran", path: "/products/suran" }, { label: "Ginger", path: "/products/ginger" }, { label: "Spices", path: "/products/spices" }]
+        },
         { label: "Resource", path: "/" },
         { label: "Quality Policy", path: "/quality-policy" },
         { label: "How to Pay", path: "/how-to-pay" },
@@ -52,11 +59,6 @@ export default function Header() {
         { label: "Tradology", path: "/tradology" },
     ];
 
-    const toggleSubmenu = (label: string) => {
-        setOpenSubmenu(prev => (prev === label ? null : label));
-    };
-
-    // Close submenu if click outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (navRef.current && !navRef.current.contains(event.target as Node)) {
@@ -69,7 +71,6 @@ export default function Header() {
 
     return (
         <>
-            {/* Top bar */}
             <HideOnScroll>
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white", boxShadow: "none", zIndex: (theme) => theme.zIndex.appBar + 1 }}>
                     <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between", px: { xs: 2, sm: 4, md: 6 }, flexDirection: { xs: "column", sm: "row" }, gap: { xs: 1, sm: 0 }, minHeight: "48px !important" }}>
@@ -99,7 +100,6 @@ export default function Header() {
                 </AppBar>
             </HideOnScroll>
 
-            {/* Main header */}
             <AppBar position="sticky" sx={{ bgcolor: "white", color: "black", boxShadow: "none", borderBottom: "1px solid #ddd" }}>
                 <Toolbar sx={{ px: { xs: 2, sm: 4, md: 6 }, display: "flex", justifyContent: "space-between" }}>
                     <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: "1rem", md: "1.25rem" } }}>
@@ -125,13 +125,26 @@ export default function Header() {
                 </Toolbar>
             </AppBar>
 
-            {/* Navigation bar */}
             <AppBar position="sticky" sx={{ bgcolor: "secondary.dark", display: { xs: "none", sm: "flex" } }}>
-                <Toolbar ref={navRef} sx={{ px: { xs: 1, sm: 3, md: 6 }, display: "flex", justifyContent: "center", flexWrap: "wrap", gap: { xs: 2, md: 4 } }}>
+                <Toolbar
+                    ref={navRef}
+                    sx={{
+                        px: { xs: 1, sm: 3, md: 6 },
+                        display: "flex",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                        gap: { xs: 2, md: 4 },
+                    }}
+                >
                     {navItems.map((item) => (
-                        <Box key={item.label} sx={{ position: "relative" }}>
+                        <Box
+                            key={item.label}
+                            sx={{ position: "relative" }}
+                            onMouseEnter={() => setOpenSubmenu(item.label)}
+                            onMouseLeave={() => setOpenSubmenu(null)}
+                        >
                             <Typography
-                                onClick={() => item.subItems ? toggleSubmenu(item.label) : item.path && navigate(item.path)}
+                                onClick={() => item.path && navigate(item.path)}
                                 variant="body2"
                                 sx={{
                                     fontSize: { xs: "0.85rem", md: "1rem" },
@@ -147,52 +160,52 @@ export default function Header() {
                                 {item.label}
                             </Typography>
 
-                            {/* Submenu dropdown */}
                             {item.subItems && openSubmenu === item.label && (
-                                <Paper
-                                    elevation={3}
-                                    sx={{
-                                        position: "absolute",
-                                        top: "100%",
-                                        left: 0,
-                                        mt: 1,
-                                        minWidth: 320,
-                                        bgcolor: "background.paper",
-                                        borderRadius: 2,
-                                        p: 2,
-                                        boxShadow: 3,
-                                        display: "grid",
-                                        gridTemplateColumns: "repeat(4, minmax(120px, 1fr))", // 4 items per row
-                                        gap: 1.5,
-                                    }}
-                                >
-                                    {item.subItems.map((sub) => (
-                                        <Typography
-                                            key={sub}
-                                            onClick={() => navigate(`/products/${sub.toLowerCase()}`)}
-                                            sx={{
-                                                px: 1.5,
-                                                py: 1,
-                                                fontSize: "0.9rem",
-                                                color: "text.primary",
-                                                borderRadius: 1,
-                                                cursor: "pointer",
-                                                textAlign: "center",
-                                                "&:hover": { bgcolor: "primary.light", color: "primary.dark" },
-                                            }}
-                                        >
-                                            {sub}
-                                        </Typography>
-                                    ))}
-                                </Paper>
+                                <>
+                                    <Paper
+                                        elevation={3}
+                                        sx={{
+                                            position: "absolute",
+                                            top: "100%",
+                                            left: 0,
+                                            minWidth: 150,
+                                            bgcolor: "background.paper",
+                                            borderRadius: 0,
+                                            p: 1,
+                                            boxShadow: 3,
+                                        }}
+                                    >
+                                        {item.subItems.map((sub, index) => (
+                                            <Typography
+                                                key={sub.label}
+                                                onClick={() => {
+                                                    navigate(sub.path);
+                                                    setOpenSubmenu(null);
+                                                }}
+                                                sx={{
+                                                    px: 1.5,
+                                                    py: 1,
+                                                    fontSize: { xs: "0.85rem", md: "1rem" },
+                                                    color: "text.primary",
+                                                    borderBottom: index !== (item?.subItems?.length || 0) - 1 ? "2px solid #ddd" : "none",
+                                                    borderRadius: 1,
+                                                    cursor: "pointer",
+                                                    textAlign: "left",
+                                                    "&:hover": { bgcolor: "primary.light", color: "primary.dark" },
+                                                }}
+                                            >
+                                                {sub.label}
+                                            </Typography>
+                                        ))}
+                                    </Paper>
+                                    <div></div>
+                                </>
                             )}
-
                         </Box>
                     ))}
                 </Toolbar>
             </AppBar>
 
-            {/* Mobile Drawer */}
             <Drawer anchor="left" open={mobileOpen} onClose={toggleDrawer(false)}>
                 <Box sx={{ width: 250, p: 2 }}>
                     <List>
@@ -202,7 +215,6 @@ export default function Header() {
                                     <ListItemButton
                                         onClick={() => {
                                             if (item.subItems) {
-                                                // Toggle submenu
                                                 setOpenSubmenu(prev => (prev === item.label ? null : item.label));
                                             } else if (item.path) {
                                                 navigate(item.path);
@@ -219,7 +231,6 @@ export default function Header() {
                                     </ListItemButton>
                                 </ListItem>
 
-                                {/* Render subItems only if this item's submenu is open */}
                                 {item.subItems && openSubmenu === item.label && (
                                     <List component="div" disablePadding>
                                         {item.subItems.map((sub) => (
@@ -227,7 +238,7 @@ export default function Header() {
                                                 <ListItemButton
                                                     onClick={() => {
                                                         navigate(`/products/${sub.toLowerCase()}`);
-                                                        setMobileOpen(false); // close drawer after navigation
+                                                        setMobileOpen(false);
                                                     }}
                                                 >
                                                     <ListItemText primary={sub} />
