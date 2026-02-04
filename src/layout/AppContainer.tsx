@@ -30,7 +30,7 @@ function App() {
             <Suspense>
               <CssBaseline />
               {!hideLayout && <Header />}
-              <Box component="main" sx={{ flex: 1, px: 1 }}>
+              <Box component="main" sx={{ flex: 1 }}>
                 <Content />
               </Box>
               {!hideLayout && <Email />}
