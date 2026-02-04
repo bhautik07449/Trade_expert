@@ -44,8 +44,8 @@ export default function Header() {
     const navItems: { label: string; subItems?: any[]; path?: string }[] = [
         { label: "Home", path: "/" },
         {
-            label: "About", subItems: [
-                { label: "Know Us", path: "/about" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }]
+            label: "About", path: "/about_us", subItems: [
+                { label: "Know Us", path: "/about_us" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }]
         },
         {
             label: "Products", subItems: [
