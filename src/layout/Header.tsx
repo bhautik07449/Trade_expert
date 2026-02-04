@@ -22,6 +22,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -157,7 +158,17 @@ export default function Header() {
                                     transition: "all 0.2s",
                                 }}
                             >
-                                {item.label}
+                                {item.label} {item.subItems && (
+                                    <KeyboardArrowUpIcon
+                                        sx={{
+                                            fontSize: '22px',
+                                            verticalAlign: 'middle',
+                                            ml: 0.5,
+                                            transform: openSubmenu === item.label ? 'rotate(0deg)' : 'rotate(180deg)',
+                                            transition: 'transform 0.3s ease',
+                                        }}
+                                    />
+                                )}
                             </Typography>
 
                             {item.subItems && openSubmenu === item.label && (
@@ -234,14 +245,15 @@ export default function Header() {
                                 {item.subItems && openSubmenu === item.label && (
                                     <List component="div" disablePadding>
                                         {item.subItems.map((sub) => (
-                                            <ListItem key={sub} sx={{ pl: 4 }}>
+                                            <ListItem key={sub.label} sx={{ pl: 4 }}>
                                                 <ListItemButton
                                                     onClick={() => {
-                                                        navigate(`/products/${sub.toLowerCase()}`);
+                                                        navigate(sub.path);
                                                         setMobileOpen(false);
+                                                        setOpenSubmenu(null); // Close submenu after navigation
                                                     }}
                                                 >
-                                                    <ListItemText primary={sub} />
+                                                    <ListItemText primary={sub.label} />
                                                 </ListItemButton>
                                             </ListItem>
                                         ))}

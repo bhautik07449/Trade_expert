@@ -2,7 +2,7 @@ import React from 'react'
 import ImageSlider from '../commonUI/ImageSlider'
 import CardUi from '../commonUI/CardUi'
 import SpotMarketTable from '../commonUI/spotMarket'
-import InquiryDialog from '../componenet/Dialog/inquiry-dialog'
+import InquiryDialog from '../component/Dialog/inquiry-dialog'
 
 export const Dashboard = () => {
   const [open, setOpen] = React.useState(false)
@@ -54,6 +54,7 @@ export const Dashboard = () => {
           setOpen(true)
         }}
       />
+
 
       <InquiryDialog
         open={open}

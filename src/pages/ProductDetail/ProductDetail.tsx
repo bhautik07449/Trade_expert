@@ -1,10 +1,10 @@
 "use client"
 import { Container, Grid, Box, Typography, Divider } from "@mui/material"
-import ProductGallery from "../../componenet/Product/ProductGallery"
-import ProductSpecsTabs from "../../componenet/Product/ProductSpecsTabs"
-import CtaButtons from "../../componenet/Product/CtaButtons"
-import CertificationPanel from "../../componenet/Product/CertificationPanel"
-import NewsletterSignup from "../../componenet/Product/NewsletterSignup"
+import ProductGallery from "../../component/Product/ProductGallery"
+import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
+import CtaButtons from "../../component/Product/CtaButtons"
+import CertificationPanel from "../../component/Product/CertificationPanel"
+import NewsletterSignup from "../../component/Product/NewsletterSignup"
 
 const product = {
     name: "Cleaned Suran",
