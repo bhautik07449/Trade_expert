@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Content from './Content';
 import Header from './Header';
 import { useLocation } from 'react-router-dom';
+import Email from '../component/Email';
 
 function App() {
   const theme = useTheme();
@@ -32,6 +33,7 @@ function App() {
               <Box component="main" sx={{ flex: 1, px: 1 }}>
                 <Content />
               </Box>
+              {!hideLayout && <Email />}
               {!hideLayout && <Footer />}
             </Suspense>
           </Box>
