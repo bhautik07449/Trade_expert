@@ -45,12 +45,21 @@ export default function Header() {
         { label: "Home", path: "/" },
         {
             label: "About", path: "/about_us", subItems: [
-                { label: "Know Us", path: "/about_us" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }]
+                { label: "Know Us", path: "/about_us" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }
+            ]
         },
         {
             label: "Products", subItems: [
-
-                { label: "Suran", path: "/products/suran" }, { label: "Ginger", path: "/products/ginger" }, { label: "Spices", path: "/products/spices" }]
+                {
+                    label: "Agri & Foods", path: "/products/ginger", SubItems: [
+                        { label: "Ginger", path: "/products/ginger" },
+                        { label: "Garlic", path: "/products/garlic" },
+                        { label: "Onion", path: "/products/onion" },
+                    ]
+                },
+                { label: "Electronics", path: "/products/spices" },
+                { label: "Wired Electronics", path: "/products/spices" }
+            ]
         },
         { label: "Resource", path: "/" },
         { label: "Quality Policy", path: "/quality-policy" },
@@ -180,6 +189,7 @@ export default function Header() {
                                             top: "100%",
                                             left: 0,
                                             minWidth: 150,
+                                            width: "max-content",
                                             bgcolor: "background.paper",
                                             borderRadius: 0,
                                             p: 1,
