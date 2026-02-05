@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Title from "../commonUI/labelTitle"
 import OurView from "../component/Ourview";
 
