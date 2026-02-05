@@ -6,6 +6,7 @@ import SignupForm from '../pages/Signup/Signup';
 import LoginForm from '../pages/Login/Login';
 import ProductPage from '../pages/ProductDetail/ProductDetail';
 import AboutUs from '../pages/AboutUs';
+import QualityPolicies from '../pages/QualityPolicies';
 
 export default function Router(): JSX.Element {
   const location = useLocation();
@@ -20,6 +21,7 @@ export default function Router(): JSX.Element {
       <Route path="/sign-up" element={<SignupForm />} />
       <Route path='/about_us' element={<AboutUs />} />
       <Route path="/product-details" element={<ProductPage />} />
+      <Route path="/quality_policies" element={<QualityPolicies />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

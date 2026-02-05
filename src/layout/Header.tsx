@@ -62,7 +62,7 @@ export default function Header() {
             ]
         },
         { label: "Resource", path: "/" },
-        { label: "Quality Policy", path: "/quality-policy" },
+        { label: "Quality Policy", path: "/quality_policies" },
         { label: "How to Pay", path: "/how-to-pay" },
         { label: "Brands", path: "/brands" },
         { label: "Get in Touch", path: "/contact" },
