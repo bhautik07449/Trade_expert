@@ -49,16 +49,17 @@ export default function Header() {
             ]
         },
         {
-            label: "Products", subItems: [
+            label: "Products", path: "/product-list", subItems: [
                 {
-                    label: "Agri & Foods", path: "/products/ginger", SubItems: [
-                        { label: "Ginger", path: "/products/ginger" },
-                        { label: "Garlic", path: "/products/garlic" },
-                        { label: "Onion", path: "/products/onion" },
+                    label: "Agri & Foods", path: "/product-list",
+                    subItems: [
+                        { label: "Ginger", path: "/product-details" },
+                        { label: "Garlic", path: "/product-details" },
+                        { label: "Onion", path: "/product-details" },
                     ]
                 },
-                { label: "Electronics", path: "/products/spices" },
-                { label: "Wired Electronics", path: "/products/spices" }
+                { label: "Electronics", path: "/product-list" },
+                { label: "Wired Electronics", path: "/product-list" }
             ]
         },
         { label: "Resource", path: "/" },
