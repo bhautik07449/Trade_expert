@@ -6,7 +6,7 @@ import InquiryDialog from '../component/Dialog/inquiry-dialog'
 import OurView from '../component/Ourview'
 import OurProcess from '../component/OurProcess'
 import Values from '../component/Values'
-// import AboutTestimonial from '../component/AboutTestimonial'
+import AboutTestimonial from '../component/AboutTestimonial'
 
 export const Dashboard = () => {
   const [open, setOpen] = React.useState(false)
@@ -61,7 +61,7 @@ export const Dashboard = () => {
       <OurView />
       <OurProcess />
       <Values />
-      {/* <AboutTestimonial /> */}
+      <AboutTestimonial />
 
       <InquiryDialog
         open={open}

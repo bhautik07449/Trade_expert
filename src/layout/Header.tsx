@@ -45,7 +45,7 @@ export default function Header() {
         { label: "Home", path: "/" },
         {
             label: "About", path: "/about_us", subItems: [
-                { label: "Know Us", path: "/about_us" }, { label: "Vision Mission", path: "/vision-mission" }, { label: "Our Team", path: "/our-team" }, { label: "Delivery Reach", path: "/delivery-reach" }
+                { label: "Know Us", path: "/about_us#know-us" }, { label: "Vision Mission", path: "/about_us#vision-mission" }, { label: "Our Team", path: "/about_us#our-team" }, { label: "Delivery Reach", path: "/about_us#delivery-reach" }
             ]
         },
         {

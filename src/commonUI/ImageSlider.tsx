@@ -37,9 +37,8 @@ export default function ImageSlider() {
                 position: "relative",
                 width: "100%",
                 height: { xs: 200, md: 500 },
-                my: 4,
+                mb: 4,
                 overflow: "hidden",
-                borderRadius: 1,
             }}
         >
             <Box
