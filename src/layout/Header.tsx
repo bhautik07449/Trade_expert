@@ -66,7 +66,7 @@ export default function Header() {
         { label: "Quality Policy", path: "/quality_policies" },
         { label: "How to Pay", path: "/how-to-pay" },
         { label: "Brands", path: "/brands" },
-        { label: "Get in Touch", path: "/contact" },
+        { label: "Get in Touch", path: "/get-in-touch" },
         { label: "Tradology", path: "/tradology" },
     ];
 

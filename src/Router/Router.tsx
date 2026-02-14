@@ -10,6 +10,7 @@ import QualityPolicies from '../pages/QualityPolicies';
 import Brand from '../pages/Brand';
 import HowToPay from '../pages/HowToPay';
 import ProductList from '../pages/ProductList';
+import GetInTouch from '../pages/GetInTouch';
 
 export default function Router(): JSX.Element {
   const location = useLocation();
@@ -27,7 +28,8 @@ export default function Router(): JSX.Element {
       <Route path="/product-details" element={<ProductPage />} />
       <Route path="/quality_policies" element={<QualityPolicies />} />
       <Route path="/brands" element={<Brand />} />
-      <Route path="how-to-pay" element={<HowToPay />} />
+      <Route path="/how-to-pay" element={<HowToPay />} />
+      <Route path="/get-in-touch" element={<GetInTouch />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
