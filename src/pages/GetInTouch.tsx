@@ -13,7 +13,8 @@ import {
 import { useState } from "react";
 
 export default function GetInTouch() {
-    const [activeTab, setActiveTab] = useState("form");
+    const [activeTab, setActiveTab] = useState("fill-form");
+    console.log("activeTab", activeTab);
 
     return (
         <Box sx={{ bgcolor: "#f4f4f4", minHeight: "100vh", pb: 10 }}>
@@ -63,12 +64,12 @@ export default function GetInTouch() {
                 }}
             >
                 <Grid container spacing={4}>
-                    {activeTab === "form" && (
-                        <Grid size={{ xs: 12, md: 9 }}>
+                    <Grid size={{ xs: 12, md: 9 }}>
+                        {activeTab === "fill-form" && (
                             <Paper
                                 elevation={3}
                                 sx={{
-                                    p: 4,
+                                    p: 3,
                                     bgcolor: "#e9dfd6",
                                 }}
                             >
@@ -146,33 +147,136 @@ export default function GetInTouch() {
                                     </Grid>
                                 </Grid>
                             </Paper>
-                        </Grid>
-                    )}
+                        )}
+
+                        {activeTab === "by-call" && (
+                            <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 3,
+                                    bgcolor: "#e9dfd6",
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        mb: 3,
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    <span style={{ color: "#7cb342" }}>
+                                        Call
+                                    </span>{" "}
+                                    Us
+                                </Typography>
+
+                                <Typography variant="body1">
+                                    Need Assitance in Buying or need clarification on products.
+                                </Typography>
+
+                                <Typography variant="body1">
+                                    call or whatsapp us at (+91) 9925099215
+                                </Typography>
+                            </Paper>
+                        )}
+
+                        {activeTab === "chat-with us" && (
+                            <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 3,
+                                    bgcolor: "#e9dfd6",
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        mb: 3,
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    <span style={{ color: "#7cb342" }}>
+                                        Chat
+                                    </span>{" "}
+                                    With Us
+                                </Typography>
+
+                                <Typography variant="body1">
+                                    You can online chat with us for the frequently get the quote.
+                                </Typography>
+
+                                <Typography variant="body1">
+                                    For that please click on the bottom right corner <b>"Leave Message"</b> box.
+                                </Typography>
+                            </Paper>
+                        )}
+
+                        {activeTab === "email-us" && (
+                            <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 3,
+                                    bgcolor: "#e9dfd6",
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        mb: 3,
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    <span style={{ color: "#7cb342" }}>
+                                        Email
+                                    </span>{" "}
+                                    Us
+                                </Typography>
+
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                                    Sourceseas overseas Pvt. Ltd.
+                                </Typography>
+
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                                    Registered Office
+                                </Typography>
+
+                                <Typography variant="body1">
+                                    C-604, Shree Nidhi Residency <br />Nr. Sudamachowk, <br /> Satelite Road, <br />Mota Varachha, Surat(Guj), <br />India - 3940101 <br /> +91 9925099215
+                                </Typography>
+
+                            </Paper>
+                        )}
+                    </Grid>
 
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Paper
                             elevation={3}
                             sx={{
-                                p: 3,
+                                p: 2,
                                 bgcolor: "#e9dfd6",
                             }}
                         >
                             <List>
-                                <ListItemButton onClick={() => setActiveTab("form")}>
-                                    <ListItemText primary="Fill form" />
-                                </ListItemButton>
-
-                                <ListItemButton onClick={() => setActiveTab("call")}>
-                                    <ListItemText primary="By Call" />
-                                </ListItemButton>
-
-                                <ListItemButton onClick={() => setActiveTab("chat")}>
-                                    <ListItemText primary="Chat With Us" />
-                                </ListItemButton>
-
-                                <ListItemButton onClick={() => setActiveTab("email")}>
-                                    <ListItemText primary="Email Us" />
-                                </ListItemButton>
+                                {["Fill form", "By Call", "Chat With Us", "Email Us"].map(
+                                    (text, index) => (
+                                        <ListItemButton onClick={() => setActiveTab(text.toLowerCase().replace(" ", "-"))} key={index}
+                                            selected={activeTab === text.toLowerCase().replace(" ", "-")}
+                                            sx={{
+                                                borderRadius: 2,
+                                                mb: 1,
+                                                "&.Mui-selected": {
+                                                    bgcolor: "#7cb342",
+                                                    color: "#fff",
+                                                },
+                                                "&.Mui-selected:hover": {
+                                                    bgcolor: "#689f38",
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText primary={text} />
+                                        </ListItemButton>
+                                    ))
+                                }
                             </List>
                         </Paper>
                     </Grid>
