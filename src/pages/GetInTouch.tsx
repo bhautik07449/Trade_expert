@@ -64,6 +64,39 @@ export default function GetInTouch() {
                 }}
             >
                 <Grid container spacing={4}>
+                    <Grid size={{ xs: 12, md: 3 }}>
+                        <Paper
+                            elevation={3}
+                            sx={{
+                                p: 2,
+                                bgcolor: "#e9dfd6",
+                            }}
+                        >
+                            <List>
+                                {["Fill form", "By Call", "Chat With Us", "Email Us"].map(
+                                    (text, index) => (
+                                        <ListItemButton onClick={() => setActiveTab(text.toLowerCase().replace(" ", "-"))} key={index}
+                                            selected={activeTab === text.toLowerCase().replace(" ", "-")}
+                                            sx={{
+                                                borderRadius: 2,
+                                                mb: 1,
+                                                "&.Mui-selected": {
+                                                    bgcolor: "#7cb342",
+                                                    color: "#fff",
+                                                },
+                                                "&.Mui-selected:hover": {
+                                                    bgcolor: "#689f38",
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText primary={text} />
+                                        </ListItemButton>
+                                    ))
+                                }
+                            </List>
+                        </Paper>
+                    </Grid>
+
                     <Grid size={{ xs: 12, md: 9 }}>
                         {activeTab === "fill-form" && (
                             <Paper
@@ -246,39 +279,6 @@ export default function GetInTouch() {
 
                             </Paper>
                         )}
-                    </Grid>
-
-                    <Grid size={{ xs: 12, md: 3 }}>
-                        <Paper
-                            elevation={3}
-                            sx={{
-                                p: 2,
-                                bgcolor: "#e9dfd6",
-                            }}
-                        >
-                            <List>
-                                {["Fill form", "By Call", "Chat With Us", "Email Us"].map(
-                                    (text, index) => (
-                                        <ListItemButton onClick={() => setActiveTab(text.toLowerCase().replace(" ", "-"))} key={index}
-                                            selected={activeTab === text.toLowerCase().replace(" ", "-")}
-                                            sx={{
-                                                borderRadius: 2,
-                                                mb: 1,
-                                                "&.Mui-selected": {
-                                                    bgcolor: "#7cb342",
-                                                    color: "#fff",
-                                                },
-                                                "&.Mui-selected:hover": {
-                                                    bgcolor: "#689f38",
-                                                },
-                                            }}
-                                        >
-                                            <ListItemText primary={text} />
-                                        </ListItemButton>
-                                    ))
-                                }
-                            </List>
-                        </Paper>
                     </Grid>
                 </Grid>
             </Box>
