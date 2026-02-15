@@ -12,6 +12,7 @@ import HowToPay from '../pages/HowToPay';
 import ProductList from '../pages/ProductList';
 import GetInTouch from '../pages/GetInTouch';
 import Tradology from '../pages/Tradology';
+import Resource from '../pages/Resource/Resource';
 
 export default function Router(): JSX.Element {
   const location = useLocation();
@@ -32,6 +33,7 @@ export default function Router(): JSX.Element {
       <Route path="/how-to-pay" element={<HowToPay />} />
       <Route path="/get-in-touch" element={<GetInTouch />} />
       <Route path="/tradology" element={<Tradology />} />
+      <Route path="/resource/:slug" element={<Resource />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

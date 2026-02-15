@@ -62,7 +62,14 @@ export default function Header() {
                 { label: "Wired Electronics", path: "/product-list" }
             ]
         },
-        { label: "Resource", path: "/resource" },
+        {
+            label: "Resource", subItems: [
+                { label: "Gallery", path: "/resource/gallery" },
+                { label: "CSR", path: "/resource/csr" },
+                { label: "Careers", path: "/resource/careers" },
+                { label: "FAQ", path: "/resource/faq" },
+            ]
+        },
         { label: "Quality Policy", path: "/quality_policies" },
         { label: "How to Pay", path: "/how-to-pay" },
         { label: "Brands", path: "/brands" },
