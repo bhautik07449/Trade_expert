@@ -62,7 +62,7 @@ export default function Header() {
                 { label: "Wired Electronics", path: "/product-list" }
             ]
         },
-        { label: "Resource", path: "/" },
+        { label: "Resource", path: "/resource" },
         { label: "Quality Policy", path: "/quality_policies" },
         { label: "How to Pay", path: "/how-to-pay" },
         { label: "Brands", path: "/brands" },
