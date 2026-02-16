@@ -154,7 +154,7 @@ export default function Header() {
                         >
                             <Typography
                                 onClick={() => item.path && navigate(item.path)}
-                                sx={{ cursor: "pointer", px: 1.5, py: 0.5 }}
+                                sx={{ cursor: "pointer", px: 1.5, py: 0.5, display: "flex", alignItems: "center", gap: 0.5, fontSize: { xs: "0.85rem", md: "1rem" }, color: "white" }}
                             >
                                 {item.label}
                                 {item.subItems && (
