@@ -173,12 +173,23 @@ export default function Header() {
                             </Typography>
 
                             {item.subItems && openSubmenu === item.label && (
-                                <Paper sx={{ position: "absolute", top: "100%", left: 0 }}>
-                                    {item.subItems.map((sub: any) => (
+                                <Paper sx={{ position: "absolute", top: "100%", left: 0, minWidth: 150, width: "max-content", p: 1 }}>
+                                    {item.subItems.map((sub: any, index: number) => (
                                         <Typography
                                             key={sub.label}
                                             onClick={() => navigate(sub.path)}
-                                            sx={{ px: 2, py: 1, cursor: "pointer" }}
+                                            sx={{
+                                                px: 1.5,
+                                                py: 1,
+                                                fontSize: { xs: "0.85rem", md: "1rem" },
+                                                color: "text.primary",
+                                                borderBottom: index !== (item?.subItems?.length || 0) - 1 ? "2px solid #ddd" : "none",
+                                                borderRadius: 1,
+                                                cursor: "pointer",
+                                                textAlign: "left",
+                                                "&:hover": { bgcolor: "primary.light", color: "primary.dark" },
+                                                mb: index === (item?.subItems?.length || 0) - 1 ? 0 : 1,
+                                            }}
                                         >
                                             {sub.label}
                                         </Typography>
