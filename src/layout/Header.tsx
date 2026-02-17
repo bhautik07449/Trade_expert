@@ -17,12 +17,12 @@ import {
     ListItem,
     ListItemButton,
     Paper,
+    Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -136,7 +136,18 @@ export default function Header() {
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
                         Sourceseas - Best Exporter
                     </Typography>
-
+                    <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
+                        <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                            <Link component={RouterLink} to="/login" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500 }}>
+                                Login
+                            </Link>
+                        </Typography>
+                        <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                            <Link component={RouterLink} to="/sign-up" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500 }}>
+                                Register
+                            </Link>
+                        </Typography>
+                    </Box>
                     <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", md: "none" } }}>
                         <MenuIcon />
                     </IconButton>
