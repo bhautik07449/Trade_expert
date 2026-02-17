@@ -23,6 +23,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
     return (
