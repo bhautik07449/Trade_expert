@@ -137,13 +137,13 @@ export default function Header() {
                         Sourceseas - Best Exporter
                     </Typography>
 
-                    <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", sm: "none" } }}>
+                    <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", md: "none" } }}>
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
 
-            <AppBar position="sticky" sx={{ bgcolor: "secondary.dark", display: { xs: "none", sm: "flex" } }}>
+            <AppBar position="sticky" sx={{ bgcolor: "secondary.dark", display: { xs: "none", md: "flex" } }}>
                 <Toolbar ref={navRef} sx={{ display: "flex", justifyContent: "center", gap: 4 }}>
                     {navItems.map((item) => (
                         <Box
