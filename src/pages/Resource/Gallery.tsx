@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import Title from "../../commonUI/labelTitle"
 
 export default function Gallery() {
     return (

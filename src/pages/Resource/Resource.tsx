@@ -1,4 +1,3 @@
-import { Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Gallery from "./Gallery";
 import CSR from "./CSR";
