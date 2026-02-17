@@ -17,12 +17,11 @@ import {
     ListItem,
     ListItemButton,
     Paper,
-    Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useState, useEffect, useRef } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
