@@ -4,14 +4,22 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import SecurityIcon from "@mui/icons-material/Security";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import Title from "../commonUI/labelTitle"
+import { useNavigate } from "react-router-dom";
 
 export default function Values() {
+    const navigate = useNavigate();
+
     const data = [
-        { title: "LOGISTIC SERVICES", icon: <LocalShippingIcon /> },
-        { title: "CUSTOMIZED PACKAGING SERVICES", icon: <InventoryIcon /> },
-        { title: "ALL TRANSIT RELATED INSURANCE", icon: <SecurityIcon /> },
-        { title: "THIRD PARTY INSPECTION", icon: <DiamondIcon /> },
+        { title: "LOGISTIC SERVICES", icon: LocalShippingIcon },
+        { title: "CUSTOMIZED PACKAGING SERVICES", icon: InventoryIcon },
+        { title: "ALL TRANSIT RELATED INSURANCE", icon: SecurityIcon },
+        { title: "THIRD PARTY INSPECTION", icon: DiamondIcon },
     ];
+
+    const tab = [
+        { label: "Become Authorized", value: "Supplier", button: "Register", link: "/suppliers/register" },
+        { label: "Wants to", value: "source from us", button: "login or register", link: "/suppliers/login" }
+    ]
 
     return (
         <>
@@ -42,10 +50,10 @@ export default function Values() {
                                     my: 4,
                                 }}
                             >
-                                {item.icon &&
-                                    <Box sx={{ color: "#fff", fontSize: 36 }}>
-                                        {item.icon}
-                                    </Box>
+
+                                {item.icon && (
+                                    <item.icon sx={{ color: "#fff", fontSize: 36 }} />
+                                )
                                 }
                             </Box>
 
@@ -66,7 +74,7 @@ export default function Values() {
                 textAlign: "center",
                 py: 6
             }}>
-                {[0, 1].map((_, index) => (
+                {tab.map((item, index) => (
                     <Box
                         sx={{
                             border: "1px solid #e0e0e0",
@@ -75,6 +83,7 @@ export default function Values() {
                             textAlign: "center",
                             bgcolor: "#fff",
                         }}
+                        key={index}
                     >
                         <Box sx={{ mb: 5 }}>
                             <Typography
@@ -82,19 +91,19 @@ export default function Values() {
                                 component="span"
                                 sx={{
                                     color: "#8BC34A",
-                                    fontWeight: 600,
+                                    fontWeight: 300,
                                     borderBottom: "3px solid #8BC34A",
                                     pb: "4px",
                                 }}
                             >
-                                Wants to
+                                {item.label}
                             </Typography>{" "}
                             <Typography
                                 variant="h5"
                                 component="span"
-                                sx={{ color: "#1a1a1a", fontWeight: 600 }}
+                                sx={{ color: "#1a1a1a", fontWeight: 300 }}
                             >
-                                source from us
+                                {item.value}
                             </Typography>
                         </Box>
 
@@ -110,8 +119,9 @@ export default function Values() {
                                     backgroundColor: "#e0931f",
                                 },
                             }}
+                            onClick={() => navigate(item.link)}
                         >
-                            Register
+                            {item.button}
                         </Button>
                     </Box>
                 ))}

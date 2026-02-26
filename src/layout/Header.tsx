@@ -23,6 +23,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import LoginIcon from '@mui/icons-material/Login';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -114,19 +118,16 @@ export default function Header() {
                     <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
                         <Box sx={{ display: "flex", gap: 3 }}>
                             <FormControl variant="standard">
-                                <Select value={language} onChange={handleLanguageChange} sx={{ color: "white" }}>
-                                    <MenuItem value="en">English</MenuItem>
-                                    <MenuItem value="es">Spanish</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Select value={country} onChange={handleCountryChange} sx={{ color: "white" }}>
+                                <Select value={country} onChange={handleCountryChange} sx={{ color: "white", fontSize: "14px" }}>
                                     <MenuItem value="in">India</MenuItem>
                                     <MenuItem value="us">USA</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
-                        <Typography>+91 87653 37336</Typography>
+                        <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
+                            <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} /> +91 87653 37336</Typography>
+                            <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><AccessTimeIcon sx={{ fontSize: 20, mr: 0.5 }} />Mon-Fri: 9:00am - 8:00pm</Typography>
+                        </Box>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
@@ -134,16 +135,18 @@ export default function Header() {
             <AppBar position="sticky" sx={{ bgcolor: "white", color: "black", borderBottom: "1px solid #ddd" }}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                        Sourceseas - Best Exporter
+                        Welcome to Sourceseas - Best Exporter
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            <Link component={RouterLink} to="/login" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500 }}>
+                            <Link component={RouterLink} to="/login" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
+                            <AccountCircleIcon sx={{ fontSize: 20, mr: 0.5 }} />
                                 Login
                             </Link>
                         </Typography>
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            <Link component={RouterLink} to="/sign-up" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500 }}>
+                            <Link component={RouterLink} to="/sign-up" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
+                            <LoginIcon sx={{ fontSize: 20, mr: 0.5 }} />
                                 Register
                             </Link>
                         </Typography>

@@ -12,6 +12,8 @@ import HowToPay from '../pages/HowToPay';
 import ProductList from '../pages/ProductList';
 import GetInTouch from '../pages/GetInTouch';
 import Resource from '../pages/Resource/Resource';
+import SuppliersRegister from '../pages/SuppliersRegister';
+import SuppliersLogin from '../pages/SuppliersLogin';
 
 export default function Router(): JSX.Element {
   const location = useLocation();
@@ -32,6 +34,8 @@ export default function Router(): JSX.Element {
       <Route path="/how-to-pay" element={<HowToPay />} />
       <Route path="/get-in-touch" element={<GetInTouch />} />
       <Route path="/resource/:slug" element={<Resource />} />
+      <Route path="/suppliers/register" element={<SuppliersRegister />} />
+      <Route path="/suppliers/login" element={<SuppliersLogin />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

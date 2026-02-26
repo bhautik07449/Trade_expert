@@ -18,7 +18,7 @@ export default function OurProcess() {
                 alt="Our Process"
                 sx={{
                     width: "100%",
-                    maxWidth: 1100,
+                    maxWidth: 800,
                     height: "auto",
                     mt: { xs: 2, md: 4 },
                     mx: "auto",
