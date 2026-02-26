@@ -122,7 +122,7 @@ export default function AboutTestimonial() {
                                 <Paper
                                     elevation={3}
                                     sx={{
-                                        p: { xs: 3, sm: 4, md: 5 },
+                                        p: { xs: 2, sm: 3, md: 4 },
                                         borderRadius: 3,
                                         textAlign: "center",
                                         position: "relative",

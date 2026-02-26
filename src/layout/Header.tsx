@@ -114,8 +114,8 @@ export default function Header() {
     return (
         <>
             <HideOnScroll>
-                <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}> 
-                    <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between", maxWidth: 1100, mx: "auto", width: "100%" }}>
+                <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
+                    <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
                         <Box sx={{ display: "flex", gap: 3 }}>
                             <FormControl variant="standard">
                                 <Select value={country} onChange={handleCountryChange} sx={{ color: "white", fontSize: "14px" }}>
@@ -134,19 +134,26 @@ export default function Header() {
 
             <AppBar position="sticky" sx={{ bgcolor: "white", color: "black", borderBottom: "1px solid #ddd" }}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    <Typography variant="h6" sx={{
+                        fontWeight: 600, fontSize: {
+                            xs: "16px",
+                            sm: "18px",
+                            md: "20px",
+                            lg: "22px",
+                        },
+                    }}>
                         Welcome to Sourceseas - Best Exporter
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
                             <Link component={RouterLink} to="/login" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
-                            <AccountCircleIcon sx={{ fontSize: 20, mr: 0.5 }} />
+                                <AccountCircleIcon sx={{ fontSize: 20, mr: 0.5 }} />
                                 Login
                             </Link>
                         </Typography>
                         <Typography variant="body2" sx={{ cursor: "pointer" }}>
                             <Link component={RouterLink} to="/sign-up" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
-                            <LoginIcon sx={{ fontSize: 20, mr: 0.5 }} />
+                                <LoginIcon sx={{ fontSize: 20, mr: 0.5 }} />
                                 Register
                             </Link>
                         </Typography>

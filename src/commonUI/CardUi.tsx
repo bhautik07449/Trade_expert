@@ -131,6 +131,7 @@ export default function CardUi({
                         transform: "translateY(-50%)",
                         zIndex: 3,
                         bgcolor: "#f5f5f5",
+                        "&:hover": { backgroundColor: "#e0e0e0" },
                     }}
                     onClick={handlePrev}
                 >
@@ -145,6 +146,7 @@ export default function CardUi({
                         transform: "translateY(-50%)",
                         zIndex: 3,
                         bgcolor: "#f5f5f5",
+                        "&:hover": { backgroundColor: "#e0e0e0" },
                     }}
                     onClick={handleNext}
                 >
