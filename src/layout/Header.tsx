@@ -114,8 +114,8 @@ export default function Header() {
     return (
         <>
             <HideOnScroll>
-                <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
-                    <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
+                <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}> 
+                    <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between", maxWidth: 1100, mx: "auto", width: "100%" }}>
                         <Box sx={{ display: "flex", gap: 3 }}>
                             <FormControl variant="standard">
                                 <Select value={country} onChange={handleCountryChange} sx={{ color: "white", fontSize: "14px" }}>

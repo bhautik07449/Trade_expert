@@ -1,9 +1,21 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Box, Button, Card, CardContent, Container, Link, Typography } from "@mui/material"
-import { Link as RouterLink } from "react-router-dom";
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Container,
+    Link,
+    Typography,
+    IconButton,
+} from "@mui/material"
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Link as RouterLink } from "react-router-dom"
 import Title from "./labelTitle"
+import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 
 type Product = {
     id: number
@@ -21,7 +33,7 @@ const products: Product[] = [
         image: "/frozen-vegetables-green-background.png",
         category: "On-behalf",
         categoryColor: "#4CAF50",
-        description: "Premium mixed vegetables—broccoli, carrots, peas, and corn. Perfect for quick healthy meals.",
+        description: "Premium mixed vegetables—broccoli, carrots, peas, and corn.",
     },
     {
         id: 2,
@@ -29,7 +41,7 @@ const products: Product[] = [
         image: "/white-onion-flakes-in-wooden-bowl.png",
         category: "Indenting",
         categoryColor: "#00BCD4",
-        description: "Dehydrated white onion flakes with intense flavor for seasoning and cooking.",
+        description: "Dehydrated white onion flakes with intense flavor.",
     },
     {
         id: 3,
@@ -37,7 +49,7 @@ const products: Product[] = [
         image: "/organic-spice-mix-colorful-spices.png",
         category: "On-behalf",
         categoryColor: "#4CAF50",
-        description: "Authentic blend of organic spices sourced from premium farms.",
+        description: "Authentic blend of organic spices.",
     },
     {
         id: 4,
@@ -45,7 +57,7 @@ const products: Product[] = [
         image: "/basmati-rice-grains-premium-quality.png",
         category: "Indenting",
         categoryColor: "#00BCD4",
-        description: "Long grain basmati rice with aromatic fragrance—ideal for biryani.",
+        description: "Long grain basmati rice with aromatic fragrance.",
     },
     {
         id: 5,
@@ -53,7 +65,7 @@ const products: Product[] = [
         image: "/turmeric-powder-golden-yellow-spice.png",
         category: "On-behalf",
         categoryColor: "#4CAF50",
-        description: "Pure turmeric powder with high curcumin content.",
+        description: "Pure turmeric powder with high curcumin.",
     },
     {
         id: 6,
@@ -61,7 +73,7 @@ const products: Product[] = [
         image: "/black-pepper-whole-spice-premium.png",
         category: "Indenting",
         categoryColor: "#00BCD4",
-        description: "Whole black peppercorns with bold aroma—perfect for fresh grinding.",
+        description: "Whole black peppercorns with bold aroma.",
     },
 ]
 
@@ -79,8 +91,6 @@ export default function CardUi({
     const [hoveredCard, setHoveredCard] = useState<number | null>(null)
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [visibleCards, setVisibleCards] = useState(4)
-    const [isPaused, setIsPaused] = useState(false)
-    const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const updateVisibleCards = () => {
@@ -90,161 +100,91 @@ export default function CardUi({
             else if (width < 1200) setVisibleCards(3)
             else setVisibleCards(4)
         }
+
         updateVisibleCards()
         window.addEventListener("resize", updateVisibleCards)
         return () => window.removeEventListener("resize", updateVisibleCards)
     }, [])
 
-    useEffect(() => {
-        if (isPaused) return
-        const interval = setInterval(() => {
-            setCurrentStartIndex((prev) => {
-                const next = prev + 1
-                return next + visibleCards > products.length ? 0 : next
-            })
-        }, 2000)
-        return () => clearInterval(interval)
-    }, [visibleCards, isPaused])
+    const handleNext = () => {
+        if (currentStartIndex + visibleCards < products.length) {
+            setCurrentStartIndex(currentStartIndex + 1)
+        }
+    }
+
+    const handlePrev = () => {
+        if (currentStartIndex > 0) {
+            setCurrentStartIndex(currentStartIndex - 1)
+        }
+    }
 
     return (
-        <Container maxWidth="xl" sx={{ padding: "0 !important" }}>
+        <Container maxWidth="xl" sx={{ p: 0 }}>
             <Title title={title} label={label} />
 
-            <Box
-                ref={containerRef}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                sx={{ overflow: "hidden", width: "100%" }}
-            >
+            <Box sx={{ position: "relative", overflow: "hidden" }}>
+                <IconButton
+                    sx={{
+                        position: "absolute",
+                        left: 0,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 3,
+                        bgcolor: "#f5f5f5",
+                    }}
+                    onClick={handlePrev}
+                >
+                    <ChevronLeft />
+                </IconButton>
+
+                <IconButton
+                    sx={{
+                        position: "absolute",
+                        right: 0,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 3,
+                        bgcolor: "#f5f5f5",
+                    }}
+                    onClick={handleNext}
+                >
+                    <ChevronRight />
+                </IconButton>
+
                 <Box
                     sx={{
                         display: "flex",
                         transition: "transform 0.5s ease-in-out",
-                        width: `${products.length * (100 / visibleCards)}%`,
-                        transform: `translateX(-${currentStartIndex * (100 / products.length)}%)`,
+                        width: `${(products.length / visibleCards) * 100}%`,
+                        transform: `translateX(-${(currentStartIndex * 100) / products.length}%)`,
                     }}
                 >
                     {products.map((product) => (
-                        <Box key={product.id} sx={{ width: `${100 / products.length}%`, flexShrink: 0, px: 1 }}>
-                            <Link
-                                component={RouterLink}
-                                to="/product-details"
-                                underline="none"
-                                sx={{
-                                    color: "text.primary",
-                                    "&:hover": { color: "primary.main" },
-                                    fontWeight: 500,
-                                }}
-                            >
+                        <Box
+                            key={product.id}
+                            sx={{
+                                width: `${100 / products.length}%`,
+                                flexShrink: 0,
+                                px: 1,
+                            }}
+                        >
+                            <Link component={RouterLink} to="/product-details" underline="none">
                                 <Card
                                     sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        position: "relative",
                                         borderRadius: 3,
                                         overflow: "hidden",
-                                        bgcolor: "white",
                                         boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                                        transition: "box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out",
-                                        "&:hover": {
-                                            transform: "translateY(-2px)",
-                                            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                                        },
                                     }}
-                                    onMouseEnter={() => setHoveredCard(product.id)}
-                                    onMouseLeave={() => setHoveredCard(null)}
                                 >
                                     <Box
-                                        sx={{
-                                            position: "relative",
-                                            bgcolor: "white",
-                                            height: 220,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            p: 0,
-                                        }}
-                                    >
-                                        <Box
-                                            component="img"
-                                            src={product.image}
-                                            alt={product.name}
-                                            sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                        />
+                                        component="img"
+                                        src={product.image}
+                                        alt={product.name}
+                                        sx={{ width: "100%", height: 220, objectFit: "cover" }}
+                                    />
 
-                                        {hoveredCard === product.id && (
-                                            <Box
-                                                sx={{
-                                                    position: "absolute",
-                                                    inset: 0,
-                                                    bgcolor: "rgba(0,0,0,0.45)",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    gap: 1.5,
-                                                    p: 2,
-                                                }}
-                                            >
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    sx={{ color: "white", fontWeight: 700, textAlign: "center", px: 2 }}
-                                                >
-                                                    {product.name}
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{
-                                                        color: "white",
-                                                        opacity: 0.9,
-                                                        textAlign: "center",
-                                                        px: 2,
-                                                        mb: 0.5,
-                                                        lineHeight: 1.4,
-                                                    }}
-                                                >
-                                                    {product.description}
-                                                </Typography>
-                                                <Box sx={{ display: "flex", gap: 1, width: "100%", px: 2 }}>
-                                                    <Button
-                                                        fullWidth
-                                                        variant="contained"
-                                                        sx={{ bgcolor: "#4CAF50", "&:hover": { bgcolor: "#45a049" }, textTransform: "none" }}
-                                                        onClick={(e) => {
-                                                            e.preventDefault()
-                                                            onEnquire?.(product)
-                                                        }}
-                                                    >
-                                                        Enquire Now
-                                                    </Button>
-                                                    <Button
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        sx={{
-                                                            borderColor: "white",
-                                                            color: "white",
-                                                            "&:hover": { borderColor: "white", bgcolor: "rgba(255,255,255,0.08)" },
-                                                            textTransform: "none",
-                                                        }}
-                                                        onClick={(e) => {
-                                                            e.preventDefault()
-                                                            onRequestSample?.(product)
-                                                        }}
-                                                    >
-                                                        Request Sample
-                                                    </Button>
-                                                </Box>
-                                            </Box>
-                                        )}
-                                    </Box>
-
-                                    <CardContent sx={{ flexGrow: 1, bgcolor: "white", p: 3 }}>
-                                        <Typography
-                                            variant="h6"
-                                            component="h3"
-                                            sx={{ fontWeight: 600, color: "text.primary", textAlign: "center", fontSize: "1.05rem" }}
-                                        >
+                                    <CardContent>
+                                        <Typography align="center" fontWeight={600}>
                                             {product.name}
                                         </Typography>
                                     </CardContent>
@@ -254,7 +194,6 @@ export default function CardUi({
                     ))}
                 </Box>
             </Box>
-
         </Container>
     )
 }
