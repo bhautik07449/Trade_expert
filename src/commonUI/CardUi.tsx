@@ -189,6 +189,36 @@ export default function CardUi({
                                         <Typography align="center" fontWeight={600}>
                                             {product.name}
                                         </Typography>
+
+                                        <Box sx={{
+                                            display: "flex",
+                                            gap: 2,
+                                        }}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                fullWidth
+                                                sx={{ mt: 2 }}
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    onEnquire && onEnquire(product)
+                                                }}
+                                            >
+                                                Enquire now
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                fullWidth
+                                                sx={{ mt: 2 }}
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    onEnquire && onEnquire(product)
+                                                }}
+                                            >
+                                                request
+                                            </Button>
+                                        </Box>
                                     </CardContent>
                                 </Card>
                             </Link>

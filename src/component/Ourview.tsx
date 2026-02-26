@@ -1,12 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 
 export default function OurView() {
     return (
         <Box
             sx={{
                 position: "relative",
-                p: 4,
-                my: 4,
+                mt: { xs: 6, md: 10 },
+                py: { xs: 6, md: 10 },
                 backgroundImage:
                     "url(https://sourceseas.itcoders.in/img/video-bg.jpg)",
                 backgroundSize: "cover",
@@ -17,86 +17,100 @@ export default function OurView() {
                 sx={{
                     position: "absolute",
                     inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    zIndex: 1
+                    backgroundColor: "rgba(0,0,0,0.6)",
+                    zIndex: 1,
                 }}
             />
 
-            <Box
-                sx={{
-                    position: "relative",
-                    zIndex: 2,
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                    gap: 4,
-                }}
-            >
+            <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
                 <Box
                     sx={{
-                        borderRadius: 2,
-                        textAlign: "center",
+                        display: "grid",
+                        gridTemplateColumns: {
+                            xs: "1fr",
+                            sm: "1fr",
+                            md: "1fr 1fr",
+                        },
+                        gap: { xs: 5, md: 8 },
+                        alignItems: "center",
                     }}
                 >
-                    <Typography
-                        variant="h4"
-                        sx={{ color: "#6fbf4a", mb: 4, fontWeight: 600 }}
-                    >
-                        Certifications and accreditation
-                    </Typography>
-                    <Box
-                        sx={{
-                            height: 300,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <img
+
+                    <Box textAlign="center">
+                        <Typography
+                            sx={{
+                                color: "#6fbf4a",
+                                fontWeight: 700,
+                                mb: 4,
+                                fontSize: {
+                                    xs: "22px",
+                                    sm: "26px",
+                                    md: "30px",
+                                    lg: "34px",
+                                },
+                            }}
+                        >
+                            Certifications and Accreditation
+                        </Typography>
+
+                        <Box
+                            component="img"
                             src="https://sourceseas.itcoders.in/files/banners/12e6ad878b5ec82e5a182acb94d3ed07.jpeg"
-                            alt="We Promote Make in India"
-                            style={{
-                                width: "480px",
-                                maxHeight: "100%",
-                                objectFit: "contain",
+                            alt="Certifications"
+                            sx={{
+                                width: "100%",
+                                maxWidth: { xs: "280px", sm: "350px", md: "450px" },
+                                height: "auto",
+                                mx: "auto",
+                                display: "block",
+                                boxShadow: 3,
                             }}
                         />
                     </Box>
-                </Box>
 
-                <Box
-                    sx={{
-                        borderRadius: 2,
-                        textAlign: "center",
-                    }}
-                >
-                    <Typography
-                        variant="h4"
-                        sx={{ color: "#6fbf4a", mb: 4, fontWeight: 600 }}
-                    >
-                        Our YouTube Channel
-                    </Typography>
-
-                    <Box
-                        sx={{
-                            height: 300,
-                            borderRadius: 2,
-                            overflow: "hidden",
-                        }}
-                    >
-                        <iframe
-                            src="https://www.youtube.com/embed/zFd9B9PR4Bw"
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            style={{
-                                width: "480px",
-                                height: "100%",
+                    <Box textAlign="center">
+                        <Typography
+                            sx={{
+                                color: "#6fbf4a",
+                                fontWeight: 700,
+                                mb: 4,
+                                fontSize: {
+                                    xs: "22px",
+                                    sm: "26px",
+                                    md: "30px",
+                                    lg: "34px",
+                                },
                             }}
-                        />
+                        >
+                            Our YouTube Channel
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                position: "relative",
+                                width: "100%",
+                                maxWidth: "500px",
+                                mx: "auto",
+                                aspectRatio: "16/9",
+                                overflow: "hidden",
+                                boxShadow: 3,
+                            }}
+                        >
+                            <iframe
+                                src="https://www.youtube.com/embed/zFd9B9PR4Bw"
+                                title="YouTube video player"
+                                allowFullScreen
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    border: "none",
+                                }}
+                            />
+                        </Box>
                     </Box>
+
                 </Box>
-            </Box>
+            </Container>
         </Box>
     );
 }
