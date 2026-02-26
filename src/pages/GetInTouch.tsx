@@ -20,7 +20,7 @@ export default function GetInTouch() {
             <img
                 src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
                 alt="Quality Policies"
-                style={{ width: "100%", height: "auto" }}
+                style={{ width: "100%", minHeight: '200px', maxHeight: '400px', objectFit: "cover" }}
             />
 
             <Box sx={{ p: 3, textAlign: "center" }}>

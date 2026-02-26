@@ -27,6 +27,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import path from "path";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -75,6 +76,7 @@ export default function Header() {
             subItems: [
                 {
                     label: "Agri & Foods",
+                    path: "/product-list",
                     subItems: [
                         { label: "Ginger", path: "/product-details" },
                         { label: "Garlic", path: "/product-details" },

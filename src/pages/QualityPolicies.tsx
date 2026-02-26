@@ -1,43 +1,130 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container, Grid } from "@mui/material";
 
 export default function QualityPolicies() {
     return (
-        <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
-            <img src="https://sourceseas.itcoders.in/img/front-end/quality.jpg" alt="Quality Policies" style={{ width: '100%', height: 'auto' }} />
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'secondary.main' }}>
+        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
+            <Box
+                component="img"
+                src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                alt="Quality Policies"
+                sx={{
+                    width: "100%",
+                    height: { xs: "200px", md: "350px" },
+                    objectFit: "cover",
+                }}
+            />
+
+            <Box sx={{ py: 4, textAlign: "center" }}>
+                <Typography
+                    variant="h4"
+                    sx={{ fontWeight: 700, color: "secondary.main" }}
+                >
                     Quality Policies
                 </Typography>
             </Box>
 
+            <Container maxWidth="lg">
 
-            <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2 }}>
-                <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>
-                    We at sourceseas.com firmly believe in supplying & sourcing of quality products.We maintain top-notch quality in each every process in our practises.We belive superior quality foods and agrinproducts needs to be reach in every corner of world and that is our main focus.If we source than also takecare of sourcing from ISO,FSSAI,HACCP,HALAL,BRC,FDA, approved suppliers only for food products.
+                <Typography
+                    sx={{
+                        color: "secondary.main",
+                        mb: 5,
+                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                        textAlign: "center",
+                    }}
+                >
+                    We firmly believe in sourcing and supplying top-quality agri and food
+                    products. We collaborate only with ISO, FSSAI, HACCP, HALAL, BRC and
+                    FDA approved suppliers to ensure global food safety standards.
                 </Typography>
 
-                <Box sx={{ border: "2px solid #3E3126", p: 2, mb: 2 }}>Agri & Foods</Box>
+                <Box
+                    sx={{
+                        border: "2px solid #3E3126",
+                        textAlign: "center",
+                        py: 1.5,
+                        mb: 6,
+                        fontWeight: 600,
+                    }}
+                >
+                    Agri & Foods
+                </Box>
 
-                <Box sx={{ display: "flex", gap: 3 }}>
-                    <img src="https://sourceseas.itcoders.in/files/quality_policy/image/4/fssai%20approved%20foods.jpg" alt="FSSAI Approved Foods" style={{ width: '300px', height: "300px" }} />
-                    <Box>
-                        <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>
+                <Grid
+                    container
+                    spacing={4}
+                    alignItems="center"
+                    sx={{ mb: 8 }}
+                >
+                    <Grid size={{ xs: 12, md: 5 }}>
+                        <Box
+                            component="img"
+                            src="https://sourceseas.itcoders.in/files/quality_policy/image/4/fssai%20approved%20foods.jpg"
+                            alt="FSSAI Approved Foods"
+                            sx={{
+                                width: "100%",
+                                maxWidth: "350px",
+                                mx: "auto",
+                                display: "block",
+                            }}
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 7 }}>
+                        <Typography
+                            variant="h5"
+                            sx={{ color: "secondary.main", mb: 2, fontWeight: 600 }}
+                        >
                             FSSAI Approved Foods
                         </Typography>
-                        <Typography>we at sourceseas commited to deliver naturally fresh ,without adultration and non gmo food and agri products and for that we follow best practises and source also from supplier who follow best practises food standard available in market.Fssai is one of renowned food saftey indian standard available in world market, we follow and source from certified fssai manufacturer and processor available in indian market for agro and food industry.</Typography>
-                    </Box>
-                </Box>
 
-                <Box sx={{ display: "flex", gap: 3 }}>
-                    <Box>
-                        <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>
+                        <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+                            We are committed to delivering naturally fresh, non-adulterated,
+                            non-GMO agri and food products. We source only from certified
+                            FSSAI manufacturers and processors to maintain India’s renowned
+                            food safety standards.
+                        </Typography>
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    container
+                    spacing={4}
+                    alignItems="center"
+                    flexDirection={{ xs: "column-reverse", md: "row" }}
+                >
+                    <Grid size={{ xs: 12, md: 7 }}>
+                        <Typography
+                            variant="h5"
+                            sx={{ color: "secondary.main", mb: 2, fontWeight: 600 }}
+                        >
                             ISO 22000:2005
                         </Typography>
-                        <Typography>we at sourceseas commited to deliver naturally fresh ,without adultration and non gmo food and agri products and for that we follow best practises and source also from supplier who follow best practises food standard available in market.ISO 22000:2005 is one of renowned food saftey world standard available in world market, we also follow and source from certified ISO 22000:2005 manufacturer and processor available in indian market for agro and food industry.</Typography>
-                    </Box>
-                    <img src="https://sourceseas.itcoders.in/files/quality_policy/image/5/iso%20food%20standard.jpg" alt="FSSAI Approved Foods" style={{ width: '200px', height: "200px" }} />
-                </Box>
-            </Box>
-        </Box >
-    )
+
+                        <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+                            ISO 22000:2005 is a globally recognized food safety management
+                            system standard. We collaborate with ISO certified manufacturers
+                            and processors to ensure international quality compliance in the
+                            agro and food industry.
+                        </Typography>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 5 }}>
+                        <Box
+                            component="img"
+                            src="https://sourceseas.itcoders.in/files/quality_policy/image/5/iso%20food%20standard.jpg"
+                            alt="ISO Food Standard"
+                            sx={{
+                                width: "100%",
+                                maxWidth: "250px",
+                                mx: "auto",
+                                display: "block",
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+
+            </Container>
+        </Box>
+    );
 }

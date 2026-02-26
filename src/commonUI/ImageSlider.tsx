@@ -37,7 +37,6 @@ export default function ImageSlider() {
                 position: "relative",
                 width: "100%",
                 height: { xs: 200, md: 500 },
-                mb: 4,
                 overflow: "hidden",
             }}
         >
