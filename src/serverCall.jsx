@@ -1,0 +1,59 @@
+import axios from "axios";
+import config from "./config";
+
+const BASE_URL = config.baseApi;
+console.log("BASE_URL",BASE_URL);
+
+const customAxios = axios.create({
+  baseURL: BASE_URL,
+});
+
+const requestHandler = (request) => {
+  const user = localStorage.getItem("token");
+
+  if (user) {
+    const token = user;
+    request.headers.Authorization = `Bearer ${token}`;
+  }
+  return request;
+};
+
+const responseHandler = (response) => {
+  if (response.status === 401 || response.status === 403 || response.status === 400) {
+    localStorage.clear();
+    window.location.replace("/login");
+  }
+
+  if (response.status === 500) {
+    alert("Server is down")
+  }
+
+  return response;
+};
+
+const requestErrorHandler = (error) => {
+  return Promise.reject(error);
+};
+
+const responseErrorHandler = (error) => {
+  if (error.response) {
+    if (error.response.status === 401 || error.response.status === 403) {
+      localStorage.clear();
+      window.location.replace("/login");
+      return Promise.reject(error);
+    }
+  }
+  return Promise.reject(error);
+};
+
+customAxios.interceptors.request.use(
+  (request) => requestHandler(request),
+  (error) => requestErrorHandler(error)
+);
+
+customAxios.interceptors.response.use(
+  (response) => responseHandler(response),
+  responseErrorHandler
+);
+
+export default customAxios;

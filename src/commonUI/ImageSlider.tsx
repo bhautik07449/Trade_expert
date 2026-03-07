@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Box, IconButton } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
+import Homeservice from "../service/home.service"
 
 interface SlideData {
     id: number
@@ -16,7 +17,23 @@ const slides: SlideData[] = [
 ]
 
 export default function ImageSlider() {
+    const [slides, setSlides] = useState<SlideData[]>([])
     const [currentSlide, setCurrentSlide] = useState(0)
+
+    const getSlide = async () => {
+        try {
+            const res = await Homeservice.getBanner()
+            if (res) {
+                setSlides(res?.data?.data)
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => {
+        getSlide()
+    }, [])
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length)
@@ -27,9 +44,14 @@ export default function ImageSlider() {
     }
 
     useEffect(() => {
-        const timer = setInterval(nextSlide, 5000)
+        if (slides.length === 0) return
+
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % slides.length)
+        }, 5000)
+
         return () => clearInterval(timer)
-    }, [])
+    }, [slides])
 
     return (
         <Box
@@ -52,8 +74,8 @@ export default function ImageSlider() {
                     <Box
                         key={slide.id}
                         component="img"
-                        src={slide.image || "/placeholder.svg"}
-                        alt={`Slide ${slide.id}`}
+                        src={slide?.image || "/placeholder.svg"}
+                        alt={`Slide ${slide?.id}`}
                         sx={{
                             minWidth: "100%",
                             height: "100%",

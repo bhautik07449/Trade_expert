@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ImageSlider from '../commonUI/ImageSlider'
 import CardUi from '../commonUI/CardUi'
 import SpotMarketTable from '../commonUI/spotMarket'
@@ -7,14 +7,35 @@ import OurView from '../component/Ourview'
 import OurProcess from '../component/OurProcess'
 import Values from '../component/Values'
 import AboutTestimonial from './AboutTestimonial'
+import Homeservice from '../service/home.service'
 
 export const Dashboard = () => {
+  const [product, setProduct] = useState([])
+  const hasFetched = useRef(false)
   const [open, setOpen] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState<{
     name: string
     description?: string
     image?: string
   } | null>(null)
+
+  const getProduct = async () => {
+    try {
+      const res = await Homeservice.getProductList()
+      if (res) {
+        setProduct(res?.data?.data)
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  useEffect(() => {
+    if (!hasFetched.current) {
+      getProduct()
+      hasFetched.current = true
+    }
+  }, [])
 
   return (
     <>
@@ -31,6 +52,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name })
           setOpen(true)
         }}
+        products={product}
       />
 
       <CardUi
@@ -44,6 +66,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name })
           setOpen(true)
         }}
+        products={product}
       />
 
       <CardUi
@@ -57,6 +80,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name })
           setOpen(true)
         }}
+        products={product}
       />
       <OurView />
       <OurProcess />

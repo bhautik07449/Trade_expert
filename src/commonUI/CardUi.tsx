@@ -20,75 +20,25 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 type Product = {
     id: number
     name: string
-    image: string
+    images: string[]
     category: string
     categoryColor: string
     description: string
 }
-
-const products: Product[] = [
-    {
-        id: 1,
-        name: "Frozen veg. & Mix veg.",
-        image: "/frozen-vegetables-green-background.png",
-        category: "On-behalf",
-        categoryColor: "#4CAF50",
-        description: "Premium mixed vegetables—broccoli, carrots, peas, and corn.",
-    },
-    {
-        id: 2,
-        name: "White Onion Flakes",
-        image: "/white-onion-flakes-in-wooden-bowl.png",
-        category: "Indenting",
-        categoryColor: "#00BCD4",
-        description: "Dehydrated white onion flakes with intense flavor.",
-    },
-    {
-        id: 3,
-        name: "Organic Spice Mix",
-        image: "/organic-spice-mix-colorful-spices.png",
-        category: "On-behalf",
-        categoryColor: "#4CAF50",
-        description: "Authentic blend of organic spices.",
-    },
-    {
-        id: 4,
-        name: "Basmati Rice Premium",
-        image: "/basmati-rice-grains-premium-quality.png",
-        category: "Indenting",
-        categoryColor: "#00BCD4",
-        description: "Long grain basmati rice with aromatic fragrance.",
-    },
-    {
-        id: 5,
-        name: "Turmeric Powder",
-        image: "/turmeric-powder-golden-yellow-spice.png",
-        category: "On-behalf",
-        categoryColor: "#4CAF50",
-        description: "Pure turmeric powder with high curcumin.",
-    },
-    {
-        id: 6,
-        name: "Black Pepper Whole",
-        image: "/black-pepper-whole-spice-premium.png",
-        category: "Indenting",
-        categoryColor: "#00BCD4",
-        description: "Whole black peppercorns with bold aroma.",
-    },
-]
 
 export default function CardUi({
     title,
     label,
     onEnquire,
     onRequestSample,
+    products
 }: {
     title: string
     label: string
     onEnquire?: (product: Product) => void
     onRequestSample?: (product: Product) => void
+    products: Product[]
 }) {
-    const [hoveredCard, setHoveredCard] = useState<number | null>(null)
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [visibleCards, setVisibleCards] = useState(4)
 
@@ -180,8 +130,8 @@ export default function CardUi({
                                 >
                                     <Box
                                         component="img"
-                                        src={product.image}
-                                        alt={product.name}
+                                        src={product?.images[0]}
+                                        alt={product?.name}
                                         sx={{ width: "100%", height: 220, objectFit: "cover" }}
                                     />
 

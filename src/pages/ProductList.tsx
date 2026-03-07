@@ -25,6 +25,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
+                    products={[]}
                 />
 
                 <CardUi
@@ -38,6 +39,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
+                    products={[]}
                 />
 
                 <CardUi
@@ -51,6 +53,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
+                    products={[]}
                 />
             </Box>
 

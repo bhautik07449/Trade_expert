@@ -25,3 +25,5 @@ yarn-error.log*
 
 /ProjectTimeLine.md
 /Project-overview.md
+
+.env

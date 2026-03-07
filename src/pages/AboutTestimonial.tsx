@@ -2,31 +2,44 @@ import { Box, Typography, Avatar, Paper, MobileStepper } from "@mui/material";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
+import Homeservice from "../service/home.service";
+
+interface Client {
+    id: number
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+    image: string
+    status: string
+}
+
+interface Testimonial {
+    id: number
+    review: string
+    status: string
+    client: Client
+}
 
 export default function AboutTestimonial() {
-    const testimonials = [
-        {
-            name: "JOYMAGTI BAY",
-            role: "International Buyer",
-            image: "/images/testimonial1.jpg",
-            text: "Amazing experience! The team is highly knowledgeable and professional. We received top-notch quality products and excellent service.",
-        },
-        {
-            name: "DAVID SMITH",
-            role: "Importer",
-            image: "/images/testimonial2.jpg",
-            text: "Very reliable exporter. Quality products delivered on time. Highly recommended for agricultural exports.",
-        },
-        {
-            name: "MARIA LOPEZ",
-            role: "Food Distributor",
-            image: "/images/testimonial3.jpg",
-            text: "Excellent packaging and premium quality. The team is very supportive and responsive.",
-        },
-    ];
-
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([])
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = testimonials.length;
+
+    const getTestimonials = async () => {
+        try {
+            const res = await Homeservice.getTestimonial()
+            if (res) {
+                setTestimonials(res?.data?.data)
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => {
+        getTestimonials()
+    }, [])
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -143,8 +156,8 @@ export default function AboutTestimonial() {
                                     />
 
                                     <Avatar
-                                        src={item.image}
-                                        alt={item.name}
+                                        src="/images/testimonial1.jpg"
+                                        alt=""
                                         sx={{
                                             width: { xs: 70, sm: 90, md: 100 },
                                             height: { xs: 70, sm: 90, md: 100 },
@@ -163,7 +176,7 @@ export default function AboutTestimonial() {
                                             color: "#666",
                                         }}
                                     >
-                                        "{item.text}"
+                                        "{item?.review}"
                                     </Typography>
 
                                     <Typography
@@ -173,10 +186,10 @@ export default function AboutTestimonial() {
                                             fontSize: { xs: "14px", sm: "16px" },
                                         }}
                                     >
-                                        {item.name}
+                                        {item?.client?.first_name + " " + item?.client?.last_name}
                                     </Typography>
 
-                                    <Typography
+                                    {/* <Typography
                                         sx={{
                                             fontSize: { xs: "12px", sm: "14px" },
                                             color: "#888",
@@ -184,7 +197,7 @@ export default function AboutTestimonial() {
                                         }}
                                     >
                                         {item.role}
-                                    </Typography>
+                                    </Typography> */}
                                 </Paper>
                             </Box>
                         ))}
