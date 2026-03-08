@@ -1,11 +1,10 @@
 import * as React from "react"
 import { Box, Paper, Tabs, Tab, Typography } from "@mui/material"
 
-export default function CertificationPanel() {
+export default function CertificationPanel({ product }: any) {
   const [tab, setTab] = React.useState(0)
   return (
     <Paper variant="outlined" sx={{ display: "flex", minHeight: 200 }}>
-      {/* Vertical tabs mimic left-side green labels from reference */}
       <Tabs
         value={tab}
         onChange={(_, v) => setTab(v)}
@@ -45,7 +44,7 @@ export default function CertificationPanel() {
         )}
         {tab === 1 && (
           <Typography variant="body2" color="text.secondary">
-            Seasonal availability varies by region. Peak supply: October–February.
+            {product?.seasonalChart}
           </Typography>
         )}
       </Box>

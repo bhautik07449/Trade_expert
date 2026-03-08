@@ -156,7 +156,7 @@ export default function AboutTestimonial() {
                                     />
 
                                     <Avatar
-                                        src="/images/testimonial1.jpg"
+                                        src={item?.client?.image || "/images/testimonial1.jpg"}
                                         alt=""
                                         sx={{
                                             width: { xs: 70, sm: 90, md: 100 },

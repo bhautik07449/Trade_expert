@@ -1,15 +1,37 @@
 import { Box } from "@mui/material"
 import CardUi from "../commonUI/CardUi"
 import InquiryDialog from "../component/Dialog/inquiry-dialog"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import Homeservice from "../service/home.service"
 
 export default function ProductList() {
+    const [product, setProduct] = useState([])
+    const hasFetched = useRef(false)
+
     const [open, setOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<{
         name: string
         description?: string
         image?: string
     } | null>(null)
+
+    const getProduct = async () => {
+        try {
+            const res = await Homeservice.getProductList()
+            if (res) {
+                setProduct(res?.data?.data)
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => {
+        if (!hasFetched.current) {
+            getProduct()
+            hasFetched.current = true
+        }
+    }, [])
 
     return (
         <>
@@ -25,7 +47,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
-                    products={[]}
+                    products={product}
                 />
 
                 <CardUi
@@ -39,7 +61,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
-                    products={[]}
+                    products={product}
                 />
 
                 <CardUi
@@ -53,7 +75,7 @@ export default function ProductList() {
                         setSelectedProduct({ name: product.name })
                         setOpen(true)
                     }}
-                    products={[]}
+                    products={product}
                 />
             </Box>
 

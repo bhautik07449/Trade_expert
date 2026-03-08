@@ -120,7 +120,7 @@ export default function CardUi({
                                 px: 1,
                             }}
                         >
-                            <Link component={RouterLink} to="/product-details" underline="none">
+                            <Link component={RouterLink} to={`/product-details/${product?.id}`} underline="none">
                                 <Card
                                     sx={{
                                         borderRadius: 3,

@@ -10,10 +10,62 @@ import {
     ListItemButton,
 } from "@mui/material";
 import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Homeservice from "../service/home.service";
+import { toast } from "react-toastify";
 
 export default function GetInTouch() {
     const [activeTab, setActiveTab] = useState("fill-form");
-    console.log("activeTab", activeTab);
+
+    const validationSchema = Yup.object({
+        first_name: Yup.string()
+            .min(2, "Too Short!")
+            .required("First Name is required"),
+
+        last_name: Yup.string()
+            .min(2, "Too Short!")
+            .required("Last Name is required"),
+
+        email: Yup.string()
+            .email("Invalid email format")
+            .required("Email is required"),
+
+        phone: Yup.string()
+            .matches(/^[0-9]{10}$/, "Phone must be 10 digits")
+            .required("Phone is required"),
+
+        message: Yup.string()
+            .min(10, "Message must be at least 10 characters")
+            .required("Message is required"),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            message: "",
+        },
+
+        validationSchema: validationSchema,
+
+        onSubmit: async (values, { resetForm }) => {
+
+            try {
+                const res = await Homeservice.getIntouch(values)
+                if (res) {
+                    toast.success(res?.data?.message)
+                    resetForm()
+                } else {
+                    toast.error("Something went wrong");
+                }
+            } catch (error) {
+                toast.error("contect message not send")
+            }
+        },
+    });
 
     return (
         <Box sx={{ bgcolor: "#f4f4f4", minHeight: "100vh", pb: 10 }}>
@@ -117,67 +169,99 @@ export default function GetInTouch() {
                                     </span>{" "}
                                     to Us
                                 </Typography>
+                                <form onSubmit={formik.handleSubmit}>
+                                    <Grid container spacing={3}>
+                                        <Grid size={{ xs: 12, md: 6 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="First Name"
+                                                variant="outlined"
+                                                name="first_name"
+                                                value={formik.values.first_name}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+                                                helperText={formik.touched.first_name && formik.errors.first_name}
+                                            />
+                                        </Grid>
 
-                                <Grid container spacing={3}>
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="First Name"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
+                                        <Grid size={{ xs: 12, md: 6 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Last Name"
+                                                variant="outlined"
+                                                name="last_name"
+                                                value={formik.values.last_name}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+                                                helperText={formik.touched.last_name && formik.errors.last_name}
+                                            />
+                                        </Grid>
 
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Last Name"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
+                                        <Grid size={{ xs: 12, md: 6 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Email"
+                                                variant="outlined"
+                                                name="email"
+                                                type="email"
+                                                value={formik.values.email}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                                helperText={formik.touched.email && formik.errors.email}
+                                            />
+                                        </Grid>
 
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Email"
-                                            type="email"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
+                                        <Grid size={{ xs: 12, md: 6 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Phone"
+                                                variant="outlined"
+                                                type="tel"
+                                                name="phone"
+                                                value={formik.values.phone}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                                helperText={formik.touched.phone && formik.errors.phone}
+                                            />
+                                        </Grid>
 
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Phone"
-                                            type="tel"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
+                                        <Grid size={{ xs: 12 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Message"
+                                                multiline
+                                                rows={5}
+                                                variant="outlined"
+                                                name="message"
+                                                value={formik.values.message}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.message && Boolean(formik.errors.message)}
+                                                helperText={formik.touched.message && formik.errors.message}
+                                            />
+                                        </Grid>
 
-                                    <Grid size={{ xs: 12 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Message"
-                                            multiline
-                                            rows={5}
-                                            variant="outlined"
-                                        />
+                                        <Grid size={{ xs: 12 }}>
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                sx={{
+                                                    bgcolor: "#7cb342",
+                                                    px: 4,
+                                                    "&:hover": {
+                                                        bgcolor: "#689f38",
+                                                    },
+                                                }}
+                                            >
+                                                Send
+                                            </Button>
+                                        </Grid>
                                     </Grid>
-
-                                    <Grid size={{ xs: 12 }}>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                bgcolor: "#7cb342",
-                                                px: 4,
-                                                "&:hover": {
-                                                    bgcolor: "#689f38",
-                                                },
-                                            }}
-                                        >
-                                            Send
-                                        </Button>
-                                    </Grid>
-                                </Grid>
+                                </form>
                             </Paper>
                         )}
 

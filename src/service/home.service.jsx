@@ -20,7 +20,7 @@ const getById = async (id) => {
 
 const getBanner = async () => {
     try {
-        const response = serverCall.get('/homebanner')
+        const response = await serverCall.get('/homebanner')
         return response
     } catch (error) {
         throw error
@@ -29,7 +29,16 @@ const getBanner = async () => {
 
 const getTestimonial = async () => {
     try {
-        const response = serverCall.get('/testimonial')
+        const response = await serverCall.get('/testimonial')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getIntouch = async(body) => {
+    try {
+        const response = await serverCall.post('/contact', body)
         return response
     } catch (error) {
         throw error
@@ -37,7 +46,7 @@ const getTestimonial = async () => {
 }
 
 const Homeservice = {
-    getProductList, getById, getBanner, getTestimonial
+    getProductList, getById, getBanner, getTestimonial, getIntouch
 };
 
 export default Homeservice;

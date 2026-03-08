@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { AppContainer } from './layout/AppContainer';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
           <CircularProgress />
         </Box>
       }>
+        <ToastContainer />
         {/* <ErrorSnackBar /> */}
         <AppContainer />
       </Suspense>

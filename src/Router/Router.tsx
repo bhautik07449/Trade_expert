@@ -28,7 +28,7 @@ export default function Router(): JSX.Element {
       <Route path="/sign-up" element={<SignupForm />} />
       <Route path='/about_us' element={<AboutUs />} />
       <Route path="/product-list/*" element={<ProductList />} />
-      <Route path="/product-details" element={<ProductPage />} />
+      <Route path="/product-details/:id" element={<ProductPage />} />
       <Route path="/quality_policies" element={<QualityPolicies />} />
       <Route path="/brands" element={<Brand />} />
       <Route path="/how-to-pay" element={<HowToPay />} />
