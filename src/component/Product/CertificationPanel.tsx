@@ -1,18 +1,30 @@
 import * as React from "react"
-import { Box, Paper, Tabs, Tab, Typography } from "@mui/material"
+import { Box, Paper, Tabs, Tab, Typography, useTheme, useMediaQuery } from "@mui/material"
 
 export default function CertificationPanel({ product }: any) {
   const [tab, setTab] = React.useState(0)
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+
   return (
-    <Paper variant="outlined" sx={{ display: "flex", minHeight: 200 }}>
+    <Paper
+      variant="outlined"
+      sx={{
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        minHeight: 200,
+      }}
+    >
       <Tabs
         value={tab}
         onChange={(_, v) => setTab(v)}
-        orientation="vertical"
+        orientation={isMobile ? "horizontal" : "vertical"}
+        variant="scrollable"
         textColor="primary"
         indicatorColor="primary"
         sx={{
-          minWidth: 180,
+          minWidth: isMobile ? "100%" : 180,
           bgcolor: "primary.light",
           "& .MuiTab-root": {
             alignItems: "flex-start",
@@ -20,28 +32,28 @@ export default function CertificationPanel({ product }: any) {
             fontWeight: 700,
             textTransform: "none",
           },
-          "& .Mui-selected": { color: "primary.dark" },
         }}
-        aria-label="Side tabs"
       >
-        <Tab label="Product Certification" id="cert-tab-0" />
-        <Tab label="Seasonal Chart" id="cert-tab-1" />
+        <Tab label="Product Certification" />
+        <Tab label="Seasonal Chart" />
       </Tabs>
 
-      <Box sx={{ p: 2.5, flex: 1 }}>
+      <Box sx={{ p: { xs: 2, md: 3 }, flex: 1 }}>
         {tab === 0 && (
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" justifyContent="center">
             <Box
               component="img"
-              src="/apeda-certification-logo.jpg"
+              src={product?.certification}
               alt="Certification logo"
-              sx={{ width: 90, height: 90, objectFit: "contain", borderRadius: 1 }}
+              sx={{
+                width: { xs: 80, sm: 90 },
+                height: { xs: 80, sm: 90 },
+                objectFit: "contain",
+              }}
             />
-            <Typography variant="body2" color="text.secondary">
-              Certified export quality. Documentation available upon request.
-            </Typography>
           </Box>
         )}
+
         {tab === 1 && (
           <Typography variant="body2" color="text.secondary">
             {product?.seasonalChart}

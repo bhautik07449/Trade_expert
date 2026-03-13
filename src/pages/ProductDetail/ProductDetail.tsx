@@ -3,7 +3,6 @@ import ProductGallery from "../../component/Product/ProductGallery"
 import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
 import CtaButtons from "../../component/Product/CtaButtons"
 import CertificationPanel from "../../component/Product/CertificationPanel"
-import NewsletterSignup from "../../component/Product/NewsletterSignup"
 import { useEffect, useState } from "react"
 import ProductDetailsservice from "../../service/productDetails.service"
 import { useParams } from "react-router-dom"
@@ -15,6 +14,7 @@ export default function ProductPage() {
     const getData = async (id: any) => {
         try {
             const res = await ProductDetailsservice.getProduct(id)
+
             if (res) {
                 const apiProduct = res?.data?.data
 
@@ -23,50 +23,68 @@ export default function ProductPage() {
                     description: apiProduct.description,
                     images: apiProduct.images || [],
                     seasonalChart: apiProduct?.seasonalChart,
+                    certification: apiProduct?.certification,
                     specs: {
-                        "Commercial Aspect": apiProduct.commercialAspect?.map((item: any) => ({
-                            label: item.key,
-                            value: item.value,
-                        })) || [],
-                        "Technical Specification": apiProduct.technicalSpecification?.map((item: any) => ({
-                            label: item.key,
-                            value: item.value,
-                        })) || [],
+                        "Commercial Aspect":
+                            apiProduct.commercialAspect?.map((item: any) => ({
+                                label: item.key,
+                                value: item.value,
+                            })) || [],
+                        "Technical Specification":
+                            apiProduct.technicalSpecification?.map((item: any) => ({
+                                label: item.key,
+                                value: item.value,
+                            })) || [],
+                        "Shipment Manual":
+                            apiProduct.shipmentmanual?.map((item: any) => ({
+                                label: item.key,
+                                value: item.value,
+                            })) || [],
                     },
                 }
 
                 setProduct(formattedProduct)
             }
         } catch (error) {
-            console.log("error", error);
+            console.log(error)
         }
     }
 
     useEffect(() => {
-        if (id) {
-            getData(id)
-        }
+        if (id) getData(id)
     }, [id])
 
     return (
         <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
             {product ? (
                 <>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={{ xs: 3, md: 4 }}>
 
                         <Grid size={{ xs: 12, md: 5 }}>
                             <ProductGallery images={product.images} title={product.name} />
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 7 }}>
-                            <Box component="header" mb={1}>
-                                <Typography variant="h4" component="h1" fontWeight={700}>
+                            <Box mb={2}>
+                                <Typography
+                                    variant="h4"
+                                    component="h1"
+                                    fontWeight={700}
+                                    sx={{
+                                        fontSize: { xs: "1.6rem", md: "2.1rem" },
+                                    }}
+                                >
                                     {product.name}
                                 </Typography>
                             </Box>
-                            <Typography variant="body1" color="text.secondary" sx={{ mb: 1.5 }}>
-                                <div dangerouslySetInnerHTML={{ __html: product?.description }} />
-                            </Typography>
+
+                            <Box
+                                sx={{
+                                    mb: 2,
+                                    "& p": { color: "text.secondary" },
+                                }}
+                                dangerouslySetInnerHTML={{ __html: product?.description }}
+                            />
 
                             <ProductSpecsTabs specs={product.specs} />
 
@@ -76,33 +94,41 @@ export default function ProductPage() {
                         </Grid>
                     </Grid>
 
-                    <Grid container spacing={4} sx={{ mt: 2 }}>
+                    <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
+
                         <Grid size={{ xs: 12, md: 5 }}>
                             <CertificationPanel product={product} />
                         </Grid>
+
                         <Grid size={{ xs: 12, md: 7 }}>
                             <Box
                                 sx={{
                                     bgcolor: "background.paper",
                                     border: "1px solid",
                                     borderColor: "divider",
-                                    p: 3,
+                                    p: { xs: 2, md: 3 },
                                     borderRadius: 2,
-                                    height: "100%",
+                                    minHeight: 200,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
+                                    textAlign: "center",
                                 }}
-                                aria-label="Seasonal chart placeholder"
                             >
-                                <Typography color="text.secondary">Seasonal Chart (Placeholder)</Typography>
+                                <Typography color="text.secondary">
+                                    Seasonal Chart (Placeholder)
+                                </Typography>
                             </Box>
                         </Grid>
                     </Grid>
 
-                    <Divider sx={{ my: 4 }} />
+                    <Divider sx={{ my: { xs: 3, md: 5 } }} />
                 </>
-            ) : <Box>Product Not Found</Box>}
+            ) : (
+                <Box textAlign="center" py={10}>
+                    <Typography variant="h6">Product Not Found</Typography>
+                </Box>
+            )}
         </Container>
     )
 }

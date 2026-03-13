@@ -36,7 +36,7 @@ const getTestimonial = async () => {
     }
 }
 
-const getIntouch = async(body) => {
+const getIntouch = async (body) => {
     try {
         const response = await serverCall.post('/contact', body)
         return response
@@ -45,8 +45,17 @@ const getIntouch = async(body) => {
     }
 }
 
+const emailTemplate = async (body) => {
+    try {
+        const response = await serverCall.post('/emailtemplate', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const Homeservice = {
-    getProductList, getById, getBanner, getTestimonial, getIntouch
+    getProductList, getById, getBanner, getTestimonial, getIntouch, emailTemplate
 };
 
 export default Homeservice;
