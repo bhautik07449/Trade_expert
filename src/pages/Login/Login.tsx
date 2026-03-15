@@ -8,6 +8,10 @@ import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import LockIcon from "@mui/icons-material/Lock"
 import { useNavigate } from "react-router-dom"
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import Buyerservice from "../../service/buyesservice"
+import { toast } from "react-toastify"
 
 const flipIn = keyframes`
   from {
@@ -38,17 +42,45 @@ export default function LoginForm() {
   const [submitting, setSubmitting] = React.useState(false)
   const [flipExit, setFlipExit] = React.useState(false)
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setSubmitting(true)
-    try {
-      // TODO: Wire up to your auth API
-      await new Promise((r) => setTimeout(r, 600))
-      // console.log("[v0] Logged in with:", { email })
-    } finally {
-      setSubmitting(false)
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+
+    password: Yup.string()
+      .min(6, "Minimum 6 characters required")
+      .required("Password is required")
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: ""
+    },
+
+    validationSchema,
+
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+
+        const res = await Buyerservice.buyerLogin(values)
+
+        if (res) {
+          toast.success("buyer Login")
+          resetForm()
+          navigate('/')
+        }
+
+      } catch {
+        toast.error("Your account was pening verify your email by admin")
+        resetForm()
+      } finally {
+        setSubmitting(false)
+      }
     }
-  }
+  })
+
+
 
   function goToSignup() {
     setFlipExit(true)
@@ -88,16 +120,20 @@ export default function LoginForm() {
           Sign in to continue
         </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} noValidate>
+        <Box component="form" onSubmit={formik.handleSubmit} noValidate>
           <TextField
             label="Email"
+            name="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            required
             fullWidth
             margin="normal"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -106,15 +142,21 @@ export default function LoginForm() {
               ),
             }}
           />
+
           <TextField
             label="Password"
+            name="password"
             type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            required
             fullWidth
             margin="normal"
+
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -124,19 +166,24 @@ export default function LoginForm() {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    onClick={() => setShowPassword((s) => !s)}
+                    onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
           />
 
-          <Button type="submit" variant="contained" color="primary" disabled={submitting} fullWidth sx={{ mt: 2 }}>
-            {submitting ? "Signing in..." : "Sign In"}
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            disabled={formik.isSubmitting}
+            sx={{ mt: 2 }}
+          >
+            {formik.isSubmitting ? "Signing in..." : "Sign In"}
           </Button>
 
           <Box sx={{ mt: 3, textAlign: "center" }}>
