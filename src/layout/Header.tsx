@@ -362,6 +362,63 @@ export default function Header() {
                                 </ListItemButton>
                             </ListItem>
                         ))}
+                        <Box sx={{ borderTop: "1px solid #ddd", mt: 1 }}>
+                            {isLoggedIn ? (
+                                <>
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                navigate("/buyer-dashboard");
+                                                setMobileOpen(false);
+                                            }}
+                                        >
+                                            <AccountCircleIcon sx={{ mr: 1 }} />
+                                            <ListItemText
+                                                primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""}`}
+                                            />
+                                        </ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                handleLogout();
+                                                setMobileOpen(false);
+                                            }}
+                                        >
+                                            <LoginIcon sx={{ mr: 1 }} />
+                                            <ListItemText primary="Logout" />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </>
+                            ) : (
+                                <>
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                navigate("/login");
+                                                setMobileOpen(false);
+                                            }}
+                                        >
+                                            <AccountCircleIcon sx={{ mr: 1 }} />
+                                            <ListItemText primary="Login" />
+                                        </ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                navigate("/sign-up");
+                                                setMobileOpen(false);
+                                            }}
+                                        >
+                                            <LoginIcon sx={{ mr: 1 }} />
+                                            <ListItemText primary="Register" />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </>
+                            )}
+                        </Box>
                     </List>
                 </Box>
             </Drawer>
