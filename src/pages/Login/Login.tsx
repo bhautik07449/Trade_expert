@@ -66,7 +66,9 @@ export default function LoginForm() {
         const res = await Buyerservice.buyerLogin(values)
 
         if (res) {
-          toast.success("buyer Login")
+          toast.success(res?.data?.message)
+          localStorage.setItem("buyer", "true")
+          localStorage.setItem("token", JSON.stringify(res?.data?.data?.id))
           resetForm()
           navigate('/')
         }

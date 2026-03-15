@@ -74,7 +74,6 @@ export default function SignupForm() {
         const res = await Buyerservice.buyerRegister(values)
         if (res) {
           toast.success("Buyer Register sucessfully")
-          localStorage.setItem("buyer", "true")
           resetForm()
           navigate('/login')
         }

@@ -18,8 +18,17 @@ const buyerLogin = async (body) => {
     }
 }
 
+const getProfile = async (id) => {
+    try {
+        const response = await serverCall.get(`/buyers/admin/${id}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const Buyerservice = {
-    buyerRegister, buyerLogin
+    buyerRegister, buyerLogin, getProfile
 };
 
 export default Buyerservice;

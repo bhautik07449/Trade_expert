@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { Dashboard } from '../pages/Dashboard';
 import { PageNotFound } from '../pages/PageNotFound';
 import SignupForm from '../pages/Signup/Signup';
@@ -14,18 +14,46 @@ import GetInTouch from '../pages/GetInTouch';
 import Resource from '../pages/Resource/Resource';
 import SuppliersRegister from '../pages/SuppliersRegister';
 import SuppliersLogin from '../pages/SuppliersLogin';
+import BuyerDashboard from '../pages/BuyerDashboard';
+
+type Props = {
+  children: JSX.Element;
+};
 
 export default function Router(): JSX.Element {
   const location = useLocation();
+
   useLayoutEffect(() => {
     window.scroll(0, 0);
   }, [location.pathname])
 
+  function PrivateRoute({ children }: Props) {
+    const token = localStorage.getItem("token");
+    const buyer = localStorage.getItem("buyer");
+
+    if (!token || buyer !== "true") {
+      return <Navigate to="/login" replace />;
+    }
+
+    return children;
+  }
+
+  function PublicRoute({ children }: Props) {
+    const token = localStorage.getItem("token");
+    const buyer = localStorage.getItem("buyer");
+
+    if (token && buyer === "true") {
+      return <Navigate to="/buyer-dashboard" replace />;
+    }
+
+    return children;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/sign-up" element={<SignupForm />} />
+      <Route path="/login" element={<PublicRoute><LoginForm /></ PublicRoute>} />
+      <Route path="/sign-up" element={<PublicRoute><SignupForm /></PublicRoute>} />
       <Route path='/about_us' element={<AboutUs />} />
       <Route path="/product-list/*" element={<ProductList />} />
       <Route path="/product-details/:id" element={<ProductPage />} />
@@ -36,6 +64,7 @@ export default function Router(): JSX.Element {
       <Route path="/resource/:slug" element={<Resource />} />
       <Route path="/suppliers/register" element={<SuppliersRegister />} />
       <Route path="/suppliers/login" element={<SuppliersLogin />} />
+      <Route path="/buyer-dashboard" element={<PrivateRoute><BuyerDashboard /></PrivateRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

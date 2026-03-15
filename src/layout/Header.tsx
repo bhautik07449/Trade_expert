@@ -28,6 +28,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import path from "path";
+import { toast } from "react-toastify";
+import Buyerservice from "../service/buyesservice";
+
+interface Props {
+    firstName?: string,
+    lastName?: string
+}
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -39,6 +46,20 @@ function HideOnScroll({ children }: { children: React.ReactElement }) {
 }
 
 export default function Header() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [id, setId] = useState<string>();
+    const [profile, setProfile] = useState<Props>();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const buyer = localStorage.getItem("buyer");
+
+        if (token && buyer === "true") {
+            setIsLoggedIn(true);
+            setId(token)
+        }
+    }, []);
+
     const [language, setLanguage] = useState("en");
     const [country, setCountry] = useState("in");
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -113,6 +134,31 @@ export default function Header() {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const getData = async (id: any) => {
+        try {
+            const res = await Buyerservice.getProfile(id)
+            if (res) {
+                setProfile(res?.data)
+            }
+        } catch (error) {
+            toast.error("Buyer Profile not Found")
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            getData(id)
+        }
+    }, [id])
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("buyer");
+        navigate("/login");
+        window.location.reload();
+        toast.success("Buyer Logout Successfully")
+    };
+
     return (
         <>
             <HideOnScroll>
@@ -147,18 +193,75 @@ export default function Header() {
                         Welcome to Sourceseas - Best Exporter
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
-                        <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            <Link component={RouterLink} to="/login" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
-                                <AccountCircleIcon sx={{ fontSize: 20, mr: 0.5 }} />
-                                Login
-                            </Link>
-                        </Typography>
-                        <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                            <Link component={RouterLink} to="/sign-up" underline="none" sx={{ color: "text.primary", "&:hover": { color: "primary.main" }, fontWeight: 500, display: "flex", alignItems: "center", gap: 0.5 }}>
-                                <LoginIcon sx={{ fontSize: 20, mr: 0.5 }} />
-                                Register
-                            </Link>
-                        </Typography>
+                        {!isLoggedIn ? (
+                            <>
+                                <Typography variant="body2">
+                                    <Link
+                                        component={RouterLink}
+                                        to="/login"
+                                        underline="none"
+                                        sx={{
+                                            color: "text.primary",
+                                            "&:hover": { color: "primary.main" },
+                                            fontWeight: 500,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 0.5
+                                        }}
+                                    >
+                                        <AccountCircleIcon sx={{ fontSize: 20 }} />
+                                        Login
+                                    </Link>
+                                </Typography>
+
+                                <Typography variant="body2">
+                                    <Link
+                                        component={RouterLink}
+                                        to="/sign-up"
+                                        underline="none"
+                                        sx={{
+                                            color: "text.primary",
+                                            "&:hover": { color: "primary.main" },
+                                            fontWeight: 500,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 0.5
+                                        }}
+                                    >
+                                        <LoginIcon sx={{ fontSize: 20 }} />
+                                        Register
+                                    </Link>
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
+                                <Typography
+                                    sx={{
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.5
+                                    }}
+                                    onClick={() => navigate("/buyer-dashboard")}
+                                >
+                                    <AccountCircleIcon sx={{ fontSize: 20 }} />
+                                    {profile?.firstName + " " + profile?.lastName}
+                                </Typography>
+
+                                <Typography
+                                    sx={{
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.5
+                                    }}
+                                    onClick={handleLogout}
+                                >
+                                    <LoginIcon sx={{ fontSize: 20 }} />
+                                    Logout
+                                </Typography>
+                            </>
+                        )}
                     </Box>
                     <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", md: "none" } }}>
                         <MenuIcon />

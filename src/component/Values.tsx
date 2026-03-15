@@ -27,13 +27,13 @@ export default function Values() {
             label: "Become Authorized",
             value: "Supplier",
             button: "Register",
-            link: "/suppliers/register",
+            link: "/sign-up",
         },
         {
             label: "Wants to",
             value: "source from us",
             button: "Login or Register",
-            link: "/suppliers/login",
+            link: "/login",
         },
     ];
 
