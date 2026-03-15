@@ -12,11 +12,12 @@ import Homeservice from '../service/home.service'
 export const Dashboard = () => {
   const [product, setProduct] = useState([])
   const hasFetched = useRef(false)
-  const [open, setOpen] = React.useState(false)
-  const [selectedProduct, setSelectedProduct] = React.useState<{
-    name: string
+  const [open, setOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<{
+    name?: string
     description?: string
-    image?: string
+    images?: string
+    id?: any
   } | null>(null)
 
   const getProduct = async () => {
@@ -45,11 +46,11 @@ export const Dashboard = () => {
         title='All Season'
         label='Availability'
         onEnquire={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         products={product}
@@ -59,11 +60,11 @@ export const Dashboard = () => {
         title='Current'
         label='Season'
         onEnquire={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         products={product}
@@ -73,11 +74,11 @@ export const Dashboard = () => {
         title='Upcoming'
         label='Season'
         onEnquire={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name })
+          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
         products={product}
@@ -95,10 +96,10 @@ export const Dashboard = () => {
           alert("Inquiry submitted! Check console for payload.")
         }}
         product={{
-          name: selectedProduct?.name || "Flavoured Khakhra",
-          description:
-            selectedProduct?.description ||
-            "Khakhra is a thin cracker common in the Gujarati and Rajasthani cuisines of western India...",
+          name: selectedProduct?.name,
+          description: selectedProduct?.description,
+          images: selectedProduct?.images,
+          id: selectedProduct?.id
         }}
       />
     </>

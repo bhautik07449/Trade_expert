@@ -9,9 +9,17 @@ const getList = async (body) => {
     }
 }
 
+const requestSample = async (body) => {
+    try {
+        const response = await serverCall.post('/requestsamples', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
 
 const CMSservice = {
-    getList
+    getList, requestSample
 };
 
 export default CMSservice;

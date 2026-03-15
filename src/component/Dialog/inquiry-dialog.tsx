@@ -1,4 +1,5 @@
-import * as React from "react";
+"use client"
+
 import {
     Avatar,
     Box,
@@ -18,93 +19,109 @@ import {
     Stack,
     TextField,
     Typography,
-    useMediaQuery,
-    useTheme,
-} from "@mui/material";
+    RadioGroup,
+    Radio,
+} from "@mui/material"
+
+import { useFormik } from "formik"
+import { toast } from "react-toastify"
+import * as Yup from "yup"
+import CMSservice from "../../service/cms.service"
 
 type InquiryDialogProps = {
-    open: boolean;
-    onClose: () => void;
-    onSubmit?: (data: Record<string, any>) => void;
+    open: boolean
+    onClose: () => void
+    onSubmit?: (data: any) => void;
     product?: {
-        name: string;
+        name?: string;
         description?: string;
-        image?: string;
+        images?: string;
+        id?: any
     };
-};
+}
 
 export default function InquiryDialog({
     open,
     onClose,
-    onSubmit,
-    product = {
-        name: "Flavoured Khakhra",
-        description:
-            "Khakhra is a thin cracker common in Gujarati and Rajasthani cuisines...",
-        image: "/product-thumbnail.png",
-    },
+    product
 }: InquiryDialogProps) {
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    console.log("product", product);
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        const fd = new FormData(e.currentTarget);
-        const obj: Record<string, any> = {};
-        fd.forEach((v, k) => {
-            obj[k] = v;
-        });
-        obj.getLatestPrice = fd.get("getLatestPrice") === "on";
-        if (onSubmit) onSubmit(obj);
-        onClose();
-    }
+    const validationSchema = Yup.object({
+        subject: Yup.string().required("Subject is required"),
+        message: Yup.string().required("Message is required"),
+        firstName: Yup.string().required("First name required"),
+        lastName: Yup.string().required("Last name required"),
+        email: Yup.string().email("Invalid email").required("Email required"),
+        businessContact: Yup.string().required("Contact required"),
+        company: Yup.string().required("Company name required"),
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            ccEmail: false,
+            subject: "",
+            message: "",
+            samples: "",
+            sampleUnit: "Metric Ton",
+            shipmentPay: "shipment",
+            title: "Mr",
+            firstName: "",
+            lastName: "",
+            businessContact: "",
+            company: "",
+            email: "",
+            address: "",
+            website: "",
+            businessType: "",
+        },
+        validationSchema,
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                console.log("values", values);
+
+                const payload = {
+                    ...values,
+                    product: product?.id,
+                    buyer: null,
+                }
+
+                const res = await CMSservice.requestSample(payload)
+                if (res) {
+                    toast.success(res?.data?.message)
+                    resetForm()
+                    onClose()
+                }
+            } catch (error) {
+                toast.error("Inquiry not send resubmit inquiry")
+            }
+        },
+    })
+
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            fullWidth
-            maxWidth="lg"
-            fullScreen={fullScreen}
-            scroll="paper"
-        >
-            <DialogTitle
-                sx={{
-                    textAlign: "center",
-                    fontWeight: 700,
-                    fontSize: { xs: "18px", sm: "22px", md: "24px" },
-                }}
-            >
-                REQUEST AN INQUIRY
+        <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+
+            <DialogTitle textAlign="center" fontWeight={700}>
+                REQUEST FOR A SAMPLE
             </DialogTitle>
 
-            <DialogContent
-                dividers
-                sx={{
-                    px: { xs: 2, sm: 4 },
-                    py: { xs: 2, sm: 3 },
-                }}
-            >
-                <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={2}
-                    alignItems="center"
-                    sx={{ mb: 3 }}
-                >
+            <DialogContent dividers>
+
+                <Stack direction="row" spacing={2} alignItems="center" mb={3}>
                     <Avatar
-                        src={product.image}
-                        alt={product.name}
+                        src={product?.images}
+                        alt={product?.name}
                         variant="rounded"
-                        sx={{
-                            width: { xs: 70, sm: 60 },
-                            height: { xs: 70, sm: 60 },
-                        }}
+                        sx={{ width: 60, height: 60 }}
                     />
-                    <Box textAlign={{ xs: "center", sm: "left" }}>
-                        <Typography fontWeight={600}>{product.name}</Typography>
-                        {product.description && (
-                            <Typography variant="body2" color="text.secondary">
-                                {product.description}
+                    <Box>
+                        <Typography fontWeight={600}>
+                            {product?.name}
+                        </Typography>
+
+                        {product?.description && (
+                            <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: product?.description }}>
                             </Typography>
                         )}
                     </Box>
@@ -112,155 +129,273 @@ export default function InquiryDialog({
 
                 <Divider sx={{ mb: 3 }} />
 
-                <Box component="form" onSubmit={handleSubmit} noValidate>
+                <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={3}>
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography fontWeight={600} sx={{ mb: 2 }}>
-                                Inquiry Information
+
+                            <Typography fontWeight={600} mb={2}>
+                                Sample Information
                             </Typography>
 
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name="ccEmail"
+                                        checked={formik.values.ccEmail}
+                                        onChange={formik.handleChange}
+                                    />
+                                }
+                                label="Add me as CC of this Request sample email."
+                            />
+
                             <TextField
-                                name="subject"
+                                fullWidth
                                 label="Subject"
-                                fullWidth
-                                size="small"
-                                required
-                                sx={{ mb: 2 }}
+                                name="subject"
+                                value={formik.values.subject}
+                                onChange={formik.handleChange}
+                                error={formik.touched.subject && Boolean(formik.errors.subject)}
+                                helperText={formik.touched.subject && formik.errors.subject}
+                                sx={{ mt: 2 }}
                             />
 
                             <TextField
-                                name="message"
-                                label="Message"
                                 fullWidth
-                                size="small"
                                 multiline
-                                minRows={4}
-                                sx={{ mb: 2 }}
+                                rows={4}
+                                label="Message"
+                                name="message"
+                                value={formik.values.message}
+                                onChange={formik.handleChange}
+                                error={formik.touched.message && Boolean(formik.errors.message)}
+                                helperText={formik.touched.message && formik.errors.message}
+                                sx={{ mt: 2 }}
                             />
 
-                            <Grid container spacing={2} sx={{ mb: 2 }}>
-                                <Grid size={{ xs: 12, sm: 5 }}>
-                                    <FormControl fullWidth size="small">
+                            <Typography fontWeight={600} mt={3}>
+                                Sample Policy
+                            </Typography>
+
+                            <Typography variant="caption">
+                                NOTE: Samples may be free but shipping charge should be born by customers.
+                            </Typography>
+
+                            <Grid container spacing={2} mt={1}>
+
+                                <Grid size={{ xs: 6 }}>
+                                    <TextField
+                                        label="No. of Samples"
+                                        name="samples"
+                                        fullWidth
+                                        value={formik.values.samples}
+                                        onChange={formik.handleChange}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 6 }}>
+                                    <FormControl fullWidth>
                                         <InputLabel>Unit</InputLabel>
-                                        <Select name="unit" label="Unit" defaultValue="Metric Ton">
+
+                                        <Select
+                                            name="sampleUnit"
+                                            label="Unit"
+                                            value={formik.values.sampleUnit}
+                                            onChange={formik.handleChange}
+                                        >
                                             <MenuItem value="Metric Ton">Metric Ton</MenuItem>
-                                            <MenuItem value="Kilogram">Kilogram</MenuItem>
-                                            <MenuItem value="Pound">Pound</MenuItem>
+                                            <MenuItem value="Kg">Kg</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 7 }}>
-                                    <TextField
-                                        name="quantity"
-                                        label="Quantity"
-                                        type="number"
-                                        fullWidth
-                                        size="small"
-                                    />
-                                </Grid>
+
                             </Grid>
 
-                            <FormControlLabel
-                                control={<Checkbox name="getLatestPrice" />}
-                                label="Get latest price"
-                                sx={{ mb: 2 }}
-                            />
+                            <RadioGroup
+                                name="shipmentPay"
+                                value={formik.values.shipmentPay}
+                                onChange={formik.handleChange}
+                                sx={{ mt: 2 }}
+                            >
+                                <FormControlLabel
+                                    value="shipment"
+                                    control={<Radio />}
+                                    label="Will Pay for Shipment"
+                                />
+                                <FormControlLabel
+                                    value="both"
+                                    control={<Radio />}
+                                    label="Will Pay for Both"
+                                />
+                            </RadioGroup>
 
-                            <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-                                <InputLabel>Requirement Frequency</InputLabel>
-                                <Select name="frequency" label="Requirement Frequency" defaultValue="Monthly">
-                                    <MenuItem value="One-time">One-time</MenuItem>
-                                    <MenuItem value="Weekly">Weekly</MenuItem>
-                                    <MenuItem value="Monthly">Monthly</MenuItem>
-                                    <MenuItem value="Quarterly">Quarterly</MenuItem>
-                                    <MenuItem value="Yearly">Yearly</MenuItem>
-                                </Select>
-                            </FormControl>
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography fontWeight={600} sx={{ mb: 2 }}>
+
+                            <Typography fontWeight={600} mb={2}>
                                 Contact Detail
                             </Typography>
 
-                            <Grid container spacing={2} sx={{ mb: 2 }}>
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField name="firstName" label="First name" fullWidth size="small" required />
+                            <Grid container spacing={2}>
+
+                                <Grid size={{ xs: 3 }}>
+                                    <FormControl fullWidth>
+
+                                        <InputLabel>Title</InputLabel>
+
+                                        <Select
+                                            name="title"
+                                            label="Title"
+                                            value={formik.values.title}
+                                            onChange={formik.handleChange}
+                                        >
+                                            <MenuItem value="Mr">Mr</MenuItem>
+                                            <MenuItem value="Ms">Ms</MenuItem>
+                                            <MenuItem value="Mrs">Mrs</MenuItem>
+                                        </Select>
+
+                                    </FormControl>
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField name="lastName" label="Last name" fullWidth size="small" required />
+
+                                <Grid size={{ xs: 4 }}>
+                                    <TextField
+                                        label="First name"
+                                        name="firstName"
+                                        fullWidth
+                                        value={formik.values.firstName}
+                                        onChange={formik.handleChange}
+                                        error={
+                                            formik.touched.firstName &&
+                                            Boolean(formik.errors.firstName)
+                                        }
+                                        helperText={
+                                            formik.touched.firstName && formik.errors.firstName
+                                        }
+                                    />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField name="contact" label="Contact" fullWidth size="small" />
+
+                                <Grid size={{ xs: 5 }}>
+                                    <TextField
+                                        label="Last name"
+                                        name="lastName"
+                                        fullWidth
+                                        value={formik.values.lastName}
+                                        onChange={formik.handleChange}
+                                        error={
+                                            formik.touched.lastName &&
+                                            Boolean(formik.errors.lastName)
+                                        }
+                                        helperText={
+                                            formik.touched.lastName && formik.errors.lastName
+                                        }
+                                    />
                                 </Grid>
+
                             </Grid>
 
                             <TextField
+                                label="Company Name"
                                 name="company"
-                                label="Company name"
                                 fullWidth
-                                size="small"
-                                sx={{ mb: 2 }}
+                                sx={{ mt: 2 }}
+                                value={formik.values.company}
+                                onChange={formik.handleChange}
+                                error={formik.touched.company && Boolean(formik.errors.company)}
+                                helperText={formik.touched.company && formik.errors.company}
                             />
 
                             <TextField
+                                label="Business Email"
                                 name="email"
-                                label="Business email"
-                                type="email"
                                 fullWidth
-                                size="small"
-                                required
-                                sx={{ mb: 2 }}
+                                sx={{ mt: 2 }}
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                helperText={formik.touched.email && formik.errors.email}
                             />
 
                             <TextField
+                                label="Business Address"
                                 name="address"
-                                label="Business address"
                                 fullWidth
-                                size="small"
                                 multiline
-                                minRows={2}
-                                sx={{ mb: 2 }}
+                                rows={2}
+                                sx={{ mt: 2 }}
+                                value={formik.values.address}
+                                onChange={formik.handleChange}
                             />
 
-                            <FormControl fullWidth size="small">
+                            <TextField
+                                label="Business Contact"
+                                name="businessContact"
+                                fullWidth
+                                sx={{ mt: 2 }}
+                                value={formik.values.businessContact}
+                                onChange={formik.handleChange}
+                                error={
+                                    formik.touched.businessContact &&
+                                    Boolean(formik.errors.businessContact)
+                                }
+                                helperText={
+                                    formik.touched.businessContact &&
+                                    formik.errors.businessContact
+                                }
+                            />
+
+                            <TextField
+                                label="Business Website"
+                                name="website"
+                                fullWidth
+                                sx={{ mt: 2 }}
+                                value={formik.values.website}
+                                onChange={formik.handleChange}
+                            />
+
+                            <FormControl fullWidth sx={{ mt: 2 }}>
                                 <InputLabel>Business Type</InputLabel>
-                                <Select name="businessType" label="Business Type">
-                                    <MenuItem value="Retailer">Retailer</MenuItem>
-                                    <MenuItem value="Wholesaler">Wholesaler</MenuItem>
-                                    <MenuItem value="Manufacturer">Manufacturer</MenuItem>
-                                    <MenuItem value="Distributor">Distributor</MenuItem>
-                                    <MenuItem value="Other">Other</MenuItem>
+
+                                <Select
+                                    name="businessType"
+                                    label="Business Type"
+                                    value={formik.values.businessType}
+                                    onChange={formik.handleChange}
+                                >
+                                    <MenuItem value="Manufacturer">
+                                        Manufacturing and Processing
+                                    </MenuItem>
+                                    <MenuItem value="Distributor">
+                                        Distributor
+                                    </MenuItem>
+                                    <MenuItem value="Retailer">
+                                        Retailer
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
+
                         </Grid>
+
                     </Grid>
 
-                    <DialogActions
-                        sx={{
-                            mt: 4,
-                            flexDirection: { xs: "column", sm: "row" },
-                            gap: 2,
-                        }}
-                    >
-                        <Button
-                            onClick={onClose}
-                            variant="outlined"
-                            fullWidth={fullScreen}
-                        >
+                    <DialogActions sx={{ mt: 3 }}>
+
+                        <Button onClick={onClose}>
                             Cancel
                         </Button>
+
                         <Button
                             type="submit"
                             variant="contained"
                             color="success"
-                            fullWidth={fullScreen}
                         >
                             Submit
                         </Button>
+
                     </DialogActions>
-                </Box>
+
+                </form>
+
             </DialogContent>
         </Dialog>
-    );
+    )
 }

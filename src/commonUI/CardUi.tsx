@@ -115,7 +115,7 @@ export default function CardUi({
                         <Box
                             key={product.id}
                             sx={{
-                                width: `${100 / products.length}%`,
+                                width: `${105 / products.length}%`,
                                 flexShrink: 0,
                                 px: 1,
                             }}
@@ -166,7 +166,7 @@ export default function CardUi({
                                                     onEnquire && onEnquire(product)
                                                 }}
                                             >
-                                                request
+                                                request sample
                                             </Button>
                                         </Box>
                                     </CardContent>
