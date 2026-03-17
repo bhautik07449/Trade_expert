@@ -12,106 +12,119 @@ import {
     Box,
 } from "@mui/material"
 import Title from "./labelTitle"
+import { toast } from "react-toastify"
+import CMSservice from "../service/cms.service"
 
-const marketData = [
-    {
-        attribute: "Commodity",
-        pomegranate: "Pomegranate",
-        whiteOnionPowder: "White Onion Powder",
-        whiteOnionFlakes: "White Onion Flakes",
-        driedGarlicFlakes: "Dried Garlic Flakes",
-        driedGarlicPowder: "Dried Garlic Powder",
-        redOnionPowder: "Red Onion Powder",
-    },
-    {
-        attribute: "Country",
-        pomegranate: "Middle-east,South-east",
-        whiteOnionPowder: "European & Asian std.",
-        whiteOnionFlakes: "Global standard",
-        driedGarlicFlakes: "European & Asian std.",
-        driedGarlicPowder: "Global standard",
-        redOnionPowder: "Indian standard",
-    },
-    {
-        attribute: "Quality",
-        pomegranate: "250-450 gm Red",
-        whiteOnionPowder: "Grade A double sortex",
-        whiteOnionFlakes: "Grade A double Sortex",
-        driedGarlicFlakes: "Grade A double sortex",
-        driedGarlicPowder: "Grade A double Sortex",
-        redOnionPowder: "Grade A sortex",
-    },
-    {
-        attribute: "Packing type",
-        pomegranate: "3.5 gross 5 Ply CFP Boxes",
-        whiteOnionPowder: "25kg PP bag",
-        whiteOnionFlakes: "20 kg PP bag",
-        driedGarlicFlakes: "25kg PP bag",
-        driedGarlicPowder: "25kg PP bag",
-        redOnionPowder: "25kg PP bag",
-    },
-    {
-        attribute: "Delivery",
-        pomegranate: "Ex Cold-storage",
-        whiteOnionPowder: "Ex-factory & As Required",
-        whiteOnionFlakes: "Ex-factory or FOB",
-        driedGarlicFlakes: "Ex-factory or FOB",
-        driedGarlicPowder: "Ex-factory or FOB",
-        redOnionPowder: "Ex-factory or FOB",
-    },
-    {
-        attribute: "Rate per kg",
-        pomegranate: "105",
-        whiteOnionPowder: "65",
-        whiteOnionFlakes: "80",
-        driedGarlicFlakes: "43",
-        driedGarlicPowder: "30",
-        redOnionPowder: "72",
-        isHighlighted: true,
-    },
-]
+type ColumnType = {
+    key: string
+    label: string
+}
 
-const columns = [
-    { key: "attribute", label: "" },
-    { key: "pomegranate", label: "Pomegranate" },
-    { key: "whiteOnionPowder", label: "White Onion Powder" },
-    { key: "whiteOnionFlakes", label: "White Onion Flakes" },
-    { key: "driedGarlicFlakes", label: "Dried Garlic Flakes" },
-    { key: "driedGarlicPowder", label: "Dried Garlic Powder" },
-    { key: "redOnionPowder", label: "Red Onion Powder" },
-]
+type RowType = {
+    attribute: string
+    isHighlighted?: boolean
+    [key: string]: any
+}
+
+const transformMarketData = (data: any[]) => {
+    if (!data || data.length === 0) return { columns: [], rows: [] }
+
+    const dynamicColumns = data.map((item) => ({
+        key: `col_${item.id}`,
+        label: item.name,
+    }))
+
+    const attributes = [
+        { key: "country", label: "Country" },
+        { key: "quality", label: "Quality" },
+        { key: "packing", label: "Packing Type" },
+        { key: "delivery", label: "Delivery" },
+        { key: "categoryType", label: "Category Type" },
+        { key: "noOfPacking", label: "No of packing" },
+        { key: "rate", label: "Rate per kg", isHighlighted: true },
+    ]
+
+    const rows = attributes.map((attr) => {
+        const row: any = {
+            attribute: attr.label,
+            isHighlighted: attr.isHighlighted || false,
+        }
+
+        data.forEach((item) => {
+            const market = item.market?.[0] || {}
+
+            if (attr.key === "packing") {
+                row[`col_${item.id}`] = `${market.packing || "-"}`
+            } else if (attr.key === "categoryType") {
+                row[`col_${item.id}`] = market.categoryType || "-"
+            } else if (attr.key === "noOfPacking") {
+                row[`col_${item.id}`] = market.noOfPacking || "-"
+            } else {
+                row[`col_${item.id}`] = market[attr.key] || "-"
+            }
+        })
+
+        return row
+    })
+
+    return {
+        columns: [{ key: "attribute", label: "" }, ...dynamicColumns],
+        rows,
+    }
+}
 
 export default function SpotMarketTable() {
+    const [tableData, setTableData] = useState<{
+        columns: ColumnType[]
+        rows: RowType[]
+    }>({
+        columns: [],
+        rows: [],
+    })
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isAutoScrolling, setIsAutoScrolling] = useState(true)
 
     const visibleColumns = 4
     const columnWidth = 200
 
-    const dataColumns = columns.slice(1)
-    const duplicatedColumns = [...dataColumns, ...dataColumns]
-    const totalColumns = dataColumns.length
+    const baseColumns = tableData.columns.slice(1)
+    const dataColumns = [...baseColumns, ...baseColumns]
+    const totalColumns = baseColumns.length
 
     useEffect(() => {
-        if (!isAutoScrolling) return
+        if (!isAutoScrolling || totalColumns <= visibleColumns) return
 
         const interval = setInterval(() => {
-            setCurrentIndex((prev) => prev + 1)
+            setCurrentIndex((prev) => (prev + 1) % totalColumns)
         }, 3000)
 
         return () => clearInterval(interval)
-    }, [isAutoScrolling])
+    }, [isAutoScrolling, totalColumns])
 
     useEffect(() => {
         if (currentIndex >= totalColumns) {
-            setTimeout(() => {
-                setCurrentIndex(0)
-            }, 600)
+            setCurrentIndex(0)
         }
     }, [currentIndex, totalColumns])
 
     const handleMouseEnter = () => setIsAutoScrolling(false)
     const handleMouseLeave = () => setIsAutoScrolling(true)
+
+    const getData = async () => {
+        try {
+            const res = await CMSservice.getMarketRate()
+            const apiData = res?.data?.data || []
+
+            const formatted = transformMarketData(apiData)
+            setTableData(formatted)
+        } catch (error) {
+            toast.error("market data not fetch")
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     return (
         <>
@@ -146,10 +159,7 @@ export default function SpotMarketTable() {
                                         zIndex: 10,
                                     }}
                                 />
-                                <TableCell
-                                    colSpan={visibleColumns}
-                                    sx={{ padding: 0 }}
-                                >
+                                <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
                                     <Box
                                         sx={{
                                             display: "flex",
@@ -157,7 +167,7 @@ export default function SpotMarketTable() {
                                             transition: "transform 0.6s ease-in-out",
                                         }}
                                     >
-                                        {duplicatedColumns.map((column, index) => (
+                                        {dataColumns.map((column, index) => (
                                             <Box
                                                 key={index}
                                                 sx={{
@@ -177,7 +187,7 @@ export default function SpotMarketTable() {
                         </TableHead>
 
                         <TableBody>
-                            {marketData.map((row, rowIndex) => (
+                            {tableData.rows.map((row: any, rowIndex: number) => (
                                 <TableRow key={rowIndex}>
                                     <TableCell
                                         sx={{
@@ -192,10 +202,7 @@ export default function SpotMarketTable() {
                                         {row.attribute}
                                     </TableCell>
 
-                                    <TableCell
-                                        colSpan={visibleColumns}
-                                        sx={{ padding: 0 }}
-                                    >
+                                    <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
                                         <Box
                                             sx={{
                                                 display: "flex",
@@ -203,7 +210,7 @@ export default function SpotMarketTable() {
                                                 transition: "transform 0.6s ease-in-out",
                                             }}
                                         >
-                                            {duplicatedColumns.map((column, index) => (
+                                            {dataColumns.map((column, index) => (
                                                 <Box
                                                     key={index}
                                                     sx={{
@@ -221,7 +228,7 @@ export default function SpotMarketTable() {
                                                             : 400,
                                                     }}
                                                 >
-                                                    {row[column.key as keyof typeof row]}
+                                                    {row[column.key] || "-"}
                                                 </Box>
                                             ))}
                                         </Box>

@@ -27,8 +27,17 @@ const enquiry = async (body) => {
     }
 }
 
+const getMarketRate = async (body) => {
+    try {
+        const response = await serverCall.get('/dmr', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample, enquiry
+    getList, requestSample, enquiry, getMarketRate
 };
 
 export default CMSservice;

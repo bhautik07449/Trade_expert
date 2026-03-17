@@ -115,7 +115,7 @@ export default function CardUi({
                         <Box
                             key={product.id}
                             sx={{
-                                width: `${105 / products.length}%`,
+                                width: `${100 / products.length}%`,
                                 flexShrink: 0,
                                 px: 1,
                             }}
@@ -148,7 +148,7 @@ export default function CardUi({
                                                 variant="contained"
                                                 color="primary"
                                                 fullWidth
-                                                sx={{ mt: 2 }}
+                                                sx={{ mt: 2, fontSize: "12px" }}
                                                 onClick={(e) => {
                                                     e.preventDefault()
                                                     onEnquire && onEnquire(product)
@@ -160,7 +160,7 @@ export default function CardUi({
                                                 variant="contained"
                                                 color="secondary"
                                                 fullWidth
-                                                sx={{ mt: 2 }}
+                                                sx={{ mt: 2,  fontSize: "12px" }}
                                                 onClick={(e) => {
                                                     e.preventDefault()
                                                     onRequestSample && onRequestSample(product)
