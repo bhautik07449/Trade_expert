@@ -25,6 +25,10 @@ import { useFormik } from "formik"
 import { toast } from "react-toastify"
 import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
+import { fetchFlatMeasurement } from "../../store/slice/measurementSlice"
+import { AppDispatch } from "../../store"
 
 type EnquiryDialogProps = {
     open: boolean
@@ -119,6 +123,16 @@ export default function EnquiryDialog({
             }
         },
     })
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const { flatList, loading, error } = useSelector(
+        (state: any) => state.measurements
+    )
+
+    useEffect(() => {
+        dispatch(fetchFlatMeasurement())
+    }, [dispatch])
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
