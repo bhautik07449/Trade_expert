@@ -36,8 +36,17 @@ const getMarketRate = async (body) => {
     }
 }
 
+const getPage = async (slug) => {
+    try {
+        const response = await serverCall.get(`/pages/slug/${slug}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate
+    getList, requestSample, enquiry, getMarketRate, getPage
 };
 
 export default CMSservice;
