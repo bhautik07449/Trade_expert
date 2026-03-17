@@ -10,7 +10,7 @@ import LockIcon from "@mui/icons-material/Lock"
 import { useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import Buyerservice from "../../service/buyesservice"
+import Buyerservice from "../../service/buyes.service"
 import { toast } from "react-toastify"
 
 const flipIn = keyframes`

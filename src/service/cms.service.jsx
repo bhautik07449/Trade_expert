@@ -18,8 +18,17 @@ const requestSample = async (body) => {
     }
 }
 
+const enquiry = async (body) => {
+    try {
+        const response = await serverCall.post('/inquiry', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample
+    getList, requestSample, enquiry
 };
 
 export default CMSservice;

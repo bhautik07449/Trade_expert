@@ -19,8 +19,6 @@ import {
     Stack,
     TextField,
     Typography,
-    RadioGroup,
-    Radio,
 } from "@mui/material"
 
 import { useFormik } from "formik"
@@ -28,42 +26,67 @@ import { toast } from "react-toastify"
 import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
 
-type InquiryDialogProps = {
+type EnquiryDialogProps = {
     open: boolean
     onClose: () => void
-    onSubmit?: (data: any) => void;
     product?: {
-        name?: string;
-        description?: string;
-        images?: string;
+        name?: string
+        description?: string
+        images?: string
         id?: any
-    };
+    }
 }
 
-export default function InquiryDialog({
+export default function EnquiryDialog({
     open,
     onClose,
     product
-}: InquiryDialogProps) {
+}: EnquiryDialogProps) {
 
     const validationSchema = Yup.object({
-        subject: Yup.string().required("Subject is required"),
-        message: Yup.string().required("Message is required"),
-        firstName: Yup.string().required("First name required"),
-        lastName: Yup.string().required("Last name required"),
+        subject: Yup.string().trim().required("Subject is required"),
+        message: Yup.string().trim().required("Message is required"),
+        firstName: Yup.string().trim().required("First name required"),
+        lastName: Yup.string().trim().required("Last name required"),
         email: Yup.string().email("Invalid email").required("Email required"),
-        businessContact: Yup.string().required("Contact required"),
-        company: Yup.string().required("Company name required"),
+        businessContact: Yup.string()
+            .matches(/^[0-9]+$/, "Only numbers allowed")
+            .min(7, "Too short")
+            .max(15, "Too long")
+            .required("Contact required"),
+        company: Yup.string().trim().required("Company name required"),
+        expectedQty: Yup.number()
+            .typeError("Quantity must be a number")
+            .positive("Quantity must be greater than 0")
+            .required("Expected quantity is required"),
+        requirementFrequency: Yup.string().required("Requirement frequency is required"),
+        preferredPrice: Yup.number()
+            .typeError("Price must be a number")
+            .positive("Price must be greater than 0")
+            .when("getLatestPrice", {
+                is: false,
+                then: (schema) => schema.required("Preferred price is required"),
+                otherwise: (schema) => schema.notRequired(),
+            }),
+        address: Yup.string().trim().required("Business address is required"),
+        website: Yup.string()
+            .trim()
+            .url("Enter valid URL")
+            .nullable()
+            .notRequired(),
+        businessType: Yup.string().required("Business type is required"),
     })
 
     const formik = useFormik({
         initialValues: {
-            ccEmail: false,
             subject: "",
             message: "",
-            samples: "",
-            sampleUnit: "Metric Ton",
-            shipmentPay: "shipment",
+            expectedQty: "",
+            expectedQtyUnit: "Metric Ton",
+            getLatestPrice: false,
+            requirementFrequency: "",
+            preferredPrice: "",
+            preferredCurrency: "USD",
             title: "Mr",
             firstName: "",
             lastName: "",
@@ -75,34 +98,33 @@ export default function InquiryDialog({
             businessType: "",
         },
         validationSchema,
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: async (values, { resetForm }) => {
             try {
-                console.log("values", values);
-
                 const payload = {
                     ...values,
                     product: product?.id,
                     buyer: null,
                 }
 
-                const res = await CMSservice.requestSample(payload)
+                const res = await CMSservice.enquiry(payload)
                 if (res) {
                     toast.success(res?.data?.message)
                     resetForm()
                     onClose()
                 }
             } catch (error) {
-                toast.error("Inquiry not send resubmit inquiry")
+                toast.error("Inquiry not sent. Please try again.")
             }
         },
     })
-
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
 
             <DialogTitle textAlign="center" fontWeight={700}>
-                REQUEST FOR A SAMPLE
+                REQUEST AN INQUIRY
             </DialogTitle>
 
             <DialogContent dividers>
@@ -120,8 +142,11 @@ export default function InquiryDialog({
                         </Typography>
 
                         {product?.description && (
-                            <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: product?.description }}>
-                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                dangerouslySetInnerHTML={{ __html: product?.description }}
+                            />
                         )}
                     </Box>
                 </Stack>
@@ -130,22 +155,11 @@ export default function InquiryDialog({
 
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={3}>
+
                         <Grid size={{ xs: 12, md: 6 }}>
-
                             <Typography fontWeight={600} mb={2}>
-                                Sample Information
+                                Inquiry Information
                             </Typography>
-
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        name="ccEmail"
-                                        checked={formik.values.ccEmail}
-                                        onChange={formik.handleChange}
-                                    />
-                                }
-                                label="Add me as CC of this Request sample email."
-                            />
 
                             <TextField
                                 fullWidth
@@ -155,7 +169,6 @@ export default function InquiryDialog({
                                 onChange={formik.handleChange}
                                 error={formik.touched.subject && Boolean(formik.errors.subject)}
                                 helperText={formik.touched.subject && formik.errors.subject}
-                                sx={{ mt: 2 }}
                             />
 
                             <TextField
@@ -172,33 +185,16 @@ export default function InquiryDialog({
                             />
 
                             <Typography fontWeight={600} mt={3}>
-                                Sample Policy
-                            </Typography>
-
-                            <Typography variant="caption">
-                                NOTE: Samples may be free but shipping charge should be born by customers.
+                                Expected Order Quantity
                             </Typography>
 
                             <Grid container spacing={2} mt={1}>
-
-                                <Grid size={{ xs: 6 }}>
-                                    <TextField
-                                        label="No. of Samples"
-                                        name="samples"
-                                        fullWidth
-                                        value={formik.values.samples}
-                                        onChange={formik.handleChange}
-                                    />
-                                </Grid>
-
                                 <Grid size={{ xs: 6 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>Unit</InputLabel>
-
                                         <Select
-                                            name="sampleUnit"
-                                            label="Unit"
-                                            value={formik.values.sampleUnit}
+                                            name="expectedQtyUnit"
+                                            value={formik.values.expectedQtyUnit}
                                             onChange={formik.handleChange}
                                         >
                                             <MenuItem value="Metric Ton">Metric Ton</MenuItem>
@@ -207,44 +203,95 @@ export default function InquiryDialog({
                                     </FormControl>
                                 </Grid>
 
+                                <Grid size={{ xs: 6 }}>
+                                    <TextField
+                                        label="Quantity"
+                                        name="expectedQty"
+                                        fullWidth
+                                        value={formik.values.expectedQty}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.expectedQty && Boolean(formik.errors.expectedQty)}
+                                        helperText={formik.touched.expectedQty && formik.errors.expectedQty}
+                                    />
+                                </Grid>
                             </Grid>
 
-                            <RadioGroup
-                                name="shipmentPay"
-                                value={formik.values.shipmentPay}
-                                onChange={formik.handleChange}
-                                sx={{ mt: 2 }}
-                            >
-                                <FormControlLabel
-                                    value="shipment"
-                                    control={<Radio />}
-                                    label="Will Pay for Shipment"
-                                />
-                                <FormControlLabel
-                                    value="both"
-                                    control={<Radio />}
-                                    label="Will Pay for Both"
-                                />
-                            </RadioGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name="getLatestPrice"
+                                        checked={formik.values.getLatestPrice}
+                                        onChange={formik.handleChange}
+                                    />
+                                }
+                                label="Get latest price"
+                            />
 
+                            <FormControl fullWidth sx={{ mt: 2 }}>
+                                <InputLabel>Requirement Frequency</InputLabel>
+                                <Select
+                                    name="requirementFrequency"
+                                    value={formik.values.requirementFrequency}
+                                    onChange={formik.handleChange}
+                                >
+                                    <MenuItem value="Monthly">Monthly</MenuItem>
+                                    <MenuItem value="Quarterly">Quarterly</MenuItem>
+                                    <MenuItem value="Yearly">Yearly</MenuItem>
+                                </Select>
+                            </FormControl>
+
+                            {formik.touched.requirementFrequency &&
+                                formik.errors.requirementFrequency && (
+                                    <Typography color="error" variant="caption">
+                                        {formik.errors.requirementFrequency}
+                                    </Typography>
+                                )}
+
+                            <Typography fontWeight={600} mt={2}>
+                                Preferred Unit Price
+                            </Typography>
+
+                            <Grid container spacing={2} mt={1}>
+                                <Grid size={{ xs: 6 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Currency</InputLabel>
+                                        <Select
+                                            name="preferredCurrency"
+                                            value={formik.values.preferredCurrency}
+                                            onChange={formik.handleChange}
+                                        >
+                                            <MenuItem value="USD">USD</MenuItem>
+                                            <MenuItem value="INR">INR</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+
+                                <Grid size={{ xs: 6 }}>
+                                    <TextField
+                                        label="Price"
+                                        name="preferredPrice"
+                                        fullWidth
+                                        disabled={formik.values.getLatestPrice}
+                                        value={formik.values.preferredPrice}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.preferredPrice && Boolean(formik.errors.preferredPrice)}
+                                        helperText={formik.touched.preferredPrice && formik.errors.preferredPrice}
+                                    />
+                                </Grid>
+                            </Grid>
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 6 }}>
-
                             <Typography fontWeight={600} mb={2}>
                                 Contact Detail
                             </Typography>
 
                             <Grid container spacing={2}>
-
                                 <Grid size={{ xs: 3 }}>
                                     <FormControl fullWidth>
-
                                         <InputLabel>Title</InputLabel>
-
                                         <Select
                                             name="title"
-                                            label="Title"
                                             value={formik.values.title}
                                             onChange={formik.handleChange}
                                         >
@@ -252,7 +299,6 @@ export default function InquiryDialog({
                                             <MenuItem value="Ms">Ms</MenuItem>
                                             <MenuItem value="Mrs">Mrs</MenuItem>
                                         </Select>
-
                                     </FormControl>
                                 </Grid>
 
@@ -263,13 +309,8 @@ export default function InquiryDialog({
                                         fullWidth
                                         value={formik.values.firstName}
                                         onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.firstName &&
-                                            Boolean(formik.errors.firstName)
-                                        }
-                                        helperText={
-                                            formik.touched.firstName && formik.errors.firstName
-                                        }
+                                        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                        helperText={formik.touched.firstName && formik.errors.firstName}
                                     />
                                 </Grid>
 
@@ -280,16 +321,10 @@ export default function InquiryDialog({
                                         fullWidth
                                         value={formik.values.lastName}
                                         onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.lastName &&
-                                            Boolean(formik.errors.lastName)
-                                        }
-                                        helperText={
-                                            formik.touched.lastName && formik.errors.lastName
-                                        }
+                                        error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                        helperText={formik.touched.lastName && formik.errors.lastName}
                                     />
                                 </Grid>
-
                             </Grid>
 
                             <TextField
@@ -319,10 +354,12 @@ export default function InquiryDialog({
                                 name="address"
                                 fullWidth
                                 multiline
-                                rows={2}
+                                rows={3}
                                 sx={{ mt: 2 }}
                                 value={formik.values.address}
                                 onChange={formik.handleChange}
+                                error={formik.touched.address && Boolean(formik.errors.address)}
+                                helperText={formik.touched.address && formik.errors.address}
                             />
 
                             <TextField
@@ -332,14 +369,8 @@ export default function InquiryDialog({
                                 sx={{ mt: 2 }}
                                 value={formik.values.businessContact}
                                 onChange={formik.handleChange}
-                                error={
-                                    formik.touched.businessContact &&
-                                    Boolean(formik.errors.businessContact)
-                                }
-                                helperText={
-                                    formik.touched.businessContact &&
-                                    formik.errors.businessContact
-                                }
+                                error={formik.touched.businessContact && Boolean(formik.errors.businessContact)}
+                                helperText={formik.touched.businessContact && formik.errors.businessContact}
                             />
 
                             <TextField
@@ -349,51 +380,39 @@ export default function InquiryDialog({
                                 sx={{ mt: 2 }}
                                 value={formik.values.website}
                                 onChange={formik.handleChange}
+                                error={formik.touched.website && Boolean(formik.errors.website)}
+                                helperText={formik.touched.website && formik.errors.website}
                             />
 
                             <FormControl fullWidth sx={{ mt: 2 }}>
                                 <InputLabel>Business Type</InputLabel>
-
                                 <Select
                                     name="businessType"
-                                    label="Business Type"
                                     value={formik.values.businessType}
                                     onChange={formik.handleChange}
                                 >
-                                    <MenuItem value="Manufacturer">
-                                        Manufacturing and Processing
-                                    </MenuItem>
-                                    <MenuItem value="Distributor">
-                                        Distributor
-                                    </MenuItem>
-                                    <MenuItem value="Retailer">
-                                        Retailer
-                                    </MenuItem>
+                                    <MenuItem value="Manufacturer">Manufacturing</MenuItem>
+                                    <MenuItem value="Distributor">Distributor</MenuItem>
+                                    <MenuItem value="Retailer">Retailer</MenuItem>
                                 </Select>
                             </FormControl>
 
+                            {formik.touched.businessType && formik.errors.businessType && (
+                                <Typography color="error" variant="caption">
+                                    {formik.errors.businessType}
+                                </Typography>
+                            )}
                         </Grid>
 
                     </Grid>
 
                     <DialogActions sx={{ mt: 3 }}>
-
-                        <Button onClick={onClose}>
-                            Cancel
-                        </Button>
-
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="success"
-                        >
+                        <Button onClick={onClose}>Cancel</Button>
+                        <Button type="submit" variant="contained" color="success">
                             Submit
                         </Button>
-
                     </DialogActions>
-
                 </form>
-
             </DialogContent>
         </Dialog>
     )

@@ -89,7 +89,7 @@ export default function ProductPage() {
                             <ProductSpecsTabs specs={product.specs} />
 
                             <Box mt={2}>
-                                <CtaButtons />
+                                <CtaButtons product={product} />
                             </Box>
                         </Grid>
                     </Grid>

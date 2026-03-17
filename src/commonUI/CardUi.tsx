@@ -163,7 +163,7 @@ export default function CardUi({
                                                 sx={{ mt: 2 }}
                                                 onClick={(e) => {
                                                     e.preventDefault()
-                                                    onEnquire && onEnquire(product)
+                                                    onRequestSample && onRequestSample(product)
                                                 }}
                                             >
                                                 request sample

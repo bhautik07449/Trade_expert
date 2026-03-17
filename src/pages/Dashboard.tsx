@@ -8,11 +8,13 @@ import OurProcess from '../component/OurProcess'
 import Values from '../component/Values'
 import AboutTestimonial from './AboutTestimonial'
 import Homeservice from '../service/home.service'
+import EnquiryDialog from '../component/Dialog/enquiry-dialog'
 
 export const Dashboard = () => {
   const [product, setProduct] = useState([])
   const hasFetched = useRef(false)
   const [open, setOpen] = useState(false)
+  const [openEnquiry, setOpenEnquiry] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<{
     name?: string
     description?: string
@@ -47,7 +49,7 @@ export const Dashboard = () => {
         label='Availability'
         onEnquire={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
+          setOpenEnquiry(true)
         }}
         onRequestSample={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
@@ -61,7 +63,7 @@ export const Dashboard = () => {
         label='Season'
         onEnquire={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
+          setOpenEnquiry(true)
         }}
         onRequestSample={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
@@ -75,7 +77,7 @@ export const Dashboard = () => {
         label='Season'
         onEnquire={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
+          setOpenEnquiry(true)
         }}
         onRequestSample={(product) => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
@@ -91,10 +93,17 @@ export const Dashboard = () => {
       <InquiryDialog
         open={open}
         onClose={() => setOpen(false)}
-        onSubmit={(data) => {
-          console.log("[v0] Inquiry payload:", data)
-          alert("Inquiry submitted! Check console for payload.")
+        product={{
+          name: selectedProduct?.name,
+          description: selectedProduct?.description,
+          images: selectedProduct?.images,
+          id: selectedProduct?.id
         }}
+      />
+
+      <EnquiryDialog
+        open={openEnquiry}
+        onClose={() => setOpenEnquiry(false)}
         product={{
           name: selectedProduct?.name,
           description: selectedProduct?.description,

@@ -82,10 +82,6 @@ export default function ProductList() {
             <InquiryDialog
                 open={open}
                 onClose={() => setOpen(false)}
-                onSubmit={(data) => {
-                    console.log("[v0] Inquiry payload:", data)
-                    alert("Inquiry submitted! Check console for payload.")
-                }}
                 product={{
                     name: selectedProduct?.name || "Flavoured Khakhra",
                     description:

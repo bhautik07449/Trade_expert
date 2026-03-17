@@ -29,7 +29,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import path from "path";
 import { toast } from "react-toastify";
-import Buyerservice from "../service/buyesservice";
+import Buyerservice from "../service/buyes.service";
 
 interface Props {
     firstName?: string,
@@ -142,6 +142,7 @@ export default function Header() {
             }
         } catch (error) {
             toast.error("Buyer Profile not Found")
+            localStorage.clear()
         }
     }
 
@@ -154,7 +155,7 @@ export default function Header() {
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("buyer");
-        navigate("/login");
+        // navigate("/login");
         window.location.reload();
         toast.success("Buyer Logout Successfully")
     };

@@ -22,7 +22,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import LockIcon from "@mui/icons-material/Lock"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import Buyerservice from "../../service/buyesservice"
+import Buyerservice from "../../service/buyes.service"
 
 const flipIn = keyframes`
 from { transform: rotateY(-90deg); opacity: 0; }
