@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categoriesReducer from "./slice/categoriesSlice";
-import measurementSlice from './slice/measurementSlice'
+import measurementSlice from './slice/measurementSlice';
+import pageSlice from './slice/pageSlice'
 
 const reducer = {
   categories: categoriesReducer,
-  measurements: measurementSlice
+  measurements: measurementSlice,
+  page: pageSlice
 };
 
 const store = configureStore({

@@ -30,6 +30,9 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import path from "path";
 import { toast } from "react-toastify";
 import Buyerservice from "../service/buyes.service";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../store";
+import { fetchFlatPage } from "../store/slice/pageSlice";
 
 interface Props {
     firstName?: string,
@@ -60,7 +63,6 @@ export default function Header() {
         }
     }, []);
 
-    const [language, setLanguage] = useState("en");
     const [country, setCountry] = useState("in");
     const [mobileOpen, setMobileOpen] = useState(false);
     const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -70,14 +72,24 @@ export default function Header() {
     const navigate = useNavigate();
     const navRef = useRef<HTMLDivElement>(null);
 
-    const handleLanguageChange = (event: SelectChangeEvent) =>
-        setLanguage(event.target.value);
     const handleCountryChange = (event: SelectChangeEvent) =>
         setCountry(event.target.value);
     const toggleDrawer = (open: boolean) => () => {
         setMobileOpen(open);
         if (!open) setMenuStack([]);
     };
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const { flatList, loading, error } = useSelector(
+        (state: any) => state.page
+    )
+
+    useEffect(() => {
+        dispatch(fetchFlatPage())
+    }, [dispatch])
+
+    console.log("flatList", flatList);
 
     const navItems: any[] = [
         { label: "Home", path: "/" },
@@ -111,10 +123,10 @@ export default function Header() {
         {
             label: "Resource",
             subItems: [
-                { label: "Gallery", path: "/resource/gallery" },
-                { label: "CSR", path: "/resource/csr" },
-                { label: "Careers", path: "/resource/careers" },
-                { label: "FAQ", path: "/resource/faq" },
+                ...(flatList?.map((item: any) => ({
+                    label: item?.page_name,
+                    path: `/resource/${item?.page_url}`
+                })) || [])
             ],
         },
         { label: "Quality Policy", path: "/quality_policies" },
