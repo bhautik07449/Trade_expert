@@ -1,6 +1,8 @@
 import { Box, Typography, Container, Grid } from "@mui/material";
 import Title from "../commonUI/labelTitle";
 import OurView from "../component/Ourview";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function AboutUs() {
     const cards = [
@@ -26,9 +28,20 @@ export default function AboutUs() {
         },
     ];
 
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash) {
+            const el = document.getElementById(location.hash.replace("#", ""));
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [location]);
+
     return (
         <Box>
-            <Title title="Know" label="Us" />
+            <Title title="Know" label="Us" id="know-us" />
 
             <Container maxWidth="md">
                 {[
@@ -60,7 +73,7 @@ export default function AboutUs() {
             </Container>
 
             <Container maxWidth="lg" sx={{ py: { xs: 5, md: 10 } }}>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} id="vision-mission">
                     {cards.map((item, index) => (
                         <Grid size={{ xs: 12, sm: 6, md: 6 }} key={index}>
                             <Box
@@ -131,6 +144,7 @@ export default function AboutUs() {
             <OurView />
 
             <Box
+                id="delivery-reach"
                 sx={{
                     bgcolor: "white",
                     textAlign: "center",

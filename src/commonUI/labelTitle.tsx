@@ -3,12 +3,15 @@ import { Box, Typography } from "@mui/material";
 export default function LabelTitle({
     title,
     label,
+    id
 }: {
     title: string;
     label: string;
+    id?: string
 }) {
     return (
         <Box
+            id={id}
             sx={{
                 display: "flex",
                 justifyContent: "center",

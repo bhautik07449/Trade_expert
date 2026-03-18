@@ -45,8 +45,17 @@ const getPage = async (slug) => {
     }
 }
 
+const emailTemplate = async (body) => {
+    try {
+        const response = await serverCall.post('/emailtemplate', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage
+    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate
 };
 
 export default CMSservice;

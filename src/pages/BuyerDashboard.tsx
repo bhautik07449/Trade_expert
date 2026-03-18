@@ -14,6 +14,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import InventoryIcon from "@mui/icons-material/Inventory"
 import MessageIcon from "@mui/icons-material/Message"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+import LabelTitle from "../commonUI/labelTitle"
 
 const dashboardItems = [
     {
@@ -42,9 +43,7 @@ export default function BuyerDashboard() {
     return (
         <Box sx={{ p: 4 }}>
 
-            <Typography variant="h5" sx={{ mb: 3 }}>
-                Buyer Dashboard
-            </Typography>
+            <LabelTitle title="Buyer" label="Dashboard" />
 
             <Grid container spacing={3}>
                 {dashboardItems.map((item, index) => (
