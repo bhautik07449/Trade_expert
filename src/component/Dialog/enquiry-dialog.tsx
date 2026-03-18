@@ -47,6 +47,8 @@ export default function EnquiryDialog({
     product
 }: EnquiryDialogProps) {
 
+    const buyerId = localStorage.getItem('token')
+
     const validationSchema = Yup.object({
         subject: Yup.string().trim().required("Subject is required"),
         message: Yup.string().trim().required("Message is required"),
@@ -109,7 +111,7 @@ export default function EnquiryDialog({
                 const payload = {
                     ...values,
                     product: product?.id,
-                    buyer: null,
+                    buyer: buyerId || null,
                 }
 
                 const res = await CMSservice.enquiry(payload)
