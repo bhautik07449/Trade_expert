@@ -9,6 +9,7 @@ import Values from '../component/Values'
 import AboutTestimonial from './AboutTestimonial'
 import Homeservice from '../service/home.service'
 import EnquiryDialog from '../component/Dialog/enquiry-dialog'
+import QuotationDialog from '../component/Dialog/quote-dialog'
 
 export const Dashboard = () => {
   const [product, setProduct] = useState([])
@@ -99,6 +100,11 @@ export const Dashboard = () => {
           images: selectedProduct?.images,
           id: selectedProduct?.id
         }}
+      />
+
+      <QuotationDialog
+        open={open}
+        onClose={() => setOpen(false)}
       />
 
       <EnquiryDialog

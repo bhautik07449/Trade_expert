@@ -54,8 +54,17 @@ const emailTemplate = async (body) => {
     }
 }
 
+const imageUpload = async (body) => {
+    try {
+        const response = serverCall.post('/upload', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate
+    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload
 };
 
 export default CMSservice;
