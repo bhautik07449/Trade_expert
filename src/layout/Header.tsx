@@ -18,6 +18,7 @@ import {
     ListItemButton,
     Paper,
     Link,
+    Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -33,6 +34,7 @@ import Buyerservice from "../service/buyes.service";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchFlatPage } from "../store/slice/pageSlice";
+import QuotationDialog from "../component/Dialog/quote-dialog";
 
 interface Props {
     firstName?: string,
@@ -52,6 +54,7 @@ export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [id, setId] = useState<string>();
     const [profile, setProfile] = useState<Props>();
+    const [openRFQ, setOpenRFQ] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -275,6 +278,16 @@ export default function Header() {
                                 </Typography>
                             </>
                         )}
+
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="small"
+                            sx={{ px: 3, fontWeight: 600 }}
+                            onClick={() => setOpenRFQ(true)}
+                        >
+                            Request for Quote
+                        </Button>
                     </Box>
                     <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", md: "none" } }}>
                         <MenuIcon />
@@ -435,6 +448,11 @@ export default function Header() {
                     </List>
                 </Box>
             </Drawer>
+
+            <QuotationDialog
+                open={openRFQ}
+                onClose={() => setOpenRFQ(false)}
+            />
         </>
     );
 }

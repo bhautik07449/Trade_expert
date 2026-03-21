@@ -102,11 +102,6 @@ export const Dashboard = () => {
         }}
       />
 
-      <QuotationDialog
-        open={open}
-        onClose={() => setOpen(false)}
-      />
-
       <EnquiryDialog
         open={openEnquiry}
         onClose={() => setOpenEnquiry(false)}
