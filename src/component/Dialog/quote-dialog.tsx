@@ -19,6 +19,14 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ImageUpload from "../ImageUpload";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { fetchCategories } from "../../store/slice/categoriesSlice";
+import { AppDispatch } from "../../store";
+import { fetchFlatMeasurement } from "../../store/slice/measurementSlice";
+import { fetchFlatCurrency } from "../../store/slice/currencySlice";
+import CMSservice from "../../service/cms.service";
+import { toast } from "react-toastify";
 
 type Props = {
     open: boolean;
@@ -26,6 +34,26 @@ type Props = {
 };
 
 export default function QuotationDialog({ open, onClose }: Props) {
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { categories, loading } = useSelector(
+        (state: any) => state.categories
+    );
+
+    const { flatList: measurements, loading: measurementLoading } = useSelector(
+        (state: any) => state.measurements
+    );
+
+    const { flatList: currency, loading: currencyLoading } = useSelector(
+        (state: any) => state.currency
+    );
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+        dispatch(fetchFlatMeasurement())
+        dispatch(fetchFlatCurrency())
+    }, [dispatch]);
 
     const formik = useFormik({
         initialValues: {
@@ -47,18 +75,73 @@ export default function QuotationDialog({ open, onClose }: Props) {
             aboutProduct: "",
             productImage: "",
         },
-
         validationSchema: Yup.object({
             productName: Yup.string().required("Required"),
             businessEmail: Yup.string().email().required("Required"),
             quantity: Yup.string().required("Required"),
         }),
 
-        onSubmit: (values) => {
-            console.log("RFQ DATA:", values);
-            onClose();
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                const res: any = await CMSservice.quotation(values)
+
+                if (res) {
+                    toast.success(res?.data?.message)
+                    resetForm()
+                    onClose()
+                }
+            } catch (error) {
+                toast.error("Quotation not sent. Please try again.")
+            }
         },
     });
+
+    const categoryOptions = useMemo(() => {
+        return categories?.map((cat: any) => ({
+            label: cat.name,
+            value: cat.id
+        }));
+    }, [categories]);
+
+    const selectedCategory = categories?.find(
+        (cat: any) => cat.id === formik.values.category
+    );
+
+    const subCategoryOptions = useMemo(() => {
+        if (!selectedCategory) return [];
+
+        return selectedCategory.children?.map((sub: any) => ({
+            label: sub.name,
+            value: sub.id
+        })) || [];
+    }, [selectedCategory]);
+
+    const selectedSubCategory = selectedCategory?.children?.find(
+        (sub: any) => sub.id === formik.values.subCategory
+    );
+
+    const childCategoryOptions = useMemo(() => {
+        if (!selectedSubCategory) return [];
+
+        return selectedSubCategory.children?.map((child: any) => ({
+            label: child.name,
+            value: child.id
+        })) || [];
+    }, [selectedSubCategory]);
+
+    const unitOptions = useMemo(() => {
+        return measurements?.map((item: any) => ({
+            label: item.name,
+            value: item.id
+        }));
+    }, [measurements]);
+
+    const currencyOptions = useMemo(() => {
+        return currency?.map((item: any) => ({
+            label: item.name,
+            value: item.id
+        }));
+    }, [currency]);
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -103,8 +186,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onChange={formik.handleChange}
                                     label="Category"
                                 >
-                                    <MenuItem value="Electronics">Electronics</MenuItem>
-                                    <MenuItem value="Food">Food</MenuItem>
+                                    {categoryOptions?.map((cat: any) => (
+                                        <MenuItem key={cat.value} value={cat.value}>
+                                            {cat.label}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -117,8 +203,13 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     value={formik.values.subCategory}
                                     onChange={formik.handleChange}
                                     label="Sub Category"
+                                    disabled={!formik.values.category}
                                 >
-                                    <MenuItem value="Mobile">Mobile</MenuItem>
+                                    {subCategoryOptions?.map((sub: any) => (
+                                        <MenuItem key={sub.value} value={sub.value}>
+                                            {sub.label}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -131,8 +222,13 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     value={formik.values.childCategory}
                                     onChange={formik.handleChange}
                                     label="Child Category"
+                                    disabled={!formik.values.subCategory}
                                 >
-                                    <MenuItem value="Smartphone">Smartphone</MenuItem>
+                                    {childCategoryOptions?.map((child: any) => (
+                                        <MenuItem key={child.value} value={child.value}>
+                                            {child.label}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -156,8 +252,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onChange={formik.handleChange}
                                     label="Unit"
                                 >
-                                    <MenuItem value="Metric Ton">Metric Ton</MenuItem>
-                                    <MenuItem value="Kg">Kg</MenuItem>
+                                    {unitOptions?.map((unit: any) => (
+                                        <MenuItem key={unit.value} value={unit.value}>
+                                            {unit.label}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -180,8 +279,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     value={formik.values.currency}
                                     onChange={formik.handleChange}
                                 >
-                                    <MenuItem value="USD">USD</MenuItem>
-                                    <MenuItem value="INR">INR</MenuItem>
+                                    {currencyOptions?.map((unit: any) => (
+                                        <MenuItem key={unit.value} value={unit.value}>
+                                            {unit?.label}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>

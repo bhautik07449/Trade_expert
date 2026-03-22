@@ -27,6 +27,15 @@ const enquiry = async (body) => {
     }
 }
 
+const quotation = async (body) => {
+    try {
+        const response = await serverCall.post('/quotation', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const getMarketRate = async (body) => {
     try {
         const response = await serverCall.get('/dmr', body)
@@ -64,7 +73,7 @@ const imageUpload = async (body) => {
 }
 
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload
+    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation
 };
 
 export default CMSservice;

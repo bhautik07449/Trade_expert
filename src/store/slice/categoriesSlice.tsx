@@ -1,18 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import serverCall from '../../serverCall'
 
-export const fetchFlatCategories = createAsyncThunk(
-    "categories/fetchFlat",
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await serverCall.get("/categories/flat");
-            return response.data;
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data || "Error");
-        }
-    }
-);
-
 export const fetchCategories = createAsyncThunk(
     "categories/fetchAll",
     async (_, { rejectWithValue }) => {
@@ -46,19 +34,6 @@ const categoriesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-            .addCase(fetchFlatCategories.pending, (state) => {
-                state.loading = true
-                state.error = null
-            })
-            .addCase(fetchFlatCategories.fulfilled, (state, action) => {
-                state.loading = false
-                state.flatList = action.payload
-            })
-            .addCase(fetchFlatCategories.rejected, (state, action) => {
-                state.loading = false
-                state.error = action.payload as string
-            })
-
             .addCase(fetchCategories.pending, (state) => {
                 state.loading = true
                 state.error = null
