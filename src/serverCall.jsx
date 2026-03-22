@@ -21,7 +21,7 @@ const requestHandler = (request) => {
 const responseHandler = (response) => {
   if (response.status === 401 || response.status === 403 || response.status === 400) {
     localStorage.clear();
-    window.location.replace("/login");
+    window.location.replace("/");
   }
 
   if (response.status === 500) {
@@ -39,7 +39,7 @@ const responseErrorHandler = (error) => {
   if (error.response) {
     if (error.response.status === 401 || error.response.status === 403) {
       localStorage.clear();
-      window.location.replace("/login");
+      window.location.replace("/");
       return Promise.reject(error);
     }
   }

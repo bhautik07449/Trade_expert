@@ -35,9 +35,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
             subCategory: "",
             childCategory: "",
             quantity: "",
-            unit: "Metric Ton",
+            unit: "",
             price: "",
-            currency: "USD",
+            currency: "",
             validTo: "",
             validityDays: "7 Days",
             shipmentTerm: "FCA (Free Carrier)",
@@ -94,7 +94,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             <Typography fontWeight={600}>Product</Typography>
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Category</InputLabel>
                                 <Select
@@ -109,7 +109,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             </FormControl>
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Sub Category</InputLabel>
                                 <Select
@@ -123,7 +123,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             </FormControl>
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Child Category</InputLabel>
                                 <Select
@@ -137,7 +137,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             </FormControl>
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 label="Estimated Order Quantity"
                                 name="quantity"
@@ -147,12 +147,12 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Unit</InputLabel>
                                 <Select
                                     name="unit"
-                                    value={formik.values.unit}
+                                    value={formik.values.unit || ""}
                                     onChange={formik.handleChange}
                                     label="Unit"
                                 >
@@ -162,7 +162,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             </FormControl>
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 label="Preferred Unit Price"
                                 name="price"
@@ -172,7 +172,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Currency</InputLabel>
                                 <Select
@@ -186,7 +186,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             </FormControl>
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 type="date"
                                 label="Valid To"
@@ -198,7 +198,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Validity</InputLabel>
                                 <Select
