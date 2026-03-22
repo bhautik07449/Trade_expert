@@ -76,11 +76,24 @@ export default function QuotationDialog({ open, onClose }: Props) {
             productImage: "",
         },
         validationSchema: Yup.object({
-            productName: Yup.string().required("Required"),
-            businessEmail: Yup.string().email().required("Required"),
-            quantity: Yup.string().required("Required"),
+            productName: Yup.string().required("Product Name is required"),
+            businessEmail: Yup.string().email("Invalid email format").required("Business Email is required"),
+            category: Yup.number().required("Category is required"),
+            subCategory: Yup.number().required("Sub Category is required"),
+            childCategory: Yup.number().required("Child Category is required"),
+            quantity: Yup.number().typeError("Quantity must be a number").required("Quantity is required"),
+            unit: Yup.number().required("Unit is required"),
+            price: Yup.number().typeError("Price must be a number").required("Price is required"),
+            currency: Yup.number().required("Currency is required"),
+            validTo: Yup.date().required("Valid To date is required"),
+            validityDays: Yup.string().required("Validity is required"),
+            shipmentTerm: Yup.string().required("Shipment Term is required"),
+            paymentTerm: Yup.string().required("Payment Term is required"),
+            companyCert: Yup.string().nullable(),
+            productCert: Yup.string().nullable(),
+            aboutProduct: Yup.string().required("About Product is required"),
+            productImage: Yup.string().required("Product Image is required"),
         }),
-
         onSubmit: async (values, { resetForm }) => {
             try {
                 const res: any = await CMSservice.quotation(values)
@@ -160,6 +173,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.productName}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.productName && Boolean(formik.errors.productName)}
+                                helperText={formik.touched.productName && formik.errors.productName}
                             />
                         </Grid>
 
@@ -170,6 +186,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.businessEmail}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.businessEmail && Boolean(formik.errors.businessEmail)}
+                                helperText={formik.touched.businessEmail && formik.errors.businessEmail}
                             />
                         </Grid>
 
@@ -182,9 +201,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 <InputLabel>Category</InputLabel>
                                 <Select
                                     name="category"
+                                    label="Category"
                                     value={formik.values.category}
                                     onChange={formik.handleChange}
-                                    label="Category"
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.category && Boolean(formik.errors.category)}
                                 >
                                     {categoryOptions?.map((cat: any) => (
                                         <MenuItem key={cat.value} value={cat.value}>
@@ -240,6 +261,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.quantity}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+                                helperText={formik.touched.quantity && formik.errors.quantity}
                             />
                         </Grid>
 
@@ -248,9 +272,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 <InputLabel>Unit</InputLabel>
                                 <Select
                                     name="unit"
-                                    value={formik.values.unit || ""}
-                                    onChange={formik.handleChange}
                                     label="Unit"
+                                    value={formik.values.unit}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.unit && Boolean(formik.errors.unit)}
                                 >
                                     {unitOptions?.map((unit: any) => (
                                         <MenuItem key={unit.value} value={unit.value}>
@@ -268,6 +294,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.price}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.price && Boolean(formik.errors.price)}
+                                helperText={formik.touched.price && formik.errors.price}
                             />
                         </Grid>
 
@@ -276,8 +305,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 <InputLabel>Currency</InputLabel>
                                 <Select
                                     name="currency"
+                                    label="Currency"
                                     value={formik.values.currency}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.currency && Boolean(formik.errors.currency)}
                                 >
                                     {currencyOptions?.map((unit: any) => (
                                         <MenuItem key={unit.value} value={unit.value}>
@@ -297,6 +329,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 InputLabelProps={{ shrink: true }}
                                 value={formik.values.validTo}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.validTo && Boolean(formik.errors.validTo)}
+                                helperText={formik.touched.validTo && formik.errors.validTo}
                             />
                         </Grid>
 
@@ -307,6 +342,8 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     name="validityDays"
                                     value={formik.values.validityDays}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.validityDays && Boolean(formik.errors.validityDays)}
                                 >
                                     <MenuItem value="7 Days">7 Days</MenuItem>
                                     <MenuItem value="15 Days">15 Days</MenuItem>
@@ -321,6 +358,8 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     name="shipmentTerm"
                                     value={formik.values.shipmentTerm}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.shipmentTerm && Boolean(formik.errors.shipmentTerm)}
                                 >
                                     <MenuItem value="FCA (Free Carrier)">
                                         FCA (Free Carrier)
@@ -337,6 +376,8 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     name="paymentTerm"
                                     value={formik.values.paymentTerm}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.paymentTerm && Boolean(formik.errors.paymentTerm)}
                                 >
                                     <MenuItem value="100% advance against purchase order">100% advance against purchase order</MenuItem>
                                     <MenuItem value="100% Cash and Carry">100% Cash and Carry</MenuItem>
@@ -354,6 +395,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.companyCert}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.companyCert && Boolean(formik.errors.companyCert)}
+                                helperText={formik.touched.companyCert && formik.errors.companyCert}
                             />
                         </Grid>
 
@@ -364,6 +408,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.productCert}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.productCert && Boolean(formik.errors.productCert)}
+                                helperText={formik.touched.productCert && formik.errors.productCert}
                             />
                         </Grid>
 
@@ -376,6 +423,9 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 fullWidth
                                 value={formik.values.aboutProduct}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.aboutProduct && Boolean(formik.errors.aboutProduct)}
+                                helperText={formik.touched.aboutProduct && formik.errors.aboutProduct}
                             />
                         </Grid>
 
