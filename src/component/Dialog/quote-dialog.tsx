@@ -338,10 +338,11 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     value={formik.values.paymentTerm}
                                     onChange={formik.handleChange}
                                 >
-                                    <MenuItem value="100% advance against purchase order">
-                                        100% advance against purchase order
-                                    </MenuItem>
-                                    <MenuItem value="LC">LC</MenuItem>
+                                    <MenuItem value="100% advance against purchase order">100% advance against purchase order</MenuItem>
+                                    <MenuItem value="100% Cash and Carry">100% Cash and Carry</MenuItem>
+                                    <MenuItem value="50% advance against P.O. & Rest 50% against scan copy of bill of landing">50% advance against P.O. & Rest 50% against scan copy of bill of landing</MenuItem>
+                                    <MenuItem value="20% advance and Remaining 80% against Irreversible LIC at sight or as usance">20% advance and Remaining 80% against Irreversible LIC at sight or as usance</MenuItem>
+                                    <MenuItem value="DA (Credit) should be after credit application processing">DA (Credit) should be after credit application processing</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
