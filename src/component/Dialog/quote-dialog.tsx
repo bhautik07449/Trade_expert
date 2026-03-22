@@ -221,10 +221,12 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 <InputLabel>Sub Category</InputLabel>
                                 <Select
                                     name="subCategory"
-                                    value={formik.values.subCategory}
-                                    onChange={formik.handleChange}
                                     label="Sub Category"
                                     disabled={!formik.values.category}
+                                    value={formik.values.subCategory}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.subCategory && Boolean(formik.errors.subCategory)}
                                 >
                                     {subCategoryOptions?.map((sub: any) => (
                                         <MenuItem key={sub.value} value={sub.value}>
@@ -240,10 +242,12 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                 <InputLabel>Child Category</InputLabel>
                                 <Select
                                     name="childCategory"
-                                    value={formik.values.childCategory}
-                                    onChange={formik.handleChange}
                                     label="Child Category"
                                     disabled={!formik.values.subCategory}
+                                    value={formik.values.childCategory}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.childCategory && Boolean(formik.errors.childCategory)}
                                 >
                                     {childCategoryOptions?.map((child: any) => (
                                         <MenuItem key={child.value} value={child.value}>
