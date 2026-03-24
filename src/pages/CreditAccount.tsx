@@ -16,6 +16,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import LabelTitle from "../commonUI/labelTitle";
 import Select from "react-select";
+import { toast } from "react-toastify";
+import CMSservice from "../service/cms.service";
 
 const countryOptions = [
     { label: "India", value: "India" },
@@ -103,10 +105,18 @@ export default function CreditAccount() {
             terms: Yup.string().required("Required"),
             agree: Yup.string().required("You must agree before submitting"),
         }),
+        onSubmit: async (values, { resetForm }) => {
+            try {
 
-        onSubmit: (values) => {
-            console.log(values);
-            alert("Form Submitted Successfully!");
+                const res = await CMSservice.creditAccount(values)
+
+                if (res) {
+                    toast.success(res?.data?.message)
+                    resetForm()
+                }
+            } catch (error) {
+                toast.error("Credit Account not set . Please try again.")
+            }
         },
     });
 

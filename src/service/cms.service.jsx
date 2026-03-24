@@ -27,6 +27,15 @@ const enquiry = async (body) => {
     }
 }
 
+const creditAccount = async (body) => {
+    try {
+        const response = await serverCall.post('/creditaccount', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const quotation = async (body) => {
     try {
         const response = await serverCall.post('/quotation', body)
@@ -73,7 +82,8 @@ const imageUpload = async (body) => {
 }
 
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation
+    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation,
+    creditAccount
 };
 
 export default CMSservice;
