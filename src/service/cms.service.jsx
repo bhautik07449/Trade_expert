@@ -81,8 +81,17 @@ const imageUpload = async (body) => {
     }
 }
 
+const buyerDashboard = async () => {
+    try {
+        const response = await serverCall.get('/dashboard/front')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation,
+    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation, buyerDashboard,
     creditAccount
 };
 

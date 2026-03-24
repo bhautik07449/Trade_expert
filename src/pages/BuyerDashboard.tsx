@@ -15,31 +15,51 @@ import InventoryIcon from "@mui/icons-material/Inventory"
 import MessageIcon from "@mui/icons-material/Message"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import LabelTitle from "../commonUI/labelTitle"
-
-const dashboardItems = [
-    {
-        title: "Total Category",
-        value: "120",
-        icon: <ShoppingCartIcon fontSize="large" />,
-    },
-    {
-        title: "Total Products",
-        value: "45",
-        icon: <InventoryIcon fontSize="large" />,
-    },
-    {
-        title: "Total Quotations",
-        value: "12",
-        icon: <AccountCircleIcon fontSize="large" />,
-    },
-    {
-        title: "Total Sample cart",
-        value: "8",
-        icon: <MessageIcon fontSize="large" />,
-    },
-]
+import CMSservice from "../service/cms.service"
+import { toast } from "react-toastify"
 
 export default function BuyerDashboard() {
+    const [dashboard, setDashboard] = React.useState<any>()
+
+    const getData = async () => {
+        try {
+            const res = await CMSservice.buyerDashboard()
+            if (res) {
+                setDashboard(res?.data?.data)
+            }
+        } catch (error) {
+            console.log("error", error);
+            toast.error("Data not fetch")
+        }
+    }
+
+    React.useEffect(() => {
+        getData()
+    }, [])
+
+    const dashboardItems = [
+        {
+            title: "Total Category",
+            value: dashboard?.totalCategory || 0,
+            icon: <ShoppingCartIcon fontSize="large" />,
+        },
+        {
+            title: "Total Enquiry",
+            value: dashboard?.totalEnquiry || 0,
+            icon: <InventoryIcon fontSize="large" />,
+        },
+        {
+            title: "Total Quotations",
+            value: dashboard?.totalQuotation || 0,
+            icon: <AccountCircleIcon fontSize="large" />,
+        },
+        {
+            title: "Total Sample cart",
+            value: dashboard?.totalRequest || 0,
+            icon: <MessageIcon fontSize="large" />,
+        },
+    ]
+
     return (
         <Box sx={{ p: 4 }}>
 

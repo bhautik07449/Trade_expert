@@ -2,7 +2,6 @@ import axios from "axios";
 import config from "./config";
 
 const BASE_URL = config.baseApi;
-console.log("BASE_URL",BASE_URL);
 
 const customAxios = axios.create({
   baseURL: BASE_URL,
