@@ -38,7 +38,7 @@ const Footer = () => {
                 <Link href="#" underline="hover" color="inherit">Disclaimer</Link>
                 <Link href="#" underline="hover" color="inherit">Tradology</Link>
                 <Link href="#" underline="hover" color="inherit">How to Pay</Link>
-                <Link href="#" underline="hover" color="inherit">Credit Account Form</Link>
+                <Link href="/credit-account" underline="hover" color="inherit">Credit Account Form</Link>
               </Box>
             </Grid>
 

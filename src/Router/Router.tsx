@@ -15,6 +15,7 @@ import Resource from '../pages/Resource/Resource';
 import SuppliersRegister from '../pages/SuppliersRegister';
 import SuppliersLogin from '../pages/SuppliersLogin';
 import BuyerDashboard from '../pages/BuyerDashboard';
+import CreditAccount from '../pages/CreditAccount';
 
 type Props = {
   children: JSX.Element;
@@ -65,6 +66,7 @@ export default function Router(): JSX.Element {
       <Route path="/suppliers/register" element={<SuppliersRegister />} />
       <Route path="/suppliers/login" element={<SuppliersLogin />} />
       <Route path="/buyer-dashboard" element={<PrivateRoute><BuyerDashboard /></PrivateRoute>} />
+      <Route path="/credit-account" element={<CreditAccount />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
