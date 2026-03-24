@@ -121,7 +121,7 @@ export default function Header() {
                 })) || [])
             ],
         },
-        {    
+        {
             label: "Resource",
             subItems: [
                 ...(flatList?.map((item: any) => ({
@@ -442,6 +442,16 @@ export default function Header() {
                                     </ListItem>
                                 </>
                             )}
+
+                            <Button
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                sx={{ px: 3, fontWeight: 600, mx: 3, borderTop: "1px solid #ddd", mt: 1 }}
+                                onClick={() => setOpenRFQ(true)}
+                            >
+                                Request for Quote
+                            </Button>
                         </Box>
                     </List>
                 </Box>
