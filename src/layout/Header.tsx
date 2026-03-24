@@ -35,6 +35,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchFlatPage } from "../store/slice/pageSlice";
 import QuotationDialog from "../component/Dialog/quote-dialog";
+import { fetchFlatCategories } from "../store/slice/categoriesSlice";
 
 interface Props {
     firstName?: string,
@@ -88,11 +89,15 @@ export default function Header() {
         (state: any) => state.page
     )
 
+    const { categories, loading: categoryLoading, error: categoryError } = useSelector(
+        (state: any) => state.categories
+    );
+
     useEffect(() => {
         dispatch(fetchFlatPage())
+        dispatch(fetchFlatCategories())
     }, [dispatch])
 
-    console.log("flatList", flatList);
 
     const navItems: any[] = [
         { label: "Home", path: "/" },
@@ -110,20 +115,13 @@ export default function Header() {
             label: "Products",
             path: "/product-list",
             subItems: [
-                {
-                    label: "Agri & Foods",
-                    path: "/product-list",
-                    subItems: [
-                        { label: "Ginger", path: "/product-details" },
-                        { label: "Garlic", path: "/product-details" },
-                        { label: "Onion", path: "/product-details" },
-                    ],
-                },
-                { label: "Electronics", path: "/product-list" },
-                { label: "Wired Electronics", path: "/product-list" },
+                ...(categories?.map((item: any) => ({
+                    label: item?.name,
+                    path: `/product-list/${item?.slug}`
+                })) || [])
             ],
         },
-        {
+        {    
             label: "Resource",
             subItems: [
                 ...(flatList?.map((item: any) => ({
