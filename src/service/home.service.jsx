@@ -9,6 +9,15 @@ const getProductList = async () => {
     }
 }
 
+const getProductByslug = async (slug) => {
+    try {
+        const response = serverCall.get(`/products/category/${slug}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const getById = async (id) => {
     try {
         const response = await serverCall.get(`/products/${id}`);
@@ -55,7 +64,7 @@ const emailTemplate = async (body) => {
 }
 
 const Homeservice = {
-    getProductList, getById, getBanner, getTestimonial, getIntouch, emailTemplate
+    getProductList, getById, getBanner, getTestimonial, getIntouch, emailTemplate, getProductByslug
 };
 
 export default Homeservice;

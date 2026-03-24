@@ -111,7 +111,7 @@ export default function CardUi({
                         transform: `translateX(-${(currentStartIndex * 100) / products.length}%)`,
                     }}
                 >
-                    {products.map((product) => (
+                    {products?.map((product) => (
                         <Box
                             key={product.id}
                             sx={{
