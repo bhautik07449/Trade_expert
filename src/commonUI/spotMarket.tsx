@@ -10,6 +10,7 @@ import {
     TableRow,
     Paper,
     Box,
+    CircularProgress,
 } from "@mui/material"
 import Title from "./labelTitle"
 import { toast } from "react-toastify"
@@ -83,6 +84,7 @@ export default function SpotMarketTable() {
     })
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isAutoScrolling, setIsAutoScrolling] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     const visibleColumns = 4
     const columnWidth = 200
@@ -119,6 +121,8 @@ export default function SpotMarketTable() {
             setTableData(formatted)
         } catch (error) {
             toast.error("market data not fetch")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -137,58 +141,30 @@ export default function SpotMarketTable() {
                     justifyContent: "center",
                 }}
             >
-                <TableContainer
-                    component={Paper}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    sx={{
-                        overflow: "hidden",
-                        width: `${150 + visibleColumns * columnWidth}px`,
-                    }}
-                >
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell
-                                    sx={{
-                                        minWidth: 150,
-                                        fontWeight: 600,
-                                        backgroundColor: "#f8f9fa",
-                                        position: "sticky",
-                                        left: 0,
-                                        zIndex: 10,
-                                    }}
-                                />
-                                <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            transform: `translateX(-${currentIndex * columnWidth}px)`,
-                                            transition: "transform 0.6s ease-in-out",
-                                        }}
-                                    >
-                                        {dataColumns.map((column, index) => (
-                                            <Box
-                                                key={index}
-                                                sx={{
-                                                    minWidth: columnWidth,
-                                                    fontWeight: 600,
-                                                    backgroundColor: "#f8f9fa",
-                                                    padding: "16px",
-                                                    borderRight: "1px solid #eee",
-                                                }}
-                                            >
-                                                {column.label}
-                                            </Box>
-                                        ))}
-                                    </Box>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {tableData.rows.map((row: any, rowIndex: number) => (
-                                <TableRow key={rowIndex}>
+                {loading ? (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "300px",
+                        }}
+                    >
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <TableContainer
+                        component={Paper}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        sx={{
+                            overflow: "hidden",
+                            width: `${150 + visibleColumns * columnWidth}px`,
+                        }}
+                    >
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
                                     <TableCell
                                         sx={{
                                             minWidth: 150,
@@ -196,12 +172,9 @@ export default function SpotMarketTable() {
                                             backgroundColor: "#f8f9fa",
                                             position: "sticky",
                                             left: 0,
-                                            zIndex: 9,
+                                            zIndex: 10,
                                         }}
-                                    >
-                                        {row.attribute}
-                                    </TableCell>
-
+                                    />
                                     <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
                                         <Box
                                             sx={{
@@ -215,29 +188,73 @@ export default function SpotMarketTable() {
                                                     key={index}
                                                     sx={{
                                                         minWidth: columnWidth,
+                                                        fontWeight: 600,
+                                                        backgroundColor: "#f8f9fa",
                                                         padding: "16px",
                                                         borderRight: "1px solid #eee",
-                                                        backgroundColor: row.isHighlighted
-                                                            ? "secondary.main"
-                                                            : "white",
-                                                        color: row.isHighlighted
-                                                            ? "white"
-                                                            : "inherit",
-                                                        fontWeight: row.isHighlighted
-                                                            ? 600
-                                                            : 400,
                                                     }}
                                                 >
-                                                    {row[column.key] || "-"}
+                                                    {column.label}
                                                 </Box>
                                             ))}
                                         </Box>
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                            </TableHead>
+
+                            <TableBody>
+                                {tableData.rows.map((row: any, rowIndex: number) => (
+                                    <TableRow key={rowIndex}>
+                                        <TableCell
+                                            sx={{
+                                                minWidth: 150,
+                                                fontWeight: 600,
+                                                backgroundColor: "#f8f9fa",
+                                                position: "sticky",
+                                                left: 0,
+                                                zIndex: 9,
+                                            }}
+                                        >
+                                            {row.attribute}
+                                        </TableCell>
+
+                                        <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    transform: `translateX(-${currentIndex * columnWidth}px)`,
+                                                    transition: "transform 0.6s ease-in-out",
+                                                }}
+                                            >
+                                                {dataColumns.map((column, index) => (
+                                                    <Box
+                                                        key={index}
+                                                        sx={{
+                                                            minWidth: columnWidth,
+                                                            padding: "16px",
+                                                            borderRight: "1px solid #eee",
+                                                            backgroundColor: row.isHighlighted
+                                                                ? "secondary.main"
+                                                                : "white",
+                                                            color: row.isHighlighted
+                                                                ? "white"
+                                                                : "inherit",
+                                                            fontWeight: row.isHighlighted
+                                                                ? 600
+                                                                : 400,
+                                                        }}
+                                                    >
+                                                        {row[column.key] || "-"}
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
             </Box>
         </>
     )

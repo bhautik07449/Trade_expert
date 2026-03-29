@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Box, IconButton } from "@mui/material"
+import { Box, IconButton, CircularProgress } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import Homeservice from "../service/home.service"
 
@@ -10,15 +10,10 @@ interface SlideData {
     image: string
 }
 
-const slides: SlideData[] = [
-    { id: 1, image: "https://sourceseas.itcoders.in/files/banners/2d98e64446c07c883abb60c91e34d34f.jpeg" },
-    { id: 2, image: "https://sourceseas.itcoders.in/files/banners/fb151fe7abf87625d133f442b822bd84.jpeg" },
-    { id: 3, image: "https://sourceseas.itcoders.in/files/banners/c8099d42684c2ab0882eb03f51a0ab01.jpeg" },
-]
-
 export default function ImageSlider() {
     const [slides, setSlides] = useState<SlideData[]>([])
     const [currentSlide, setCurrentSlide] = useState(0)
+    const [loading, setLoading] = useState(true)
 
     const getSlide = async () => {
         try {
@@ -28,6 +23,8 @@ export default function ImageSlider() {
             }
         } catch (error) {
             console.log("error", error);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -62,58 +59,73 @@ export default function ImageSlider() {
                 overflow: "hidden",
             }}
         >
-            <Box
-                sx={{
-                    display: "flex",
-                    transition: "transform 0.5s ease-in-out",
-                    height: "100%",
-                    transform: `translateX(-${currentSlide * 100}%)`,
-                }}
-            >
-                {slides.map((slide) => (
+            {loading ? (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                    }}
+                >
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <>
                     <Box
-                        key={slide.id}
-                        component="img"
-                        src={slide?.image || "/placeholder.svg"}
-                        alt={`Slide ${slide?.id}`}
                         sx={{
-                            minWidth: "100%",
+                            display: "flex",
+                            transition: "transform 0.5s ease-in-out",
                             height: "100%",
-                            objectFit: "fill",
+                            transform: `translateX(-${currentSlide * 100}%)`,
                         }}
-                    />
-                ))}
-            </Box>
+                    >
+                        {slides.map((slide) => (
+                            <Box
+                                key={slide.id}
+                                component="img"
+                                src={slide?.image || "/placeholder.svg"}
+                                alt={`Slide ${slide?.id}`}
+                                sx={{
+                                    minWidth: "100%",
+                                    height: "100%",
+                                    objectFit: "fill",
+                                }}
+                            />
+                        ))}
+                    </Box>
 
-            <IconButton
-                sx={{
-                    position: "absolute",
-                    left: 5,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 3,
-                    bgcolor: "rgba(255,255,255,0.7)",
-                    "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
-                }}
-                onClick={prevSlide}
-            >
-                <ChevronLeft />
-            </IconButton>
+                    <IconButton
+                        sx={{
+                            position: "absolute",
+                            left: 5,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            zIndex: 3,
+                            bgcolor: "rgba(255,255,255,0.7)",
+                            "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
+                        }}
+                        onClick={prevSlide}
+                    >
+                        <ChevronLeft />
+                    </IconButton>
 
-            <IconButton
-                sx={{
-                    position: "absolute",
-                    right: 5,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 3,
-                    bgcolor: "rgba(255,255,255,0.7)",
-                    "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
-                }}
-                onClick={nextSlide}
-            >
-                <ChevronRight />
-            </IconButton>
+                    <IconButton
+                        sx={{
+                            position: "absolute",
+                            right: 5,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            zIndex: 3,
+                            bgcolor: "rgba(255,255,255,0.7)",
+                            "&:hover": { bgcolor: "rgba(255,255,255,0.9)" },
+                        }}
+                        onClick={nextSlide}
+                    >
+                        <ChevronRight />
+                    </IconButton>
+                </>
+            )}
         </Box>
     )
 }
