@@ -155,7 +155,7 @@ export default function Header() {
             }
         } catch (error) {
             toast.error("Buyer Profile not Found")
-            localStorage.clear()
+            handleLogout()
         }
     }
 
