@@ -71,14 +71,16 @@ export default function SignupForm() {
       console.log("values", values)
 
       try {
-        const res = await Buyerservice.buyerRegister(values)
+        const res: any = await Buyerservice.buyerRegister(values)
         if (res) {
           toast.success("Buyer Register sucessfully")
           resetForm()
           navigate('/login')
+        } else {
+          toast.error(res?.data?.message || "Registration failed")
         }
       } catch (error) {
-        toast.error("buyer not Register")
+        toast.error("Email or Mobile already exists")
       }
     }
   })

@@ -74,7 +74,7 @@ export default function LoginForm() {
         }
 
       } catch {
-        toast.error("Your account was pening verify your email by admin")
+        toast.error("Invalid email or password")
         resetForm()
       } finally {
         setSubmitting(false)

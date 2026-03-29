@@ -205,7 +205,7 @@ export default function EnquiryDialog({
                             </Typography>
 
                             <Grid container spacing={2} mt={1}>
-                                <Grid size={{ xs: 6 }}>
+                                <Grid size={{ xs: 12, md: 6 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>Unit</InputLabel>
                                         <Select
@@ -219,7 +219,7 @@ export default function EnquiryDialog({
                                     </FormControl>
                                 </Grid>
 
-                                <Grid size={{ xs: 6 }}>
+                                <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         label="Quantity"
                                         name="expectedQty"
@@ -268,7 +268,7 @@ export default function EnquiryDialog({
                             </Typography>
 
                             <Grid container spacing={2} mt={1}>
-                                <Grid size={{ xs: 6 }}>
+                                <Grid size={{ xs: 12,md: 6 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>Currency</InputLabel>
                                         <Select
@@ -282,7 +282,7 @@ export default function EnquiryDialog({
                                     </FormControl>
                                 </Grid>
 
-                                <Grid size={{ xs: 6 }}>
+                                <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         label="Price"
                                         name="preferredPrice"
@@ -303,7 +303,7 @@ export default function EnquiryDialog({
                             </Typography>
 
                             <Grid container spacing={2}>
-                                <Grid size={{ xs: 3 }}>
+                                <Grid size={{ xs: 12, md: 3 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>Title</InputLabel>
                                         <Select
@@ -318,7 +318,7 @@ export default function EnquiryDialog({
                                     </FormControl>
                                 </Grid>
 
-                                <Grid size={{ xs: 4 }}>
+                                <Grid size={{ xs: 12, md: 4 }}>
                                     <TextField
                                         label="First name"
                                         name="firstName"
@@ -330,7 +330,7 @@ export default function EnquiryDialog({
                                     />
                                 </Grid>
 
-                                <Grid size={{ xs: 5 }}>
+                                <Grid size={{ xs: 12, md: 5 }}>
                                     <TextField
                                         label="Last name"
                                         name="lastName"

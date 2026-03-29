@@ -11,13 +11,20 @@ export default function ProductSpecsTabs({ specs }: { specs: Specs }) {
   const [tab, setTab] = React.useState(0)
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+        overflowX: "auto", // Ensure horizontal scrolling for smaller screens
+      }}
+    >
       <Tabs
         value={tab}
         onChange={(_, v) => setTab(v)}
         aria-label="Product specifications tabs"
         textColor="primary"
         indicatorColor="primary"
+        variant="scrollable" // Make tabs scrollable for mobile view
+        scrollButtons="auto"
         sx={{
           "& .MuiTab-root": { textTransform: "none", fontWeight: 600 },
         }}
@@ -34,6 +41,7 @@ export default function ProductSpecsTabs({ specs }: { specs: Specs }) {
           borderTopRightRadius: 0,
           borderColor: "divider",
           mt: -0.25,
+          overflowX: "auto", // Ensure table content is scrollable horizontally
         }}
       >
         <Table size="small" aria-label={`${keys[tab]} table`}>
@@ -43,7 +51,11 @@ export default function ProductSpecsTabs({ specs }: { specs: Specs }) {
                 <TableCell
                   component="th"
                   scope="row"
-                  sx={{ width: "35%", fontWeight: 600, bgcolor: "background.paper" }}
+                  sx={{
+                    width: { xs: "50%", md: "35%" }, // Adjust width for mobile view
+                    fontWeight: 600,
+                    bgcolor: "background.paper",
+                  }}
                 >
                   {row.label}
                 </TableCell>
