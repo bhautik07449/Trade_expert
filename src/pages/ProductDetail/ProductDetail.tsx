@@ -6,6 +6,7 @@ import CertificationPanel from "../../component/Product/CertificationPanel"
 import { useEffect, useState } from "react"
 import ProductDetailsservice from "../../service/productDetails.service"
 import { useParams } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
 
 export default function ProductPage() {
     const { id } = useParams()
@@ -24,6 +25,9 @@ export default function ProductPage() {
                     images: apiProduct.images || [],
                     seasonalChart: apiProduct?.seasonalChart,
                     certification: apiProduct?.certification,
+                    pageTitle: apiProduct?.pageTitle,
+                    metaKeywords: apiProduct?.metaKeywords,
+                    metaDescription: apiProduct?.metaDescription,
                     specs: {
                         "Commercial Aspect":
                             apiProduct.commercialAspect?.map((item: any) => ({
@@ -55,80 +59,102 @@ export default function ProductPage() {
     }, [id])
 
     return (
-        <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
-            {product ? (
-                <>
-                    <Grid container spacing={{ xs: 3, md: 4 }}>
+        <>
+            {product && (
+                <Helmet>
+                    <title>{product?.pageTitle || product?.name}</title>
+                    <meta
+                        name="description"
+                        content={product?.metaDescription || product?.name}
+                    />
 
-                        <Grid size={{ xs: 12, md: 5 }}>
-                            <ProductGallery images={product.images} title={product.name} />
+                    <meta
+                        name="keywords"
+                        content={product?.metaKeywords || product?.name}
+                    />
+
+                    <meta property="og:title" content={product?.pageTitle || product?.name} />
+                    <meta property="og:description" content={product?.metaDescription} />
+                    <meta property="og:image" content={product?.images?.[0]} />
+                    <meta property="og:type" content="product" />
+                </Helmet>
+            )}
+            
+            <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
+                {product ? (
+                    <>
+                        <Grid container spacing={{ xs: 3, md: 4 }}>
+
+                            <Grid size={{ xs: 12, md: 5 }}>
+                                <ProductGallery images={product.images} title={product.name} />
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: 7 }}>
+                                <Box mb={2}>
+                                    <Typography
+                                        variant="h4"
+                                        component="h1"
+                                        fontWeight={700}
+                                        sx={{
+                                            fontSize: { xs: "1.6rem", md: "2.1rem" },
+                                        }}
+                                    >
+                                        {product.name}
+                                    </Typography>
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        mb: 2,
+                                        "& p": { color: "text.secondary" },
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: product?.description }}
+                                />
+
+                                <ProductSpecsTabs specs={product.specs} />
+
+                                <Box mt={2}>
+                                    <CtaButtons product={product} />
+                                </Box>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 7 }}>
-                            <Box mb={2}>
-                                <Typography
-                                    variant="h4"
-                                    component="h1"
-                                    fontWeight={700}
+                        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
+
+                            <Grid size={{ xs: 12, md: 5 }}>
+                                <CertificationPanel product={product} />
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: 7 }}>
+                                <Box
                                     sx={{
-                                        fontSize: { xs: "1.6rem", md: "2.1rem" },
+                                        bgcolor: "background.paper",
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        p: { xs: 2, md: 3 },
+                                        borderRadius: 2,
+                                        minHeight: 200,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        textAlign: "center",
                                     }}
                                 >
-                                    {product.name}
-                                </Typography>
-                            </Box>
-
-                            <Box
-                                sx={{
-                                    mb: 2,
-                                    "& p": { color: "text.secondary" },
-                                }}
-                                dangerouslySetInnerHTML={{ __html: product?.description }}
-                            />
-
-                            <ProductSpecsTabs specs={product.specs} />
-
-                            <Box mt={2}>
-                                <CtaButtons product={product} />
-                            </Box>
-                        </Grid>
-                    </Grid>
-
-                    <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
-
-                        <Grid size={{ xs: 12, md: 5 }}>
-                            <CertificationPanel product={product} />
+                                    <Typography color="text.secondary">
+                                        Seasonal Chart (Placeholder)
+                                    </Typography>
+                                </Box>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 7 }}>
-                            <Box
-                                sx={{
-                                    bgcolor: "background.paper",
-                                    border: "1px solid",
-                                    borderColor: "divider",
-                                    p: { xs: 2, md: 3 },
-                                    borderRadius: 2,
-                                    minHeight: 200,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    textAlign: "center",
-                                }}
-                            >
-                                <Typography color="text.secondary">
-                                    Seasonal Chart (Placeholder)
-                                </Typography>
-                            </Box>
-                        </Grid>
-                    </Grid>
-
-                    <Divider sx={{ my: { xs: 3, md: 5 } }} />
-                </>
-            ) : (
-                <Box textAlign="center" py={10}>
-                    <Typography variant="h6">Product Not Found</Typography>
-                </Box>
-            )}
-        </Container>
+                        <Divider sx={{ my: { xs: 3, md: 5 } }} />
+                    </>
+                ) : (
+                    <Box textAlign="center" py={10}>
+                        <Typography variant="h6">Product Not Found</Typography>
+                    </Box>
+                )}
+            </Container>
+        </>
     )
 }
