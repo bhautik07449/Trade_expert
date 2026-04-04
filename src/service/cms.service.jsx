@@ -90,9 +90,18 @@ const buyerDashboard = async () => {
     }
 }
 
+const addSuppliers = async (body) => {
+    try {
+        const response = serverCall.post('/suppliers', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation, buyerDashboard,
-    creditAccount
+    creditAccount, addSuppliers
 };
 
 export default CMSservice;

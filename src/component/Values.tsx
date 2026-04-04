@@ -27,7 +27,7 @@ export default function Values() {
             label: "Become Authorized",
             value: "Supplier",
             button: "Register",
-            link: "/sign-up",
+            link: "/suppliers/register",
         },
         {
             label: "Wants to",

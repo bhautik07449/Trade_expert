@@ -1,5 +1,9 @@
 import { Box, Button, Grid, List, ListItem, ListItemText, MenuItem, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import CMSservice from "../service/cms.service";
+import { toast } from "react-toastify";
 
 export default function SuppliersRegister() {
 
@@ -8,6 +12,50 @@ export default function SuppliersRegister() {
     const handleChange = (_: any, newValue: number) => {
         setValue(newValue);
     };
+
+    const formik = useFormik({
+        initialValues: {
+            firstName: "",
+            lastName: "",
+            firmName: "",
+            email: "",
+            address: "",
+            city: "",
+            state: "",
+            website: "",
+            phone: "",
+            service: "",
+        },
+        validationSchema: Yup.object({
+            firstName: Yup.string().required("First name is required"),
+            lastName: Yup.string().required("Last name is required"),
+            firmName: Yup.string().required("Firm name is required"),
+            email: Yup.string()
+                .email("Invalid email format")
+                .required("Email is required"),
+            address: Yup.string().required("Address is required"),
+            city: Yup.string().required("City is required"),
+            state: Yup.string().required("State is required"),
+            phone: Yup.string()
+                .matches(/^[0-9]{10}$/, "Enter valid 10 digit number")
+                .required("Phone is required"),
+            service: Yup.string().required("Please select a service"),
+        }),
+        onSubmit: async (values, { resetForm }) => {
+            try {
+
+                const res = await CMSservice.addSuppliers(values)
+
+                if (res) {
+                    toast.success(res?.data?.message || "Supplier Account created successfully")
+                    resetForm()
+                }
+            } catch (error) {
+                toast.error("Supplier Account was not created, Please try again.")
+            }
+        },
+    });
+
 
     const tabData = [
         [
@@ -62,66 +110,168 @@ export default function SuppliersRegister() {
             <Grid container spacing={4} maxWidth="1100px" mx="auto">
                 <Grid size={{ xs: 12, md: 6 }} >
                     <Paper sx={{ p: 3 }}>
-                        <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField fullWidth label="First Name" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField fullWidth label="Last Name" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField fullWidth label="Firm Name" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField fullWidth label="Email" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField
-                                    fullWidth
-                                    label="Address"
-                                    multiline
-                                    rows={3}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField fullWidth label="Supplier City" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <TextField fullWidth label="Supplier State" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField fullWidth label="Website" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField fullWidth label="Phone" size="small" />
-                            </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <TextField
-                                    select
-                                    fullWidth
-                                    label="Select Service"
-                                    size="small"
-                                >
-                                    <MenuItem value="agri">which services you interested into</MenuItem>
-                                    <MenuItem value="Indenting">Indenting</MenuItem>
-                                    <MenuItem value="On-behalf">On-behalf</MenuItem>
-                                    <MenuItem value="Market-Development">Market-Development</MenuItem>
-                                </TextField>
-                            </Grid>
+                        <form onSubmit={formik.handleSubmit}>
+                            <Grid container spacing={2}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="First Name"
+                                        name="firstName"
+                                        size="small"
+                                        value={formik.values.firstName}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                        helperText={formik.touched.firstName && formik.errors.firstName}
+                                    />
+                                </Grid>
 
-                            <Grid size={{ xs: 12 }} textAlign="center">
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        bgcolor: "#3E3126",
-                                        px: 5,
-                                        "&:hover": { bgcolor: "#2c231c" },
-                                    }}
-                                >
-                                    Sign Up
-                                </Button>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Last Name"
+                                        name="lastName"
+                                        size="small"
+                                        value={formik.values.lastName}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                        helperText={formik.touched.lastName && formik.errors.lastName}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Firm Name"
+                                        name="firmName"
+                                        size="small"
+                                        value={formik.values.firmName}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.firmName && Boolean(formik.errors.firmName)}
+                                        helperText={formik.touched.firmName && formik.errors.firmName}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Email"
+                                        name="email"
+                                        size="small"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.email && Boolean(formik.errors.email)}
+                                        helperText={formik.touched.email && formik.errors.email}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Address"
+                                        name="address"
+                                        multiline
+                                        rows={3}
+                                        value={formik.values.address}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.address && Boolean(formik.errors.address)}
+                                        helperText={formik.touched.address && formik.errors.address}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="City"
+                                        name="city"
+                                        size="small"
+                                        value={formik.values.city}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.city && Boolean(formik.errors.city)}
+                                        helperText={formik.touched.city && formik.errors.city}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="State"
+                                        name="state"
+                                        size="small"
+                                        value={formik.values.state}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.state && Boolean(formik.errors.state)}
+                                        helperText={formik.touched.state && formik.errors.state}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Website"
+                                        name="website"
+                                        size="small"
+                                        value={formik.values.website}
+                                        onChange={formik.handleChange}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Phone"
+                                        name="phone"
+                                        size="small"
+                                        value={formik.values.phone}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                        helperText={formik.touched.phone && formik.errors.phone}
+                                    />
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }}>
+                                    <TextField
+                                        select
+                                        fullWidth
+                                        label="Select Service"
+                                        name="service"
+                                        size="small"
+                                        value={formik.values.service}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.service && Boolean(formik.errors.service)}
+                                        helperText={formik.touched.service && formik.errors.service}
+                                    >
+                                        <MenuItem value="">Select Service</MenuItem>
+                                        <MenuItem value="Indenting">Indenting</MenuItem>
+                                        <MenuItem value="On-behalf">On-behalf</MenuItem>
+                                        <MenuItem value="Market-Development">Market Development</MenuItem>
+                                    </TextField>
+                                </Grid>
+
+                                <Grid size={{ xs: 12 }} textAlign="center">
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{
+                                            bgcolor: "#3E3126",
+                                            px: 5,
+                                            "&:hover": { bgcolor: "#2c231c" },
+                                        }}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </Grid>
+
                             </Grid>
-                        </Grid>
+                        </form>
                     </Paper>
                 </Grid>
 
