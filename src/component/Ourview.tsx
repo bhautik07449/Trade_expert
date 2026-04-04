@@ -1,6 +1,39 @@
 import { Box, Typography, Container } from "@mui/material";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { useEffect, useState } from "react";
+import CMSservice from "../service/cms.service";
 
 export default function OurView() {
+    const [certImages, setCertImages] = useState<any[]>([]);
+
+    const getImages = async () => {
+        try {
+            const res = await CMSservice.getCertificate()
+            if (res) {
+                setCertImages(res?.data?.data)
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => {
+        getImages()
+    }, [])
+
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2500,
+        arrows: true,
+    };
+
     return (
         <Box
             sx={{
@@ -54,18 +87,30 @@ export default function OurView() {
                         </Typography>
 
                         <Box
-                            component="img"
-                            src="https://sourceseas.itcoders.in/files/banners/12e6ad878b5ec82e5a182acb94d3ed07.jpeg"
-                            alt="Certifications"
                             sx={{
-                                width: "100%",
                                 maxWidth: { xs: "280px", sm: "350px", md: "450px" },
-                                height: "auto",
                                 mx: "auto",
-                                display: "block",
-                                boxShadow: 3,
                             }}
-                        />
+                        >
+                            <Slider {...sliderSettings}>
+                                {certImages.map((img, index) => (
+                                    <Box key={index}>
+                                        <Box
+                                            component="img"
+                                            src={img?.image}
+                                            alt={`cert-${index}`}
+                                            sx={{
+                                                width: "100%",
+                                                height: "299px",
+                                                display: "block",
+                                                boxShadow: 3,
+                                                borderRadius: 2,
+                                            }}
+                                        />
+                                    </Box>
+                                ))}
+                            </Slider>
+                        </Box>
                     </Box>
 
                     <Box textAlign="center">

@@ -99,9 +99,18 @@ const addSuppliers = async (body) => {
     }
 }
 
+const getCertificate = async () => {
+    try {
+        const response = await serverCall.get('/certificationslider')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers
+    creditAccount, addSuppliers, getCertificate
 };
 
 export default CMSservice;

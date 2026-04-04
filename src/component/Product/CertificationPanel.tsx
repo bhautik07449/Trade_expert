@@ -46,8 +46,8 @@ export default function CertificationPanel({ product }: any) {
               src={product?.certification}
               alt="Certification logo"
               sx={{
-                width: { xs: 80, sm: 90 },
-                height: { xs: 80, sm: 90 },
+                width: { xs: 200, sm: 400 },
+                height: { xs: 200, sm: 400 },
                 objectFit: "contain",
               }}
             />

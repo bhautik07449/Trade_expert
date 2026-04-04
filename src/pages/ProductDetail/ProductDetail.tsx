@@ -79,7 +79,7 @@ export default function ProductPage() {
                     <meta property="og:type" content="product" />
                 </Helmet>
             )}
-            
+
             <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
                 {product ? (
                     <>
@@ -121,30 +121,10 @@ export default function ProductPage() {
 
                         <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
 
-                            <Grid size={{ xs: 12, md: 5 }}>
+                            <Grid size={{ md: 12 }}>
                                 <CertificationPanel product={product} />
                             </Grid>
 
-                            <Grid size={{ xs: 12, md: 7 }}>
-                                <Box
-                                    sx={{
-                                        bgcolor: "background.paper",
-                                        border: "1px solid",
-                                        borderColor: "divider",
-                                        p: { xs: 2, md: 3 },
-                                        borderRadius: 2,
-                                        minHeight: 200,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    <Typography color="text.secondary">
-                                        Seasonal Chart (Placeholder)
-                                    </Typography>
-                                </Box>
-                            </Grid>
                         </Grid>
 
                         <Divider sx={{ my: { xs: 3, md: 5 } }} />
