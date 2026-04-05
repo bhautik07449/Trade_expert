@@ -285,6 +285,13 @@ export default function SignupForm() {
             </Button>
           </Typography>
         </Box>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography variant="button">
+            <Button size="small" onClick={() => navigate("/credit-account")}>
+              Credit Account Form
+            </Button>
+          </Typography>
+        </Box>
       </Paper>
     </Box>
   )
