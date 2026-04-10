@@ -63,9 +63,9 @@ const getPage = async (slug) => {
     }
 }
 
-const emailTemplate = async (body) => {
+const newsletter = async (body) => {
     try {
-        const response = await serverCall.post('/emailtemplate', body)
+        const response = await serverCall.post('/newsletter', body)
         return response
     } catch (error) {
         throw error
@@ -109,7 +109,7 @@ const getCertificate = async () => {
 }
 
 const CMSservice = {
-    getList, requestSample, enquiry, getMarketRate, getPage, emailTemplate, imageUpload, quotation, buyerDashboard,
+    getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, addSuppliers, getCertificate
 };
 

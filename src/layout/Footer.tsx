@@ -20,7 +20,7 @@ const Footer = () => {
                 Information
               </Typography>
               <Box component="nav" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, color: 'text.disabled' }}>
-                <Link href="#" underline="hover" color="inherit">About Us</Link>
+                <Link href="/about_us" underline="hover" color="inherit">About Us</Link>
                 <Link href="#" underline="hover" color="inherit">Delivery Info</Link>
                 <Link href="#" underline="hover" color="inherit">Privacy Policy</Link>
                 <Link href="#" underline="hover" color="inherit">Terms & Conditions</Link>

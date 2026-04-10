@@ -23,7 +23,7 @@ export default function Email() {
             setSent(true)
 
             try {
-                const res = await CMSservice.emailTemplate(values)
+                const res = await CMSservice.newsletter(values)
                 if (res) {
                     resetForm()
                     setSent(false)
