@@ -49,7 +49,7 @@ export default function CtaButtons({ product }: any) {
         product={{
           name: product?.name,
           description: product?.description,
-          images: product?.images,
+          images: product?.images[0],
           id: product?.id
         }}
       />
