@@ -124,10 +124,10 @@ export default function Header() {
         {
             label: "Resource",
             subItems: [
-                ...(flatList?.map((item: any) => ({
-                    label: item?.page_name,
-                    path: `/resource/${item?.page_url}`
-                })) || [])
+                { label: "Gallery", path: "/pages/gallery" },
+                { label: "CSR", path: "/pages/csr" },
+                { label: "Career", path: "/pages/career" },
+                { label: "FAQ", path: "/pages/faq" },
             ],
         },
         { label: "Quality Policy", path: "/quality_policies" },

@@ -16,6 +16,10 @@ import SuppliersRegister from '../pages/SuppliersRegister';
 import SuppliersLogin from '../pages/SuppliersLogin';
 import BuyerDashboard from '../pages/BuyerDashboard';
 import CreditAccount from '../pages/CreditAccount';
+import Gallery from '../pages/Resource/Gallery';
+import CSR from '../pages/Resource/CSR';
+import Career from '../pages/Resource/Career';
+import Faq from '../pages/Resource/Faq';
 
 type Props = {
   children: JSX.Element;
@@ -62,7 +66,11 @@ export default function Router(): JSX.Element {
       <Route path="/brands" element={<Brand />} />
       <Route path="/how-to-pay" element={<HowToPay />} />
       <Route path="/get-in-touch" element={<GetInTouch />} />
-      <Route path="/resource/:slug" element={<Resource />} />
+      <Route path="/pages/:slug" element={<Resource />} />
+      <Route path="/pages/gallery" element={<Gallery />} />
+      <Route path="/pages/csr" element={<CSR />} />
+      <Route path="/pages/career" element={<Career />} />
+      <Route path="/pages/faq" element={<Faq />} />
       <Route path="/suppliers/register" element={<SuppliersRegister />} />
       <Route path="/suppliers/login" element={<SuppliersLogin />} />
       <Route path="/buyer-dashboard" element={<PrivateRoute><BuyerDashboard /></PrivateRoute>} />

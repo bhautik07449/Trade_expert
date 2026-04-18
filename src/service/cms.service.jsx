@@ -108,9 +108,27 @@ const getCertificate = async () => {
     }
 }
 
+const getFaq = async () => {
+    try {
+        const response = await serverCall.get('/faq')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getGallery = async () => {
+    try {
+        const response = await serverCall.get('/gallery')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate
+    creditAccount, addSuppliers, getCertificate, getFaq, getGallery
 };
 
 export default CMSservice;
