@@ -134,6 +134,8 @@ export default function Header() {
         { label: "How to Pay", path: "/how-to-pay" },
         { label: "Brands", path: "/brands" },
         { label: "Get in Touch", path: "/get-in-touch" },
+        { label: "Trader Offer", path: "/trade-offers" },
+        { label: "Abc", path: "/abc" },
     ];
 
     useEffect(() => {

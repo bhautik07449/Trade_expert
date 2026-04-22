@@ -86,7 +86,7 @@ export default function SpotMarketTable() {
     const [isAutoScrolling, setIsAutoScrolling] = useState(true)
     const [loading, setLoading] = useState(true)
 
-    const visibleColumns = 4
+    const visibleColumns = 5
     const columnWidth = 200
 
     const baseColumns = tableData.columns.slice(1)
