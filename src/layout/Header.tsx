@@ -114,12 +114,26 @@ export default function Header() {
         {
             label: "Products",
             path: "/product-list",
-            subItems: [
-                ...(categories?.map((item: any) => ({
-                    label: item?.name,
-                    path: `/product-list/${item?.slug}`
-                })) || [])
-            ],
+            subItems:
+                categories?.map((cat: any) => ({
+                    label: cat?.name,
+                    path: `/product-list/${cat?.slug}`,
+                    subItems:
+                        cat?.children?.map((sub: any) => ({
+                            label: sub?.name,
+                            path: `/product-list/${sub?.slug}`,
+                            subItems:
+                                sub?.children?.map((child: any) => ({
+                                    label: child?.name,
+                                    path: `/product-list/${child?.slug}`,
+                                    subItems:
+                                        child?.children?.map((last: any) => ({
+                                            label: last?.name,
+                                            path: `/product-list/${last?.slug}`,
+                                        })) || [],
+                                })) || [],
+                        })) || [],
+                })) || [],
         },
         {
             label: "Resource",
@@ -325,27 +339,20 @@ export default function Header() {
                             </Typography>
 
                             {item.subItems && openSubmenu === item.label && (
-                                <Paper sx={{ position: "absolute", top: "100%", left: 0, minWidth: 150, width: "max-content", p: 1 }}>
-                                    {item.subItems.map((sub: any, index: number) => (
-                                        <Typography
-                                            key={sub.label}
-                                            onClick={() => navigate(sub.path)}
-                                            sx={{
-                                                px: 1.5,
-                                                py: 1,
-                                                fontSize: { xs: "0.85rem", md: "1rem" },
-                                                color: "text.primary",
-                                                borderBottom: index !== (item?.subItems?.length || 0) - 1 ? "2px solid #ddd" : "none",
-                                                borderRadius: 1,
-                                                cursor: "pointer",
-                                                textAlign: "left",
-                                                "&:hover": { bgcolor: "primary.light", color: "primary.dark" },
-                                                mb: index === (item?.subItems?.length || 0) - 1 ? 0 : 1,
-                                            }}
-                                        >
-                                            {sub.label}
-                                        </Typography>
-                                    ))}
+                                <Paper
+                                    sx={{
+                                        position: "absolute",
+                                        top: "100%",
+                                        left: 0,
+                                        minWidth: 250,
+                                        p: 1,
+                                        zIndex: 999,
+                                    }}
+                                >
+                                    <NestedMenu
+                                        items={item.subItems}
+                                        navigate={navigate}
+                                    />
                                 </Paper>
                             )}
                         </Box>
@@ -464,5 +471,64 @@ export default function Header() {
                 onClose={() => setOpenRFQ(false)}
             />
         </>
+    );
+}
+
+function NestedMenu({
+    items,
+    navigate,
+}: {
+    items: any[];
+    navigate: any;
+}) {
+    const [hovered, setHovered] = useState<number | null>(null);
+
+    return (
+        <Box sx={{ minWidth: 220 }}>
+            {items.map((item, index) => (
+                <Box
+                    key={item.label}
+                    sx={{ position: "relative" }}
+                    onMouseEnter={() => setHovered(index)}
+                    onMouseLeave={() => setHovered(null)}
+                >
+                    <Typography
+                        onClick={() => item.path && navigate(item.path)}
+                        sx={{
+                            px: 2,
+                            py: 1,
+                            cursor: "pointer",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            "&:hover": {
+                                bgcolor: "primary.light",
+                            },
+                        }}
+                    >
+                        {item.label}
+                        {item.subItems?.length > 0}
+                    </Typography>
+
+                    {item.subItems?.length > 0 && hovered === index && (
+                        <Paper
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: "100%",
+                                minWidth: 220,
+                                ml: 0.5,
+                                zIndex: 999,
+                            }}
+                        >
+                            <NestedMenu
+                                items={item.subItems}
+                                navigate={navigate}
+                            />
+                        </Paper>
+                    )}
+                </Box>
+            ))}
+        </Box>
     );
 }
