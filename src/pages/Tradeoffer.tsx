@@ -1,6 +1,30 @@
-import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+    Box,
+    Button,
+    Container,
+    Grid,
+    TextField,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+} from "@mui/material";
 
 export default function Tradeoffer() {
+    const [selectedOffer, setSelectedOffer] = useState(
+        "GROW WITH SOURCESEAS | BECOME AFFILIATE (COMMITTION) AGENT"
+    );
+
+    const offers = [
+        "GROW WITH SOURCESEAS | BECOME AFFILIATE (COMMITTION) AGENT",
+        "LETS GROW TOGETHER | JOIN HAND FOR JOINT-VENTURE ASSOCIATION",
+        "BECOME EXCLUSIVE FRANCHISEE DISTRIBUTOR",
+        "WHOOPING TRADE DEALS ON STOCK-LOTS",
+    ];
+
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
             <Box
@@ -13,43 +37,17 @@ export default function Tradeoffer() {
                     objectFit: "cover",
                 }}
             />
-
-            <Box sx={{ py: 4, textAlign: "center" }}>
-                <Typography
-                    variant="h4"
-                    sx={{ fontWeight: 700, color: "secondary.main" }}
-                >
-                    Trade Offer
-                </Typography>
-            </Box>
-
-            <Container maxWidth="lg">
-                <Typography
-                    sx={{
-                        color: "secondary.main",
-                        mb: 5,
-                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                        textAlign: "center",
-                    }}
-                >
-                    We are open to trade offers and collaborations. If you have a proposal or would like to discuss potential partnerships, please feel free to reach out to us. We value mutually beneficial relationships and are always interested in exploring new opportunities. Contact us at [contact email] for more information.
-                </Typography>
-            </Container>
-
             <Container maxWidth="lg" sx={{ pt: 4 }}>
                 <Grid container spacing={2} justifyContent="center">
-                    {[
-                        "GROW WITH SOURCESEAS | BECOME AFFILIATE (COMMITTION) AGENT",
-                        "LETS GROW TOGETHER | JOIN HAND FOR JOINT-VENTURE ASSOCIATION",
-                        "BECOME EXCLUSIVE FRANCHISEE DISTRIBUTOR",
-                        "WHOOPING TRADE DEALS ON STOCK-LOTS",
-                    ].map((text, i) => (
+                    {offers.map((text, i) => (
                         <Grid key={i}>
                             <Button
-                                variant="outlined"
+                                variant={selectedOffer === text ? "contained" : "outlined"}
+                                onClick={() => setSelectedOffer(text)}
                                 sx={{
                                     borderColor: "black",
-                                    color: "black",
+                                    color: selectedOffer === text ? "white" : "black",
+                                    bgcolor: selectedOffer === text ? "#5a3e2b" : "transparent",
                                     fontSize: "12px",
                                     px: 2,
                                     py: 1,
@@ -62,26 +60,78 @@ export default function Tradeoffer() {
                 </Grid>
             </Container>
 
-            <Container maxWidth="md" sx={{ mt: 5 }}>
-                <Box
-                    sx={{
-                        border: "1px solid #ccc",
-                        p: 3,
-                        bgcolor: "white",
-                        textAlign: "center",
-                    }}
-                >
-                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                        AFFILIATE (COMMITTION) AGENT PROPOSAL
-                    </Typography>
+            <Container maxWidth="lg" sx={{ mt: 5 }}>
+                {selectedOffer === "WHOOPING TRADE DEALS ON STOCK-LOTS" ? (
+                    <Box
+                        sx={{
+                            border: "1px solid #ccc",
+                            p: 3,
+                            bgcolor: "white",
+                            overflowX: "auto",
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            sx={{ fontWeight: 700, textAlign: "center" }}
+                        >
+                            Category
+                        </Typography>
 
-                    <Typography sx={{ fontSize: "14px", color: "#555" }}>
-                        With Sourceseas overseas Pvt. Ltd., our affiliate can grow and
-                        nurture its entrepreneurship skills and fulfill their dream of
-                        entrepreneurship. There is no collateral or investment required.
-                        Work anytime and earn at your comfort.
-                    </Typography>
-                </Box>
+                        <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 700, mb: 3, textAlign: "center" }}
+                        >
+                            Sub Category
+                        </Typography>
+
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Product Image</TableCell>
+                                    <TableCell>Product Name</TableCell>
+                                    <TableCell>HSN Code</TableCell>
+                                    <TableCell>Quantity</TableCell>
+                                    <TableCell>Unit Measure</TableCell>
+                                    <TableCell>Packing Config</TableCell>
+                                    <TableCell>Actual Price</TableCell>
+                                    <TableCell>Discounted Price</TableCell>
+                                </TableRow>
+                            </TableHead>
+
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>Image</TableCell>
+                                    <TableCell>Sample Product</TableCell>
+                                    <TableCell>1234</TableCell>
+                                    <TableCell>100</TableCell>
+                                    <TableCell>PCS</TableCell>
+                                    <TableCell>10 x Box</TableCell>
+                                    <TableCell>₹500</TableCell>
+                                    <TableCell>₹350</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </Box>
+                ) : (
+                    <Box
+                        sx={{
+                            border: "1px solid #ccc",
+                            p: 3,
+                            bgcolor: "white",
+                            textAlign: "center",
+                        }}
+                    >
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
+                            {selectedOffer}
+                        </Typography>
+
+                        <Typography sx={{ fontSize: "14px", color: "#555" }}>
+                            With Sourceseas overseas Pvt. Ltd., our affiliate can grow and
+                            nurture entrepreneurship skills and achieve success. No collateral
+                            or investment required. Work anytime and earn comfortably.
+                        </Typography>
+                    </Box>
+                )}
             </Container>
 
             <Container maxWidth="sm" sx={{ mt: 5 }}>
@@ -131,5 +181,5 @@ export default function Tradeoffer() {
                 </Box>
             </Container>
         </Box>
-    )
+    );
 }
