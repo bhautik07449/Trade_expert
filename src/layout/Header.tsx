@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import LoginIcon from '@mui/icons-material/Login';
@@ -340,6 +341,7 @@ export default function Header() {
 
                             {item.subItems && openSubmenu === item.label && (
                                 <Paper
+                                    elevation={4}
                                     sx={{
                                         position: "absolute",
                                         top: "100%",
@@ -347,6 +349,7 @@ export default function Header() {
                                         minWidth: 250,
                                         p: 1,
                                         zIndex: 999,
+                                        borderRadius: 2,
                                     }}
                                 >
                                     <NestedMenu
@@ -488,7 +491,7 @@ function NestedMenu({
             {items.map((item, index) => (
                 <Box
                     key={item.label}
-                    sx={{ position: "relative" }}
+                    sx={{ position: "relative", "&:not(:last-child)": { mb: 0.5 } }}
                     onMouseEnter={() => setHovered(index)}
                     onMouseLeave={() => setHovered(null)}
                 >
@@ -496,29 +499,37 @@ function NestedMenu({
                         onClick={() => item.path && navigate(item.path)}
                         sx={{
                             px: 2,
-                            py: 1,
+                            py: 1.2,
                             cursor: "pointer",
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
+                            fontSize: "0.95rem",
+                            fontWeight: 500,
+                            borderRadius: 1,
+                            color: "text.primary",
+                            transition: "all 0.2s ease-in-out",
                             "&:hover": {
                                 bgcolor: "primary.light",
+                                color: "primary.dark",
                             },
                         }}
                     >
                         {item.label}
-                        {item.subItems?.length > 0}
+                        {item.subItems?.length > 0 && <KeyboardArrowRightIcon sx={{ fontSize: 20, color: hovered === index ? "primary.dark" : "text.secondary" }} />}
                     </Typography>
 
                     {item.subItems?.length > 0 && hovered === index && (
                         <Paper
+                            elevation={4}
                             sx={{
                                 position: "absolute",
                                 top: 0,
                                 left: "100%",
-                                minWidth: 220,
-                                ml: 0.5,
+                                minWidth: 240,
                                 zIndex: 999,
+                                p: 1,
+                                borderRadius: 2,
                             }}
                         >
                             <NestedMenu
