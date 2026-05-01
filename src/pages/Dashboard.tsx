@@ -12,7 +12,9 @@ import EnquiryDialog from '../component/Dialog/enquiry-dialog'
 import QuotationDialog from '../component/Dialog/quote-dialog'
 
 export const Dashboard = () => {
-  const [product, setProduct] = useState([])
+  const [allProducts, setAllProducts] = useState([])
+  const [currentProducts, setCurrentProducts] = useState([])
+  const [upcomingProducts, setUpcomingProducts] = useState([])
   const hasFetched = useRef(false)
   const [open, setOpen] = useState(false)
   const [openEnquiry, setOpenEnquiry] = useState(false)
@@ -23,11 +25,27 @@ export const Dashboard = () => {
     id?: any
   } | null>(null)
 
-  const getProduct = async () => {
+  const getProducts = async () => {
     try {
-      const res = await Homeservice.getProductList()
-      if (res) {
-        setProduct(res?.data?.data)
+      try {
+        const resAll = await Homeservice.getProductList('all')
+        if (resAll) setAllProducts(resAll?.data?.data || [])
+      } catch (err) {
+        console.log("Error fetching all products", err)
+      }
+
+      try {
+        const resCurrent = await Homeservice.getProductList('Current')
+        if (resCurrent) setCurrentProducts(resCurrent?.data?.data || [])
+      } catch (err) {
+        console.log("Error fetching current products", err)
+      }
+
+      try {
+        const resUpcoming = await Homeservice.getProductList('Upcoming')
+        if (resUpcoming) setUpcomingProducts(resUpcoming?.data?.data || [])
+      } catch (err) {
+        console.log("Error fetching upcoming products", err)
       }
     } catch (error) {
       console.log("error", error);
@@ -36,7 +54,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (!hasFetched.current) {
-      getProduct()
+      getProducts()
       hasFetched.current = true
     }
   }, [])
@@ -56,7 +74,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
-        products={product}
+        products={allProducts}
       />
 
       <CardUi
@@ -70,7 +88,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
-        products={product}
+        products={currentProducts}
       />
 
       <CardUi
@@ -84,7 +102,7 @@ export const Dashboard = () => {
           setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
           setOpen(true)
         }}
-        products={product}
+        products={upcomingProducts}
       />
       <OurView />
       <OurProcess />

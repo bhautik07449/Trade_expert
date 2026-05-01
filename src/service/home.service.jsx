@@ -1,8 +1,9 @@
 import serverCall from "../serverCall";
 
-const getProductList = async () => {
+const getProductList = async (season) => {
     try {
-        const response = serverCall.get('/products')
+        const url = season && season !== 'all' ? `/products?season=${season}` : '/products';
+        const response = await serverCall.get(url)
         return response
     } catch (error) {
         throw error
