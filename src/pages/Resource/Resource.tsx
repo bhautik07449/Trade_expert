@@ -1,17 +1,16 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import CMSservice from "../../service/cms.service";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import { Typography, Box, CircularProgress } from "@mui/material";
-
-interface Props {
-    content: string;
-}
+import { Helmet } from "react-helmet-async";
 
 export default function Resource() {
-    const { slug } = useParams();
-    const [list, setList] = useState<Props | null>(null);
-    const [loading, setLoading] = useState(false);
+    const { slug } = useParams<{ slug: string }>();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
 
     const decodeHTML = (html: string) => {
         const txt = document.createElement("textarea");
@@ -19,40 +18,45 @@ export default function Resource() {
         return txt.value;
     };
 
-    const getData = async (slug: string) => {
-        try {
-            setLoading(true);
-            const res = await CMSservice.getPage(slug);
-
-            if (res) {
-                setList(res?.data?.data);
-            }
-        } catch (error) {
-            toast.error("Page data not found");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         if (slug) {
-            getData(slug);
+            dispatch(fetchFlatPageBySlug(slug));
         }
-    }, [slug]);
+    }, [slug, dispatch]);
 
     return (
         <Box sx={{ p: 3 }}>
+            {pageDetail && (
+                <Helmet>
+                    <title>{pageDetail.page_meta_title || pageDetail.page_title}</title>
+                    <meta name="description" content={pageDetail.meta_description || ""} />
+                    <meta name="keywords" content={pageDetail.meta_keyword || ""} />
+                </Helmet>
+            )}
+
             {loading ? (
-                <CircularProgress />
-            ) : list?.content ? (
-                <Typography
-                    component="div"
-                    dangerouslySetInnerHTML={{
-                        __html: decodeHTML(list.content),
-                    }}
-                />
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
+                    <CircularProgress />
+                </Box>
+            ) : pageDetail?.content ? (
+                <Box>
+                    <Typography
+                        variant="h4"
+                        sx={{ mb: 4, fontWeight: 700, color: "secondary.main" }}
+                    >
+                        {pageDetail.page_title}
+                    </Typography>
+                    <Typography
+                        component="div"
+                        dangerouslySetInnerHTML={{
+                            __html: decodeHTML(pageDetail.content),
+                        }}
+                    />
+                </Box>
             ) : (
-                <Typography>No content found</Typography>
+                <Typography sx={{ textAlign: 'center', py: 5 }}>
+                    No content found
+                </Typography>
             )}
         </Box>
     );
