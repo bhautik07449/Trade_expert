@@ -90,7 +90,7 @@ export default function ImageSlider() {
                                 sx={{
                                     minWidth: "100%",
                                     height: "100%",
-                                    objectFit: "fill",
+                                    objectFit: "cover",
                                 }}
                             />
                         ))}

@@ -133,7 +133,7 @@ export default function CardUi({
                                         component="img"
                                         src={getImageUrl(product?.images[0])}
                                         alt={product?.name}
-                                        sx={{ width: "100%", height: 220, objectFit: "cover" }}
+                                        sx={{ width: "100%", height: 220, objectFit: "contain", bgcolor: "#f5f5f5" }}
                                     />
 
                                     <CardContent>

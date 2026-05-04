@@ -66,7 +66,8 @@ export default function Gallery() {
                                     sx={{
                                         width: "100%",
                                         height: 300,
-                                        objectFit: "cover",
+                                        objectFit: "contain",
+                                        bgcolor: "#f5f5f5",
                                         borderRadius: 3,
                                         boxShadow: 3
                                     }}

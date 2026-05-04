@@ -29,7 +29,8 @@ export default function ProductGallery({ images, title }: Props) {
           sx={{
             width: "100%",
             height: { xs: 280, md: 350 },
-            objectFit: "cover",
+            objectFit: "contain",
+            bgcolor: "#f9f9f9",
             borderRadius: 1.5,
           }}
         />

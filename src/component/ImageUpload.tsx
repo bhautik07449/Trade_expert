@@ -86,10 +86,10 @@ export default function ImageUpload({
 
             {preview && (
                 <Box mt={2}>
-                    <Avatar
+                    <Box
+                        component="img"
                         src={preview}
-                        variant="rounded"
-                        sx={{ width: 120, height: 120 }}
+                        sx={{ width: 120, height: 120, objectFit: "contain", bgcolor: "#f0f0f0", borderRadius: 1 }}
                     />
                 </Box>
             )}
