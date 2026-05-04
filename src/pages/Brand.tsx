@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../service/brand.service";
+import { getImageUrl } from "../utils/imageUtils";
 
 interface Props {
     logo: string,
@@ -46,7 +47,7 @@ export default function Brand() {
                         </Box>
 
                         <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2, display: "flex", gap: 4, flexWrap: "wrap", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-                            <img src={item?.logo} alt="FSSAI Approved Foods" style={{ width: '100px', height: "100px" }} />
+                            <img src={getImageUrl(item?.logo)} alt="FSSAI Approved Foods" style={{ width: '100px', height: "100px" }} />
                             <Box>
                                 <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>
                                     {item?.name}

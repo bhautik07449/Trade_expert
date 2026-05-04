@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Box, Paper, Tabs, Tab, Typography, useTheme, useMediaQuery } from "@mui/material"
+import { getImageUrl } from "../../utils/imageUtils"
 
 export default function CertificationPanel({ product }: any) {
   const [tab, setTab] = React.useState(0)
@@ -43,7 +44,7 @@ export default function CertificationPanel({ product }: any) {
           <Box display="flex" justifyContent="center">
             <Box
               component="img"
-              src={product?.certification}
+              src={getImageUrl(product?.certification)}
               alt="Certification logo"
               sx={{
                 width: { xs: 200, sm: 400 },

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Box, ImageList, ImageListItem, Paper, useTheme } from "@mui/material"
+import { getImageUrl } from "../../utils/imageUtils"
 
 type Props = {
   images: string[]
@@ -23,7 +24,7 @@ export default function ProductGallery({ images, title }: Props) {
       >
         <Box
           component="img"
-          src={images[active]}
+          src={getImageUrl(images[active])}
           alt={`${title} image ${active + 1}`}
           sx={{
             width: "100%",
@@ -38,7 +39,7 @@ export default function ProductGallery({ images, title }: Props) {
         {images.map((src, idx) => (
           <ImageListItem key={idx} onClick={() => setActive(idx)} sx={{ cursor: "pointer" }}>
             <img
-              src={src || "/placeholder.svg"}
+              src={getImageUrl(src)}
               alt={`${title} thumbnail ${idx + 1}`}
               loading="lazy"
               style={{

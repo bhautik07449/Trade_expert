@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Box, IconButton, CircularProgress } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import Homeservice from "../service/home.service"
+import { getImageUrl } from "../utils/imageUtils"
 
 interface SlideData {
     id: number
@@ -84,7 +85,7 @@ export default function ImageSlider() {
                             <Box
                                 key={slide.id}
                                 component="img"
-                                src={slide?.image || "/placeholder.svg"}
+                                src={getImageUrl(slide?.image)}
                                 alt={`Slide ${slide?.id}`}
                                 sx={{
                                     minWidth: "100%",

@@ -1,6 +1,7 @@
 import { Box, Typography, Container, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../service/cms.service";
+import { getImageUrl } from "../utils/imageUtils";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -87,7 +88,7 @@ export default function QualityPolicies() {
                         <Grid size={{ xs: 12, md: 5 }}>
                             <Box
                                 component="img"
-                                src={item?.logo}
+                                src={getImageUrl(item?.logo)}
                                 alt="FSSAI Approved Foods"
                                 sx={{
                                     width: "100%",

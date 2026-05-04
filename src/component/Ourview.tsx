@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import CMSservice from "../service/cms.service";
+import { getImageUrl } from "../utils/imageUtils";
 
 export default function OurView() {
     const [certImages, setCertImages] = useState<any[]>([]);
@@ -97,7 +98,7 @@ export default function OurView() {
                                     <Box key={index}>
                                         <Box
                                             component="img"
-                                            src={img?.image}
+                                            src={getImageUrl(img?.image)}
                                             alt={`cert-${index}`}
                                             sx={{
                                                 width: "100%",

@@ -25,6 +25,7 @@ import { useFormik } from "formik"
 import { toast } from "react-toastify"
 import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
+import { getImageUrl } from "../../utils/imageUtils"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { fetchFlatMeasurement } from "../../store/slice/measurementSlice"
@@ -147,7 +148,7 @@ export default function EnquiryDialog({
 
                 <Stack direction="row" spacing={2} alignItems="center" mb={3}>
                     <Avatar
-                        src={product?.images}
+                        src={getImageUrl(product?.images)}
                         alt={product?.name}
                         variant="rounded"
                         sx={{ width: 60, height: 60 }}

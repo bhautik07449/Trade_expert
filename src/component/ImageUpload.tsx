@@ -9,6 +9,7 @@ import {
     Avatar
 } from "@mui/material";
 import CMSservice from "../service/cms.service";
+import { getImageUrl } from "../utils/imageUtils";
 
 type Props = {
     label?: string;
@@ -28,7 +29,7 @@ export default function ImageUpload({
 
     useEffect(() => {
         if (value) {
-            setPreview(value);
+            setPreview(getImageUrl(value));
         }
     }, [value]);
 
@@ -49,7 +50,7 @@ export default function ImageUpload({
             const imageUrl = response?.data?.url;
 
             if (imageUrl) {
-                setPreview(imageUrl);
+                setPreview(getImageUrl(imageUrl));
                 onChange && onChange(imageUrl);
             }
         } catch (error) {

@@ -1,6 +1,7 @@
 import { Box, Typography, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
+import { getImageUrl } from "../../utils/imageUtils";
 
 export default function Gallery() {
     const [gallery, setGallery] = useState<any[]>([]);
@@ -60,7 +61,7 @@ export default function Gallery() {
                             <Grid size={{ xs: 12, md: 6 }}>
                                 <Box
                                     component="img"
-                                    src={item?.image}
+                                    src={getImageUrl(item?.image)}
                                     alt={item?.name}
                                     sx={{
                                         width: "100%",

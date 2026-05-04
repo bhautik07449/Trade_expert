@@ -16,6 +16,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link as RouterLink } from "react-router-dom"
 import Title from "./labelTitle"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
+import { getImageUrl } from "../utils/imageUtils"
 
 type Product = {
     id: number
@@ -130,7 +131,7 @@ export default function CardUi({
                                 >
                                     <Box
                                         component="img"
-                                        src={product?.images[0]}
+                                        src={getImageUrl(product?.images[0])}
                                         alt={product?.name}
                                         sx={{ width: "100%", height: 220, objectFit: "cover" }}
                                     />
