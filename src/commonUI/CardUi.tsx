@@ -32,16 +32,18 @@ export default function CardUi({
     label,
     onEnquire,
     onRequestSample,
-    products
+    products,
+    visiblecard = 4
 }: {
-    title: string
-    label: string
+    title?: string
+    label?: string
     onEnquire?: (product: Product) => void
     onRequestSample?: (product: Product) => void
     products: Product[]
+    visiblecard?: number
 }) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
-    const [visibleCards, setVisibleCards] = useState(4)
+    const [visibleCards, setVisibleCards] = useState(visiblecard)
 
     useEffect(() => {
         const updateVisibleCards = () => {
@@ -49,7 +51,7 @@ export default function CardUi({
             if (width < 600) setVisibleCards(1)
             else if (width < 900) setVisibleCards(2)
             else if (width < 1200) setVisibleCards(3)
-            else setVisibleCards(4)
+            else setVisibleCards(visiblecard)
         }
 
         updateVisibleCards()
@@ -71,7 +73,9 @@ export default function CardUi({
 
     return (
         <Container maxWidth="xl" sx={{ p: 0 }}>
-            <Title title={title} label={label} />
+            {title && label && (
+                <Title title={title} label={label} />
+            )}
 
             <Box sx={{ position: "relative", overflow: "hidden" }}>
                 <IconButton
@@ -161,7 +165,7 @@ export default function CardUi({
                                                 variant="contained"
                                                 color="secondary"
                                                 fullWidth
-                                                sx={{ mt: 2,  fontSize: "12px" }}
+                                                sx={{ mt: 2, fontSize: "12px" }}
                                                 onClick={(e) => {
                                                     e.preventDefault()
                                                     onRequestSample && onRequestSample(product)

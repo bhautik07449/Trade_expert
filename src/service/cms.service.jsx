@@ -144,9 +144,18 @@ const getStocklots = async (id) => {
     }
 }
 
+const getAbc = async () => {
+    try {
+        const response = await serverCall.get('/abc')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots
+    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc
 };
 
 export default CMSservice;
