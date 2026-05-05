@@ -12,18 +12,49 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+import { useEffect } from "react";
+import CMSservice from "../service/cms.service";
+import { toast } from "react-toastify";
 
 export default function Tradeoffer() {
-    const [selectedOffer, setSelectedOffer] = useState(
-        "GROW WITH SOURCESEAS | BECOME AFFILIATE (COMMITTION) AGENT"
-    );
+    const [selectedOffer, setSelectedOffer] = useState();
+    const [stockLots, setStockLots] = useState<any[]>([]);
+    const [stockLotsId, setStockLotsId] = useState<any>();
+    const [stockLotsData, setStockLotsData] = useState<any>();
 
-    const offers = [
-        "GROW WITH SOURCESEAS | BECOME AFFILIATE (COMMITTION) AGENT",
-        "LETS GROW TOGETHER | JOIN HAND FOR JOINT-VENTURE ASSOCIATION",
-        "BECOME EXCLUSIVE FRANCHISEE DISTRIBUTOR",
-        "WHOOPING TRADE DEALS ON STOCK-LOTS",
-    ];
+    const getTradeOffer = async () => {
+        try {
+            const res = await CMSservice.getTradeOffer();
+            if (res) {
+                setStockLots(res?.data?.data);
+                setSelectedOffer(res?.data?.data[0]?.name)
+                setStockLotsId(res?.data?.data[0]?.id)
+            }
+        } catch (error) {
+            toast.error("something went wrong")
+        }
+    }
+
+    useEffect(() => {
+        getTradeOffer();
+    }, []);
+
+    const getStockLotsById = async (id: string) => {
+        try {
+            const res = await CMSservice.getStocklots(id);
+            if (res) {
+                setStockLotsData(res?.data?.data);
+            }
+        } catch (error) {
+            toast.error("something went wrong")
+        }
+    }
+
+    useEffect(() => {
+        if (stockLotsId) {
+            getStockLotsById(stockLotsId);
+        }
+    }, [stockLotsId]);
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
@@ -39,21 +70,24 @@ export default function Tradeoffer() {
             />
             <Container maxWidth="lg" sx={{ pt: 4 }}>
                 <Grid container spacing={2} justifyContent="center">
-                    {offers.map((text, i) => (
+                    {stockLots.map((text, i) => (
                         <Grid key={i}>
                             <Button
-                                variant={selectedOffer === text ? "contained" : "outlined"}
-                                onClick={() => setSelectedOffer(text)}
+                                variant={selectedOffer === text?.name ? "contained" : "outlined"}
+                                onClick={() => {
+                                    setSelectedOffer(text?.name);
+                                    setStockLotsId(text?.id)
+                                }}
                                 sx={{
                                     borderColor: "black",
-                                    color: selectedOffer === text ? "white" : "black",
-                                    bgcolor: selectedOffer === text ? "#5a3e2b" : "transparent",
+                                    color: selectedOffer === text?.name ? "white" : "black",
+                                    bgcolor: selectedOffer === text?.name ? "#5a3e2b" : "transparent",
                                     fontSize: "12px",
                                     px: 2,
                                     py: 1,
                                 }}
                             >
-                                {text}
+                                {text?.name}
                             </Button>
                         </Grid>
                     ))}
@@ -61,7 +95,7 @@ export default function Tradeoffer() {
             </Container>
 
             <Container maxWidth="lg" sx={{ mt: 5 }}>
-                {selectedOffer === "WHOOPING TRADE DEALS ON STOCK-LOTS" ? (
+                {stockLotsData?.category?.length > 0 || stockLotsData?.product?.length > 0 ? (
                     <Box
                         sx={{
                             border: "1px solid #ccc",

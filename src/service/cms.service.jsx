@@ -126,9 +126,27 @@ const getGallery = async () => {
     }
 }
 
+const getTradeOffer = async () => {
+    try {
+        const response = await serverCall.get('/tradeoffer')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getStocklots = async (id) => {
+    try {
+        const response = await serverCall.get(`/tradeoffer/${id}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate, getFaq, getGallery
+    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots
 };
 
 export default CMSservice;
