@@ -3,6 +3,7 @@ import ProductGallery from "../../component/Product/ProductGallery"
 import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
 import CtaButtons from "../../component/Product/CtaButtons"
 import CertificationPanel from "../../component/Product/CertificationPanel"
+import MarketDataTable from "../../component/Product/MarketDataTable"
 import { useEffect, useState } from "react"
 import ProductDetailsservice from "../../service/productDetails.service"
 import { useParams } from "react-router-dom"
@@ -28,6 +29,7 @@ export default function ProductPage() {
                     pageTitle: apiProduct?.pageTitle,
                     metaKeywords: apiProduct?.metaKeywords,
                     metaDescription: apiProduct?.metaDescription,
+                    dmrs: apiProduct?.dmrs || [],
                     specs: {
                         "Commercial Aspect":
                             apiProduct.commercialAspect?.map((item: any) => ({
@@ -116,6 +118,13 @@ export default function ProductPage() {
                                 <Box mt={2}>
                                     <CtaButtons product={product} />
                                 </Box>
+                            </Grid>
+                        </Grid>
+
+                        {/* Market Data Table */}
+                        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
+                            <Grid size={{ xs: 12 }}>
+                                <MarketDataTable dmrs={product.dmrs} />
                             </Grid>
                         </Grid>
 
