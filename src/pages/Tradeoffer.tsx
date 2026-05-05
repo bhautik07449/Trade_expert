@@ -21,13 +21,13 @@ export default function Tradeoffer() {
     const [stockLots, setStockLots] = useState<any[]>([]);
     const [stockLotsId, setStockLotsId] = useState<any>();
     const [stockLotsData, setStockLotsData] = useState<any>();
-
+    console.log('stockLotsData', stockLotsData);
     const getTradeOffer = async () => {
         try {
             const res = await CMSservice.getTradeOffer();
             if (res) {
                 setStockLots(res?.data?.data);
-                setSelectedOffer(res?.data?.data[0]?.name)
+                setSelectedOffer(res?.data?.data[0]?.trade_type?.name)
                 setStockLotsId(res?.data?.data[0]?.id)
             }
         } catch (error) {
@@ -43,7 +43,7 @@ export default function Tradeoffer() {
         try {
             const res = await CMSservice.getStocklots(id);
             if (res) {
-                setStockLotsData(res?.data?.data);
+                setStockLotsData(res?.data);
             }
         } catch (error) {
             toast.error("something went wrong")
@@ -73,21 +73,21 @@ export default function Tradeoffer() {
                     {stockLots.map((text, i) => (
                         <Grid key={i}>
                             <Button
-                                variant={selectedOffer === text?.name ? "contained" : "outlined"}
+                                variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
                                 onClick={() => {
-                                    setSelectedOffer(text?.name);
+                                    setSelectedOffer(text?.trade_type?.name);
                                     setStockLotsId(text?.id)
                                 }}
                                 sx={{
                                     borderColor: "black",
-                                    color: selectedOffer === text?.name ? "white" : "black",
-                                    bgcolor: selectedOffer === text?.name ? "#5a3e2b" : "transparent",
+                                    color: selectedOffer === text?.trade_type?.name ? "white" : "black",
+                                    bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
                                     fontSize: "12px",
                                     px: 2,
                                     py: 1,
                                 }}
                             >
-                                {text?.name}
+                                {text?.trade_type?.name}
                             </Button>
                         </Grid>
                     ))}
@@ -95,57 +95,60 @@ export default function Tradeoffer() {
             </Container>
 
             <Container maxWidth="lg" sx={{ mt: 5 }}>
-                {stockLotsData?.category?.length > 0 || stockLotsData?.product?.length > 0 ? (
-                    <Box
-                        sx={{
-                            border: "1px solid #ccc",
-                            p: 3,
-                            bgcolor: "white",
-                            overflowX: "auto",
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
-                            sx={{ fontWeight: 700, textAlign: "center" }}
+                {stockLotsData?.data?.items?.length > 0 ? (
+                    stockLotsData?.data?.items?.map((item: any) => (
+                        <Box
+                            sx={{
+                                border: "1px solid #ccc",
+                                p: 3,
+                                bgcolor: "white",
+                                overflowX: "auto",
+                                mb: 3
+                            }}
                         >
-                            Category
-                        </Typography>
+                            <Typography
+                                variant="h5"
+                                sx={{ fontWeight: 700, textAlign: "center" }}
+                            >
+                                {item?.category?.name}
+                            </Typography>
 
-                        <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 700, mb: 3, textAlign: "center" }}
-                        >
-                            Sub Category
-                        </Typography>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 700, mb: 3, textAlign: "center" }}
+                            >
+                                {item?.subCategory?.name}
+                            </Typography>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Product Image</TableCell>
-                                    <TableCell>Product Name</TableCell>
-                                    <TableCell>HSN Code</TableCell>
-                                    <TableCell>Quantity</TableCell>
-                                    <TableCell>Unit Measure</TableCell>
-                                    <TableCell>Packing Config</TableCell>
-                                    <TableCell>Actual Price</TableCell>
-                                    <TableCell>Discounted Price</TableCell>
-                                </TableRow>
-                            </TableHead>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Product Image</TableCell>
+                                        <TableCell>Product Name</TableCell>
+                                        <TableCell>HSN Code</TableCell>
+                                        <TableCell>Quantity</TableCell>
+                                        <TableCell>Unit Measure</TableCell>
+                                        <TableCell>Packing Config</TableCell>
+                                        <TableCell>Actual Price</TableCell>
+                                        <TableCell>Discounted Price</TableCell>
+                                    </TableRow>
+                                </TableHead>
 
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>Image</TableCell>
-                                    <TableCell>Sample Product</TableCell>
-                                    <TableCell>1234</TableCell>
-                                    <TableCell>100</TableCell>
-                                    <TableCell>PCS</TableCell>
-                                    <TableCell>10 x Box</TableCell>
-                                    <TableCell>₹500</TableCell>
-                                    <TableCell>₹350</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </Box>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell><img src={item?.product?.images[0]} alt={item?.product?.name} style={{ width: '50px', height: '50px' }} /></TableCell>
+                                        <TableCell>{item?.product?.name}</TableCell>
+                                        <TableCell>{item?.hsncode}</TableCell>
+                                        <TableCell>{item?.quantity}</TableCell>
+                                        <TableCell>{item?.unit_measurement}</TableCell>
+                                        <TableCell>{item?.packing_configure}</TableCell>
+                                        <TableCell>₹{item?.actual_price}</TableCell>
+                                        <TableCell>₹{item?.discounted_price}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    ))
                 ) : (
                     <Box
                         sx={{
@@ -160,59 +163,10 @@ export default function Tradeoffer() {
                         </Typography>
 
                         <Typography sx={{ fontSize: "14px", color: "#555" }}>
-                            With Sourceseas overseas Pvt. Ltd., our affiliate can grow and
-                            nurture entrepreneurship skills and achieve success. No collateral
-                            or investment required. Work anytime and earn comfortably.
+                            {stockLotsData?.tradeoffer?.description}
                         </Typography>
                     </Box>
                 )}
-            </Container>
-
-            <Container maxWidth="sm" sx={{ mt: 5 }}>
-                <Box sx={{ bgcolor: "white", p: 4 }}>
-                    <TextField
-                        fullWidth
-                        label="Name"
-                        variant="outlined"
-                        sx={{ mb: 3 }}
-                    />
-
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        variant="outlined"
-                        sx={{ mb: 3 }}
-                    />
-
-                    <TextField
-                        fullWidth
-                        label="Phone"
-                        variant="outlined"
-                        sx={{ mb: 3 }}
-                    />
-
-                    <TextField
-                        fullWidth
-                        label="Message"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        sx={{ mb: 3 }}
-                    />
-
-                    <Box textAlign="center">
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: "#5a3e2b",
-                                px: 4,
-                                "&:hover": { bgcolor: "#4a3324" },
-                            }}
-                        >
-                            Submit your interest
-                        </Button>
-                    </Box>
-                </Box>
             </Container>
         </Box>
     );

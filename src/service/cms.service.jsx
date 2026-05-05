@@ -137,7 +137,7 @@ const getTradeOffer = async () => {
 
 const getStocklots = async (id) => {
     try {
-        const response = await serverCall.get(`/tradeoffer/${id}`)
+        const response = await serverCall.get(`/tradeoffer/grouped/${id}`)
         return response
     } catch (error) {
         throw error
