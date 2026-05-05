@@ -11,6 +11,7 @@ import {
     TableCell,
     TableHead,
     TableRow,
+    CircularProgress,
 } from "@mui/material";
 import { useEffect } from "react";
 import CMSservice from "../service/cms.service";
@@ -21,8 +22,10 @@ export default function Tradeoffer() {
     const [stockLots, setStockLots] = useState<any[]>([]);
     const [stockLotsId, setStockLotsId] = useState<any>();
     const [stockLotsData, setStockLotsData] = useState<any>();
-    console.log('stockLotsData', stockLotsData);
+    const [loading, setLoading] = useState(false);
+    
     const getTradeOffer = async () => {
+        setLoading(true);
         try {
             const res = await CMSservice.getTradeOffer();
             if (res) {
@@ -32,6 +35,8 @@ export default function Tradeoffer() {
             }
         } catch (error) {
             toast.error("something went wrong")
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -40,6 +45,7 @@ export default function Tradeoffer() {
     }, []);
 
     const getStockLotsById = async (id: string) => {
+        setLoading(true);
         try {
             const res = await CMSservice.getStocklots(id);
             if (res) {
@@ -47,6 +53,8 @@ export default function Tradeoffer() {
             }
         } catch (error) {
             toast.error("something went wrong")
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -95,9 +103,14 @@ export default function Tradeoffer() {
             </Container>
 
             <Container maxWidth="lg" sx={{ mt: 5 }}>
-                {stockLotsData?.data?.items?.length > 0 ? (
+                {loading ? (
+                    <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
+                        <CircularProgress sx={{ color: "#5a3e2b" }} />
+                    </Box>
+                ) : stockLotsData?.data?.items?.length > 0 ? (
                     stockLotsData?.data?.items?.map((item: any) => (
                         <Box
+                            key={item.id}
                             sx={{
                                 border: "1px solid #ccc",
                                 p: 3,
