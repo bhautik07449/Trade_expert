@@ -23,13 +23,12 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import LoginIcon from '@mui/icons-material/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import path from "path";
 import { toast } from "react-toastify";
 import Buyerservice from "../service/buyes.service";
 import { useDispatch, useSelector } from "react-redux";
@@ -86,11 +85,11 @@ export default function Header() {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const { flatList, loading, error } = useSelector(
+    useSelector(
         (state: any) => state.page
     )
 
-    const { categories, loading: categoryLoading, error: categoryError } = useSelector(
+    const { categories } = useSelector(
         (state: any) => state.categories
     );
 
@@ -164,19 +163,18 @@ export default function Header() {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const getData = async (id: any) => {
-        try {
-            const res = await Buyerservice.getProfile(id)
-            if (res) {
-                setProfile(res?.data)
-            }
-        } catch (error) {
-            toast.error("Buyer Profile not Found")
-            handleLogout()
-        }
-    }
-
     useEffect(() => {
+        const getData = async (id: any) => {
+            try {
+                const res = await Buyerservice.getProfile(id)
+                if (res) {
+                    setProfile(res?.data)
+                }
+            } catch (error) {
+                toast.error("Buyer Profile not Found")
+                handleLogout()
+            }
+        }
         if (id) {
             getData(id)
         }

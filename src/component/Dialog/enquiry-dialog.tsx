@@ -129,7 +129,7 @@ export default function EnquiryDialog({
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const { flatList, loading, error } = useSelector(
+    useSelector(
         (state: any) => state.measurements
     )
 

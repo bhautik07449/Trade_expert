@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import {
     Box,
     Button,
@@ -11,8 +11,6 @@ import {
     Typography,
     IconButton,
 } from "@mui/material"
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link as RouterLink } from "react-router-dom"
 import Title from "./labelTitle"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
@@ -57,7 +55,7 @@ export default function CardUi({
         updateVisibleCards()
         window.addEventListener("resize", updateVisibleCards)
         return () => window.removeEventListener("resize", updateVisibleCards)
-    }, [])
+    }, [visiblecard])
 
     const handleNext = () => {
         if (currentStartIndex + visibleCards < products.length) {

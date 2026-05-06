@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { AppContainer } from './layout/AppContainer';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HelmetProvider } from 'react-helmet-async';
 

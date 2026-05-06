@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material"
 import CardUi from "../commonUI/CardUi"
 import InquiryDialog from "../component/Dialog/inquiry-dialog"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Homeservice from "../service/home.service"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -17,19 +17,18 @@ export default function ProductList() {
         image?: string
     } | null>(null)
 
-    const getProduct = async () => {
-        try {
-            const res = await Homeservice.getProductByslug(slug)
-            if (res) {
-                setProduct(res?.data?.data)
-            }
-        } catch (error) {
-            console.log("error", error);
-            toast.error("No products found for this category")
-        }
-    }
-
     useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await Homeservice.getProductByslug(slug)
+                if (res) {
+                    setProduct(res?.data?.data)
+                }
+            } catch (error) {
+                console.log("error", error);
+                toast.error("No products found for this category")
+            }
+        }
         setProduct([])
         getProduct()
     }, [slug])

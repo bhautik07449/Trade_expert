@@ -4,7 +4,6 @@ import {
     Button,
     Container,
     Grid,
-    TextField,
     Typography,
     Table,
     TableBody,
@@ -23,42 +22,40 @@ export default function Tradeoffer() {
     const [stockLotsId, setStockLotsId] = useState<any>();
     const [stockLotsData, setStockLotsData] = useState<any>();
     const [loading, setLoading] = useState(false);
-    
-    const getTradeOffer = async () => {
-        setLoading(true);
-        try {
-            const res = await CMSservice.getTradeOffer();
-            if (res) {
-                setStockLots(res?.data?.data);
-                setSelectedOffer(res?.data?.data[0]?.trade_type?.name)
-                setStockLotsId(res?.data?.data[0]?.id)
-            }
-        } catch (error) {
-            toast.error("something went wrong")
-        } finally {
-            setLoading(false);
-        }
-    }
 
     useEffect(() => {
+        const getTradeOffer = async () => {
+            setLoading(true);
+            try {
+                const res = await CMSservice.getTradeOffer();
+                if (res) {
+                    setStockLots(res?.data?.data);
+                    setSelectedOffer(res?.data?.data[0]?.trade_type?.name)
+                    setStockLotsId(res?.data?.data[0]?.id)
+                }
+            } catch (error) {
+                toast.error("something went wrong")
+            } finally {
+                setLoading(false);
+            }
+        }
         getTradeOffer();
     }, []);
 
-    const getStockLotsById = async (id: string) => {
-        setLoading(true);
-        try {
-            const res = await CMSservice.getStocklots(id);
-            if (res) {
-                setStockLotsData(res?.data);
-            }
-        } catch (error) {
-            toast.error("something went wrong")
-        } finally {
-            setLoading(false);
-        }
-    }
-
     useEffect(() => {
+        const getStockLotsById = async (id: string) => {
+            setLoading(true);
+            try {
+                const res = await CMSservice.getStocklots(id);
+                if (res) {
+                    setStockLotsData(res?.data);
+                }
+            } catch (error) {
+                toast.error("something went wrong")
+            } finally {
+                setLoading(false);
+            }
+        }
         if (stockLotsId) {
             getStockLotsById(stockLotsId);
         }

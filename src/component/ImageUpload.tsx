@@ -6,7 +6,6 @@ import {
     Button,
     CircularProgress,
     Typography,
-    Avatar
 } from "@mui/material";
 import CMSservice from "../service/cms.service";
 import { getImageUrl } from "../utils/imageUtils";

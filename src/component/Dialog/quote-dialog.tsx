@@ -13,7 +13,6 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Box,
 } from "@mui/material";
 
 import { useFormik } from "formik";
@@ -37,15 +36,15 @@ export default function QuotationDialog({ open, onClose }: Props) {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { categories, loading } = useSelector(
+    const { categories } = useSelector(
         (state: any) => state.categories
     );
 
-    const { flatList: measurements, loading: measurementLoading } = useSelector(
+    const { flatList: measurements } = useSelector(
         (state: any) => state.measurements
     );
 
-    const { flatList: currency, loading: currencyLoading } = useSelector(
+    const { flatList: currency } = useSelector(
         (state: any) => state.currency
     );
 

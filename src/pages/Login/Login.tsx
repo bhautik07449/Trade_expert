@@ -36,10 +36,7 @@ const flipOut = keyframes`
 `
 export default function LoginForm() {
   const navigate = useNavigate()
-  const [email, setEmail] = React.useState("")
-  const [password, setPassword] = React.useState("")
   const [showPassword, setShowPassword] = React.useState(false)
-  const [submitting, setSubmitting] = React.useState(false)
   const [flipExit, setFlipExit] = React.useState(false)
 
   const validationSchema = Yup.object({
