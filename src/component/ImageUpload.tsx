@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
-    CircularProgress,
     Typography,
     Skeleton,
 } from "@mui/material";

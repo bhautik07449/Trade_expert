@@ -10,7 +10,6 @@ import {
     TableRow,
     Paper,
     Box,
-    CircularProgress,
     Skeleton,
 } from "@mui/material"
 import Title from "./labelTitle"

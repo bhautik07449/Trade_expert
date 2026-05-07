@@ -10,7 +10,6 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    CircularProgress,
     Skeleton,
 } from "@mui/material";
 import { useEffect } from "react";

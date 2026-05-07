@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Box, IconButton, CircularProgress, Skeleton } from "@mui/material"
+import { Box, IconButton, Skeleton } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import Homeservice from "../service/home.service"
 import { getImageUrl } from "../utils/imageUtils"
