@@ -195,12 +195,7 @@ export default function Header() {
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
                     <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
                         <Box sx={{ display: "flex", gap: 3 }}>
-                            <FormControl variant="standard">
-                                <Select value={country} onChange={handleCountryChange} sx={{ color: "white", fontSize: "14px" }}>
-                                    <MenuItem value="in">India</MenuItem>
-                                    <MenuItem value="us">USA</MenuItem>
-                                </Select>
-                            </FormControl>
+                            <img src="./logo.jpg" alt="logo" width={50} height={50} />
                         </Box>
                         <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
                             <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} /> +91 87653 37336</Typography>
