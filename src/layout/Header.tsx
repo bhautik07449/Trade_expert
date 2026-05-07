@@ -2,9 +2,6 @@
 import {
     Box,
     Typography,
-    FormControl,
-    Select,
-    MenuItem,
     SelectChangeEvent,
     AppBar,
     Toolbar,
@@ -68,7 +65,6 @@ export default function Header() {
         }
     }, []);
 
-    const [country, setCountry] = useState("in");
     const [mobileOpen, setMobileOpen] = useState(false);
     const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
@@ -77,8 +73,6 @@ export default function Header() {
     const navigate = useNavigate();
     const navRef = useRef<HTMLDivElement>(null);
 
-    const handleCountryChange = (event: SelectChangeEvent) =>
-        setCountry(event.target.value);
     const toggleDrawer = (open: boolean) => () => {
         setMobileOpen(open);
         if (!open) setMenuStack([]);
