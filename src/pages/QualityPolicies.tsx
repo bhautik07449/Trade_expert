@@ -8,6 +8,9 @@ interface Props {
     logo: string,
     name: string,
     description: string
+    category: {
+        name: string
+    }
 }
 
 export default function QualityPolicies() {
@@ -65,53 +68,55 @@ export default function QualityPolicies() {
                     FDA approved suppliers to ensure global food safety standards.
                 </Typography>
 
-                <Box
-                    sx={{
-                        border: "2px solid #3E3126",
-                        textAlign: "center",
-                        py: 1.5,
-                        mb: 6,
-                        fontWeight: 600,
-                    }}
-                >
-                    Agri & Foods
-                </Box>
-
                 {list?.map((item, index) => (
-                    <Grid
-                        container
-                        spacing={4}
-                        alignItems="center"
-                        sx={{ mb: 8 }}
-                        key={index}
-                    >
-                        <Grid size={{ xs: 12, md: 5 }}>
-                            <Box
-                                component="img"
-                                src={getImageUrl(item?.logo)}
-                                alt="FSSAI Approved Foods"
-                                sx={{
-                                    width: "100%",
-                                    maxWidth: "200px",
-                                    mx: "auto",
-                                    display: "block",
-                                }}
-                            />
-                        </Grid>
+                    <>
+                        <Box
+                            sx={{
+                                border: "2px solid #3E3126",
+                                textAlign: "center",
+                                py: 1.5,
+                                mb: 6,
+                                fontWeight: 600,
+                            }}
+                        >
+                            {item?.category?.name}
+                        </Box>
 
-                        <Grid size={{ xs: 12, md: 7 }}>
-                            <Typography
-                                variant="h5"
-                                sx={{ color: "secondary.main", mb: 2, fontWeight: 600 }}
-                            >
-                                {item?.name}
-                            </Typography>
+                        <Grid
+                            container
+                            spacing={4}
+                            alignItems="center"
+                            sx={{ mb: 8 }}
+                            key={index}
+                        >
+                            <Grid size={{ xs: 12, md: 5 }}>
+                                <Box
+                                    component="img"
+                                    src={getImageUrl(item?.logo)}
+                                    alt="FSSAI Approved Foods"
+                                    sx={{
+                                        width: "100%",
+                                        maxWidth: "200px",
+                                        mx: "auto",
+                                        display: "block",
+                                    }}
+                                />
+                            </Grid>
 
-                            <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
-                                {item?.description}
-                            </Typography>
+                            <Grid size={{ xs: 12, md: 7 }}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ color: "secondary.main", mb: 2, fontWeight: 600 }}
+                                >
+                                    {item?.name}
+                                </Typography>
+
+                                <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+                                    {item?.description}
+                                </Typography>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </>
                 ))}
             </Container>
         </Box>

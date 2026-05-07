@@ -32,7 +32,7 @@ const transformMarketData = (data: any[]) => {
 
     const dynamicColumns = data.map((item) => ({
         key: `col_${item.id}`,
-        label: item.name,
+        label: item.dmrName || "-",
     }))
 
     const attributes = [
@@ -52,16 +52,16 @@ const transformMarketData = (data: any[]) => {
         }
 
         data.forEach((item) => {
-            const market = item.market?.[0] || {}
+            const source = item.market?.[0] || item;
 
             if (attr.key === "packing") {
-                row[`col_${item.id}`] = `${market.packing || "-"}`
+                row[`col_${item.id}`] = `${source.packing || "-"}`
             } else if (attr.key === "categoryType") {
-                row[`col_${item.id}`] = market.categoryType || "-"
+                row[`col_${item.id}`] = source.categoryType || "-"
             } else if (attr.key === "noOfPacking") {
-                row[`col_${item.id}`] = market.noOfPacking || "-"
+                row[`col_${item.id}`] = source.noOfPacking || "-"
             } else {
-                row[`col_${item.id}`] = market[attr.key] || "-"
+                row[`col_${item.id}`] = source[attr.key] || "-"
             }
         })
 

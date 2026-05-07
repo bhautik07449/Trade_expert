@@ -45,9 +45,9 @@ const quotation = async (body) => {
     }
 }
 
-const getMarketRate = async (body) => {
+const getMarketRate = async () => {
     try {
-        const response = await serverCall.get('/dmr', body)
+        const response = await serverCall.get('/dmr/market-data')
         return response
     } catch (error) {
         throw error
