@@ -2,7 +2,6 @@
 import {
     Box,
     Typography,
-    SelectChangeEvent,
     AppBar,
     Toolbar,
     IconButton,
