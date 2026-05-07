@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Skeleton, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../service/cms.service";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import EnquiryDialog from "../component/Dialog/enquiry-dialog";
 
 export default function Abc() {
     const [list, setList] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
     const [openEnquiry, setOpenEnquiry] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<{
@@ -18,6 +19,7 @@ export default function Abc() {
     } | null>(null)
 
     const getList = async () => {
+        setLoading(true)
         try {
             const res = await CMSservice.getAbc()
             if (res) {
@@ -25,6 +27,8 @@ export default function Abc() {
             }
         } catch (error) {
             toast.error("bran not found")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -69,40 +73,57 @@ export default function Abc() {
                     FDA approved suppliers to ensure global food safety standards.
                 </Typography>
 
-                {list?.map((item) => (
-                    <Box
-                        sx={{
-                            mb: 6
-                        }}
-                    >
+                {loading ? (
+                    Array.from(new Array(2)).map((_, i) => (
+                        <Box key={i} sx={{ mb: 6 }}>
+                            <Skeleton variant="rectangular" height={50} sx={{ mb: 6 }} />
+                            <Grid container spacing={2}>
+                                {Array.from(new Array(3)).map((_, j) => (
+                                    <Grid size={{ xs: 12, sm: 4 }} key={j}>
+                                        <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    ))
+                ) : (
+                    list?.map((item, index) => (
                         <Box
+                            key={index}
                             sx={{
-                                border: "2px solid #3E3126",
-                                textAlign: "center",
-                                py: 1.5,
-                                mb: 6,
-                                fontWeight: 600,
+                                mb: 6
                             }}
                         >
-                            {item?.category?.name}
+                            <Box
+                                sx={{
+                                    border: "2px solid #3E3126",
+                                    textAlign: "center",
+                                    py: 1.5,
+                                    mb: 6,
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {item?.category?.name}
+                            </Box>
+
+                            <CardUi
+                                label='Availability'
+                                onEnquire={(product) => {
+                                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                                    setOpenEnquiry(true)
+                                }}
+                                onRequestSample={(product) => {
+                                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                                    setOpen(true)
+                                }}
+                                products={item?.products}
+                                visiblecard={3}
+                                loading={loading}
+                            />
+
                         </Box>
-
-                        <CardUi
-                            label='Availability'
-                            onEnquire={(product) => {
-                                setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                setOpenEnquiry(true)
-                            }}
-                            onRequestSample={(product) => {
-                                setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                setOpen(true)
-                            }}
-                            products={item?.products}
-                            visiblecard={3}
-                        />
-
-                    </Box>
-                ))}
+                    ))
+                )}
             </Container>
 
             <InquiryDialog

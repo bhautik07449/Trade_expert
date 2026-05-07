@@ -21,6 +21,7 @@ import {
     Typography,
     RadioGroup,
     Radio,
+    CircularProgress,
 } from "@mui/material"
 
 import { useFormik } from "formik"
@@ -389,8 +390,10 @@ export default function InquiryDialog({
                             type="submit"
                             variant="contained"
                             color="success"
+                            disabled={formik.isSubmitting}
+                            startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
                         >
-                            Submit
+                            {formik.isSubmitting ? "Submitting..." : "Submit"}
                         </Button>
 
                     </DialogActions>

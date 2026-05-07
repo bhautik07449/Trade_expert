@@ -3,7 +3,8 @@ import {
     Typography,
     Accordion,
     AccordionSummary,
-    AccordionDetails
+    AccordionDetails,
+    Skeleton
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
@@ -11,8 +12,10 @@ import CMSservice from "../../service/cms.service";
 
 export default function Faq() {
     const [faqs, setFaqs] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const getFaq = async () => {
+        setLoading(true)
         try {
             const res = await CMSservice.getFaq()
             if (res) {
@@ -20,6 +23,8 @@ export default function Faq() {
             }
         } catch (error) {
             console.log("error", error);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -50,28 +55,39 @@ export default function Faq() {
             </Box>
 
             <Box sx={{ maxWidth: "900px", mx: "auto", px: 2 }}>
-                {faqs?.map((faq, index) => (
-                    <Accordion
-                        key={index}
-                        sx={{
-                            mb: 2,
-                            borderRadius: 2,
-                            boxShadow: 2,
-                            '&:before': { display: 'none' }
-                        }}
-                    >
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography sx={{ fontWeight: 600 }}>
-                                {faq?.title}
-                            </Typography>
-                        </AccordionSummary>
+                {loading ? (
+                    Array.from(new Array(5)).map((_, i) => (
+                        <Skeleton
+                            key={i}
+                            variant="rectangular"
+                            height={56}
+                            sx={{ mb: 2, borderRadius: 2 }}
+                        />
+                    ))
+                ) : (
+                    faqs?.map((faq, index) => (
+                        <Accordion
+                            key={index}
+                            sx={{
+                                mb: 2,
+                                borderRadius: 2,
+                                boxShadow: 2,
+                                '&:before': { display: 'none' }
+                            }}
+                        >
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography sx={{ fontWeight: 600 }}>
+                                    {faq?.title}
+                                </Typography>
+                            </AccordionSummary>
 
-                        <AccordionDetails>
-                            <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: faq?.answer || "" }}>
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                ))}
+                            <AccordionDetails>
+                                <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: faq?.answer || "" }}>
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))
+                )}
             </Box>
         </Box>
     );

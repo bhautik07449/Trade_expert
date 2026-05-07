@@ -1,4 +1,4 @@
-import { Container, Grid, Box, Typography, Divider } from "@mui/material"
+import { Container, Grid, Box, Typography, Divider, Skeleton } from "@mui/material"
 import ProductGallery from "../../component/Product/ProductGallery"
 import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
 import CtaButtons from "../../component/Product/CtaButtons"
@@ -12,8 +12,10 @@ import { Helmet } from "react-helmet-async"
 export default function ProductPage() {
     const { id } = useParams()
     const [product, setProduct] = useState<any>(null)
+    const [loading, setLoading] = useState(true)
 
     const getData = async (id: any) => {
+        setLoading(true)
         try {
             const res = await ProductDetailsservice.getProduct(id)
 
@@ -53,6 +55,8 @@ export default function ProductPage() {
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -83,7 +87,20 @@ export default function ProductPage() {
             )}
 
             <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
-                {product ? (
+                {loading ? (
+                    <Grid container spacing={{ xs: 3, md: 4 }}>
+                        <Grid size={{ xs: 12, md: 5 }}>
+                            <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 2 }} />
+                        </Grid>
+                        <Grid size={{ xs: 12, md: 7 }}>
+                            <Skeleton variant="text" height={60} width="60%" sx={{ mb: 2 }} />
+                            <Skeleton variant="text" height={20} />
+                            <Skeleton variant="text" height={20} />
+                            <Skeleton variant="text" height={20} width="80%" sx={{ mb: 4 }} />
+                            <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 2 }} />
+                        </Grid>
+                    </Grid>
+                ) : product ? (
                     <>
                         <Grid container spacing={{ xs: 3, md: 4 }}>
 

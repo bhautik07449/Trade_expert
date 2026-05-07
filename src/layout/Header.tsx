@@ -19,6 +19,7 @@ import {
     Paper,
     Link,
     Button,
+    Skeleton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -89,7 +90,7 @@ export default function Header() {
         (state: any) => state.page
     )
 
-    const { categories } = useSelector(
+    const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categories
     );
 
@@ -350,10 +351,19 @@ export default function Header() {
                                         borderRadius: 2,
                                     }}
                                 >
-                                    <NestedMenu
-                                        items={item.subItems}
-                                        navigate={navigate}
-                                    />
+                                    {item.label === "Products" && categoriesLoading ? (
+                                        <Box sx={{ p: 2 }}>
+                                            <Skeleton variant="text" height={40} />
+                                            <Skeleton variant="text" height={40} />
+                                            <Skeleton variant="text" height={40} />
+                                            <Skeleton variant="text" height={40} />
+                                        </Box>
+                                    ) : (
+                                        <NestedMenu
+                                            items={item.subItems}
+                                            navigate={navigate}
+                                        />
+                                    )}
                                 </Paper>
                             )}
                         </Box>
@@ -376,26 +386,35 @@ export default function Header() {
                             </ListItem>
                         )}
 
-                        {(menuStack.length === 0
-                            ? navItems
-                            : menuStack[menuStack.length - 1].subItems
-                        )?.map((item: any) => (
-                            <ListItem key={item.label} disablePadding>
-                                <ListItemButton
-                                    onClick={() => {
-                                        if (item.subItems) {
-                                            setMenuStack((prev) => [...prev, item]);
-                                        } else if (item.path) {
-                                            navigate(item.path);
-                                            setMobileOpen(false);
-                                            setMenuStack([]);
-                                        }
-                                    }}
-                                >
-                                    <ListItemText primary={item.label} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        {menuStack.length > 0 && menuStack[menuStack.length - 1].label === "Products" && categoriesLoading ? (
+                            <Box sx={{ px: 2 }}>
+                                <Skeleton variant="text" height={50} />
+                                <Skeleton variant="text" height={50} />
+                                <Skeleton variant="text" height={50} />
+                                <Skeleton variant="text" height={50} />
+                            </Box>
+                        ) : (
+                            (menuStack.length === 0
+                                ? navItems
+                                : menuStack[menuStack.length - 1].subItems
+                            )?.map((item: any) => (
+                                <ListItem key={item.label} disablePadding>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            if (item.subItems) {
+                                                setMenuStack((prev) => [...prev, item]);
+                                            } else if (item.path) {
+                                                navigate(item.path);
+                                                setMobileOpen(false);
+                                                setMenuStack([]);
+                                            }
+                                        }}
+                                    >
+                                        <ListItemText primary={item.label} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))
+                        )}
                         <Box sx={{ borderTop: "1px solid #ddd", mt: 1 }}>
                             {isLoggedIn ? (
                                 <>

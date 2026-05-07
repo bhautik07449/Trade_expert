@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, CircularProgress } from "@mui/material";
 import CMSservice from "../service/cms.service";
 import { toast } from "react-toastify";
 
@@ -121,8 +121,10 @@ export default function Email() {
                             },
                         }}
                         type="submit"
+                        disabled={formik.isSubmitting}
+                        startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
                     >
-                        {sent ? "Subscribed" : "Subscribe"}
+                        {formik.isSubmitting ? "Subscribing..." : sent ? "Subscribed" : "Subscribe"}
                     </Button>
                 </Box>
             </form>

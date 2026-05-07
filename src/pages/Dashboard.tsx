@@ -23,8 +23,10 @@ export const Dashboard = () => {
     images?: string
     id?: any
   } | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const getProducts = async () => {
+    setLoading(true)
     try {
       try {
         const resAll = await Homeservice.getProductList('all')
@@ -48,6 +50,8 @@ export const Dashboard = () => {
       }
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -74,6 +78,7 @@ export const Dashboard = () => {
           setOpen(true)
         }}
         products={allProducts}
+        loading={loading}
       />
 
       <CardUi
@@ -88,6 +93,7 @@ export const Dashboard = () => {
           setOpen(true)
         }}
         products={currentProducts}
+        loading={loading}
       />
 
       <CardUi
@@ -102,6 +108,7 @@ export const Dashboard = () => {
           setOpen(true)
         }}
         products={upcomingProducts}
+        loading={loading}
       />
       <OurView />
       <OurProcess />

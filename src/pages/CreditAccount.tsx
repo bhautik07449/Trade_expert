@@ -11,6 +11,7 @@ import {
     FormControlLabel,
     RadioGroup,
     FormHelperText,
+    CircularProgress,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -325,8 +326,13 @@ export default function CreditAccount() {
                                 </Grid>
 
                                 <Grid size={{ xs: 12 }} textAlign="center">
-                                    <Button type="submit" variant="contained">
-                                        Submit
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        disabled={formik.isSubmitting}
+                                        startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+                                    >
+                                        {formik.isSubmitting ? "Submitting..." : "Submit"}
                                     </Button>
                                 </Grid>
                             </Grid>

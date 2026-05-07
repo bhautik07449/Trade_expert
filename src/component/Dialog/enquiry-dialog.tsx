@@ -19,6 +19,7 @@ import {
     Stack,
     TextField,
     Typography,
+    CircularProgress,
 } from "@mui/material"
 
 import { useFormik } from "formik"
@@ -425,8 +426,14 @@ export default function EnquiryDialog({
 
                     <DialogActions sx={{ mt: 3 }}>
                         <Button onClick={onClose}>Cancel</Button>
-                        <Button type="submit" variant="contained" color="success">
-                            Submit
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="success"
+                            disabled={formik.isSubmitting}
+                            startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+                        >
+                            {formik.isSubmitting ? "Submitting..." : "Submit"}
                         </Button>
                     </DialogActions>
                 </form>

@@ -9,6 +9,7 @@ import { toast } from "react-toastify"
 export default function ProductList() {
     const { slug } = useParams();
     const [product, setProduct] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const [open, setOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<{
@@ -19,6 +20,7 @@ export default function ProductList() {
 
     useEffect(() => {
         const getProduct = async () => {
+            setLoading(true)
             try {
                 const res = await Homeservice.getProductByslug(slug)
                 if (res) {
@@ -27,6 +29,8 @@ export default function ProductList() {
             } catch (error) {
                 console.log("error", error);
                 toast.error("No products found for this category")
+            } finally {
+                setLoading(false)
             }
         }
         setProduct([])
@@ -36,7 +40,7 @@ export default function ProductList() {
     return (
         <>
             <Box sx={{ mb: 12 }}>
-                {product?.length > 0 ?
+                {loading || product?.length > 0 ?
                     <CardUi
                         title='All'
                         label='Product'
@@ -49,6 +53,7 @@ export default function ProductList() {
                             setOpen(true)
                         }}
                         products={product}
+                        loading={loading}
                     />
                     : <Typography sx={{ textAlign: "center", mt: 12 }}>No products found for this category</Typography>}
             </Box>

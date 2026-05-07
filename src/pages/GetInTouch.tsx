@@ -8,6 +8,7 @@ import {
     List,
     ListItemText,
     ListItemButton,
+    CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import { useFormik } from "formik";
@@ -249,6 +250,8 @@ export default function GetInTouch() {
                                             <Button
                                                 type="submit"
                                                 variant="contained"
+                                                disabled={formik.isSubmitting}
+                                                startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
                                                 sx={{
                                                     bgcolor: "#7cb342",
                                                     px: 4,
@@ -257,7 +260,7 @@ export default function GetInTouch() {
                                                     },
                                                 }}
                                             >
-                                                Send
+                                                {formik.isSubmitting ? "Sending..." : "Send"}
                                             </Button>
                                         </Grid>
                                     </Grid>

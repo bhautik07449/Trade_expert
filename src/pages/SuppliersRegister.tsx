@@ -1,4 +1,4 @@
-import { Box, Button, Grid, List, ListItem, ListItemText, MenuItem, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, List, ListItem, ListItemText, MenuItem, Paper, Tab, Tabs, TextField, Typography, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -260,13 +260,15 @@ export default function SuppliersRegister() {
                                     <Button
                                         type="submit"
                                         variant="contained"
+                                        disabled={formik.isSubmitting}
+                                        startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
                                         sx={{
                                             bgcolor: "#3E3126",
                                             px: 5,
                                             "&:hover": { bgcolor: "#2c231c" },
                                         }}
                                     >
-                                        Sign Up
+                                        {formik.isSubmitting ? "Signing up..." : "Sign Up"}
                                     </Button>
                                 </Grid>
 

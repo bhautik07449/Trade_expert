@@ -11,6 +11,7 @@ import {
     TableHead,
     TableRow,
     CircularProgress,
+    Skeleton,
 } from "@mui/material";
 import { useEffect } from "react";
 import CMSservice from "../service/cms.service";
@@ -101,8 +102,29 @@ export default function Tradeoffer() {
 
             <Container maxWidth="lg" sx={{ mt: 5 }}>
                 {loading ? (
-                    <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
-                        <CircularProgress sx={{ color: "#5a3e2b" }} />
+                    <Box sx={{ py: 2 }}>
+                        {Array.from(new Array(2)).map((_, i) => (
+                            <Box key={i} sx={{ border: "1px solid #ccc", p: 3, bgcolor: "white", mb: 3 }}>
+                                <Skeleton variant="rectangular" width="40%" height={32} sx={{ mx: "auto", mb: 2 }} />
+                                <Skeleton variant="rectangular" width="30%" height={24} sx={{ mx: "auto", mb: 3 }} />
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            {Array.from(new Array(8)).map((_, j) => (
+                                                <TableCell key={j}><Skeleton variant="text" /></TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            {Array.from(new Array(8)).map((_, j) => (
+                                                <TableCell key={j}><Skeleton variant="rectangular" height={40} /></TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </Box>
+                        ))}
                     </Box>
                 ) : stockLotsData?.data?.items?.length > 0 ? (
                     stockLotsData?.data?.items?.map((item: any) => (

@@ -11,6 +11,7 @@ import {
     Paper,
     Box,
     CircularProgress,
+    Skeleton,
 } from "@mui/material"
 import Title from "./labelTitle"
 import { toast } from "react-toastify"
@@ -142,15 +143,45 @@ export default function SpotMarketTable() {
                 }}
             >
                 {loading ? (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "300px",
-                        }}
-                    >
-                        <CircularProgress />
+                    <Box sx={{ width: "100%", overflow: "hidden" }}>
+                        <TableContainer component={Paper} sx={{ width: `${150 + visibleColumns * columnWidth}px`, mx: "auto" }}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{ minWidth: 150, backgroundColor: "#f8f9fa" }}>
+                                            <Skeleton variant="text" width="60%" />
+                                        </TableCell>
+                                        <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
+                                            <Box sx={{ display: "flex" }}>
+                                                {Array.from(new Array(visibleColumns)).map((_, i) => (
+                                                    <Box key={i} sx={{ minWidth: columnWidth, padding: "16px", borderRight: "1px solid #eee", backgroundColor: "#f8f9fa" }}>
+                                                        <Skeleton variant="text" width="80%" />
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {Array.from(new Array(6)).map((_, rowIndex) => (
+                                        <TableRow key={rowIndex}>
+                                            <TableCell sx={{ minWidth: 150, backgroundColor: "#f8f9fa" }}>
+                                                <Skeleton variant="text" width="70%" />
+                                            </TableCell>
+                                            <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
+                                                <Box sx={{ display: "flex" }}>
+                                                    {Array.from(new Array(visibleColumns)).map((_, i) => (
+                                                        <Box key={i} sx={{ minWidth: columnWidth, padding: "16px", borderRight: "1px solid #eee" }}>
+                                                            <Skeleton variant="text" width="40%" />
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Box>
                 ) : (
                     <TableContainer

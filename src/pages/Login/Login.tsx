@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { keyframes } from "@mui/material/styles"
-import { Box, Paper, Typography, TextField, InputAdornment, IconButton, Button } from "@mui/material"
+import { Box, Paper, Typography, TextField, InputAdornment, IconButton, Button, CircularProgress } from "@mui/material"
 import EmailIcon from "@mui/icons-material/Email"
 import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
@@ -181,6 +181,7 @@ export default function LoginForm() {
             fullWidth
             disabled={formik.isSubmitting}
             sx={{ mt: 2 }}
+            startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
           >
             {formik.isSubmitting ? "Signing in..." : "Sign In"}
           </Button>

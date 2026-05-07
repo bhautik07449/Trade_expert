@@ -6,6 +6,7 @@ import {
     Button,
     CircularProgress,
     Typography,
+    Skeleton,
 } from "@mui/material";
 import CMSservice from "../service/cms.service";
 import { getImageUrl } from "../utils/imageUtils";
@@ -79,11 +80,11 @@ export default function ImageUpload({
 
             {loading && (
                 <Box mt={2}>
-                    <CircularProgress size={24} />
+                    <Skeleton variant="rectangular" width={120} height={120} sx={{ borderRadius: 1 }} />
                 </Box>
             )}
 
-            {preview && (
+            {preview && !loading && (
                 <Box mt={2}>
                     <Box
                         component="img"

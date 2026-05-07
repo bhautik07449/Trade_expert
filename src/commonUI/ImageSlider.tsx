@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Box, IconButton, CircularProgress } from "@mui/material"
+import { Box, IconButton, CircularProgress, Skeleton } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import Homeservice from "../service/home.service"
 import { getImageUrl } from "../utils/imageUtils"
@@ -61,16 +61,7 @@ export default function ImageSlider() {
             }}
         >
             {loading ? (
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                    }}
-                >
-                    <CircularProgress />
-                </Box>
+                <Skeleton variant="rectangular" width="100%" height="100%" />
             ) : (
                 <>
                     <Box

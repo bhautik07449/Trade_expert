@@ -1,6 +1,16 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, TextField, Typography, CircularProgress } from "@mui/material";
+import { useState } from "react";
 
 export default function SuppliersLogin() {
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        // Simulate login
+        setTimeout(() => setLoading(false), 2000);
+    };
+
     return (
         <Box sx={{ bgcolor: "#efefef", minHeight: "100vh", py: 5 }}>
             <Box textAlign="center" mb={4}>
@@ -67,7 +77,7 @@ export default function SuppliersLogin() {
                             Customer ?
                         </Typography>
 
-                        <Box component="form" sx={{ mt: 3 }}>
+                        <Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit}>
                             <TextField
                                 fullWidth
                                 size="small"
@@ -85,6 +95,9 @@ export default function SuppliersLogin() {
 
                             <Button
                                 variant="contained"
+                                type="submit"
+                                disabled={loading}
+                                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
                                 sx={{
                                     bgcolor: "#3b6e9c",
                                     px: 4,
@@ -92,7 +105,7 @@ export default function SuppliersLogin() {
                                     "&:hover": { bgcolor: "#2e587d" },
                                 }}
                             >
-                                ✔ Log In
+                                {loading ? "Logging In..." : "✔ Log In"}
                             </Button>
                         </Box>
                     </Paper>

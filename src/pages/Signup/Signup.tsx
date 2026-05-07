@@ -13,7 +13,8 @@ import {
   IconButton,
   Button,
   MenuItem,
-  Grid
+  Grid,
+  CircularProgress,
 } from "@mui/material"
 
 import EmailIcon from "@mui/icons-material/Email"
@@ -270,8 +271,14 @@ export default function SignupForm() {
             </Grid>
 
             <Grid size={{ xs: 12 }}>
-              <Button type="submit" variant="contained" fullWidth>
-                Sign Up
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={formik.isSubmitting}
+                startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+              >
+                {formik.isSubmitting ? "Signing up..." : "Sign Up"}
               </Button>
             </Grid>
           </Grid>
