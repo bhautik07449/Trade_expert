@@ -28,7 +28,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import CategoryIcon from '@mui/icons-material/Category';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
