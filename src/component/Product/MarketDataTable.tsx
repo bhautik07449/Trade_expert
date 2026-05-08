@@ -99,11 +99,11 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                                 "Report",
                                 "Country",
                                 "Quality",
-                                "Rate",
                                 "Packing",
                                 "Delivery",
                                 "Category Type",
                                 "No. of Packing",
+                                "Rate",
                             ].map((head) => (
                                 <TableCell
                                     key={head}
@@ -111,6 +111,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                                         fontWeight: 600,
                                         color: theme.palette.text.primary,
                                         py: 2.5,
+                                        textAlign: head === "Rate" ? "center" : "left",
                                         borderBottom: `2px solid ${alpha(
                                             theme.palette.primary.main,
                                             0.1
@@ -144,19 +145,33 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                                 </TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.country}</TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.quality}</TableCell>
-                                <TableCell
-                                    sx={{
-                                        py: 2,
-                                        fontWeight: 600,
-                                        color: theme.palette.primary.main,
-                                    }}
-                                >
-                                    {item.rate}
-                                </TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.packing}</TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.delivery}</TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.categoryType}</TableCell>
                                 <TableCell sx={{ py: 2 }}>{item.noOfPacking}</TableCell>
+                                <TableCell
+                                    sx={{
+                                        py: 2,
+                                        fontWeight: 800,
+                                        color: "#ffffff",
+                                        textAlign: "center",
+                                        fontSize: "1rem",
+                                        letterSpacing: "1px",
+                                        animation: "rateHighlight 1s infinite alternate",
+                                        "@keyframes rateHighlight": {
+                                            "0%": { color: "#ffffff", transform: "scale(1)" },
+                                            "50%": { color: "#FFD700", transform: "scale(1.05)" },
+                                            "100%": { color: "#00E676", transform: "scale(1)" },
+                                        },
+                                        transition: "all 0.3s ease",
+                                        "&:hover": {
+                                            bgcolor: "#000000",
+                                            cursor: "pointer"
+                                        }
+                                    }}
+                                >
+                                    {item.rate}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

@@ -146,7 +146,7 @@ const getStocklots = async (id) => {
 
 const getAbc = async () => {
     try {
-        const response = await serverCall.get('/abc')
+        const response = await serverCall.get('/abc/grouped')
         return response
     } catch (error) {
         throw error

@@ -7,7 +7,7 @@ import InquiryDialog from "../component/Dialog/inquiry-dialog";
 import EnquiryDialog from "../component/Dialog/enquiry-dialog";
 
 export default function Abc() {
-    const [list, setList] = useState<any[]>([])
+    const [list, setList] = useState<any>([])
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
     const [openEnquiry, setOpenEnquiry] = useState(false)
@@ -87,40 +87,61 @@ export default function Abc() {
                         </Box>
                     ))
                 ) : (
-                    list?.map((item, index) => (
-                        <Box
-                            key={index}
-                            sx={{
-                                mb: 6
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    border: "2px solid #3E3126",
-                                    textAlign: "center",
-                                    py: 1.5,
-                                    mb: 6,
-                                    fontWeight: 600,
-                                }}
-                            >
-                                {item?.category?.name}
-                            </Box>
+                    list?.map((entry: any, entryIndex: number) => (
+                        <Box key={entryIndex} sx={{ mb: 4 }}>
+                            {entry?.abc_type?.name && (
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        fontWeight: 700,
+                                        mb: 3,
+                                        color: "secondary.main",
+                                        textAlign: "center",
+                                        textTransform: "uppercase",
+                                        letterSpacing: 1
+                                    }}
+                                >
+                                    {entry.abc_type.name}
+                                </Typography>
+                            )}
 
-                            <CardUi
-                                label='Availability'
-                                onEnquire={(product) => {
-                                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                    setOpenEnquiry(true)
-                                }}
-                                onRequestSample={(product) => {
-                                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                    setOpen(true)
-                                }}
-                                products={item?.products}
-                                visiblecard={3}
-                                loading={loading}
-                            />
+                            {entry?.item?.map((item: any, itemIndex: number) => (
+                                <Box
+                                    key={itemIndex}
+                                    sx={{
+                                        mb: 6
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            border: "2px solid #3E3126",
+                                            textAlign: "center",
+                                            py: 1.5,
+                                            mb: 6,
+                                            fontWeight: 600,
+                                            fontSize: "1.2rem",
+                                            color: "#3E3126"
+                                        }}
+                                    >
+                                        {item?.category?.name}
+                                    </Box>
 
+                                    <CardUi
+                                        label='Availability'
+                                        onEnquire={(product: any) => {
+                                            setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                                            setOpenEnquiry(true)
+                                        }}
+                                        onRequestSample={(product: any) => {
+                                            setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                                            setOpen(true)
+                                        }}
+                                        products={item?.product_data}
+                                        visiblecard={3}
+                                        loading={loading}
+                                    />
+                                </Box>
+                            ))}
                         </Box>
                     ))
                 )}
