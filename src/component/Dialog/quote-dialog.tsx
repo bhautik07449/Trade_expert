@@ -78,8 +78,6 @@ export default function QuotationDialog({ open, onClose }: Props) {
             productName: Yup.string().required("Product Name is required"),
             businessEmail: Yup.string().email("Invalid email format").required("Business Email is required"),
             category: Yup.number().required("Category is required"),
-            subCategory: Yup.number().required("Sub Category is required"),
-            childCategory: Yup.number().required("Child Category is required"),
             quantity: Yup.number().typeError("Quantity must be a number").required("Quantity is required"),
             unit: Yup.number().required("Unit is required"),
             price: Yup.number().typeError("Price must be a number").required("Price is required"),
