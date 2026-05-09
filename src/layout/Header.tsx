@@ -217,9 +217,9 @@ export default function Header() {
             <HideOnScroll>
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
                     <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
-                        <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+                        <Link component={RouterLink} to="/" sx={{ display: "flex", gap: 3, alignItems: "center" }}>
                             <img src="./logo.jpg" alt="logo" style={{ maxWidth: "100%", height: "auto", maxHeight: "50px" }} />
-                        </Box>
+                        </Link>
                         <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
                             <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} /> +91 87653 37336</Typography>
                             <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><AccessTimeIcon sx={{ fontSize: 20, mr: 0.5 }} />Mon-Fri: 9:00am - 8:00pm</Typography>
@@ -232,7 +232,7 @@ export default function Header() {
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Typography variant="h6" sx={{
                         fontWeight: 600, fontSize: {
-                            xs: "16px",
+                            xs: "14px",
                             sm: "18px",
                             md: "20px",
                             lg: "22px",

@@ -60,7 +60,7 @@ export default function OurView() {
                 }}
             />
 
-            <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
+            <Container maxWidth={false} sx={{ position: "relative", zIndex: 2 }}>
                 <Box
                     sx={{
                         display: "grid",

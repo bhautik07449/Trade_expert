@@ -76,7 +76,7 @@ export default function ProductPage() {
                 />
             )}
 
-            <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>
+            <Container maxWidth={false} sx={{ py: { xs: 3, md: 6 } }}>
                 {loading ? (
                     <Grid container spacing={{ xs: 3, md: 4 }}>
                         <Grid size={{ xs: 12, md: 5 }}>

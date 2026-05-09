@@ -10,7 +10,7 @@ export default function OurProcess() {
                 textAlign: "center",
             }}
         >
-            <Container maxWidth="lg">
+            <Container maxWidth={false}>
 
                 <Title title="Our" label="Process" />
 

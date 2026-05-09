@@ -56,19 +56,19 @@ export default function ImageSlider() {
             sx={{
                 position: "relative",
                 width: "100%",
-                height: { xs: 200, md: 500 },
                 overflow: "hidden",
+                bgcolor: "#f8f9fa", // Optional background for any empty space
             }}
         >
             {loading ? (
-                <Skeleton variant="rectangular" width="100%" height="100%" />
+                <Skeleton variant="rectangular" width="100%" sx={{ height: { xs: 200, md: 500 } }} />
             ) : (
                 <>
                     <Box
                         sx={{
                             display: "flex",
                             transition: "transform 0.5s ease-in-out",
-                            height: "100%",
+                            alignItems: "center", // Center images vertically if they don't fill height
                             transform: `translateX(-${currentSlide * 100}%)`,
                         }}
                     >
@@ -79,9 +79,11 @@ export default function ImageSlider() {
                                 src={getImageUrl(slide?.image)}
                                 alt={`Slide ${slide?.id}`}
                                 sx={{
-                                    minWidth: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
+                                    flex: "0 0 100%",
+                                    width: "100%",
+                                    height: "auto",
+                                    maxHeight: { xs: 250, sm: 350, md: 500, lg: 600 },
+                                    objectFit: "contain",
                                 }}
                             />
                         ))}

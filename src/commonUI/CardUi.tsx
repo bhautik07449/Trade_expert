@@ -73,7 +73,7 @@ export default function CardUi({
     }
 
     return (
-        <Container maxWidth="xl" sx={{ p: 0 }}>
+        <Box sx={{ width: "100%", px: { xs: 1, sm: 3, md: 5 }, boxSizing: "border-box", mb: 4 }}>
             {title && label && (
                 <Title title={title} label={label} />
             )}
@@ -210,6 +210,6 @@ export default function CardUi({
                     )}
                 </Box>
             </Box>
-        </Container>
+        </Box>
     )
 }
