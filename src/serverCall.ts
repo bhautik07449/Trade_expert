@@ -7,7 +7,7 @@ const customAxios = axios.create({
   baseURL: BASE_URL,
 });
 
-const requestHandler = (request) => {
+const requestHandler = (request: any) => {
   const user = localStorage.getItem("token");
 
   if (user) {
@@ -17,7 +17,7 @@ const requestHandler = (request) => {
   return request;
 };
 
-const responseHandler = (response) => {
+const responseHandler = (response: any) => {
   if (response.status === 401 || response.status === 403 || response.status === 400) {
     localStorage.clear();
     window.location.replace("/");
@@ -30,11 +30,11 @@ const responseHandler = (response) => {
   return response;
 };
 
-const requestErrorHandler = (error) => {
+const requestErrorHandler = (error: any) => {
   return Promise.reject(error);
 };
 
-const responseErrorHandler = (error) => {
+const responseErrorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status === 401 || error.response.status === 403) {
       localStorage.clear();

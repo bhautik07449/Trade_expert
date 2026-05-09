@@ -15,8 +15,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import InventoryIcon from "@mui/icons-material/Inventory"
 import MessageIcon from "@mui/icons-material/Message"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import LabelTitle from "../commonUI/labelTitle"
-import CMSservice from "../service/cms.service"
+import LabelTitle from "../../commonUI/labelTitle"
+import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
 
 export default function BuyerDashboard() {

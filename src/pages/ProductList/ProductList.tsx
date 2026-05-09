@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material"
-import CardUi from "../commonUI/CardUi"
-import InquiryDialog from "../component/Dialog/inquiry-dialog"
+import CardUi from "../../commonUI/CardUi"
+import InquiryDialog from "../../component/Dialog/inquiry-dialog"
 import { useEffect, useState } from "react"
-import Homeservice from "../service/home.service"
+import Homeservice from "../../service/home.service"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
-import SEO from "../component/SEO"
+import SEO from "../../component/SEO"
 
 export default function ProductList() {
     const { slug } = useParams();

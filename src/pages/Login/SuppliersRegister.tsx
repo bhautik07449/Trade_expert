@@ -2,7 +2,7 @@ import { Box, Button, Grid, List, ListItem, ListItemText, MenuItem, Paper, Tab, 
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import CMSservice from "../service/cms.service";
+import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 
 export default function SuppliersRegister() {

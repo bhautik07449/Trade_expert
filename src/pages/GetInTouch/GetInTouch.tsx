@@ -13,9 +13,9 @@ import {
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Homeservice from "../service/home.service";
+import Homeservice from "../../service/home.service";
 import { toast } from "react-toastify";
-import SEO from "../component/SEO";
+import SEO from "../../component/SEO";
 
 export default function GetInTouch() {
     const [activeTab, setActiveTab] = useState("fill-form");
@@ -71,8 +71,8 @@ export default function GetInTouch() {
 
     return (
         <Box sx={{ bgcolor: "#f4f4f4", minHeight: "100vh", pb: 10 }}>
-            <SEO 
-                title="Get In Touch - Tradexpert" 
+            <SEO
+                title="Get In Touch - Tradexpert"
                 description="Contact Tradexpert for any queries, doubts, or to share something. We are available 24/7 for live chat, or you can call or email us."
             />
             <img

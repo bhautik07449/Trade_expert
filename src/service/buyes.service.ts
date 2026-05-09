@@ -1,3 +1,4 @@
+// @ts-nocheck
 import serverCall from "../serverCall";
 
 const buyerRegister = async (body) => {

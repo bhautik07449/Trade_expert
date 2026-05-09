@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import ImageSlider from '../commonUI/ImageSlider'
-import CardUi from '../commonUI/CardUi'
-import SpotMarketTable from '../commonUI/spotMarket'
-import InquiryDialog from '../component/Dialog/inquiry-dialog'
-import OurView from '../component/Ourview'
-import OurProcess from '../component/OurProcess'
-import Values from '../component/Values'
-import AboutTestimonial from './AboutTestimonial'
-import Homeservice from '../service/home.service'
-import EnquiryDialog from '../component/Dialog/enquiry-dialog'
-import SEO from '../component/SEO'
+import ImageSlider from '../../commonUI/ImageSlider'
+import CardUi from '../../commonUI/CardUi'
+import SpotMarketTable from '../../commonUI/spotMarket'
+import InquiryDialog from '../../component/Dialog/inquiry-dialog'
+import OurView from '../../component/Ourview'
+import OurProcess from '../../component/OurProcess'
+import Values from '../../component/Values'
+import AboutTestimonial from '../About/AboutTestimonial'
+import Homeservice from '../../service/home.service'
+import EnquiryDialog from '../../component/Dialog/enquiry-dialog'
+import SEO from '../../component/SEO'
 
 export const Dashboard = () => {
   const [allProducts, setAllProducts] = useState([])
@@ -65,10 +65,10 @@ export const Dashboard = () => {
 
   return (
     <>
-      <SEO 
-        title="Tradexpert - B2B Marketplace for Traders" 
-        description="Join Tradexpert, the leading B2B marketplace for spot markets, current, and upcoming seasonal products. Connect with verified suppliers and buyers." 
-        keywords="B2B, marketplace, spot market, wholesale, trade, suppliers, buyers" 
+      <SEO
+        title="Tradexpert - B2B Marketplace for Traders"
+        description="Join Tradexpert, the leading B2B marketplace for spot markets, current, and upcoming seasonal products. Connect with verified suppliers and buyers."
+        keywords="B2B, marketplace, spot market, wholesale, trade, suppliers, buyers"
       />
       <ImageSlider />
       <SpotMarketTable />

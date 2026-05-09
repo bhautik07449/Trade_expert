@@ -1,11 +1,11 @@
 import { Box, Container, Typography, Skeleton, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import CMSservice from "../service/cms.service";
+import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
-import CardUi from "../commonUI/CardUi";
-import InquiryDialog from "../component/Dialog/inquiry-dialog";
-import EnquiryDialog from "../component/Dialog/enquiry-dialog";
-import SEO from "../component/SEO";
+import CardUi from "../../commonUI/CardUi";
+import InquiryDialog from "../../component/Dialog/inquiry-dialog";
+import EnquiryDialog from "../../component/Dialog/enquiry-dialog";
+import SEO from "../../component/SEO";
 
 export default function Abc() {
     const [list, setList] = useState<any>([])
@@ -39,8 +39,8 @@ export default function Abc() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            <SEO 
-                title="ABC Menus - Tradexpert" 
+            <SEO
+                title="ABC Menus - Tradexpert"
                 description="Explore the ABC Menus on Tradexpert for top-quality agri and food products."
             />
             <Box

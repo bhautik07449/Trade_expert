@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Divider, Link } from "@mui/material";
-import SEO from "../component/SEO";
+import SEO from "../../component/SEO";
 
 export default function HowToPay() {
     return (

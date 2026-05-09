@@ -2,8 +2,8 @@ import { Box, Typography, Avatar, Paper, MobileStepper, Skeleton } from "@mui/ma
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
-import Homeservice from "../service/home.service";
-import { getImageUrl } from "../utils/imageUtils";
+import Homeservice from "../../service/home.service";
+import { getImageUrl } from "../../utils/imageUtils";
 
 interface Client {
     id: number

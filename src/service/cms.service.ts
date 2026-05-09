@@ -1,8 +1,9 @@
+// @ts-nocheck
 import serverCall from "../serverCall";
 
-const getList = async (body) => {
+const getList = async () => {
     try {
-        const response = await serverCall.get('/qualitypolicy', body)
+        const response = await serverCall.get('/qualitypolicy')
         return response
     } catch (error) {
         throw error

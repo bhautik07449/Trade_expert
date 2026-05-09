@@ -1,9 +1,9 @@
 import { Box, Typography, Container, Grid, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
-import CMSservice from "../service/cms.service";
-import { getImageUrl } from "../utils/imageUtils";
+import CMSservice from "../../service/cms.service";
+import { getImageUrl } from "../../utils/imageUtils";
 import { toast } from "react-toastify";
-import SEO from "../component/SEO";
+import SEO from "../../component/SEO";
 
 interface Props {
     logo: string,

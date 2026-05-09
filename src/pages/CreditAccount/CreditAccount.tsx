@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import LabelTitle from "../commonUI/labelTitle";
+import LabelTitle from "../../commonUI/labelTitle";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import CMSservice from "../service/cms.service";
+import CMSservice from "../../service/cms.service";
 
 const countryOptions = [
     { label: "India", value: "India" },
