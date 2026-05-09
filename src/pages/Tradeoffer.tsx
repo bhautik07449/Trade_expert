@@ -15,6 +15,7 @@ import {
 import { useEffect } from "react";
 import CMSservice from "../service/cms.service";
 import { toast } from "react-toastify";
+import SEO from "../component/SEO";
 
 export default function Tradeoffer() {
     const [selectedOffer, setSelectedOffer] = useState();
@@ -63,6 +64,10 @@ export default function Tradeoffer() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
+            <SEO 
+                title="Trade Offers - Tradexpert" 
+                description="Explore the latest trade offers and stock lots on Tradexpert."
+            />
             <Box
                 component="img"
                 src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"

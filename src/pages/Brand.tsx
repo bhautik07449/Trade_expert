@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../service/brand.service";
 import { getImageUrl } from "../utils/imageUtils";
+import SEO from "../component/SEO";
 
 interface Props {
     logo: string,
@@ -40,6 +41,10 @@ export default function Brand() {
 
     return (
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
+            <SEO 
+                title="Our Brands - Tradexpert" 
+                description="Explore the brands and categories available on Tradexpert."
+            />
             <img src="https://sourceseas.itcoders.in/img/front-end/brands.jpg" alt="Brands" style={{ width: '100%', minHeight: '200px', maxHeight: '400px', }} />
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 {loading ? (

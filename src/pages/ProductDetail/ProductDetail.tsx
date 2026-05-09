@@ -7,7 +7,7 @@ import MarketDataTable from "../../component/Product/MarketDataTable"
 import { useEffect, useState } from "react"
 import ProductDetailsservice from "../../service/productDetails.service"
 import { useParams } from "react-router-dom"
-import { Helmet } from "react-helmet-async"
+import SEO from "../../component/SEO"
 
 export default function ProductPage() {
     const { id } = useParams()
@@ -67,23 +67,13 @@ export default function ProductPage() {
     return (
         <>
             {product && (
-                <Helmet>
-                    <title>{product?.pageTitle || product?.name}</title>
-                    <meta
-                        name="description"
-                        content={product?.metaDescription || product?.name}
-                    />
-
-                    <meta
-                        name="keywords"
-                        content={product?.metaKeywords || product?.name}
-                    />
-
-                    <meta property="og:title" content={product?.pageTitle || product?.name} />
-                    <meta property="og:description" content={product?.metaDescription} />
-                    <meta property="og:image" content={product?.images?.[0]} />
-                    <meta property="og:type" content="product" />
-                </Helmet>
+                <SEO 
+                    title={product?.pageTitle || product?.name || 'Product Details'} 
+                    description={product?.metaDescription || product?.name || 'View product details on Tradexpert'} 
+                    keywords={product?.metaKeywords || product?.name} 
+                    type="product"
+                    image={product?.images?.[0]}
+                />
             )}
 
             <Container maxWidth="xl" sx={{ py: { xs: 3, md: 6 } }}>

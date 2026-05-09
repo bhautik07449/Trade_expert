@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import { Typography, Box, CircularProgress } from "@mui/material";
-import { Helmet } from "react-helmet-async";
+import SEO from "../../component/SEO";
 
 export default function Resource() {
     const { slug } = useParams<{ slug: string }>();
@@ -27,11 +27,11 @@ export default function Resource() {
     return (
         <Box sx={{ p: 3 }}>
             {pageDetail && (
-                <Helmet>
-                    <title>{pageDetail.page_meta_title || pageDetail.page_title}</title>
-                    <meta name="description" content={pageDetail.meta_description || ""} />
-                    <meta name="keywords" content={pageDetail.meta_keyword || ""} />
-                </Helmet>
+                <SEO 
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Resource'} 
+                    description={pageDetail.meta_description || ''} 
+                    keywords={pageDetail.meta_keyword || ''} 
+                />
             )}
 
             {loading ? (

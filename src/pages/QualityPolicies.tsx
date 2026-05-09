@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CMSservice from "../service/cms.service";
 import { getImageUrl } from "../utils/imageUtils";
 import { toast } from "react-toastify";
+import SEO from "../component/SEO";
 
 interface Props {
     logo: string,
@@ -37,6 +38,10 @@ export default function QualityPolicies() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
+            <SEO 
+                title="Quality Policies - Tradexpert" 
+                description="We firmly believe in sourcing and supplying top-quality agri and food products. We collaborate only with ISO, FSSAI, HACCP, HALAL, BRC and FDA approved suppliers."
+            />
             <Box
                 component="img"
                 src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"

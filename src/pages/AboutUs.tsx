@@ -3,6 +3,7 @@ import Title from "../commonUI/labelTitle";
 import OurView from "../component/Ourview";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import SEO from "../component/SEO";
 
 export default function AboutUs() {
     const cards = [
@@ -41,6 +42,10 @@ export default function AboutUs() {
 
     return (
         <Box>
+            <SEO 
+                title="About Us - Tradexpert" 
+                description="Learn about Tradexpert's vision, mission, and objective to become the foremost trade facilitator of India. We facilitate trade ethically with innovative solutions."
+            />
             <Title title="Know" label="Us" id="know-us" />
 
             <Container maxWidth="md">

@@ -1,4 +1,4 @@
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Typography, Container, Skeleton } from "@mui/material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -8,8 +8,10 @@ import { getImageUrl } from "../utils/imageUtils";
 
 export default function OurView() {
     const [certImages, setCertImages] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const getImages = async () => {
+        setLoading(true);
         try {
             const res = await CMSservice.getCertificate()
             if (res) {
@@ -17,6 +19,8 @@ export default function OurView() {
             }
         } catch (error) {
             console.log("error", error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -91,26 +95,35 @@ export default function OurView() {
                             sx={{
                                 maxWidth: { xs: "280px", sm: "350px", md: "450px" },
                                 mx: "auto",
+                                bgcolor: "white",
+                                p: 1,
+                                borderRadius: 2,
+                                boxShadow: 3
                             }}
                         >
-                            <Slider {...sliderSettings}>
-                                {certImages.map((img, index) => (
-                                    <Box key={index}>
-                                        <Box
-                                            component="img"
-                                            src={getImageUrl(img?.image)}
-                                            alt={`cert-${index}`}
-                                            sx={{
-                                                width: "100%",
-                                                height: "299px",
-                                                display: "block",
-                                                boxShadow: 3,
-                                                borderRadius: 2,
-                                            }}
-                                        />
-                                    </Box>
-                                ))}
-                            </Slider>
+                            {loading ? (
+                                <Skeleton variant="rectangular" width="100%" height={299} sx={{ borderRadius: 2 }} />
+                            ) : (
+                                <Slider {...sliderSettings}>
+                                    {certImages.map((img, index) => (
+                                        <Box key={index} sx={{ outline: 'none' }}>
+                                            <Box
+                                                component="img"
+                                                src={getImageUrl(img?.image)}
+                                                alt={`cert-${index}`}
+                                                sx={{
+                                                    width: "100%",
+                                                    height: "299px",
+                                                    objectFit: "contain",
+                                                    display: "block",
+                                                    borderRadius: 2,
+                                                    bgcolor: 'white'
+                                                }}
+                                            />
+                                        </Box>
+                                    ))}
+                                </Slider>
+                            )}
                         </Box>
                     </Box>
 

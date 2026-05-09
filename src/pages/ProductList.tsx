@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Homeservice from "../service/home.service"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
+import SEO from "../component/SEO"
 
 export default function ProductList() {
     const { slug } = useParams();
@@ -39,6 +40,10 @@ export default function ProductList() {
 
     return (
         <>
+            <SEO 
+                title={`${slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Products'} - Tradexpert`} 
+                description={`Explore our wide range of ${slug ? slug.replace(/-/g, ' ') : ''} products. Connect with verified suppliers and buyers on Tradexpert.`}
+            />
             <Box sx={{ mb: 12 }}>
                 {loading || product?.length > 0 ?
                     <CardUi

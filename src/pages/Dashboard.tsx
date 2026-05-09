@@ -9,6 +9,7 @@ import Values from '../component/Values'
 import AboutTestimonial from './AboutTestimonial'
 import Homeservice from '../service/home.service'
 import EnquiryDialog from '../component/Dialog/enquiry-dialog'
+import SEO from '../component/SEO'
 
 export const Dashboard = () => {
   const [allProducts, setAllProducts] = useState([])
@@ -64,6 +65,11 @@ export const Dashboard = () => {
 
   return (
     <>
+      <SEO 
+        title="Tradexpert - B2B Marketplace for Traders" 
+        description="Join Tradexpert, the leading B2B marketplace for spot markets, current, and upcoming seasonal products. Connect with verified suppliers and buyers." 
+        keywords="B2B, marketplace, spot market, wholesale, trade, suppliers, buyers" 
+      />
       <ImageSlider />
       <SpotMarketTable />
       <CardUi

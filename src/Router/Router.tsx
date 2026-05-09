@@ -1,27 +1,29 @@
-import { useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
-import { Dashboard } from '../pages/Dashboard';
-import { PageNotFound } from '../pages/PageNotFound';
-import SignupForm from '../pages/Signup/Signup';
-import LoginForm from '../pages/Login/Login';
-import ProductPage from '../pages/ProductDetail/ProductDetail';
-import AboutUs from '../pages/AboutUs';
-import QualityPolicies from '../pages/QualityPolicies';
-import Brand from '../pages/Brand';
-import HowToPay from '../pages/HowToPay';
-import ProductList from '../pages/ProductList';
-import GetInTouch from '../pages/GetInTouch';
-import Resource from '../pages/Resource/Resource';
-import SuppliersRegister from '../pages/SuppliersRegister';
-import SuppliersLogin from '../pages/SuppliersLogin';
-import BuyerDashboard from '../pages/BuyerDashboard';
-import CreditAccount from '../pages/CreditAccount';
-import Gallery from '../pages/Resource/Gallery';
-import CSR from '../pages/Resource/CSR';
-import Career from '../pages/Resource/Career';
-import Faq from '../pages/Resource/Faq';
-import Tradeoffer from '../pages/Tradeoffer';
-import Abc from '../pages/Abc';
+
+// Lazy loaded page components
+const Dashboard = React.lazy(() => import('../pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const PageNotFound = React.lazy(() => import('../pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
+const SignupForm = React.lazy(() => import('../pages/Signup/Signup'));
+const LoginForm = React.lazy(() => import('../pages/Login/Login'));
+const ProductPage = React.lazy(() => import('../pages/ProductDetail/ProductDetail'));
+const AboutUs = React.lazy(() => import('../pages/AboutUs'));
+const QualityPolicies = React.lazy(() => import('../pages/QualityPolicies'));
+const Brand = React.lazy(() => import('../pages/Brand'));
+const HowToPay = React.lazy(() => import('../pages/HowToPay'));
+const ProductList = React.lazy(() => import('../pages/ProductList'));
+const GetInTouch = React.lazy(() => import('../pages/GetInTouch'));
+const Resource = React.lazy(() => import('../pages/Resource/Resource'));
+const SuppliersRegister = React.lazy(() => import('../pages/SuppliersRegister'));
+const SuppliersLogin = React.lazy(() => import('../pages/SuppliersLogin'));
+const BuyerDashboard = React.lazy(() => import('../pages/BuyerDashboard'));
+const CreditAccount = React.lazy(() => import('../pages/CreditAccount'));
+const Gallery = React.lazy(() => import('../pages/Resource/Gallery'));
+const CSR = React.lazy(() => import('../pages/Resource/CSR'));
+const Career = React.lazy(() => import('../pages/Resource/Career'));
+const Faq = React.lazy(() => import('../pages/Resource/Faq'));
+const Tradeoffer = React.lazy(() => import('../pages/Tradeoffer'));
+const Abc = React.lazy(() => import('../pages/Abc'));
 
 type Props = {
   children: JSX.Element;

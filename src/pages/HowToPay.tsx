@@ -1,8 +1,13 @@
 import { Box, Grid, Typography, Divider, Link } from "@mui/material";
+import SEO from "../component/SEO";
 
 export default function HowToPay() {
     return (
         <Box sx={{ maxWidth: 1200, mx: "auto", border: "1px solid #ddd", my: 4 }}>
+            <SEO 
+                title="How To Pay - Tradexpert" 
+                description="Information on how to pay and the documents we provide including commercial invoice, packing list, and certificates."
+            />
 
             <Grid container sx={{ background: "#cfe5a5" }}>
                 <Grid size={{ xs: 6 }} sx={{ textAlign: "center", py: 2 }}>
