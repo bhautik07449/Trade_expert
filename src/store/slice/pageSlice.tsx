@@ -60,6 +60,7 @@ const pageSlice = createSlice({
 
             .addCase(fetchFlatPageBySlug.pending, (state) => {
                 state.loading = true;
+                state.pageDetail = null;
             })
             .addCase(fetchFlatPageBySlug.fulfilled, (state, action) => {
                 state.loading = false;

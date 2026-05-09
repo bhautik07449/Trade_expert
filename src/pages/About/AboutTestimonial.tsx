@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import Homeservice from "../../service/home.service";
 import { getImageUrl } from "../../utils/imageUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 
 interface Client {
     id: number
@@ -27,6 +30,14 @@ export default function AboutTestimonial() {
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(true)
     const maxSteps = testimonials.length;
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("about_us"));
+    }, [dispatch]);
 
     const getTestimonials = async () => {
         setLoading(true)
@@ -100,27 +111,18 @@ export default function AboutTestimonial() {
                             ))}
                         </>
                     ) : (
-                        [1, 2, 3, 4].map((_, i) => (
-                            <Typography
-                                key={i}
-                                sx={{
-                                    mb: 2,
-                                    fontSize: { xs: "13px", sm: "14px", md: "15px" },
-                                    lineHeight: 1.9,
-                                    color: "#555",
-                                    textAlign: { xs: "center", md: "left" },
-                                }}
-                            >
-                                {i === 0 &&
-                                    "At Sourceseas Overseas, we continuously work towards improving and raising the standards of agricultural and food exports from India to the world. Quality is what we love, and it is what we deliver."}
-                                {i === 1 &&
-                                    "We collaborate directly with farmers, agro producers, and food processors across India, making us unique in our domain. We serve seasonal crops and extend availability for a wide range of agricultural products."}
-                                {i === 2 &&
-                                    "Our utmost priority is quality assurance. Every product is inspected under APEDA guidelines to ensure pesticide-free exports."}
-                                {i === 3 &&
-                                    "With strong process knowledge and a talented team, Sourceseas Overseas is rapidly expanding globally. We would be happy to associate with you."}
-                            </Typography>
-                        ))
+                        <Typography
+                            sx={{
+                                mb: 2,
+                                fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                                lineHeight: 1.9,
+                                color: "#555",
+                                textAlign: { xs: "center", md: "left" },
+                            }}
+                            dangerouslySetInnerHTML={{
+                                __html: pageDetail?.content || null,
+                            }}
+                        />
                     )}
                 </Box>
 

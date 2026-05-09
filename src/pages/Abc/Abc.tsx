@@ -6,6 +6,9 @@ import CardUi from "../../commonUI/CardUi";
 import InquiryDialog from "../../component/Dialog/inquiry-dialog";
 import EnquiryDialog from "../../component/Dialog/enquiry-dialog";
 import SEO from "../../component/SEO";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 
 export default function Abc() {
     const [list, setList] = useState<any>([])
@@ -18,6 +21,14 @@ export default function Abc() {
         images?: string
         id?: any
     } | null>(null)
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("abc"));
+    }, [dispatch]);
 
     const getList = async () => {
         setLoading(true)
@@ -39,10 +50,14 @@ export default function Abc() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            <SEO
-                title="ABC Menus - Tradexpert"
-                description="Explore the ABC Menus on Tradexpert for top-quality agri and food products."
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Abc'}
+                    description={pageDetail.meta_description || ''}
+                    keywords={pageDetail.meta_keyword || ''}
+                />
+            )}
+
             <Box
                 component="img"
                 src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
@@ -65,18 +80,19 @@ export default function Abc() {
 
             <Container maxWidth="lg">
 
-                <Typography
-                    sx={{
-                        color: "secondary.main",
-                        mb: 5,
-                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                        textAlign: "center",
-                    }}
-                >
-                    We firmly believe in sourcing and supplying top-quality agri and food
-                    products. We collaborate only with ISO, FSSAI, HACCP, HALAL, BRC and
-                    FDA approved suppliers to ensure global food safety standards.
-                </Typography>
+                {pageDetail?.content && (
+                    <Typography
+                        sx={{
+                            color: "secondary.main",
+                            mb: 5,
+                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                            textAlign: "center",
+                        }}
+                        dangerouslySetInnerHTML={{
+                            __html: pageDetail?.content || null,
+                        }}
+                    />
+                )}
 
                 {loading ? (
                     Array.from(new Array(2)).map((_, i) => (

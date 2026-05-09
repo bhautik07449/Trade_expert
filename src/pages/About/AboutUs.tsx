@@ -4,8 +4,20 @@ import OurView from "../../component/Ourview";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import SEO from "../../component/SEO";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function AboutUs() {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("about_us"));
+    }, [dispatch]);
+
     const cards = [
         {
             title1: "Our",
@@ -42,40 +54,36 @@ export default function AboutUs() {
 
     return (
         <Box>
-            <SEO
-                title="About Us - Tradexpert"
-                description="Learn about Tradexpert's vision, mission, and objective to become the foremost trade facilitator of India. We facilitate trade ethically with innovative solutions."
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
+                    description={pageDetail.meta_description || ''}
+                    keywords={pageDetail.meta_keyword || ''}
+                />
+            )}
+
             <Title title="Know" label="Us" id="know-us" />
 
-            <Container maxWidth="md">
-                {[
-                    "We at Sourceseas Overseas are continuously working to improve and raise the standards of agri and food exports worldwide from India. Quality is what we love and deliver — it has been our core objective since formation.",
-                    "We collaborate directly with farmers, agro and food processors across India and ensure seasonal crop availability.",
-                    "We build strong client relationships based on honesty, reliability, and quality while delivering value beyond expectations.",
-                    "All products are inspected under APEDA guidelines for pesticide-free export. With one of the largest storage facilities locally, we are capable of fulfilling bulk orders instantly.",
-                    "With a strong vision and motivated team, we are expanding globally beyond SAARC and Asian regions to serve worldwide clients.",
-                ].map((text, index) => (
-                    <Typography
-                        key={index}
-                        sx={{
-                            mb: 3,
-                            fontSize: {
-                                xs: "13px",
-                                sm: "14px",
-                                md: "16px",
-                                lg: "17px",
-                            },
-                            lineHeight: 1.9,
-                            textAlign: "center",
-                            color: "#555",
-                            px: { xs: 1, sm: 0 },
-                        }}
-                    >
-                        {text}
-                    </Typography>
-                ))}
-            </Container>
+            {loading ? (
+                <Box maxWidth="md" mx="auto" px={3} mb={5}>
+                    <PageContentSkeleton />
+                </Box>
+            ) : pageDetail?.content && (
+                <Typography
+                    sx={{
+                        color: "secondary.main",
+                        mb: 5,
+                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                        textAlign: "justify",
+                        px: 3
+                    }}
+                    dangerouslySetInnerHTML={{
+                        __html: pageDetail?.content || null,
+                    }}
+                    maxWidth="md"
+                    mx="auto"
+                />
+            )}
 
             <Container maxWidth="lg" sx={{ py: { xs: 5, md: 10 } }}>
                 <Grid container spacing={4} id="vision-mission">

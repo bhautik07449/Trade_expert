@@ -4,6 +4,10 @@ import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import { toast } from "react-toastify";
 import SEO from "../../component/SEO";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 interface Props {
     logo: string,
@@ -17,6 +21,13 @@ interface Props {
 export default function QualityPolicies() {
     const [list, setList] = useState<Props[]>([])
     const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading: pageLoading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("quality_policies"));
+    }, [dispatch]);
 
     const getList = async () => {
         setLoading(true)
@@ -38,10 +49,14 @@ export default function QualityPolicies() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            <SEO 
-                title="Quality Policies - Tradexpert" 
-                description="We firmly believe in sourcing and supplying top-quality agri and food products. We collaborate only with ISO, FSSAI, HACCP, HALAL, BRC and FDA approved suppliers."
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
+                    description={pageDetail.meta_description || ''}
+                    keywords={pageDetail.meta_keyword || ''}
+                />
+            )}
+
             <Box
                 component="img"
                 src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
@@ -64,18 +79,23 @@ export default function QualityPolicies() {
 
             <Container maxWidth="lg">
 
-                <Typography
-                    sx={{
-                        color: "secondary.main",
-                        mb: 5,
-                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                        textAlign: "center",
-                    }}
-                >
-                    We firmly believe in sourcing and supplying top-quality agri and food
-                    products. We collaborate only with ISO, FSSAI, HACCP, HALAL, BRC and
-                    FDA approved suppliers to ensure global food safety standards.
-                </Typography>
+                <Box sx={{ p: 4, textAlign: 'center' }}>
+                    {pageLoading ? (
+                        <PageContentSkeleton />
+                    ) : pageDetail?.content && (
+                        <Typography
+                            sx={{
+                                color: "secondary.main",
+                                mb: 5,
+                                fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                                textAlign: "justify",
+                            }}
+                            dangerouslySetInnerHTML={{
+                                __html: pageDetail?.content || null,
+                            }}
+                        />
+                    )}
+                </Box>
 
                 {loading ? (
                     Array.from(new Array(3)).map((_, i) => (

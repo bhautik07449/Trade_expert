@@ -2,10 +2,22 @@ import { Box, Typography, Grid, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import SEO from "../../component/SEO";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function Gallery() {
     const [gallery, setGallery] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading: pageLoading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("gallery"));
+    }, [dispatch]);
 
     const getList = async () => {
         setLoading(true)
@@ -28,6 +40,14 @@ export default function Gallery() {
     return (
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
 
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Gallery'}
+                    description={pageDetail.meta_description || ''}
+                    keywords={pageDetail.meta_keyword || ''}
+                />
+            )}
+
             <img
                 src="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg"
                 alt="Gallery Banner"
@@ -49,6 +69,22 @@ export default function Gallery() {
             </Box>
 
             <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2 }}>
+                {pageLoading ? (
+                    <PageContentSkeleton />
+                ) : pageDetail?.content && (
+                    <Typography
+                        sx={{
+                            color: "secondary.main",
+                            mb: 5,
+                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                            textAlign: "justify",
+                        }}
+                        dangerouslySetInnerHTML={{
+                            __html: pageDetail?.content || null,
+                        }}
+                    />
+                )}
+
                 {loading ? (
                     Array.from(new Array(3)).map((_, index) => (
                         <Grid

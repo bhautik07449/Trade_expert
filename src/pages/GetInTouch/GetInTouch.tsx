@@ -16,9 +16,22 @@ import * as Yup from "yup";
 import Homeservice from "../../service/home.service";
 import { toast } from "react-toastify";
 import SEO from "../../component/SEO";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function GetInTouch() {
     const [activeTab, setActiveTab] = useState("fill-form");
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("get-in-touch"));
+    }, [dispatch]);
 
     const validationSchema = Yup.object({
         first_name: Yup.string()
@@ -71,10 +84,14 @@ export default function GetInTouch() {
 
     return (
         <Box sx={{ bgcolor: "#f4f4f4", minHeight: "100vh", pb: 10 }}>
-            <SEO
-                title="Get In Touch - Tradexpert"
-                description="Contact Tradexpert for any queries, doubts, or to share something. We are available 24/7 for live chat, or you can call or email us."
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
+                    description={pageDetail.meta_description || ''}
+                    keywords={pageDetail.meta_keyword || ''}
+                />
+            )}
+
             <img
                 src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
                 alt="Quality Policies"
@@ -90,28 +107,6 @@ export default function GetInTouch() {
                 </Typography>
             </Box>
 
-            <Box sx={{ maxWidth: "1100px", mx: "auto", px: 3 }}>
-                <Typography sx={{ mb: 2, textAlign: "center" }}>
-                    Getting in touch with us to solve your query. If you have a
-                    question, doubt, or want to share something, choose any of
-                    the ways below to connect with us.
-                </Typography>
-
-                <ul>
-                    <li>Directly dial us.</li>
-                    <li>We are available 24/7 for live chat.</li>
-                    <li>
-                        Write to us at our mailing address or fill out the
-                        inquiry form for a prompt reply.
-                    </li>
-                </ul>
-
-                <Typography sx={{ mt: 2, textAlign: "center" }}>
-                    We are just a single click away — whichever method you
-                    choose to connect with us!
-                </Typography>
-            </Box>
-
             <Box
                 sx={{
                     maxWidth: "1100px",
@@ -120,6 +115,24 @@ export default function GetInTouch() {
                     px: 3,
                 }}
             >
+                {loading ? (
+                    <Box sx={{ mb: 5 }}>
+                        <PageContentSkeleton />
+                    </Box>
+                ) : pageDetail?.content && (
+                    <Typography
+                        sx={{
+                            color: "secondary.main",
+                            mb: 5,
+                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                            textAlign: "justify",
+                        }}
+                        dangerouslySetInnerHTML={{
+                            __html: pageDetail?.content || null,
+                        }}
+                    />
+                )}
+
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Paper
