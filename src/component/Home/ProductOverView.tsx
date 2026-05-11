@@ -58,7 +58,7 @@ export default function ProductOverView() {
     }, [])
 
     return (
-        <Box>
+        <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
             <CardUi
                 title='All Season'
                 label='Availability'
@@ -72,6 +72,7 @@ export default function ProductOverView() {
                 }}
                 products={allProducts}
                 loading={loading}
+                visiblecard={3}
             />
 
             <CardUi
@@ -87,6 +88,7 @@ export default function ProductOverView() {
                 }}
                 products={currentProducts}
                 loading={loading}
+                visiblecard={3}
             />
 
             <CardUi
@@ -102,6 +104,7 @@ export default function ProductOverView() {
                 }}
                 products={upcomingProducts}
                 loading={loading}
+                visiblecard={3}
             />
 
             <InquiryDialog
