@@ -3,6 +3,9 @@ import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 // Lazy loaded page components
 const Dashboard = React.lazy(() => import('../pages/Dashboard/Dashboard').then(module => ({ default: module.Dashboard })));
+const Home = React.lazy(() => import('../pages/Dashboard/Home'));
+const CountryPage = React.lazy(() => import('../pages/Dashboard/Countrypage'));
+const CategoryPage = React.lazy(() => import('../pages/Dashboard/Categorypage'));
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound').then(module => ({ default: module.PageNotFound })));
 const SignupForm = React.lazy(() => import('../pages/Signup/Signup'));
 const LoginForm = React.lazy(() => import('../pages/Login/Login'));
@@ -60,7 +63,9 @@ export default function Router(): JSX.Element {
 
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/:country" element={<CountryPage />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
       <Route path="/login" element={<PublicRoute><LoginForm /></ PublicRoute>} />
       <Route path="/sign-up" element={<PublicRoute><SignupForm /></PublicRoute>} />
       <Route path='/about_us' element={<AboutUs />} />
