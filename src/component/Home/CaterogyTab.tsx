@@ -2,7 +2,6 @@ import {
     Box,
     Typography,
     Skeleton,
-    Chip,
     Grid,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";

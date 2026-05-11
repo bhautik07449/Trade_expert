@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 // Lazy loaded page components
-const Dashboard = React.lazy(() => import('../pages/Dashboard/Dashboard').then(module => ({ default: module.Dashboard })));
+// const Dashboard = React.lazy(() => import('../pages/Dashboard/Dashboard').then(module => ({ default: module.Dashboard })));
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
 const CountryPage = React.lazy(() => import('../pages/Dashboard/Countrypage'));
 const CategoryPage = React.lazy(() => import('../pages/Dashboard/Categorypage'));

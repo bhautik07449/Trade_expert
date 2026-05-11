@@ -21,6 +21,7 @@ const tab = [
 
 export default function CountryPage() {
     const { country } = useParams()
+    console.log("country", country);
     const navigate = useNavigate();
 
     return (

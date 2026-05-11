@@ -7,6 +7,7 @@ import OverViewContent from "../../component/Home/OverViewContent";
 
 export default function CategoryPage() {
     const { category } = useParams();
+    console.log("category", category);
 
     return (
         <Box>

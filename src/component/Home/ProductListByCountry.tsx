@@ -14,7 +14,8 @@ export default function ProductListByCountry() {
         images?: string
         id?: any
     } | null>(null)
-
+    console.log("ee", open, openEnquiry, selectedProduct);
+    
     const getProducts = async () => {
         setLoading(true)
         try {
