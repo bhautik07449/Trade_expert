@@ -1,9 +1,4 @@
-import {
-    Box,
-    Grid,
-    Typography,
-    Chip
-} from "@mui/material";
+import { Box, Chip, Grid, Typography } from "@mui/material";
 import LabelTitle from "../../commonUI/labelTitle";
 
 const staticData = [
@@ -27,7 +22,7 @@ const staticData = [
     }
 ];
 
-export default function Events() {
+export default function TradeHistory() {
     return (
         <Box
             sx={{
@@ -37,7 +32,7 @@ export default function Events() {
                 mb: 4,
             }}
         >
-            <LabelTitle title="Events" label="" />
+            <LabelTitle title="Trade" label="History" />
 
             <Grid container spacing={3}>
                 {staticData.map((item, index) => (
@@ -157,5 +152,5 @@ export default function Events() {
                 ))}
             </Grid>
         </Box>
-    );
+    )
 }

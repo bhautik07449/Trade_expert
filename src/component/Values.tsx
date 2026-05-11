@@ -39,7 +39,7 @@ export default function Values() {
 
     return (
         <>
-            <Box sx={{ py: { xs: 3, md: 4 }, bgcolor: "#f5efe9" }}>
+            <Box sx={{ py: { xs: 3, md: 4 }, maxWidth: "1200px", mx: "auto", bgcolor: "#f5efe9" }}>
                 <Container maxWidth={false}>
                     <Title title="Value Added" label="Services" />
 
@@ -98,7 +98,7 @@ export default function Values() {
             </Box>
 
             <Box sx={{ py: { xs: 6, md: 8 }, bgcolor: "#fff" }}>
-                <Container maxWidth={false}>
+                <Container sx={{ maxWidth: "1200px", mx: "auto" }}>
                     <Grid container spacing={4}>
                         {tab.map((item, index) => (
                             <Grid size={{ xs: 12, md: 6 }} key={index}>

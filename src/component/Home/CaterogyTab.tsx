@@ -29,11 +29,11 @@ export default function CategoryTab() {
     };
 
     return (
-        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: 2, boxSizing: "border-box" }}>
+        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 8 }, boxSizing: "border-box" }}>
             <LabelTitle title="Categories" label="" />
 
             {loading ? (
-                <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid container spacing={2}>
                     {[...Array(8)].map((_, i) => (
                         <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={i}>
                             <Skeleton
@@ -45,7 +45,7 @@ export default function CategoryTab() {
                     ))}
                 </Grid>
             ) : categories && categories.length > 0 ? (
-                <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid container spacing={2}>
                     {categories.map((cat: any, index: number) => (
                         <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={cat.id ?? cat.slug ?? index}>
                             <Box
@@ -59,7 +59,7 @@ export default function CategoryTab() {
                                     justifyContent: "center",
                                     gap: 0.8,
                                     p: { xs: 1.5, sm: 2 },
-                                    borderRadius: 3,
+                                    borderRadius: 1,
                                     cursor: "pointer",
                                     border: "1.5px solid",
                                     minHeight: 80,

@@ -38,7 +38,7 @@ export default function Analytical() {
     }, []);
 
     return (
-        <Box sx={{ width: '100%', px: { xs: 1, sm: 3, md: 5 }, boxSizing: 'border-box', mb: 4 }}>
+        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 1, sm: 3, md: 5 }, boxSizing: 'border-box', mb: 4 }}>
             <LabelTitle title="Analytical" label="Dashboard" />
 
             <Box sx={{ mb: 4, mt: 2, width: '100%' }}>
@@ -57,7 +57,7 @@ export default function Analytical() {
                 ) : (
                     <Grid container spacing={3}>
                         {statistics.map((stat) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={stat.id}>
+                            <Grid size={{ xs: 12, md: 6, lg: 4 }} key={stat.id}>
                                 <Paper
                                     sx={{
                                         borderRadius: 2,
