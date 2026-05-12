@@ -2,8 +2,10 @@ import { Box, Typography } from "@mui/material"
 import CardUi from "../../commonUI/CardUi"
 import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
+import InquiryDialog from "../Dialog/inquiry-dialog"
+import EnquiryDialog from "../Dialog/enquiry-dialog"
 
-export default function ProductListByCountry() {
+export default function ProductListByCountry({ country }: { country?: string }) {
     const [open, setOpen] = useState(false)
     const [allProducts, setAllProducts] = useState([])
     const [loading, setLoading] = useState(true)
@@ -14,7 +16,6 @@ export default function ProductListByCountry() {
         images?: string
         id?: any
     } | null>(null)
-    console.log("ee", open, openEnquiry, selectedProduct);
     
     const getProducts = async () => {
         setLoading(true)
@@ -49,7 +50,7 @@ export default function ProductListByCountry() {
                     letterSpacing: 1,
                 }}
             >
-                Priority Trade
+                {country ? `${country} Priority Trade` : "Priority Trade"}
             </Typography>
 
             <Box sx={{ mb: 8 }}>
@@ -61,10 +62,11 @@ export default function ProductListByCountry() {
                         mb: 6,
                         fontWeight: 600,
                         fontSize: "1.2rem",
-                        color: "#3E3126"
+                        color: "#3E3126",
+                        borderRadius: 1,
                     }}
                 >
-                    agri & food
+                    Agri & Food
                 </Box>
 
                 <CardUi
@@ -92,7 +94,8 @@ export default function ProductListByCountry() {
                         mb: 6,
                         fontWeight: 600,
                         fontSize: "1.2rem",
-                        color: "#3E3126"
+                        color: "#3E3126",
+                        borderRadius: 1,
                     }}
                 >
                     Electronics
@@ -113,6 +116,28 @@ export default function ProductListByCountry() {
                     visiblecard={3}
                 />
             </Box>
+
+            <InquiryDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                product={{
+                    name: selectedProduct?.name,
+                    description: selectedProduct?.description,
+                    images: selectedProduct?.images,
+                    id: selectedProduct?.id
+                }}
+            />
+
+            <EnquiryDialog
+                open={openEnquiry}
+                onClose={() => setOpenEnquiry(false)}
+                product={{
+                    name: selectedProduct?.name,
+                    description: selectedProduct?.description,
+                    images: selectedProduct?.images,
+                    id: selectedProduct?.id
+                }}
+            />
         </Box>
     )
 }
