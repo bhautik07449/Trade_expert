@@ -7,6 +7,7 @@ import Events from '../../component/Home/Events';
 import OurProcess from '../../component/OurProcess';
 import Values from '../../component/Values';
 import AboutTestimonial from '../About/AboutTestimonial';
+import OverPresences from '../../component/Home/OverPresences';
 
 export default function Home() {
 
@@ -15,6 +16,7 @@ export default function Home() {
             <InteractiveWorldMap />
             <Analytical />
             <Events />
+            <OverPresences />
             <OurProcess />
             <Values />
             <AboutTestimonial />

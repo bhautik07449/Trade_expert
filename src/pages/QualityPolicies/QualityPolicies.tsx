@@ -77,7 +77,7 @@ export default function QualityPolicies() {
                 </Typography>
             </Box>
 
-            <Container maxWidth="lg">
+            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
 
                 <Box sx={{ p: 4, textAlign: 'center' }}>
                     {pageLoading ? (

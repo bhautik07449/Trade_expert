@@ -3,7 +3,7 @@ import SEO from "../../component/SEO";
 
 export default function HowToPay() {
     return (
-        <Box sx={{ maxWidth: 1200, mx: "auto", border: "1px solid #ddd", my: 4 }}>
+        <Box sx={{ maxWidth: "1200px", mx: "auto", border: "1px solid #ddd", my: { xs: 4, md: 8 }, width: { xs: "calc(100% - 32px)", md: "100%" }, borderRadius: 2, overflow: "hidden", boxSizing: "border-box" }}>
             <SEO 
                 title="How To Pay - Tradexpert" 
                 description="Information on how to pay and the documents we provide including commercial invoice, packing list, and certificates."

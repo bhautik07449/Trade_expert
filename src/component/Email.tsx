@@ -88,7 +88,7 @@ export default function Email() {
                             aria-label="Email address"
                             sx={{
                                 bgcolor: "#ffffff",
-                                borderRadius: 2,
+                                borderRadius: 1,
                             }}
                         />
 
@@ -112,7 +112,7 @@ export default function Email() {
                             backgroundColor: "#5bc0de",
                             textTransform: "none",
                             px: 3,
-                            py: 1,
+                            py: 1.2,
                             fontSize: "14px",
                             whiteSpace: "nowrap",
                             width: { xs: "100%", md: "auto" },

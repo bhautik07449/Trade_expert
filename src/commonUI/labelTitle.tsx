@@ -17,7 +17,8 @@ export default function LabelTitle({
                 justifyContent: "center",
                 alignItems: "baseline",
                 gap: { xs: 1, sm: 1.5, md: 2 },
-                py: { xs: 3, sm: 4, md: 5 },
+                pt: { xs: 1, sm: 2, md: 3 },
+                mb: { xs: 3, sm: 4, md: 5 },
                 flexWrap: "wrap",
                 textAlign: "center",
             }}

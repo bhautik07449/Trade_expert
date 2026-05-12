@@ -78,7 +78,7 @@ export default function Tradeoffer() {
                     objectFit: "cover",
                 }}
             />
-            <Container maxWidth="lg" sx={{ pt: 4 }}>
+            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, pt: 4 }}>
                 <Grid container spacing={2} justifyContent="center">
                     {stockLots.map((text, i) => (
                         <Grid key={i}>
@@ -104,7 +104,7 @@ export default function Tradeoffer() {
                 </Grid>
             </Container>
 
-            <Container maxWidth="lg" sx={{ mt: 5 }}>
+            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, mt: 5 }}>
                 {loading ? (
                     <Box sx={{ py: 2 }}>
                         {Array.from(new Array(2)).map((_, i) => (

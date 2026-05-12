@@ -31,131 +31,140 @@ export default function Events() {
     return (
         <Box
             sx={{
-                maxWidth: "1200px", mx: "auto",
-                px: { xs: 1, sm: 3, md: 5 },
+                py: { xs: 5, md: 8 },
+                bgcolor: "white",
+                textAlign: "center",
                 boxSizing: "border-box",
-                mb: 4,
             }}
         >
-            <LabelTitle title="Events" label="" />
+            <Box
+                sx={{
+                    maxWidth: "1200px", mx: "auto",
+                    px: { xs: 1, sm: 3, md: 5 },
+                    boxSizing: "border-box",
+                    mb: 4,
+                }}
+            >
+                <LabelTitle title="Events" label="" />
 
-            <Grid container spacing={3}>
-                {staticData.map((item, index) => (
-                    <Grid size={{ xs: 12, md: 6, lg: 6 }} key={index}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                borderRadius: 1,
-                                overflow: "hidden",
-                                border: "1px solid",
-                                borderColor: "divider",
-                                backgroundColor: "background.paper",
-                                boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
-                                transition: "all 0.3s ease",
-                                height: "100%",
-                                "&:hover": {
-                                    boxShadow: "0 8px 28px rgba(0,0,0,0.13)",
-                                    transform: "translateY(-3px)",
-                                    borderColor: 'primary.main',
-                                },
-                            }}
-                        >
+                <Grid container spacing={3}>
+                    {staticData.map((item, index) => (
+                        <Grid size={{ xs: 12, md: 6, lg: 6 }} key={index}>
                             <Box
                                 sx={{
-                                    width: { xs: 110, sm: 150 },
-                                    minWidth: { xs: 110, sm: 150 },
-                                    flexShrink: 0,
-                                    position: "relative",
-                                    overflow: "hidden",
-                                    background: "#eee",
-                                }}
-                            >
-                                <Box
-                                    component="img"
-                                    src={item.image}
-                                    alt={item.title}
-                                    sx={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                        display: "block",
-                                        transition: "transform 0.4s ease",
-                                        "&:hover": {
-                                            transform: "scale(1.06)",
-                                        },
-                                    }}
-                                />
-
-                                <Box
-                                    sx={{
-                                        position: "absolute",
-                                        inset: 0,
-                                        background:
-                                            "linear-gradient(to right, rgba(0,0,0,0.18), transparent)",
-                                        pointerEvents: "none",
-                                    }}
-                                />
-                            </Box>
-
-                            <Box
-                                sx={{
-                                    p: { xs: 1.5, sm: 2 },
                                     display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "space-between",
-                                    flex: 1,
-                                    gap: 0.75,
+                                    flexDirection: "row",
+                                    borderRadius: 1,
                                     overflow: "hidden",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    backgroundColor: "background.paper",
+                                    boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
+                                    transition: "all 0.3s ease",
+                                    height: "100%",
+                                    "&:hover": {
+                                        boxShadow: "0 8px 28px rgba(0,0,0,0.13)",
+                                        transform: "translateY(-3px)",
+                                        borderColor: 'primary.main',
+                                    },
                                 }}
                             >
-                                <Box>
-                                    <Chip
-                                        label={item.tag}
-                                        size="small"
+                                <Box
+                                    sx={{
+                                        width: { xs: 110, sm: 150 },
+                                        minWidth: { xs: 110, sm: 150 },
+                                        flexShrink: 0,
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        background: "primary.dark",
+                                    }}
+                                >
+                                    <Box
+                                        component="img"
+                                        src={item.image}
+                                        alt={item.title}
                                         sx={{
-                                            fontWeight: 700,
-                                            fontSize: "0.68rem",
-                                            height: 22,
-                                            mb: 0.75,
-                                            borderRadius: "6px",
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            display: "block",
+                                            transition: "transform 0.4s ease",
+                                            "&:hover": {
+                                                transform: "scale(1.06)",
+                                            },
                                         }}
                                     />
-                                    <Typography
-                                        variant="subtitle1"
-                                        fontWeight={700}
+
+                                    <Box
                                         sx={{
-                                            fontSize: { xs: "0.82rem", sm: "0.92rem" },
-                                            lineHeight: 1.35,
-                                            mb: 0.5,
-                                            overflow: "hidden",
-                                            display: "-webkit-box",
-                                            WebkitLineClamp: 2,
-                                            WebkitBoxOrient: "vertical",
+                                            position: "absolute",
+                                            inset: 0,
+                                            background:
+                                                "linear-gradient(to right, rgba(0,0,0,0.18), transparent)",
+                                            pointerEvents: "none",
                                         }}
-                                    >
-                                        {item.title}
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        sx={{
-                                            fontSize: "0.75rem",
-                                            lineHeight: 1.5,
-                                            overflow: "hidden",
-                                            display: "-webkit-box",
-                                            WebkitLineClamp: 2,
-                                            WebkitBoxOrient: "vertical",
-                                        }}
-                                    >
-                                        {item.description}
-                                    </Typography>
+                                    />
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        p: { xs: 1.5, sm: 2 },
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "space-between",
+                                        flex: 1,
+                                        gap: 0.75,
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    <Box>
+                                        <Chip
+                                            label={item.tag}
+                                            size="small"
+                                            sx={{
+                                                fontWeight: 700,
+                                                fontSize: "0.68rem",
+                                                height: 22,
+                                                mb: 0.75,
+                                                borderRadius: "6px",
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="subtitle1"
+                                            fontWeight={700}
+                                            sx={{
+                                                fontSize: { xs: "0.82rem", sm: "0.92rem" },
+                                                lineHeight: 1.35,
+                                                mb: 0.5,
+                                                overflow: "hidden",
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 2,
+                                                WebkitBoxOrient: "vertical",
+                                            }}
+                                        >
+                                            {item.title}
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{
+                                                fontSize: "0.75rem",
+                                                lineHeight: 1.5,
+                                                overflow: "hidden",
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 2,
+                                                WebkitBoxOrient: "vertical",
+                                            }}
+                                        >
+                                            {item.description}
+                                        </Typography>
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </Box>
     );
 }

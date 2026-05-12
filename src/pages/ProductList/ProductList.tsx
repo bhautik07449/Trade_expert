@@ -44,7 +44,7 @@ export default function ProductList() {
                 title={`${slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Products'} - Tradexpert`} 
                 description={`Explore our wide range of ${slug ? slug.replace(/-/g, ' ') : ''} products. Connect with verified suppliers and buyers on Tradexpert.`}
             />
-            <Box sx={{ mb: 12 }}>
+            <Box sx={{ py: { xs: 4, md: 8 }, mb: { xs: 6, md: 8 }, boxSizing: "border-box", width: "100%" }}>
                 {loading || product?.length > 0 ?
                     <CardUi
                         title='All'
@@ -60,7 +60,16 @@ export default function ProductList() {
                         products={product}
                         loading={loading}
                     />
-                    : <Typography sx={{ textAlign: "center", mt: 12 }}>No products found for this category</Typography>}
+                    : (
+                        <Box sx={{ maxWidth: "600px", mx: "auto", mt: 6, p: 4, textAlign: "center", bgcolor: "white", borderRadius: 3, boxShadow: "0 4px 20px rgba(0,0,0,0.05)", border: "1px solid #f0f0f0" }}>
+                            <Typography variant="h6" color="text.secondary" fontWeight={600}>
+                                No products found for this category
+                            </Typography>
+                            <Typography variant="body2" color="text.disabled" sx={{ mt: 1 }}>
+                                Please check back later or browse other available categories from the menu.
+                            </Typography>
+                        </Box>
+                    )}
             </Box>
 
             <InquiryDialog

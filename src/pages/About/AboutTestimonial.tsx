@@ -71,7 +71,9 @@ export default function AboutTestimonial() {
         <Box
             sx={{
                 bgcolor: "#f5f1ec",
-                py: { xs: 5, sm: 6, md: 10 },
+                py: { xs: 6, md: 10 },
+                width: "100%",
+                boxSizing: "border-box",
             }}
         >
             <Box
@@ -83,9 +85,10 @@ export default function AboutTestimonial() {
                         xs: "1fr",
                         md: "1fr 1fr",
                     },
-                    gap: { xs: 5, sm: 6, md: 10 },
-                    px: { xs: 2, sm: 3, md: 2 },
+                    gap: { xs: 5, md: 8 },
+                    px: { xs: 2, sm: 3, md: 4 },
                     alignItems: "center",
+                    boxSizing: "border-box",
                 }}
             >
                 {/* ABOUT US */}
@@ -171,11 +174,12 @@ export default function AboutTestimonial() {
                                         elevation={3}
                                         sx={{
                                             p: { xs: 2, sm: 3, md: 4 },
+                                            my: 2,
                                             borderRadius: 3,
                                             textAlign: "center",
                                             position: "relative",
                                             bgcolor: "#ffffff",
-                                            maxWidth: { xs: "100%", sm: 500 },
+                                            maxWidth: { xs: 400, sm: 500 },
                                             mx: "auto",
                                         }}
                                     >

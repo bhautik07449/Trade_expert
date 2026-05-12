@@ -5,12 +5,13 @@ export default function OurProcess() {
     return (
         <Box
             sx={{
-                py: { xs: 3, md: 4 },
+                py: { xs: 5, md: 8 },
                 bgcolor: "white",
                 textAlign: "center",
+                boxSizing: "border-box",
             }}
         >
-            <Container maxWidth={false}>
+            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
 
                 <Title title="Our" label="Process" />
 
@@ -26,7 +27,6 @@ export default function OurProcess() {
                             md: "800px",
                         },
                         height: "auto",
-                        mt: { xs: 3, md: 5 },
                         mx: "auto",
                         display: "block",
                     }}

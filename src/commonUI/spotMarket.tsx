@@ -131,7 +131,7 @@ export default function SpotMarketTable() {
     }, [])
 
     return (
-        <>
+        <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, mb: { xs: 6, md: 8 }, boxSizing: "border-box" }}>
             <Title title="Spot Market" label="Rate" />
 
             <Box
@@ -286,6 +286,6 @@ export default function SpotMarketTable() {
                     </TableContainer>
                 )}
             </Box>
-        </>
+        </Box>
     )
 }

@@ -43,7 +43,6 @@ export default function OurView() {
         <Box
             sx={{
                 position: "relative",
-                mt: { xs: 6, md: 10 },
                 py: { xs: 6, md: 10 },
                 backgroundImage:
                     "url(https://sourceseas.itcoders.in/img/video-bg.jpg)",
@@ -60,7 +59,7 @@ export default function OurView() {
                 }}
             />
 
-            <Container maxWidth={false} sx={{ position: "relative", zIndex: 2 }}>
+            <Container sx={{ position: "relative", zIndex: 2, maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
                 <Box
                     sx={{
                         display: "grid",

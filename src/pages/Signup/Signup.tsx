@@ -100,7 +100,11 @@ export default function SignupForm() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh"
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #F5F0EB 0%, #E8D8C1 100%)",
+        px: 2,
+        py: 4,
+        boxSizing: "border-box",
       }}
     >
       <Paper

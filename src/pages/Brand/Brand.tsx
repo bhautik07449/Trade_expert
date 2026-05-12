@@ -45,11 +45,11 @@ export default function Brand() {
                 title="Our Brands - Tradexpert"
                 description="Explore the brands and categories available on Tradexpert."
             />
-            <img src="https://sourceseas.itcoders.in/img/front-end/brands.jpg" alt="Brands" style={{ width: '100%', minHeight: '200px', maxHeight: '400px', }} />
+            <img src="https://sourceseas.itcoders.in/img/front-end/brands.jpg" alt="Brands" style={{ width: '100%', minHeight: '200px', maxHeight: '400px', objectFit: "cover" }} />
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 {loading ? (
                     Array.from(new Array(3)).map((_, i) => (
-                        <Box key={i} sx={{ maxWidth: "1100px", mx: "auto", px: 2, py: 4, display: "flex", gap: 4, flexDirection: "column", alignItems: "center", width: "100%" }}>
+                        <Box key={i} sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, py: 4, display: "flex", gap: 4, flexDirection: "column", alignItems: "center", width: "100%", boxSizing: "border-box" }}>
                             <Skeleton variant="circular" width={100} height={100} />
                             <Box sx={{ width: "100%", textAlign: "center" }}>
                                 <Skeleton variant="text" width="30%" sx={{ mx: "auto", mb: 2 }} />
@@ -67,7 +67,7 @@ export default function Brand() {
                                 </Typography>
                             </Box>
 
-                            <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2, display: "flex", gap: 4, flexWrap: "wrap", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+                            <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, display: "flex", gap: 4, flexWrap: "wrap", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", boxSizing: "border-box", width: "100%" }}>
                                 <img src={getImageUrl(item?.logo)} alt="FSSAI Approved Foods" style={{ width: '100px', height: "100px" }} />
                                 <Box>
                                     <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>

@@ -109,10 +109,12 @@ export default function GetInTouch() {
 
             <Box
                 sx={{
-                    maxWidth: "1100px",
+                    maxWidth: "1200px",
                     mx: "auto",
-                    mt: 6,
-                    px: 3,
+                    mt: { xs: 4, md: 8 },
+                    px: { xs: 2, sm: 3, md: 4 },
+                    boxSizing: "border-box",
+                    width: "100%",
                 }}
             >
                 {loading ? (
