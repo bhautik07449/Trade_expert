@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Title from "../commonUI/labelTitle";
 
 export default function OurProcess() {
@@ -14,6 +14,22 @@ export default function OurProcess() {
             <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
 
                 <Title title="Our" label="Process" />
+
+                <Typography
+                    variant="body1"
+                    sx={{
+                        textAlign: "center",
+                        color: "text.secondary",
+                        maxWidth: "680px",
+                        mx: "auto",
+                        mb: { xs: 4, md: 6 },
+                        mt: { xs: -1.5, md: -2.5 },
+                        fontSize: { xs: "0.88rem", sm: "1rem" },
+                        lineHeight: 1.5,
+                    }}
+                >
+                    Discover how Tradexpert transforms the way businesses trade by providing a seamless, data-driven platform for global business.
+                </Typography>
 
                 <Box
                     component="img"

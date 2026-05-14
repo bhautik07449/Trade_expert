@@ -25,6 +25,21 @@ export const Dashboard = () => {
     id?: any
   } | null>(null)
   const [loading, setLoading] = useState(true)
+  const [slides, setSlides] = useState<any[]>([])
+  const [imageLoading, setImageLoading] = useState(true)
+
+  const getSlide = async () => {
+    try {
+      const res = await Homeservice.getBanner()
+      if (res) {
+        setImageLoading(false)
+        setSlides(res?.data?.data)
+      }
+    } catch (error: any) {
+      setImageLoading(false)
+      console.log(error?.response?.data?.message || error.message)
+    }
+  }
 
   const getProducts = async () => {
     setLoading(true)
@@ -61,6 +76,8 @@ export const Dashboard = () => {
       getProducts()
       hasFetched.current = true
     }
+
+    getSlide()
   }, [])
 
   return (
@@ -70,7 +87,7 @@ export const Dashboard = () => {
         description="Join Tradexpert, the leading B2B marketplace for spot markets, current, and upcoming seasonal products. Connect with verified suppliers and buyers."
         keywords="B2B, marketplace, spot market, wholesale, trade, suppliers, buyers"
       />
-      <ImageSlider />
+      <ImageSlider slides={slides} loading={imageLoading} />
       <SpotMarketTable />
       <CardUi
         title='All Season'

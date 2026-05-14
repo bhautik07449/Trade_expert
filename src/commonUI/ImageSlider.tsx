@@ -54,26 +54,7 @@ function PrevArrow(props: any) {
     );
 }
 
-export default function ImageSlider() {
-    const [slides, setSlides] = useState<SlideData[]>([])
-    const [loading, setLoading] = useState(true)
-
-    const getSlide = async () => {
-        try {
-            const res = await Homeservice.getBanner()
-            if (res) {
-                setSlides(res?.data?.data)
-            }
-        } catch (error) {
-            console.log("error", error);
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        getSlide()
-    }, [])
+export default function ImageSlider({slides,loading}: { slides: SlideData[]; loading: boolean }) {
 
     const settings = {
         dots: false,

@@ -43,6 +43,22 @@ export default function Values() {
                 <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
                     <Title title="Value Added" label="Services" />
 
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            textAlign: "center",
+                            color: "text.secondary",
+                            maxWidth: "680px",
+                            mx: "auto",
+                            mb: { xs: 4, md: 6 },
+                            mt: { xs: -1.5, md: -2.5 },
+                            fontSize: { xs: "0.88rem", sm: "1rem" },
+                            lineHeight: 1.5,
+                        }}
+                    >
+                        We provide a comprehensive suite of value-added services designed to support and enhance your trading experience on our platform.
+                    </Typography>
+
                     <Grid container spacing={4} mt={2}>
                         {data.map((item, index) => (
                             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>

@@ -6,6 +6,8 @@ import Analytical from "../../component/Home/Analytical"
 import ProductListByCountry from "../../component/Home/ProductListByCountry"
 import TradeHistory from "../../component/Home/TradeHistory"
 import SEO from "../../component/SEO"
+import { useEffect, useState } from "react"
+import HomePageservice from "../../service/homepages.service"
 
 const tab = [
     {
@@ -21,10 +23,48 @@ const tab = [
 ];
 
 export default function CountryPage() {
+    const [analyticsData, setAnalyticsData] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [slides, setSlides] = useState<any[]>([])
+    const [imageLoading, setImageLoading] = useState(true)
+
     const { country } = useParams()
-    console.log("country", country);
+
     const navigate = useNavigate();
     const displayCountry = country ? decodeURIComponent(country) : "Global";
+
+    const getAnalyticalData = async (country: string) => {
+        try {
+            const response = await HomePageservice.getAnalyticalByCountry(country);
+            setLoading(false)
+            if (response) {
+                setAnalyticsData(response?.data?.data);
+            }
+        } catch (error: any) {
+            setLoading(false)
+            console.log(error?.response?.data?.message || error.message)
+        }
+    }
+
+    const getSlide = async (country: string) => {
+        try {
+            const res = await HomePageservice.getImageSliderByCountry(country)
+            if (res) {
+                setImageLoading(false)
+                setSlides(res?.data?.data)
+            }
+        } catch (error: any) {
+            setImageLoading(false)
+            console.log(error?.response?.data?.message || error.message)
+        }
+    }
+
+    useEffect(() => {
+        if (country) {
+            getAnalyticalData(country);
+            getSlide(country)
+        }
+    }, [country]);
 
     return (
         <Box component="main">
@@ -34,7 +74,7 @@ export default function CountryPage() {
                 keywords={`B2B, marketplace, ${displayCountry}, trade, export, import, wholesale, suppliers`}
             />
 
-            <ImageSlider />
+            <ImageSlider slides={slides} loading={imageLoading} />
 
             <Box component="section">
                 <CategoryTab />
@@ -45,14 +85,14 @@ export default function CountryPage() {
             </Box>
 
             <Box component="section">
-                <TradeHistory />
+                <TradeHistory country={country} />
             </Box>
 
             <Box component="section">
-                <Analytical />
+                <Analytical analyticsData={analyticsData} loading={loading} />
             </Box>
 
-            <Box component="section" sx={{ py: { xs: 6, md: 10 }, bgcolor: "#f8fafc" }}>
+            <Box component="section" sx={{ py: { xs: 6, md: 10 } }}>
                 <Container sx={{ maxWidth: "1200px", mx: "auto" }}>
                     <Grid container spacing={4}>
                         {tab.map((item, index) => (
