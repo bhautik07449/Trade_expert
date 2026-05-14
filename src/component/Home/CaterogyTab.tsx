@@ -65,7 +65,7 @@ export default function CategoryTab() {
                         <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={cat.id ?? cat.slug ?? index}>
                             <Box
                                 id={`category-card-${index}-${cat.slug || cat.id}`}
-                                onClick={() => handleCategoryClick(cat.slug)}
+                                onClick={() => handleCategoryClick(cat?.id)}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                                 sx={{

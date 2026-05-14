@@ -65,8 +65,17 @@ const emailTemplate = async (body) => {
     }
 }
 
+const getProductBygroup = async (country) => {
+    try {
+        const response = await serverCall.get(`/countryproduct/grouped?country=${country}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const Homeservice = {
-    getProductList, getById, getBanner, getTestimonial, getIntouch, emailTemplate, getProductByslug
+    getProductList, getById, getBanner, getTestimonial, getIntouch, emailTemplate, getProductByslug, getProductBygroup
 };
 
 export default Homeservice;
