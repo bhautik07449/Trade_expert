@@ -8,7 +8,6 @@ import {
 import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
-import { toast } from "react-toastify";
 
 export default function Events() {
     const [eventsData, setEventsData] = useState<any[]>([]);

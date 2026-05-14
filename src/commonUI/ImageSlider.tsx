@@ -1,9 +1,5 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { Box, IconButton, Skeleton } from "@mui/material"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
-import Homeservice from "../service/home.service"
 import { getImageUrl } from "../utils/imageUtils"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
