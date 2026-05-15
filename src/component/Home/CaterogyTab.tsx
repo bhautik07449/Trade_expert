@@ -4,9 +4,6 @@ import {
     Skeleton,
     Grid,
 } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
-import { fetchFlatCategories } from "../../store/slice/categoriesSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LabelTitle from "../../commonUI/labelTitle";

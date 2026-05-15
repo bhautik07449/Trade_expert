@@ -15,7 +15,6 @@ import {
 } from "@mui/material"
 import Title from "./labelTitle"
 import { toast } from "react-toastify"
-import CMSservice from "../service/cms.service"
 import HomePageservice from "../service/homepages.service"
 
 type ColumnType = {
