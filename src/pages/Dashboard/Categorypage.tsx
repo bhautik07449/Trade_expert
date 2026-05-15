@@ -35,7 +35,7 @@ export default function CategoryPage() {
     return (
         <Box>
             <ImageSlider slides={slides} loading={imageLoading} />
-            <OverViewContent />
+            <OverViewContent category={category}/>
             <SpotMarketTable category={category} />
             <ProductOverView category={category} />
         </Box>

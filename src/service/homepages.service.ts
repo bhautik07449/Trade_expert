@@ -99,10 +99,19 @@ const getProductsByCategory = async (category: string, season: string) => {
     }
 }
 
+const getContentOverViewByCategory = async (category: string) => {
+    try {
+        const response = serverCall.get(`/contentoverview/category?category=${category}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const HomePageservice = {
     getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
     getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
-    getCategoriesByCountry, getProductsByCategory
+    getCategoriesByCountry, getProductsByCategory, getContentOverViewByCategory
 };
 
 export default HomePageservice;
