@@ -33,7 +33,7 @@ export default function Events() {
     return (
         <Box
             sx={{
-                py: { xs: 5, md: 8 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 },
                 bgcolor: "white",
                 boxSizing: "border-box",
             }}
@@ -41,12 +41,11 @@ export default function Events() {
             <Box
                 sx={{
                     maxWidth: "1200px", mx: "auto",
-                    px: { xs: 1, sm: 3, md: 5 },
                     boxSizing: "border-box",
                     mb: 4,
                 }}
             >
-                <LabelTitle title="Events" label="" />
+                <LabelTitle title="Trade" label="Events" />
 
                 <Typography
                     variant="body1"

@@ -50,7 +50,7 @@ function PrevArrow(props: any) {
     );
 }
 
-export default function ImageSlider({slides,loading}: { slides: SlideData[]; loading: boolean }) {
+export default function ImageSlider({ slides, loading }: { slides: SlideData[]; loading: boolean }) {
 
     const settings = {
         dots: false,
@@ -75,26 +75,30 @@ export default function ImageSlider({slides,loading}: { slides: SlideData[]; loa
             }}
         >
             {loading ? (
-                <Skeleton animation="wave" variant="rectangular" width="100%" sx={{ height: { xs: 250, sm: 350, md: 500, lg: 600 } }} />
+                <Skeleton animation="wave" variant="rectangular" width="100%" sx={{ height: { xs: 250, sm: 350, md: 400, lg: 500 } }} />
             ) : (
                 <Slider {...settings}>
-                    {slides.map((slide) => (
-                        <Box key={slide.id}>
-                            <Box
-                                component="img"
-                                src={getImageUrl(slide?.image)}
-                                alt={`Slide ${slide?.id}`}
-                                sx={{
-                                    width: "100%",
-                                    height: "auto",
-                                    maxHeight: { xs: 250, sm: 350, md: 400, lg: 500 },
-                                    objectFit: "contain",
-                                    display: "block",
-                                    margin: "0 auto",
-                                }}
-                            />
-                        </Box>
-                    ))}
+                    {slides?.length > 0 ? (
+                        slides.map((slide) => (
+                            <Box key={slide.id}>
+                                <Box
+                                    component="img"
+                                    src={getImageUrl(slide?.image)}
+                                    alt={`Slide ${slide?.id}`}
+                                    sx={{
+                                        width: "100%",
+                                        height: "auto",
+                                        maxHeight: { xs: 250, sm: 350, md: 400, lg: 500 },
+                                        objectFit: "contain",
+                                        display: "block",
+                                        margin: "0 auto",
+                                    }}
+                                />
+                            </Box>
+                        ))
+                    ) : (
+                        <Skeleton animation="wave" variant="rectangular" width="100%" sx={{ height: { xs: 250, sm: 350, md: 400, lg: 500 } }} />
+                    )}
                 </Slider>
             )}
         </Box>

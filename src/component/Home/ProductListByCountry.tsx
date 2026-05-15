@@ -63,7 +63,7 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                 Browse our verified, high-demand product
             </Typography>
 
-            {allProducts.length > 0 && (
+            {allProducts.length > 0 ? (
                 allProducts?.map((pro, idx) => (
                     <>
                         <Typography
@@ -115,6 +115,19 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                         ))}
                     </>
                 ))
+            ) : (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        py: 6,
+                    }}
+                >
+                    <Typography variant="body1" color="text.secondary">
+                        No products are available for this country.
+                    </Typography>
+                </Box>
             )}
 
             <InquiryDialog
