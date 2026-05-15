@@ -87,7 +87,7 @@ export default function ImageSlider({slides,loading}: { slides: SlideData[]; loa
                                 sx={{
                                     width: "100%",
                                     height: "auto",
-                                    maxHeight: { xs: 250, sm: 350, md: 500, lg: 600 },
+                                    maxHeight: { xs: 250, sm: 350, md: 400, lg: 500 },
                                     objectFit: "contain",
                                     display: "block",
                                     margin: "0 auto",
