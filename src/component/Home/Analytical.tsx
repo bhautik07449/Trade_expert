@@ -14,7 +14,7 @@ export default function Analytical({ analyticsData, loading }: { analyticsData: 
     return (
         <>
             {analyticsData?.length > 0 && (
-                <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 5, md: 8 }, boxSizing: 'border-box' }}>
+                <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: 'border-box' }}>
                     <LabelTitle title="Analytical" label="Dashboard" />
 
                     <Typography

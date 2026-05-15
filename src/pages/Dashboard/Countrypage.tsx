@@ -8,6 +8,7 @@ import TradeHistory from "../../component/Home/TradeHistory"
 import SEO from "../../component/SEO"
 import { useEffect, useState } from "react"
 import HomePageservice from "../../service/homepages.service"
+import LabelTitle from "../../commonUI/labelTitle"
 
 const tab = [
     {
@@ -77,7 +78,7 @@ export default function CountryPage() {
             <ImageSlider slides={slides} loading={imageLoading} />
 
             <Box component="section">
-                <CategoryTab />
+                <CategoryTab country={country} />
             </Box>
 
             <Box component="section">
@@ -92,7 +93,9 @@ export default function CountryPage() {
                 <Analytical analyticsData={analyticsData} loading={loading} />
             </Box>
 
-            <Box component="section" sx={{ py: { xs: 6, md: 10 } }}>
+            <Box component="section" sx={{ py: { xs: 3, md: 4 } }}>
+                <LabelTitle title="Get Started" label="Quick Links" />
+
                 <Container sx={{ maxWidth: "1200px", mx: "auto" }}>
                     <Grid container spacing={4}>
                         {tab.map((item, index) => (

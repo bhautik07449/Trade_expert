@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
 import InquiryDialog from "../Dialog/inquiry-dialog"
 import EnquiryDialog from "../Dialog/enquiry-dialog"
+import LabelTitle from "../../commonUI/labelTitle"
 
 export default function ProductListByCountry({ country }: { country?: string }) {
     const [open, setOpen] = useState(false)
@@ -43,7 +44,25 @@ export default function ProductListByCountry({ country }: { country?: string }) 
     }, [country])
 
     return (
-        <Box sx={{ px: { xs: 1, sm: 3, md: 0 }, pt: { xs: 6, md: 8 }, maxWidth: "1200px", mx: "auto" }}>
+        <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, maxWidth: "1200px", mx: "auto" }}>
+            <LabelTitle title="Product List" label="By Country" />
+
+            <Typography
+                variant="body1"
+                sx={{
+                    textAlign: "center",
+                    color: "text.secondary",
+                    maxWidth: "680px",
+                    mx: "auto",
+                    mb: { xs: 4, md: 6 },
+                    mt: { xs: -1.5, md: -2.5 },
+                    fontSize: { xs: "0.88rem", sm: "1rem" },
+                    lineHeight: 1.5,
+                }}
+            >
+                Browse our verified, high-demand product
+            </Typography>
+
             {allProducts.length > 0 && (
                 allProducts?.map((pro, idx) => (
                     <>
@@ -62,13 +81,13 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                         </Typography>
 
                         {pro?.item?.map((item: any, idx: number) => (
-                            <Box sx={{ mb: 8 }} key={idx}>
+                            <Box sx={{ mb: 4 }} key={idx}>
                                 <Box
                                     sx={{
                                         border: "2px solid #3E3126",
                                         textAlign: "center",
                                         py: 1.5,
-                                        mb: 6,
+                                        mb: 3,
                                         fontWeight: 600,
                                         fontSize: "1.2rem",
                                         color: "#3E3126",

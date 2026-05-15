@@ -10,18 +10,33 @@ import { fetchFlatCategories } from "../../store/slice/categoriesSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LabelTitle from "../../commonUI/labelTitle";
+import HomePageservice from "../../service/homepages.service";
 
-export default function CategoryTab() {
-    const dispatch = useDispatch<AppDispatch>();
+export default function CategoryTab({ country }: any) {
     const navigate = useNavigate();
-    const { categories, loading } = useSelector((state: any) => state.categories);
+
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [categories, setCategories] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
+
+    const getCategories = async (country: string) => {
+        try {
+            const res = await HomePageservice.getCategoriesByCountry(country)
+            if (res) {
+                setLoading(false)
+                setCategories(res?.data)
+            }
+        } catch (error: any) {
+            setLoading(false)
+            console.log(error?.response?.data?.message || error.message)
+        }
+    }
 
     useEffect(() => {
-        if (!categories || categories.length === 0) {
-            dispatch(fetchFlatCategories());
+        if (country) {
+            getCategories(country)
         }
-    }, [dispatch, categories]);
+    }, [country]);
 
     const handleCategoryClick = (slug: string) => {
         navigate(`/category/${slug}`);
@@ -82,11 +97,11 @@ export default function CategoryTab() {
                                     minHeight: { xs: 100, sm: 110 },
                                     textAlign: "center",
                                     position: "relative",
-                                    background: hoveredIndex === index 
-                                        ? "linear-gradient(145deg, #ffffff, #fffcf5)" 
+                                    background: hoveredIndex === index
+                                        ? "linear-gradient(145deg, #ffffff, #fffcf5)"
                                         : "#ffffff",
-                                    boxShadow: hoveredIndex === index 
-                                        ? "0 12px 28px rgba(244, 160, 36, 0.12)" 
+                                    boxShadow: hoveredIndex === index
+                                        ? "0 12px 28px rgba(244, 160, 36, 0.12)"
                                         : "0 4px 16px rgba(0, 0, 0, 0.02)",
                                     transform: hoveredIndex === index ? "translateY(-4px)" : "translateY(0)",
                                     transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -98,21 +113,21 @@ export default function CategoryTab() {
                                         left: 0,
                                         width: "100%",
                                         height: "4px",
-                                        background: hoveredIndex === index 
-                                            ? "secondary.main" 
+                                        background: hoveredIndex === index
+                                            ? "secondary.main"
                                             : "transparent",
                                         transition: "background 0.3s ease",
                                     }
                                 }}
-                            >                                
+                            >
                                 <Box
                                     sx={{
                                         position: "absolute",
                                         width: 50,
                                         height: 50,
                                         borderRadius: "50%",
-                                        background: hoveredIndex === index 
-                                            ? "radial-gradient(circle, rgba(244, 160, 36, 0.12) 0%, transparent 70%)" 
+                                        background: hoveredIndex === index
+                                            ? "radial-gradient(circle, rgba(244, 160, 36, 0.12) 0%, transparent 70%)"
                                             : "radial-gradient(circle, rgba(0, 0, 0, 0.01) 0%, transparent 70%)",
                                         top: -10,
                                         right: -10,

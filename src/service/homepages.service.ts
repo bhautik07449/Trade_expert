@@ -81,9 +81,19 @@ const getSpotMarketRateByCategory = async (category: string) => {
     }
 }
 
+const getCategoriesByCountry = async (country: string) => {
+    try {
+        const response = serverCall.get(`/categories/country?country=${country}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
 
 const HomePageservice = {
-    getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory, getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry
+    getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
+    getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
+    getCategoriesByCountry
 };
 
 export default HomePageservice;
