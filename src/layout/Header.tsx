@@ -218,7 +218,7 @@ export default function Header() {
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
                     <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
                         <Link component={RouterLink} to="/" sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-                            <img src="./logo.jpg" alt="logo" style={{ maxWidth: "100%", height: "auto", maxHeight: "50px" }} />
+                            <img src="/logo.jpg" alt="logo" style={{ maxWidth: "100%", height: "auto", maxHeight: "50px" }} />
                         </Link>
                         <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
                             <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} /> +91 87653 37336</Typography>
@@ -240,7 +240,7 @@ export default function Header() {
                     }}>
                         Welcome to Sourceseas - Best Exporter
                     </Typography>
-                    <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
+                    <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: 'center', gap: 2 }}>
                         {!isLoggedIn ? (
                             <>
                                 <Typography variant="body2">
@@ -344,13 +344,13 @@ export default function Header() {
                         >
                             <Typography
                                 onClick={() => item.path && navigate(item.path)}
-                                sx={{ 
-                                    cursor: "pointer", 
-                                    px: 2, 
-                                    py: 1, 
-                                    display: "flex", 
-                                    alignItems: "center", 
-                                    gap: 0.5, 
+                                sx={{
+                                    cursor: "pointer",
+                                    px: 2,
+                                    py: 1,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.5,
                                     fontSize: { xs: "0.95rem", md: "1.1rem" },
                                     color: "white",
                                     fontWeight: 500,
@@ -442,9 +442,9 @@ export default function Header() {
                 </Toolbar>
             </AppBar>
 
-            <Drawer 
-                anchor="left" 
-                open={mobileOpen} 
+            <Drawer
+                anchor="left"
+                open={mobileOpen}
                 onClose={toggleDrawer(false)}
                 PaperProps={{ sx: { width: { xs: "85%", sm: 320 } } }}
             >
@@ -494,8 +494,8 @@ export default function Header() {
                                         <ListItemIcon sx={{ minWidth: 40, color: "secondary.main" }}>
                                             {item.icon || <WidgetsIcon />}
                                         </ListItemIcon>
-                                        <ListItemText 
-                                            primary={item.label} 
+                                        <ListItemText
+                                            primary={item.label}
                                             primaryTypographyProps={{ fontWeight: 600, fontSize: "1rem" }}
                                         />
                                         {item.subItems && item.subItems.length > 0 && <KeyboardArrowRightIcon color="disabled" />}
@@ -505,72 +505,72 @@ export default function Header() {
                         )}
                     </List>
                     <Box sx={{ borderTop: "2px solid #f0f0f0", p: 2, bgcolor: "#fafafa" }}>
-                            {isLoggedIn ? (
-                                <>
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            onClick={() => {
-                                                navigate("/buyer-dashboard");
-                                                setMobileOpen(false);
-                                            }}
-                                        >
-                                            <AccountCircleIcon sx={{ mr: 1 }} />
-                                            <ListItemText
-                                                primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""}`}
-                                            />
-                                        </ListItemButton>
-                                    </ListItem>
+                        {isLoggedIn ? (
+                            <>
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            navigate("/buyer-dashboard");
+                                            setMobileOpen(false);
+                                        }}
+                                    >
+                                        <AccountCircleIcon sx={{ mr: 1 }} />
+                                        <ListItemText
+                                            primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""}`}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            onClick={() => {
-                                                handleLogout();
-                                                setMobileOpen(false);
-                                            }}
-                                        >
-                                            <LoginIcon sx={{ mr: 1 }} />
-                                            <ListItemText primary="Logout" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </>
-                            ) : (
-                                <>
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            onClick={() => {
-                                                navigate("/login");
-                                                setMobileOpen(false);
-                                            }}
-                                        >
-                                            <AccountCircleIcon sx={{ mr: 1 }} />
-                                            <ListItemText primary="Login" />
-                                        </ListItemButton>
-                                    </ListItem>
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            handleLogout();
+                                            setMobileOpen(false);
+                                        }}
+                                    >
+                                        <LoginIcon sx={{ mr: 1 }} />
+                                        <ListItemText primary="Logout" />
+                                    </ListItemButton>
+                                </ListItem>
+                            </>
+                        ) : (
+                            <>
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            navigate("/login");
+                                            setMobileOpen(false);
+                                        }}
+                                    >
+                                        <AccountCircleIcon sx={{ mr: 1 }} />
+                                        <ListItemText primary="Login" />
+                                    </ListItemButton>
+                                </ListItem>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton
-                                            onClick={() => {
-                                                navigate("/sign-up");
-                                                setMobileOpen(false);
-                                            }}
-                                        >
-                                            <LoginIcon sx={{ mr: 1 }} />
-                                            <ListItemText primary="Register" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </>
-                            )}
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            navigate("/sign-up");
+                                            setMobileOpen(false);
+                                        }}
+                                    >
+                                        <LoginIcon sx={{ mr: 1 }} />
+                                        <ListItemText primary="Register" />
+                                    </ListItemButton>
+                                </ListItem>
+                            </>
+                        )}
 
-                            <Button
-                                variant="contained"
-                                color="success"
-                                size="small"
-                                sx={{ px: 3, fontWeight: 600, mx: 3, borderTop: "1px solid #ddd", mt: 1 }}
-                                onClick={() => setOpenRFQ(true)}
-                            >
-                                Request for Quote
-                            </Button>
-                        </Box>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="small"
+                            sx={{ px: 3, fontWeight: 600, mx: 3, borderTop: "1px solid #ddd", mt: 1 }}
+                            onClick={() => setOpenRFQ(true)}
+                        >
+                            Request for Quote
+                        </Button>
+                    </Box>
                 </Box>
             </Drawer>
 

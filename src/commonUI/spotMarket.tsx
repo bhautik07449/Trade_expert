@@ -11,10 +11,12 @@ import {
     Paper,
     Box,
     Skeleton,
+    Typography,
 } from "@mui/material"
 import Title from "./labelTitle"
 import { toast } from "react-toastify"
 import CMSservice from "../service/cms.service"
+import HomePageservice from "../service/homepages.service"
 
 type ColumnType = {
     key: string
@@ -74,7 +76,7 @@ const transformMarketData = (data: any[]) => {
     }
 }
 
-export default function SpotMarketTable() {
+export default function SpotMarketTable({ category }: any) {
     const [tableData, setTableData] = useState<{
         columns: ColumnType[]
         rows: RowType[]
@@ -112,9 +114,9 @@ export default function SpotMarketTable() {
     const handleMouseEnter = () => setIsAutoScrolling(false)
     const handleMouseLeave = () => setIsAutoScrolling(true)
 
-    const getData = async () => {
+    const getData = async (category: string) => {
         try {
-            const res = await CMSservice.getMarketRate()
+            const res = await HomePageservice.getSpotMarketRateByCategory(category)
             const apiData = res?.data?.data || []
 
             const formatted = transformMarketData(apiData)
@@ -127,11 +129,13 @@ export default function SpotMarketTable() {
     }
 
     useEffect(() => {
-        getData()
-    }, [])
+        if (category) {
+            getData(category)
+        }
+    }, [category])
 
     return (
-        <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, mb: { xs: 6, md: 8 }, boxSizing: "border-box" }}>
+        <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: "border-box" }}>
             <Title title="Spot Market" label="Rate" />
 
             <Box
@@ -183,58 +187,32 @@ export default function SpotMarketTable() {
                         </TableContainer>
                     </Box>
                 ) : (
-                    <TableContainer
-                        component={Paper}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        sx={{
-                            overflow: "hidden",
-                            width: `${150 + visibleColumns * columnWidth}px`,
-                        }}
-                    >
-                        <Table stickyHeader>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell
-                                        sx={{
-                                            minWidth: 150,
-                                            fontWeight: 600,
-                                            backgroundColor: "#f8f9fa",
-                                            position: "sticky",
-                                            left: 0,
-                                            zIndex: 10,
-                                        }}
-                                    />
-                                    <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                transform: `translateX(-${currentIndex * columnWidth}px)`,
-                                                transition: "transform 0.6s ease-in-out",
-                                            }}
-                                        >
-                                            {dataColumns.map((column, index) => (
-                                                <Box
-                                                    key={index}
-                                                    sx={{
-                                                        minWidth: columnWidth,
-                                                        fontWeight: 600,
-                                                        backgroundColor: "#f8f9fa",
-                                                        padding: "16px",
-                                                        borderRight: "1px solid #eee",
-                                                    }}
-                                                >
-                                                    {column.label}
-                                                </Box>
-                                            ))}
-                                        </Box>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {tableData.rows.map((row: any, rowIndex: number) => (
-                                    <TableRow key={rowIndex}>
+                    dataColumns?.length === 0 ? (
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                py: 6,
+                            }}
+                        >
+                            <Typography variant="body1" color="text.secondary">
+                                No spot market data is available for this category.
+                            </Typography>
+                        </Box>
+                    ) : (
+                        <TableContainer
+                            component={Paper}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            sx={{
+                                overflow: "hidden",
+                                width: `${150 + visibleColumns * columnWidth}px`,
+                            }}
+                        >
+                            <Table stickyHeader>
+                                <TableHead>
+                                    <TableRow>
                                         <TableCell
                                             sx={{
                                                 minWidth: 150,
@@ -242,12 +220,9 @@ export default function SpotMarketTable() {
                                                 backgroundColor: "#f8f9fa",
                                                 position: "sticky",
                                                 left: 0,
-                                                zIndex: 9,
+                                                zIndex: 10,
                                             }}
-                                        >
-                                            {row.attribute}
-                                        </TableCell>
-
+                                        />
                                         <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
                                             <Box
                                                 sx={{
@@ -261,29 +236,73 @@ export default function SpotMarketTable() {
                                                         key={index}
                                                         sx={{
                                                             minWidth: columnWidth,
+                                                            fontWeight: 600,
+                                                            backgroundColor: "#f8f9fa",
                                                             padding: "16px",
                                                             borderRight: "1px solid #eee",
-                                                            backgroundColor: row.isHighlighted
-                                                                ? "secondary.main"
-                                                                : "white",
-                                                            color: row.isHighlighted
-                                                                ? "white"
-                                                                : "inherit",
-                                                            fontWeight: row.isHighlighted
-                                                                ? 600
-                                                                : 400,
                                                         }}
                                                     >
-                                                        {row[column.key] || "-"}
+                                                        {column.label}
                                                     </Box>
                                                 ))}
                                             </Box>
                                         </TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+
+                                <TableBody>
+                                    {tableData.rows.map((row: any, rowIndex: number) => (
+                                        <TableRow key={rowIndex}>
+                                            <TableCell
+                                                sx={{
+                                                    minWidth: 150,
+                                                    fontWeight: 600,
+                                                    backgroundColor: "#f8f9fa",
+                                                    position: "sticky",
+                                                    left: 0,
+                                                    zIndex: 9,
+                                                }}
+                                            >
+                                                {row.attribute}
+                                            </TableCell>
+
+                                            <TableCell colSpan={visibleColumns} sx={{ padding: 0 }}>
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        transform: `translateX(-${currentIndex * columnWidth}px)`,
+                                                        transition: "transform 0.6s ease-in-out",
+                                                    }}
+                                                >
+                                                    {dataColumns.map((column, index) => (
+                                                        <Box
+                                                            key={index}
+                                                            sx={{
+                                                                minWidth: columnWidth,
+                                                                padding: "16px",
+                                                                borderRight: "1px solid #eee",
+                                                                backgroundColor: row.isHighlighted
+                                                                    ? "secondary.main"
+                                                                    : "white",
+                                                                color: row.isHighlighted
+                                                                    ? "white"
+                                                                    : "inherit",
+                                                                fontWeight: row.isHighlighted
+                                                                    ? 600
+                                                                    : 400,
+                                                            }}
+                                                        >
+                                                            {row[column.key] || "-"}
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )
                 )}
             </Box>
         </Box>

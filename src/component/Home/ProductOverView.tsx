@@ -3,9 +3,9 @@ import InquiryDialog from "../Dialog/inquiry-dialog"
 import EnquiryDialog from "../Dialog/enquiry-dialog"
 import CardUi from "../../commonUI/CardUi"
 import { useEffect, useRef, useState } from "react"
-import Homeservice from "../../service/home.service"
+import HomePageservice from "../../service/homepages.service"
 
-export default function ProductOverView() {
+export default function ProductOverView({ category }: any) {
     const [allProducts, setAllProducts] = useState([])
     const [currentProducts, setCurrentProducts] = useState([])
     const [upcomingProducts, setUpcomingProducts] = useState([])
@@ -24,21 +24,21 @@ export default function ProductOverView() {
         setLoading(true)
         try {
             try {
-                const resAll = await Homeservice.getProductList('all')
+                const resAll = await HomePageservice.getProductsByCategory(category, 'All')
                 if (resAll) setAllProducts(resAll?.data?.data || [])
             } catch (err) {
                 console.log("Error fetching all products", err)
             }
 
             try {
-                const resCurrent = await Homeservice.getProductList('Current')
+                const resCurrent = await HomePageservice.getProductsByCategory(category, 'Current')
                 if (resCurrent) setCurrentProducts(resCurrent?.data?.data || [])
             } catch (err) {
                 console.log("Error fetching current products", err)
             }
 
             try {
-                const resUpcoming = await Homeservice.getProductList('Upcoming')
+                const resUpcoming = await HomePageservice.getProductsByCategory(category, 'Upcoming')
                 if (resUpcoming) setUpcomingProducts(resUpcoming?.data?.data || [])
             } catch (err) {
                 console.log("Error fetching upcoming products", err)
@@ -58,55 +58,60 @@ export default function ProductOverView() {
     }, [])
 
     return (
-        <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
-            <CardUi
-                title='All Season'
-                label='Availability'
-                onEnquire={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpenEnquiry(true)
-                }}
-                onRequestSample={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpen(true)
-                }}
-                products={allProducts}
-                loading={loading}
-                visiblecard={3}
-            />
+        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 } }}>
+            {allProducts?.length > 0 && (
+                <CardUi
+                    title='All Season'
+                    label='Availability'
+                    onEnquire={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpenEnquiry(true)
+                    }}
+                    onRequestSample={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpen(true)
+                    }}
+                    products={allProducts}
+                    loading={loading}
+                    visiblecard={3}
+                />
+            )}
 
-            <CardUi
-                title='Current'
-                label='Season'
-                onEnquire={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpenEnquiry(true)
-                }}
-                onRequestSample={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpen(true)
-                }}
-                products={currentProducts}
-                loading={loading}
-                visiblecard={3}
-            />
+            {currentProducts?.length > 0 && (
+                <CardUi
+                    title='Current'
+                    label='Season'
+                    onEnquire={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpenEnquiry(true)
+                    }}
+                    onRequestSample={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpen(true)
+                    }}
+                    products={currentProducts}
+                    loading={loading}
+                    visiblecard={3}
+                />
+            )}
 
-            <CardUi
-                title='Upcoming'
-                label='Season'
-                onEnquire={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpenEnquiry(true)
-                }}
-                onRequestSample={(product) => {
-                    setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                    setOpen(true)
-                }}
-                products={upcomingProducts}
-                loading={loading}
-                visiblecard={3}
-            />
-
+            {upcomingProducts?.length > 0 && (
+                <CardUi
+                    title='Upcoming'
+                    label='Season'
+                    onEnquire={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpenEnquiry(true)
+                    }}
+                    onRequestSample={(product) => {
+                        setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
+                        setOpen(true)
+                    }}
+                    products={upcomingProducts}
+                    loading={loading}
+                    visiblecard={3}
+                />
+            )}
             <InquiryDialog
                 open={open}
                 onClose={() => setOpen(false)}

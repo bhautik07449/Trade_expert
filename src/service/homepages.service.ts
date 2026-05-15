@@ -90,10 +90,19 @@ const getCategoriesByCountry = async (country: string) => {
     }
 }
 
+const getProductsByCategory = async (category: string, season: string) => {
+    try {
+        const response = serverCall.get(`/products?category=${category}&season=${season}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const HomePageservice = {
     getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
     getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
-    getCategoriesByCountry
+    getCategoriesByCountry, getProductsByCategory
 };
 
 export default HomePageservice;
