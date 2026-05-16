@@ -120,8 +120,8 @@ export default function SpotMarketTable({ category }: any) {
 
             const formatted = transformMarketData(apiData)
             setTableData(formatted)
-        } catch (error) {
-            toast.error("market data not fetch")
+        } catch (error: any) {
+            console.log(error?.response?.data?.message, "market data not fetch")
         } finally {
             setLoading(false)
         }

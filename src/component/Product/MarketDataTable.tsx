@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
     Table,
     TableBody,
@@ -10,7 +11,11 @@ import {
     Box,
     useTheme,
     alpha,
+    IconButton,
+    Tooltip,
 } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 interface MarketDetail {
     id: number;
@@ -35,6 +40,7 @@ interface MarketDataTableProps {
 
 const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
     const theme = useTheme();
+    const [isExpanded, setIsExpanded] = useState(false);
 
     if (!dmrs || dmrs.length === 0) return null;
 
@@ -48,28 +54,51 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
 
     if (allMarketData.length === 0) return null;
 
+    const displayedData = isExpanded ? allMarketData : allMarketData.slice(0, 1);
+
     return (
         <Box sx={{ mt: 4, mb: 4 }}>
-            <Typography
-                variant="h5"
-                gutterBottom
-                sx={{
-                    fontWeight: 700,
-                    color: theme.palette.primary.main,
-                    mb: 3,
-                    display: "flex",
-                    alignItems: "center",
-                    "&::after": {
-                        content: '""',
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: 700,
+                        color: theme.palette.primary.main,
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+                    Market Data Summary
+                </Typography>
+                {allMarketData.length > 1 && (
+                    <Tooltip title={isExpanded ? "Show Less" : "Show All"}>
+                        <IconButton
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            size="small"
+                            sx={{
+                                ml: 2,
+                                bgcolor: alpha(theme.palette.primary.main, 0.1),
+                                color: theme.palette.primary.main,
+                                "&:hover": {
+                                    bgcolor: alpha(theme.palette.primary.main, 0.2),
+                                },
+                                transition: "all 0.3s ease",
+                                transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                            }}
+                        >
+                            <KeyboardArrowDownIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                <Box
+                    sx={{
                         flex: 1,
                         height: "2px",
                         bgcolor: alpha(theme.palette.primary.main, 0.1),
                         ml: 2,
-                    },
-                }}
-            >
-                Market Data Summary
-            </Typography>
+                    }}
+                />
+            </Box>
 
             <TableContainer
                 component={Paper}
@@ -124,7 +153,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {allMarketData.map((item, index) => (
+                        {displayedData.map((item, index) => (
                             <TableRow
                                 key={item.id || index}
                                 sx={{

@@ -128,7 +128,6 @@ export default function ProductPage() {
                             </Grid>
                         </Grid>
 
-                        {/* Market Data Table */}
                         <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
                             <Grid size={{ xs: 12 }}>
                                 <MarketDataTable dmrs={product.dmrs} />
