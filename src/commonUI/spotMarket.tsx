@@ -14,7 +14,6 @@ import {
     Typography,
 } from "@mui/material"
 import Title from "./labelTitle"
-import { toast } from "react-toastify"
 import HomePageservice from "../service/homepages.service"
 
 type ColumnType = {
