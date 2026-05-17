@@ -16,8 +16,12 @@ import { useEffect } from "react";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import SEO from "../../component/SEO";
+import { useSearchParams } from "react-router-dom";
 
 export default function Tradeoffer() {
+    const [searchParams] = useSearchParams();
+    const country = searchParams.get("country");
+
     const [selectedOffer, setSelectedOffer] = useState();
     const [stockLots, setStockLots] = useState<any[]>([]);
     const [stockLotsId, setStockLotsId] = useState<any>();
@@ -25,23 +29,27 @@ export default function Tradeoffer() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const getTradeOffer = async () => {
+        const getTradeOffer = async (country: string) => {
             setLoading(true);
             try {
-                const res = await CMSservice.getTradeOffer();
+                const res = await CMSservice.getTradeOffer(country);
                 if (res) {
                     setStockLots(res?.data?.data);
                     setSelectedOffer(res?.data?.data[0]?.trade_type?.name)
                     setStockLotsId(res?.data?.data[0]?.id)
                 }
-            } catch (error) {
-                toast.error("something went wrong")
+            } catch (error: any) {
+                console.log(error?.response?.data?.message, "something went wrong")
             } finally {
                 setLoading(false);
             }
         }
-        getTradeOffer();
-    }, []);
+
+        if (country) {
+            getTradeOffer(country);
+        }
+
+    }, [country]);
 
     useEffect(() => {
         const getStockLotsById = async (id: string) => {
@@ -64,8 +72,8 @@ export default function Tradeoffer() {
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            <SEO 
-                title="Trade Offers - Tradexpert" 
+            <SEO
+                title="Trade Offers - Tradexpert"
                 description="Explore the latest trade offers and stock lots on Tradexpert."
             />
             <Box

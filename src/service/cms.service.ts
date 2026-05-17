@@ -127,9 +127,9 @@ const getGallery = async () => {
     }
 }
 
-const getTradeOffer = async () => {
+const getTradeOffer = async (country: string) => {
     try {
-        const response = await serverCall.get('/tradeoffer')
+        const response = await serverCall.get(`/tradeoffer/country?country=${country}`)
         return response
     } catch (error) {
         throw error

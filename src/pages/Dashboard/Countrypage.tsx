@@ -169,7 +169,7 @@ export default function CountryPage() {
                                                 boxShadow: index === 0 ? "0 6px 16px rgba(244, 160, 36, 0.35)" : "0 6px 16px rgba(30, 41, 59, 0.35)",
                                             },
                                         }}
-                                        onClick={() => navigate(item.link)}
+                                        onClick={() => navigate(`${item.link}?country=${country}`)}
                                     >
                                         {item.button}
                                     </Button>
