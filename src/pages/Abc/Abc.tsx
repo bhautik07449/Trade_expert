@@ -9,8 +9,12 @@ import SEO from "../../component/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import { useSearchParams } from "react-router-dom";
 
 export default function Abc() {
+    const [searchParams] = useSearchParams();
+    const country = searchParams.get("country");
+
     const [list, setList] = useState<any>([])
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
@@ -30,10 +34,10 @@ export default function Abc() {
         dispatch(fetchFlatPageBySlug("abc"));
     }, [dispatch]);
 
-    const getList = async () => {
+    const getList = async (country: string) => {
         setLoading(true)
         try {
-            const res = await CMSservice.getAbc()
+            const res = await CMSservice.getAbc(country)
             if (res) {
                 setList(res?.data?.data)
             }
@@ -45,8 +49,10 @@ export default function Abc() {
     }
 
     useEffect(() => {
-        getList()
-    }, [])
+        if (country) {
+            getList(country)
+        }
+    }, [country])
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
@@ -107,7 +113,7 @@ export default function Abc() {
                             </Grid>
                         </Box>
                     ))
-                ) : (
+                ) : list?.length > 0 ? (
                     list?.map((entry: any, entryIndex: number) => (
                         <Box key={entryIndex} sx={{ mb: 4 }}>
                             {entry?.abc_type?.name && (
@@ -165,6 +171,12 @@ export default function Abc() {
                             ))}
                         </Box>
                     ))
+                ) : (
+                    <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
+                        <Typography variant="h6" color="textSecondary">
+                            No Abc data Found
+                        </Typography>
+                    </Grid>
                 )}
             </Container>
 

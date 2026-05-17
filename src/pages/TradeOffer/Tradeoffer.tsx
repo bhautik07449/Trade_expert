@@ -88,27 +88,41 @@ export default function Tradeoffer() {
             />
             <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, pt: 4 }}>
                 <Grid container spacing={2} justifyContent="center">
-                    {stockLots.map((text, i) => (
-                        <Grid key={i}>
-                            <Button
-                                variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
-                                onClick={() => {
-                                    setSelectedOffer(text?.trade_type?.name);
-                                    setStockLotsId(text?.id)
-                                }}
-                                sx={{
-                                    borderColor: "black",
-                                    color: selectedOffer === text?.trade_type?.name ? "white" : "black",
-                                    bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
-                                    fontSize: "12px",
-                                    px: 2,
-                                    py: 1,
-                                }}
-                            >
-                                {text?.trade_type?.name}
-                            </Button>
+                    {loading && stockLots.length === 0 ? (
+                        Array.from(new Array(4)).map((_, i) => (
+                            <Grid key={i}>
+                                <Skeleton variant="rectangular" width={120} height={36} sx={{ borderRadius: 1 }} />
+                            </Grid>
+                        ))
+                    ) : stockLots.length > 0 ? (
+                        stockLots.map((text, i) => (
+                            <Grid key={i}>
+                                <Button
+                                    variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
+                                    onClick={() => {
+                                        setSelectedOffer(text?.trade_type?.name);
+                                        setStockLotsId(text?.id)
+                                    }}
+                                    sx={{
+                                        borderColor: "black",
+                                        color: selectedOffer === text?.trade_type?.name ? "white" : "black",
+                                        bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
+                                        fontSize: "12px",
+                                        px: 2,
+                                        py: 1,
+                                    }}
+                                >
+                                    {text?.trade_type?.name}
+                                </Button>
+                            </Grid>
+                        ))
+                    ) : (
+                        <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
+                            <Typography variant="h6" color="textSecondary">
+                                No Trade Offers Found
+                            </Typography>
                         </Grid>
-                    ))}
+                    )}
                 </Grid>
             </Container>
 
@@ -197,17 +211,18 @@ export default function Tradeoffer() {
                     <Box
                         sx={{
                             border: "1px solid #ccc",
-                            p: 3,
+                            p: 5,
                             bgcolor: "white",
                             textAlign: "center",
+                            borderRadius: 1
                         }}
                     >
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                            {selectedOffer}
+                        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: "#333" }}>
+                            {selectedOffer ? selectedOffer : "No Trade Offer Selected"}
                         </Typography>
 
-                        <Typography sx={{ fontSize: "14px", color: "#555" }}>
-                            {stockLotsData?.tradeoffer?.description}
+                        <Typography sx={{ fontSize: "16px", color: "#666", mb: 3 }}>
+                            {stockLotsData?.tradeoffer?.description ? stockLotsData?.tradeoffer?.description : "No data found for this offer at the moment."}
                         </Typography>
                     </Box>
                 )}
