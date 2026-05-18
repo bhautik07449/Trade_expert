@@ -20,7 +20,7 @@ import SEO from "../../component/SEO"
 export default function Career() {
     const dispatch = useDispatch<AppDispatch>()
 
-    const { pageDetail, loading } = useSelector((state: RootState) => state.page)
+    const { pageDetail } = useSelector((state: RootState) => state.page)
 
     useEffect(() => {
         dispatch(fetchFlatPageBySlug("career"))
