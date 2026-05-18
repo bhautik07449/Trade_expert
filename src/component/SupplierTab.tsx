@@ -1,7 +1,8 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import LabelTitle from "../commonUI/labelTitle";
 
-export default function SupplierTab() {
+export default function SupplierTab({ country }: any) {
     const navigate = useNavigate();
 
     const tab = [
@@ -9,7 +10,7 @@ export default function SupplierTab() {
             label: "Become Authorized",
             value: "Supplier",
             button: "Register",
-            link: "/suppliers/register",
+            link: `/suppliers/register?country=${country}`,
         },
         {
             label: "Wants to",
@@ -20,7 +21,9 @@ export default function SupplierTab() {
     ];
 
     return (
-        <Box sx={{ py: { xs: 5, md: 8 }, width: "100%", bgcolor: "#fff", boxSizing: "border-box" }}>
+        <Box sx={{ py: { xs: 3, md: 4 }, width: "100%", bgcolor: "#fff", boxSizing: "border-box" }}>
+            <LabelTitle title="Get Started" label="Quick Links" />
+
             <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
                 <Grid container spacing={4}>
                     {tab.map((item, index) => (

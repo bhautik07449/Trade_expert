@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
+import MarketDevelopment from '../pages/MarketDevelopment/MarketDevelopment';
 
 // Lazy loaded page components
 // const Dashboard = React.lazy(() => import('../pages/Dashboard/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -86,6 +87,7 @@ export default function Router(): JSX.Element {
       <Route path="/credit-account" element={<CreditAccount />} />
       <Route path="/trade-offers" element={<Tradeoffer />} />
       <Route path="/abc" element={<Abc />} />
+      <Route path="/market-development" element={<MarketDevelopment />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

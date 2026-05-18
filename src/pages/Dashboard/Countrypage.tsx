@@ -95,9 +95,9 @@ export default function CountryPage() {
             </Box>
 
             <Box component="section">
-                <SupplierTab />
+                <SupplierTab country={country} />
             </Box>
-            
+
             <Box component="section" sx={{ py: { xs: 3, md: 4 } }}>
                 <LabelTitle title="Get Started" label="Quick Links" />
 
@@ -124,7 +124,6 @@ export default function CountryPage() {
                                         },
                                     }}
                                 >
-                                    {/* Subtle accent top border line */}
                                     <Box
                                         sx={{
                                             position: "absolute",
