@@ -58,23 +58,50 @@ export default function QualityPolicies() {
             )}
 
             <Box
-                component="img"
-                src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                alt="Quality Policies"
                 sx={{
                     width: "100%",
-                    height: { xs: "200px", md: "350px" },
-                    objectFit: "cover",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
                 }}
-            />
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
 
-            <Box sx={{ py: 4, textAlign: "center" }}>
-                <Typography
-                    variant="h4"
-                    sx={{ fontWeight: 700, color: "secondary.main" }}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
                 >
-                    Quality Policies
-                </Typography>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Quality Policies
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
             <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>

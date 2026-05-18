@@ -11,7 +11,7 @@ function App() {
   const theme = useTheme();
   const location = useLocation()
 
-  const hideLayoutRoutes = ['/login', '/sign-up']
+  const hideLayoutRoutes = ['/login']
 
   const hideLayout = hideLayoutRoutes.includes(location.pathname)
 

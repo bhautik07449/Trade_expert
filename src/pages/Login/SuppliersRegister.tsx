@@ -96,18 +96,65 @@ export default function SuppliersRegister() {
 
     return (
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
-            <img src="https://sourceseas.itcoders.in/img/front-end/supplier.jpg" alt="Quality Policies" style={{ width: '100%', height: 'auto' }} />
-            <Box textAlign="center" mb={4}>
-                <Typography variant="h6">Welcome to</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                    sourceseas.com
-                </Typography>
-                <Typography variant="subtitle1">
-                    Supplying & Tie-up Benefits at Sourceseas
-                </Typography>
+            <Box
+                sx={{
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/supplier.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            sourceseas.com
+                        </Typography>
+
+                        <Typography
+                            variant="subtitle1"
+                            sx={{
+                                color: "#fff",
+                                mt: 1,
+                                fontSize: { xs: "14px", sm: "16px" },
+                            }}
+                        >
+                            Supplying & Tie-up Benefits at Sourceseas
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
-            <Grid container spacing={4} maxWidth="1100px" mx="auto">
+            <Grid container spacing={4} maxWidth="1100px" mx="auto" my={4}>
                 <Grid size={{ xs: 12, md: 6 }} >
                     <Paper sx={{ p: 3 }}>
                         <form onSubmit={formik.handleSubmit}>

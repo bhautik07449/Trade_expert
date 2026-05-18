@@ -92,19 +92,51 @@ export default function GetInTouch() {
                 />
             )}
 
-            <img
-                src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                alt="Quality Policies"
-                style={{ width: "100%", minHeight: '200px', maxHeight: '400px', objectFit: "cover" }}
-            />
+            <Box
+                sx={{
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
 
-            <Box sx={{ p: 3, textAlign: "center" }}>
-                <Typography
-                    variant="h4"
-                    sx={{ fontWeight: 600, color: "#7cb342" }}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
                 >
-                    Contact to Sourceseas
-                </Typography>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Contact to Sourceseas
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
             <Box

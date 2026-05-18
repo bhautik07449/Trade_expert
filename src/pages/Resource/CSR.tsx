@@ -24,13 +24,53 @@ export default function CSR() {
                     keywords={pageDetail.meta_keyword || ''}
                 />
             )}
-            <img src="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" alt="Quality Policies" style={{ width: '100%', minHeight: '200px', maxHeight: '400px', objectFit: 'cover' }} />
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'secondary.main' }}>
-                    CSR
-                </Typography>
-            </Box>
 
+            <Box
+                sx={{
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            CSR
+                        </Typography>
+                    </Box>
+                </Box>
+            </Box>
 
             <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2 }}>
                 {loading ? (

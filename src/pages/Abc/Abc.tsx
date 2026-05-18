@@ -65,23 +65,50 @@ export default function Abc() {
             )}
 
             <Box
-                component="img"
-                src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
-                alt="Abc Menus"
                 sx={{
                     width: "100%",
-                    height: { xs: "200px", md: "300px" },
-                    objectFit: "cover",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
                 }}
-            />
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
 
-            <Box sx={{ py: 4, textAlign: "center" }}>
-                <Typography
-                    variant="h4"
-                    sx={{ fontWeight: 700, color: "secondary.main" }}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
                 >
-                    Abc Menus
-                </Typography>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Abc Menus
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
             <Container maxWidth="lg">

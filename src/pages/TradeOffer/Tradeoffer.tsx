@@ -76,16 +76,54 @@ export default function Tradeoffer() {
                 title="Trade Offers - Tradexpert"
                 description="Explore the latest trade offers and stock lots on Tradexpert."
             />
+
             <Box
-                component="img"
-                src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                alt="Quality Policies"
                 sx={{
                     width: "100%",
-                    height: { xs: "200px", md: "300px" },
-                    objectFit: "cover",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
                 }}
-            />
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Trade Offer
+                        </Typography>
+                    </Box>
+                </Box>
+            </Box>
+
             <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, pt: 4 }}>
                 <Grid container spacing={2} justifyContent="center">
                     {loading && stockLots.length === 0 ? (

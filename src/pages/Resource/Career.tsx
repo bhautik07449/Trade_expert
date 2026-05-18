@@ -25,11 +25,51 @@ export default function Career() {
                 />
             )}
 
-            <img src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" alt="Quality Policies" style={{ width: '100%', height: 'auto', minHeight: '200px', maxHeight: '400px', }} />
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'secondary.main' }}>
-                    Build Career at sourceseas
-                </Typography>
+            <Box
+                sx={{
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
+                    alt="Supplier Banner"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Build Career at sourceseas
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
             <Box sx={{ p: 4, textAlign: 'center' }} maxWidth="lg" mx="auto">

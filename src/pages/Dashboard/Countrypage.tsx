@@ -9,6 +9,7 @@ import SEO from "../../component/SEO"
 import { useEffect, useState } from "react"
 import HomePageservice from "../../service/homepages.service"
 import LabelTitle from "../../commonUI/labelTitle"
+import SupplierTab from "../../component/SupplierTab"
 
 const tab = [
     {
@@ -93,6 +94,10 @@ export default function CountryPage() {
                 <Analytical analyticsData={analyticsData} loading={loading} />
             </Box>
 
+            <Box component="section">
+                <SupplierTab />
+            </Box>
+            
             <Box component="section" sx={{ py: { xs: 3, md: 4 } }}>
                 <LabelTitle title="Get Started" label="Quick Links" />
 

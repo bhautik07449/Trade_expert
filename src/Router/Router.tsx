@@ -67,7 +67,7 @@ export default function Router(): JSX.Element {
       <Route path="/:country" element={<CountryPage />} />
       <Route path="/category/:category" element={<CategoryPage />} />
       <Route path="/login" element={<PublicRoute><LoginForm /></ PublicRoute>} />
-      <Route path="/sign-up" element={<PublicRoute><SignupForm /></PublicRoute>} />
+      <Route path="/sign-up" element={<SignupForm />} />
       <Route path='/about_us' element={<AboutUs />} />
       <Route path="/product-list/:slug" element={<ProductList />} />
       <Route path="/product-details/:id" element={<ProductPage />} />
