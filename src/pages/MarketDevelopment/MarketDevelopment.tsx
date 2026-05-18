@@ -50,34 +50,59 @@ export default function MarketDevelopment() {
         <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh", pb: 10 }}>
             <Box
                 sx={{
-                    bgcolor: "#3E3126",
-                    color: "#fff",
-                    py: { xs: 5, md: 7 },
-                    px: 2,
-                    textAlign: "center",
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
+                    overflow: "hidden",
+                    position: "relative",
                 }}
             >
-                <Typography
-                    variant="h3"
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/brands.jpg"
+                    alt="Supplier Banner"
                     sx={{
-                        fontWeight: 800,
-                        fontSize: { xs: "28px", sm: "40px", md: "52px" },
-                        textTransform: "uppercase",
-                        letterSpacing: 1,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
                     }}
-                >
-                    Market Development
-                </Typography>
+                />
 
-                <Typography
+                <Box
                     sx={{
-                        mt: 1.5,
-                        fontSize: { xs: "15px", sm: "18px" },
-                        opacity: 0.9,
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
                     }}
                 >
-                    Experience turnkey delivered differently
-                </Typography>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Market Development
+                        </Typography>
+
+                        <Typography
+                            sx={{
+                                color: "#fff",
+                                mt: 1,
+                                fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                            }}
+                        >
+                            Experience turnkey delivered differently
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
 
             <Box
@@ -302,7 +327,7 @@ export default function MarketDevelopment() {
                 </Paper>
 
                 <Grid container spacing={3.5}>
-                    <Grid size={{ xs: 12, md: 3 }}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Paper
                             elevation={3}
                             sx={{
@@ -361,7 +386,7 @@ export default function MarketDevelopment() {
                         </Paper>
                     </Grid>
 
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid size={{ xs: 12, md: 8 }}>
                         <Paper
                             elevation={3}
                             sx={{
@@ -454,96 +479,79 @@ export default function MarketDevelopment() {
                         </Paper>
                     </Grid>
 
-                    <Grid size={{ xs: 12, md: 3 }}>
+                    <Grid size={{ xs: 12 }}>
                         <Paper
                             elevation={3}
                             sx={{
                                 p: { xs: 2.5, sm: 3 },
                                 borderRadius: 4,
-                                height: "100%",
                             }}
                         >
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    fontWeight: 800,
-                                    mb: 1,
-                                    color: "#1f2937",
-                                }}
-                            >
-                                Select Your Budget
-                            </Typography>
+                            <Grid container spacing={3} alignItems="center">
+                                <Grid size={{ xs: 12, md: 3 }}>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            fontWeight: 800,
+                                            color: "#1f2937",
+                                        }}
+                                    >
+                                        Select Your Budget
+                                    </Typography>
 
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: "14px",
-                                    mb: 3,
-                                }}
-                            >
-                                Choose an estimated budget range for your project.
-                            </Typography>
+                                    <Typography
+                                        sx={{
+                                            color: "text.secondary",
+                                            fontSize: "14px",
+                                            mt: 1,
+                                        }}
+                                    >
+                                        Choose an estimated budget range for your project.
+                                    </Typography>
+                                </Grid>
 
-                            <Slider
-                                defaultValue={40}
-                                valueLabelDisplay="auto"
-                                step={10}
-                                marks
-                                min={0}
-                                max={100}
-                                sx={{
-                                    color: "#F4A62A",
-                                    mb: 2,
-                                }}
-                            />
+                                <Grid size={{ xs: 12, md: 4 }}>
+                                    <Slider
+                                        defaultValue={40}
+                                        valueLabelDisplay="auto"
+                                        step={10}
+                                        marks
+                                        min={0}
+                                        max={100}
+                                        sx={{
+                                            color: "#F4A62A",
+                                        }}
+                                    />
+                                </Grid>
 
-                            <TextField
-                                fullWidth
-                                size="small"
-                                label="Estimated Budget"
-                                placeholder="Example: 10,00,000"
-                                sx={{ mb: 2 }}
-                            />
+                                <Grid size={{ xs: 12, md: 3 }}>
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        label="Estimated Budget"
+                                        placeholder="Example: 10,00,000"
+                                    />
+                                </Grid>
 
-                            <Divider sx={{ my: 2 }} />
-
-                            <Typography
-                                sx={{
-                                    fontWeight: 700,
-                                    color: "#374151",
-                                    mb: 1,
-                                }}
-                            >
-                                Get Estimated
-                            </Typography>
-
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: "14px",
-                                    mb: 2,
-                                }}
-                            >
-                                Submit your selected details to get an estimated project
-                                development overview.
-                            </Typography>
-
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                sx={{
-                                    bgcolor: "#3E3126",
-                                    py: 1.2,
-                                    borderRadius: 2,
-                                    textTransform: "none",
-                                    fontWeight: 700,
-                                    "&:hover": {
-                                        bgcolor: "#2c231c",
-                                    },
-                                }}
-                            >
-                                Submit
-                            </Button>
+                                <Grid size={{ xs: 12, md: 2 }}>
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{
+                                            bgcolor: "#3E3126",
+                                            py: 1.2,
+                                            borderRadius: 2,
+                                            textTransform: "none",
+                                            fontWeight: 700,
+                                            "&:hover": {
+                                                bgcolor: "#2c231c",
+                                            },
+                                        }}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Grid>
+                            </Grid>
                         </Paper>
                     </Grid>
                 </Grid>
