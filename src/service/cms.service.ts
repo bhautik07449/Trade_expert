@@ -154,9 +154,18 @@ const getAbc = async (country: string) => {
     }
 }
 
+const careerForm = async (body) => {
+    try {
+        const response = await serverCall.post('/career', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc
+    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm
 };
 
 export default CMSservice;
