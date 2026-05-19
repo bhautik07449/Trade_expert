@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { Box, Tabs, Tab, Table, TableBody, TableRow, TableCell, Paper } from "@mui/material"
 

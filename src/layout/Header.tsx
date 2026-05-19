@@ -1,4 +1,3 @@
-"use client";
 import {
     Box,
     Typography,
@@ -23,21 +22,19 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import LoginIcon from '@mui/icons-material/Login';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import CategoryIcon from '@mui/icons-material/Category';
-import WidgetsIcon from '@mui/icons-material/Widgets';
-import HomeIcon from '@mui/icons-material/Home';
-import InfoIcon from '@mui/icons-material/Info';
-import SourceIcon from '@mui/icons-material/Source';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import BusinessIcon from '@mui/icons-material/Business';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import LoginIcon from "@mui/icons-material/Login";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import CategoryIcon from "@mui/icons-material/Category";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import SourceIcon from "@mui/icons-material/Source";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import BusinessIcon from "@mui/icons-material/Business";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import { toast } from "react-toastify";
 import Buyerservice from "../service/buyes.service";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,12 +44,13 @@ import QuotationDialog from "../component/Dialog/quote-dialog";
 import { fetchFlatCategories } from "../store/slice/categoriesSlice";
 
 interface Props {
-    firstName?: string,
-    lastName?: string
+    firstName?: string;
+    lastName?: string;
 }
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
+
     return (
         <Slide appear={false} direction="down" in={!trigger}>
             {children}
@@ -65,6 +63,20 @@ export default function Header() {
     const [id, setId] = useState<string>();
     const [profile, setProfile] = useState<Props>();
     const [openRFQ, setOpenRFQ] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+    const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [menuStack, setMenuStack] = useState<any[]>([]);
+
+    const navigate = useNavigate();
+    const navRef = useRef<HTMLDivElement>(null);
+    const dispatch = useDispatch<AppDispatch>();
+
+    useSelector((state: any) => state.page);
+
+    const { categories, loading: categoriesLoading } = useSelector(
+        (state: any) => state.categories
+    );
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -72,19 +84,21 @@ export default function Header() {
 
         if (token && buyer === "true") {
             setIsLoggedIn(true);
-            setId(token)
+            setId(token);
         }
     }, []);
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-    const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null);
+    useEffect(() => {
+        dispatch(fetchFlatPage());
+        dispatch(fetchFlatCategories());
+    }, [dispatch]);
 
     const handleMouseEnter = (label: string) => {
         if (submenuTimeout) {
             clearTimeout(submenuTimeout);
             setSubmenuTimeout(null);
         }
+
         setOpenSubmenu(label);
     };
 
@@ -92,37 +106,59 @@ export default function Header() {
         const timeout = setTimeout(() => {
             setOpenSubmenu(null);
         }, 150);
+
         setSubmenuTimeout(timeout);
     };
-
-    const [menuStack, setMenuStack] = useState<any[]>([]);
-
-    const navigate = useNavigate();
-    const navRef = useRef<HTMLDivElement>(null);
 
     const toggleDrawer = (open: boolean) => () => {
         setMobileOpen(open);
         if (!open) setMenuStack([]);
     };
 
-    const dispatch = useDispatch<AppDispatch>()
-
-    useSelector(
-        (state: any) => state.page
-    )
-
-    const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categories
-    );
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("buyer");
+        window.location.reload();
+        toast.success("Buyer Logout Successfully");
+    };
 
     useEffect(() => {
-        dispatch(fetchFlatPage())
-        dispatch(fetchFlatCategories())
-    }, [dispatch])
+        const handleClickOutside = (event: MouseEvent) => {
+            if (navRef.current && !navRef.current.contains(event.target as Node)) {
+                setOpenSubmenu(null);
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        const getData = async (id: any) => {
+            try {
+                const res = await Buyerservice.getProfile(id);
+
+                if (res) {
+                    setProfile(res?.data);
+                }
+            } catch (error) {
+                toast.error("Buyer Profile not Found");
+                handleLogout();
+            }
+        };
+
+        if (id) {
+            getData(id);
+        }
+    }, [id]);
 
     const navItems: any[] = [
-        { label: "Home", path: "/", icon: <HomeIcon fontSize="small" /> },
+        {
+            label: "Home",
+            path: "/",
+            icon: <HomeIcon fontSize="small" />,
+        },
         {
             label: "About",
             path: "/about_us",
@@ -135,25 +171,25 @@ export default function Header() {
             ],
         },
         {
-            label: "Products",
-            path: "/product-list",
+            label: "Countries",
             icon: <CategoryIcon fontSize="small" />,
             subItems:
-                categories?.map((cat: any) => ({
-                    label: cat?.name,
-                    path: `/product-list/${cat?.slug}`,
+                categories?.map((country: any) => ({
+                    label: country?.country,
+                    type: "country",
                     subItems:
-                        cat?.children?.map((sub: any) => ({
-                            label: sub?.name,
-                            path: `/product-list/${sub?.slug}`,
+                        country?.categories?.map((category: any) => ({
+                            label: category?.name,
+                            type: "category",
                             subItems:
-                                sub?.children?.map((child: any) => ({
-                                    label: child?.name,
-                                    path: `/product-list/${child?.slug}`,
+                                category?.subcategories?.map((subcategory: any) => ({
+                                    label: subcategory?.name,
+                                    type: "subcategory",
                                     subItems:
-                                        child?.children?.map((last: any) => ({
-                                            label: last?.name,
-                                            path: `/product-list/${last?.slug}`,
+                                        subcategory?.products?.map((product: any) => ({
+                                            label: product?.name,
+                                            type: "product",
+                                            path: `/product-details/${product?.id}`,
                                         })) || [],
                                 })) || [],
                         })) || [],
@@ -169,78 +205,112 @@ export default function Header() {
                 { label: "FAQ", path: "/pages/faq" },
             ],
         },
-        { label: "Quality Policy", path: "/quality_policies", icon: <VerifiedIcon fontSize="small" /> },
-        { label: "How to Pay", path: "/how-to-pay", icon: <PaymentsIcon fontSize="small" /> },
-        { label: "Brands", path: "/brands", icon: <BusinessIcon fontSize="small" /> },
-        { label: "Get in Touch", path: "/get-in-touch", icon: <ContactSupportIcon fontSize="small" /> },
-        { label: "Trader Offer", path: "/trade-offers", icon: <LocalOfferIcon fontSize="small" /> },
-        { label: "Abc", path: "/abc", icon: <DashboardIcon fontSize="small" /> },
+        {
+            label: "Quality Policy",
+            path: "/quality_policies",
+            icon: <VerifiedIcon fontSize="small" />,
+        },
+        {
+            label: "How to Pay",
+            path: "/how-to-pay",
+            icon: <PaymentsIcon fontSize="small" />,
+        },
+        {
+            label: "Brands",
+            path: "/brands",
+            icon: <BusinessIcon fontSize="small" />,
+        },
+        {
+            label: "Get in Touch",
+            path: "/get-in-touch",
+            icon: <ContactSupportIcon fontSize="small" />,
+        },
     ];
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (navRef.current && !navRef.current.contains(event.target as Node)) {
-                setOpenSubmenu(null);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () =>
-            document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    useEffect(() => {
-        const getData = async (id: any) => {
-            try {
-                const res = await Buyerservice.getProfile(id)
-                if (res) {
-                    setProfile(res?.data)
-                }
-            } catch (error) {
-                toast.error("Buyer Profile not Found")
-                handleLogout()
-            }
-        }
-        if (id) {
-            getData(id)
-        }
-    }, [id])
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("buyer");
-        window.location.reload();
-        toast.success("Buyer Logout Successfully")
-    };
 
     return (
         <>
             <HideOnScroll>
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
-                    <Toolbar sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "space-between" }}>
-                        <Link component={RouterLink} to="/" sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-                            <img src="/logo.jpg" alt="logo" style={{ maxWidth: "100%", height: "auto", maxHeight: "50px" }} />
+                    <Toolbar
+                        sx={{
+                            display: { xs: "none", sm: "flex" },
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Link
+                            component={RouterLink}
+                            to="/"
+                            sx={{ display: "flex", gap: 3, alignItems: "center" }}
+                        >
+                            <img
+                                src="/logo.jpg"
+                                alt="logo"
+                                style={{
+                                    maxWidth: "100%",
+                                    height: "auto",
+                                    maxHeight: "50px",
+                                }}
+                            />
                         </Link>
+
                         <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-                            <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} /> +91 87653 37336</Typography>
-                            <Typography sx={{ fontSize: "14px", display: 'flex', alignItems: 'center' }}><AccessTimeIcon sx={{ fontSize: 20, mr: 0.5 }} />Mon-Fri: 9:00am - 8:00pm</Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: "14px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} />
+                                +91 87653 37336
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "14px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <AccessTimeIcon sx={{ fontSize: 20, mr: 0.5 }} />
+                                Mon-Fri: 9:00am - 8:00pm
+                            </Typography>
                         </Box>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
 
-            <AppBar position="sticky" sx={{ bgcolor: "white", color: "black", borderBottom: "1px solid #ddd" }}>
+            <AppBar
+                position="sticky"
+                sx={{
+                    bgcolor: "white",
+                    color: "black",
+                    borderBottom: "1px solid #ddd",
+                }}
+            >
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Typography variant="h6" sx={{
-                        fontWeight: 600, fontSize: {
-                            xs: "14px",
-                            sm: "18px",
-                            md: "20px",
-                            lg: "22px",
-                        },
-                    }}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 600,
+                            fontSize: {
+                                xs: "14px",
+                                sm: "18px",
+                                md: "20px",
+                                lg: "22px",
+                            },
+                        }}
+                    >
                         Welcome to Sourceseas - Best Exporter
                     </Typography>
-                    <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: 'center', gap: 2 }}>
+
+                    <Box
+                        sx={{
+                            display: { xs: "none", sm: "flex" },
+                            alignItems: "center",
+                            gap: 2,
+                        }}
+                    >
                         {!isLoggedIn ? (
                             <>
                                 <Typography variant="body2">
@@ -254,7 +324,7 @@ export default function Header() {
                                             fontWeight: 500,
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: 0.5
+                                            gap: 0.5,
                                         }}
                                     >
                                         <AccountCircleIcon sx={{ fontSize: 20 }} />
@@ -273,7 +343,7 @@ export default function Header() {
                                             fontWeight: 500,
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: 0.5
+                                            gap: 0.5,
                                         }}
                                     >
                                         <LoginIcon sx={{ fontSize: 20 }} />
@@ -288,7 +358,7 @@ export default function Header() {
                                         cursor: "pointer",
                                         display: "flex",
                                         alignItems: "center",
-                                        gap: 0.5
+                                        gap: 0.5,
                                     }}
                                     onClick={() => navigate("/buyer-dashboard")}
                                 >
@@ -301,7 +371,7 @@ export default function Header() {
                                         cursor: "pointer",
                                         display: "flex",
                                         alignItems: "center",
-                                        gap: 0.5
+                                        gap: 0.5,
                                     }}
                                     onClick={handleLogout}
                                 >
@@ -321,19 +391,37 @@ export default function Header() {
                             Request for Quote
                         </Button>
                     </Box>
-                    <IconButton onClick={toggleDrawer(true)} sx={{ display: { xs: "flex", md: "none" } }}>
+
+                    <IconButton
+                        onClick={toggleDrawer(true)}
+                        sx={{ display: { xs: "flex", md: "none" } }}
+                    >
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
 
-            <AppBar position="sticky" sx={{ bgcolor: "secondary.dark", display: { xs: "none", md: "flex" } }}>
-                <Toolbar ref={navRef} sx={{ display: "flex", justifyContent: "center", gap: 4, position: "relative" }}>
+            <AppBar
+                position="sticky"
+                sx={{
+                    bgcolor: "secondary.dark",
+                    display: { xs: "none", md: "flex" },
+                }}
+            >
+                <Toolbar
+                    ref={navRef}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: 4,
+                        position: "relative",
+                    }}
+                >
                     {navItems.map((item) => (
                         <Box
                             key={item.label}
                             sx={{
-                                position: item.label === "Products" ? "static" : "relative",
+                                position: item.label === "Countries" ? "static" : "relative",
                                 pb: 2,
                                 mb: -2,
                                 display: "flex",
@@ -345,7 +433,7 @@ export default function Header() {
                             <Typography
                                 onClick={() => item.path && navigate(item.path)}
                                 sx={{
-                                    cursor: "pointer",
+                                    cursor: item.path ? "pointer" : "default",
                                     px: 2,
                                     py: 1,
                                     display: "flex",
@@ -354,10 +442,11 @@ export default function Header() {
                                     fontSize: { xs: "0.95rem", md: "1.1rem" },
                                     color: "white",
                                     fontWeight: 500,
-                                    "&:hover": { color: "primary.light" }
+                                    "&:hover": { color: "primary.light" },
                                 }}
                             >
                                 {item.label}
+
                                 {item.subItems && (
                                     <KeyboardArrowUpIcon
                                         sx={{
@@ -378,17 +467,19 @@ export default function Header() {
                                     elevation={16}
                                     sx={{
                                         position: "absolute",
-                                        top: "100%", // Removed gap
-                                        left: item.label === "Products" ? "50%" : 0,
-                                        transform: item.label === "Products" ? "translateX(-50%)" : "none",
-                                        width: item.label === "Products" ? "950px" : "auto",
+                                        top: "100%",
+                                        left: item.label === "Countries" ? "50%" : 0,
+                                        transform:
+                                            item.label === "Countries"
+                                                ? "translateX(-50%)"
+                                                : "none",
+                                        width: item.label === "Countries" ? "1100px" : "auto",
                                         maxWidth: "98vw",
                                         zIndex: 999,
                                         overflow: "hidden",
                                         border: "1px solid rgba(0,0,0,0.08)",
                                         backgroundColor: "white",
                                         boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
-                                        // Invisible bridge to prevent closing on gap hover
                                         "&::after": {
                                             content: '""',
                                             position: "absolute",
@@ -398,24 +489,38 @@ export default function Header() {
                                             height: 20,
                                             zIndex: -1,
                                         },
-                                        "&::before": item.label === "Products" ? {
-                                            content: '""',
-                                            position: "absolute",
-                                            top: -10, // Back to -10 to peek out
-                                            left: "50%",
-                                            transform: "translateX(-50%)",
-                                            borderLeft: "10px solid transparent",
-                                            borderRight: "10px solid transparent",
-                                            borderBottom: "10px solid white",
-                                        } : {},
+                                        "&::before":
+                                            item.label === "Countries"
+                                                ? {
+                                                    content: '""',
+                                                    position: "absolute",
+                                                    top: -10,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    borderLeft: "10px solid transparent",
+                                                    borderRight: "10px solid transparent",
+                                                    borderBottom: "10px solid white",
+                                                }
+                                                : {},
                                     }}
                                 >
-                                    {item.label === "Products" ? (
+                                    {item.label === "Countries" ? (
                                         categoriesLoading ? (
-                                            <Box sx={{ p: 4, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
+                                            <Box
+                                                sx={{
+                                                    p: 4,
+                                                    display: "grid",
+                                                    gridTemplateColumns: "repeat(4, 1fr)",
+                                                    gap: 4,
+                                                }}
+                                            >
                                                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                                                     <Box key={i}>
-                                                        <Skeleton variant="text" width="60%" height={30} />
+                                                        <Skeleton
+                                                            variant="text"
+                                                            width="60%"
+                                                            height={30}
+                                                        />
                                                         <Skeleton variant="text" width="80%" />
                                                         <Skeleton variant="text" width="70%" />
                                                         <Skeleton variant="text" width="75%" />
@@ -423,17 +528,14 @@ export default function Header() {
                                                 ))}
                                             </Box>
                                         ) : (
-                                            <ProductMegaMenu
+                                            <CountriesMegaMenu
                                                 items={item.subItems}
                                                 navigate={navigate}
                                                 onClose={() => setOpenSubmenu(null)}
                                             />
                                         )
                                     ) : (
-                                        <NestedMenu
-                                            items={item.subItems}
-                                            navigate={navigate}
-                                        />
+                                        <NestedMenu items={item.subItems} navigate={navigate} />
                                     )}
                                 </Paper>
                             )}
@@ -449,24 +551,43 @@ export default function Header() {
                 PaperProps={{ sx: { width: { xs: "85%", sm: 320 } } }}
             >
                 <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                    <Box sx={{ p: 2, borderBottom: "1px solid #eee", display: "flex", alignItems: "center", gap: 2, bgcolor: "secondary.main", color: "white" }}>
-                        <img src="./logo.jpg" alt="logo" width={40} height={40} style={{ borderRadius: 4 }} />
-                        <Typography variant="subtitle1" fontWeight={700}>Menu</Typography>
+                    <Box
+                        sx={{
+                            p: 2,
+                            borderBottom: "1px solid #eee",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                            bgcolor: "secondary.main",
+                            color: "white",
+                        }}
+                    >
+                        <img
+                            src="./logo.jpg"
+                            alt="logo"
+                            width={40}
+                            height={40}
+                            style={{ borderRadius: 4 }}
+                        />
+                        <Typography variant="subtitle1" fontWeight={700}>
+                            Menu
+                        </Typography>
                     </Box>
+
                     <List sx={{ flexGrow: 1, overflowY: "auto", py: 0 }}>
                         {menuStack.length > 0 && (
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={() =>
-                                        setMenuStack((prev) => prev.slice(0, -1))
-                                    }
+                                    onClick={() => setMenuStack((prev) => prev.slice(0, -1))}
                                 >
                                     <ListItemText primary="← Back" />
                                 </ListItemButton>
                             </ListItem>
                         )}
 
-                        {menuStack.length > 0 && menuStack[menuStack.length - 1].label === "Products" && categoriesLoading ? (
+                        {menuStack.length > 0 &&
+                            menuStack[menuStack.length - 1].label === "Countries" &&
+                            categoriesLoading ? (
                             <Box sx={{ px: 2 }}>
                                 <Skeleton variant="text" height={50} />
                                 <Skeleton variant="text" height={50} />
@@ -489,22 +610,41 @@ export default function Header() {
                                                 setMenuStack([]);
                                             }
                                         }}
-                                        sx={{ py: 1.5, borderBottom: "1px solid #f9f9f9" }}
+                                        sx={{
+                                            py: 1.5,
+                                            borderBottom: "1px solid #f9f9f9",
+                                        }}
                                     >
-                                        <ListItemIcon sx={{ minWidth: 40, color: "secondary.main" }}>
+                                        <ListItemIcon
+                                            sx={{ minWidth: 40, color: "secondary.main" }}
+                                        >
                                             {item.icon || <WidgetsIcon />}
                                         </ListItemIcon>
+
                                         <ListItemText
                                             primary={item.label}
-                                            primaryTypographyProps={{ fontWeight: 600, fontSize: "1rem" }}
+                                            primaryTypographyProps={{
+                                                fontWeight: 600,
+                                                fontSize: "1rem",
+                                            }}
                                         />
-                                        {item.subItems && item.subItems.length > 0 && <KeyboardArrowRightIcon color="disabled" />}
+
+                                        {item.subItems && item.subItems.length > 0 && (
+                                            <KeyboardArrowRightIcon color="disabled" />
+                                        )}
                                     </ListItemButton>
                                 </ListItem>
                             ))
                         )}
                     </List>
-                    <Box sx={{ borderTop: "2px solid #f0f0f0", p: 2, bgcolor: "#fafafa" }}>
+
+                    <Box
+                        sx={{
+                            borderTop: "2px solid #f0f0f0",
+                            p: 2,
+                            bgcolor: "#fafafa",
+                        }}
+                    >
                         {isLoggedIn ? (
                             <>
                                 <ListItem disablePadding>
@@ -516,7 +656,8 @@ export default function Header() {
                                     >
                                         <AccountCircleIcon sx={{ mr: 1 }} />
                                         <ListItemText
-                                            primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""}`}
+                                            primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""
+                                                }`}
                                         />
                                     </ListItemButton>
                                 </ListItem>
@@ -565,7 +706,13 @@ export default function Header() {
                             variant="contained"
                             color="success"
                             size="small"
-                            sx={{ px: 3, fontWeight: 600, mx: 3, borderTop: "1px solid #ddd", mt: 1 }}
+                            sx={{
+                                px: 3,
+                                fontWeight: 600,
+                                mx: 3,
+                                borderTop: "1px solid #ddd",
+                                mt: 1,
+                            }}
                             onClick={() => setOpenRFQ(true)}
                         >
                             Request for Quote
@@ -574,10 +721,7 @@ export default function Header() {
                 </Box>
             </Drawer>
 
-            <QuotationDialog
-                open={openRFQ}
-                onClose={() => setOpenRFQ(false)}
-            />
+            <QuotationDialog open={openRFQ} onClose={() => setOpenRFQ(false)} />
         </>
     );
 }
@@ -596,7 +740,10 @@ function NestedMenu({
             {items.map((item, index) => (
                 <Box
                     key={item.label}
-                    sx={{ position: "relative", "&:not(:last-child)": { mb: 0.5 } }}
+                    sx={{
+                        position: "relative",
+                        "&:not(:last-child)": { mb: 0.5 },
+                    }}
                     onMouseEnter={() => setHovered(index)}
                     onMouseLeave={() => setHovered(null)}
                 >
@@ -605,7 +752,7 @@ function NestedMenu({
                         sx={{
                             px: 2,
                             py: 1.2,
-                            cursor: "pointer",
+                            cursor: item.path ? "pointer" : "default",
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
@@ -620,6 +767,7 @@ function NestedMenu({
                         }}
                     >
                         {item.label}
+
                         {item.subItems?.length > 0 && (
                             <KeyboardArrowRightIcon
                                 sx={{
@@ -655,7 +803,7 @@ function NestedMenu({
     );
 }
 
-function ProductMegaMenu({
+function CountriesMegaMenu({
     items,
     navigate,
     onClose,
@@ -664,18 +812,30 @@ function ProductMegaMenu({
     navigate: any;
     onClose: () => void;
 }) {
-    const [hoveredCat, setHoveredCat] = useState<any>(items[0] || null);
-    const [hoveredSub, setHoveredSub] = useState<any>(null);
+    const [hoveredCountry, setHoveredCountry] = useState<any>(items[0] || null);
+    const [hoveredCategory, setHoveredCategory] = useState<any>(null);
+    const [hoveredSubcategory, setHoveredSubcategory] = useState<any>(null);
 
     useEffect(() => {
-        setHoveredSub(null);
-    }, [hoveredCat]);
+        setHoveredCountry(items[0] || null);
+        setHoveredCategory(null);
+        setHoveredSubcategory(null);
+    }, [items]);
+
+    useEffect(() => {
+        setHoveredCategory(null);
+        setHoveredSubcategory(null);
+    }, [hoveredCountry]);
+
+    useEffect(() => {
+        setHoveredSubcategory(null);
+    }, [hoveredCategory]);
 
     return (
-        <Box sx={{ display: "flex", height: 550, width: 950 }}>
+        <Box sx={{ display: "flex", height: 550, width: 1100 }}>
             <Box
                 sx={{
-                    width: 300,
+                    width: 260,
                     flexShrink: 0,
                     borderRight: "1px solid",
                     borderColor: "divider",
@@ -684,22 +844,20 @@ function ProductMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {items.map((cat) => (
-                        <ListItem key={cat.label} disablePadding>
+                    {items.map((country) => (
+                        <ListItem key={country.label} disablePadding>
                             <ListItemButton
-                                onMouseEnter={() => setHoveredCat(cat)}
-                                onClick={() => {
-                                    navigate(cat.path);
-                                    onClose();
-                                }}
-                                selected={hoveredCat?.label === cat.label}
+                                onMouseEnter={() => setHoveredCountry(country)}
+                                selected={hoveredCountry?.label === country.label}
                                 sx={{
                                     py: 1.5,
                                     px: 2,
                                     "&.Mui-selected": {
                                         bgcolor: "primary.light",
                                         color: "primary.dark",
-                                        "& .MuiListItemIcon-root": { color: "primary.dark" },
+                                        "& .MuiListItemIcon-root": {
+                                            color: "primary.dark",
+                                        },
                                     },
                                     "&:hover": {
                                         bgcolor: "primary.light",
@@ -707,15 +865,18 @@ function ProductMegaMenu({
                                 }}
                             >
                                 <ListItemText
-                                    primary={cat.label}
+                                    primary={country.label}
                                     primaryTypographyProps={{
                                         fontWeight: 700,
                                         fontSize: "1.05rem",
                                         noWrap: true,
                                     }}
                                 />
-                                {cat.subItems?.length > 0 && (
-                                    <KeyboardArrowRightIcon sx={{ fontSize: 18, color: "divider" }} />
+
+                                {country.subItems?.length > 0 && (
+                                    <KeyboardArrowRightIcon
+                                        sx={{ fontSize: 18, color: "divider" }}
+                                    />
                                 )}
                             </ListItemButton>
                         </ListItem>
@@ -723,28 +884,24 @@ function ProductMegaMenu({
                 </List>
             </Box>
 
-            {hoveredCat?.subItems?.length > 0 && (
-                <Box
-                    sx={{
-                        width: 300,
-                        flexShrink: 0,
-                        borderRight: "1px solid",
-                        borderColor: "divider",
-                        py: 1,
-                        bgcolor: "white",
-                        overflowY: "auto",
-                    }}
-                >
-                    <List sx={{ p: 0 }}>
-                        {hoveredCat.subItems.map((sub: any) => (
-                            <ListItem key={sub.label} disablePadding>
+            <Box
+                sx={{
+                    width: 260,
+                    flexShrink: 0,
+                    borderRight: "1px solid",
+                    borderColor: "divider",
+                    py: 1,
+                    bgcolor: "white",
+                    overflowY: "auto",
+                }}
+            >
+                <List sx={{ p: 0 }}>
+                    {hoveredCountry?.subItems?.length > 0 ? (
+                        hoveredCountry.subItems.map((category: any) => (
+                            <ListItem key={category.label} disablePadding>
                                 <ListItemButton
-                                    onMouseEnter={() => setHoveredSub(sub)}
-                                    onClick={() => {
-                                        navigate(sub.path);
-                                        onClose();
-                                    }}
-                                    selected={hoveredSub?.label === sub.label}
+                                    onMouseEnter={() => setHoveredCategory(category)}
+                                    selected={hoveredCategory?.label === category.label}
                                     sx={{
                                         py: 1.2,
                                         px: 2,
@@ -756,79 +913,172 @@ function ProductMegaMenu({
                                     }}
                                 >
                                     <ListItemText
-                                        primary={sub.label}
+                                        primary={category.label}
                                         primaryTypographyProps={{
                                             fontSize: "1rem",
-                                            fontWeight: hoveredSub?.label === sub.label ? 700 : 500,
+                                            fontWeight:
+                                                hoveredCategory?.label === category.label
+                                                    ? 700
+                                                    : 500,
                                             noWrap: true,
                                         }}
                                     />
-                                    {sub.subItems?.length > 0 && (
-                                        <KeyboardArrowRightIcon sx={{ fontSize: 16, color: "divider" }} />
+
+                                    {category.subItems?.length > 0 && (
+                                        <KeyboardArrowRightIcon
+                                            sx={{ fontSize: 16, color: "divider" }}
+                                        />
                                     )}
                                 </ListItemButton>
                             </ListItem>
-                        ))}
-                    </List>
-                </Box>
-            )}
+                        ))
+                    ) : (
+                        <Typography
+                            sx={{
+                                p: 2,
+                                color: "text.disabled",
+                                fontSize: "0.9rem",
+                            }}
+                        >
+                            No categories found
+                        </Typography>
+                    )}
+                </List>
+            </Box>
 
-            {hoveredSub?.subItems?.length > 0 ? (
-                <Box
-                    sx={{
-                        width: 350,
-                        flexGrow: 1,
-                        py: 2,
-                        px: 1,
-                        bgcolor: "#fafafa",
-                        overflowY: "auto",
-                    }}
-                >
-                    <Box sx={{ display: "grid", gridTemplateColumns: "1fr", gap: 0.5 }}>
-                        {hoveredSub.subItems.map((child: any) => (
-                            <ListItemButton
-                                key={child.label}
-                                onClick={() => {
-                                    navigate(child.path);
-                                    onClose();
-                                }}
-                                sx={{
-                                    borderRadius: 1,
-                                    mx: 1,
-                                    "&:hover": { bgcolor: "white", transform: "translateX(4px)" },
-                                    transition: "all 0.2s",
-                                }}
-                            >
-                                <ListItemText
-                                    primary={child.label}
-                                    primaryTypographyProps={{
-                                        fontSize: "0.9rem",
-                                        color: "text.secondary",
+            <Box
+                sx={{
+                    width: 280,
+                    flexShrink: 0,
+                    borderRight: "1px solid",
+                    borderColor: "divider",
+                    py: 1,
+                    bgcolor: "#fafafa",
+                    overflowY: "auto",
+                }}
+            >
+                <List sx={{ p: 0 }}>
+                    {hoveredCategory?.subItems?.length > 0 ? (
+                        hoveredCategory.subItems.map((subcategory: any) => (
+                            <ListItem key={subcategory.label} disablePadding>
+                                <ListItemButton
+                                    onMouseEnter={() => setHoveredSubcategory(subcategory)}
+                                    selected={hoveredSubcategory?.label === subcategory.label}
+                                    sx={{
+                                        py: 1.2,
+                                        px: 2,
+                                        "&.Mui-selected": {
+                                            bgcolor: "white",
+                                            color: "primary.main",
+                                            fontWeight: 700,
+                                        },
+                                    }}
+                                >
+                                    <ListItemText
+                                        primary={subcategory.label}
+                                        primaryTypographyProps={{
+                                            fontSize: "0.95rem",
+                                            fontWeight:
+                                                hoveredSubcategory?.label === subcategory.label
+                                                    ? 700
+                                                    : 500,
+                                            noWrap: true,
+                                        }}
+                                    />
+
+                                    {subcategory.subItems?.length > 0 && (
+                                        <KeyboardArrowRightIcon
+                                            sx={{ fontSize: 16, color: "divider" }}
+                                        />
+                                    )}
+                                </ListItemButton>
+                            </ListItem>
+                        ))
+                    ) : (
+                        <Typography
+                            sx={{
+                                p: 2,
+                                color: "text.disabled",
+                                fontSize: "0.9rem",
+                            }}
+                        >
+                            Select category
+                        </Typography>
+                    )}
+                </List>
+            </Box>
+
+            <Box
+                sx={{
+                    width: 300,
+                    flexGrow: 1,
+                    py: 1,
+                    bgcolor: "#f5f5f5",
+                    overflowY: "auto",
+                }}
+            >
+                <List sx={{ p: 0 }}>
+                    {hoveredSubcategory?.subItems?.length > 0 ? (
+                        hoveredSubcategory.subItems.map((product: any) => (
+                            <ListItem key={product.label} disablePadding>
+                                <ListItemButton
+                                    onClick={() => {
+                                        if (product.path) {
+                                            navigate(product.path);
+                                            onClose();
+                                        }
+                                    }}
+                                    sx={{
+                                        py: 1.2,
+                                        px: 2,
+                                        mx: 1,
+                                        borderRadius: 1,
+                                        "&:hover": {
+                                            bgcolor: "white",
+                                            transform: "translateX(4px)",
+                                        },
+                                        transition: "all 0.2s",
+                                    }}
+                                >
+                                    <ListItemText
+                                        primary={product.label}
+                                        primaryTypographyProps={{
+                                            fontSize: "0.9rem",
+                                            color: "text.secondary",
+                                            fontWeight: 500,
+                                        }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        ))
+                    ) : (
+                        <Box
+                            sx={{
+                                height: "100%",
+                                minHeight: 250,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                p: 3,
+                            }}
+                        >
+                            <Box sx={{ textAlign: "center", opacity: 0.5 }}>
+                                <CategoryIcon
+                                    sx={{
+                                        fontSize: 48,
+                                        mb: 2,
+                                        color: "text.disabled",
                                     }}
                                 />
-                            </ListItemButton>
-                        ))}
-                    </Box>
-                </Box>
-            ) : (
-                <Box
-                    sx={{
-                        width: 350,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        bgcolor: "#f5f5f5",
-                        p: 3,
-                    }}
-                >
-                    <Box sx={{ textAlign: "center", opacity: 0.5 }}>
-                        <CategoryIcon sx={{ fontSize: 48, mb: 2, color: "text.disabled" }} />
-                        <Typography variant="body2" color="text.disabled">
-                            Explore {hoveredSub?.label || hoveredCat?.label} Products
-                        </Typography>
-                    </Box>
-                </Box>
-            )}
+
+                                <Typography variant="body2" color="text.disabled">
+                                    Select subcategory to view products
+                                </Typography>
+                            </Box>
+                        </Box>
+                    )}
+                </List>
+            </Box>
         </Box>
     );
 }

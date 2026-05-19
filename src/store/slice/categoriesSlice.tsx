@@ -5,7 +5,7 @@ export const fetchCategories = createAsyncThunk(
     "categories/fetchAll",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await serverCall.get("/categories");
+            const response = await serverCall.get("/categories/hierarchy");
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || "Error");
