@@ -18,7 +18,6 @@ import { fetchFlatPageBySlug } from "../../store/slice/pageSlice"
 import SEO from "../../component/SEO"
 import { useFormik } from "formik"
 import { toast } from "react-toastify"
-import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
 
 export default function Career() {
