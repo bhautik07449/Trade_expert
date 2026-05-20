@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import MarketDevelopment from '../pages/MarketDevelopment/MarketDevelopment';
 
 // Lazy loaded page components
