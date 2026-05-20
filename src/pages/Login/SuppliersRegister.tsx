@@ -28,9 +28,14 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import AbcTradeoffer from "../../component/AbcTradeoffer"
 
 export default function SuppliersRegister() {
+    const [searchParams] = useSearchParams();
+    const country = searchParams.get("country");
+    console.log("country", country);
+
     const [value, setValue] = useState(0)
     const navigate = useNavigate()
 
@@ -54,6 +59,7 @@ export default function SuppliersRegister() {
             website: "",
             phone: "",
             service: "",
+            country: country,
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required("First name is required"),
@@ -80,8 +86,8 @@ export default function SuppliersRegister() {
                     )
                     resetForm()
                 }
-            } catch (error) {
-                toast.error("Supplier Account was not created, Please try again.")
+            } catch (error: any) {
+                toast.error(error?.response?.data?.message || "Supplier Account was not created, Please try again.")
             }
         },
     })
@@ -208,7 +214,7 @@ export default function SuppliersRegister() {
 
             <Box
                 sx={{
-                    maxWidth: "1180px",
+                    maxWidth: "1200px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
                     mt: { xs: -5, md: -7 },
@@ -579,9 +585,13 @@ export default function SuppliersRegister() {
                 </Grid>
             </Box>
 
+            <Box component="section">
+                <AbcTradeoffer country={country} />
+            </Box>
+
             <Box
                 sx={{
-                    maxWidth: "1180px",
+                    maxWidth: "1200px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
                     mt: 6,
