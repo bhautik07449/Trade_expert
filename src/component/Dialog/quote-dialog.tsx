@@ -42,6 +42,8 @@ export default function QuotationDialog({ open, onClose }: Props) {
         (state: any) => state.categories
     );
 
+    console.log("categories",categories);
+    
     const { flatList: measurements } = useSelector(
         (state: any) => state.measurements
     );
@@ -58,11 +60,12 @@ export default function QuotationDialog({ open, onClose }: Props) {
 
     const formik = useFormik({
         initialValues: {
+            country: "",
             productName: "",
             businessEmail: "",
             category: "",
             subCategory: "",
-            childCategory: "",
+            product: "",
             quantity: "",
             unit: "",
             price: "",
@@ -77,9 +80,12 @@ export default function QuotationDialog({ open, onClose }: Props) {
             productImage: "",
         },
         validationSchema: Yup.object({
+            country: Yup.string().required("Country is required"),
             productName: Yup.string().required("Product Name is required"),
             businessEmail: Yup.string().email("Invalid email format").required("Business Email is required"),
-            category: Yup.number().required("Category is required"),
+            category: Yup.string().required("Category is required"),
+            subCategory: Yup.string().required("Sub Category is required"),
+            product: Yup.string().required("Product is required"),
             quantity: Yup.number().typeError("Quantity must be a number").required("Quantity is required"),
             unit: Yup.number().required("Unit is required"),
             price: Yup.number().typeError("Price must be a number").required("Price is required"),
@@ -108,38 +114,72 @@ export default function QuotationDialog({ open, onClose }: Props) {
         },
     });
 
-    const categoryOptions = useMemo(() => {
-        return categories?.map((cat: any) => ({
-            label: cat.name,
-            value: cat.id
-        }));
+    const countryOptions = useMemo(() => {
+        return categories?.map((country: any) => ({
+            label: country.country,
+            value: country.country,
+        })) || [];
     }, [categories]);
 
-    const selectedCategory = categories?.find(
-        (cat: any) => cat.id === formik.values.category
+    const selectedCountry = categories?.find(
+        (country: any) => country.country === formik.values.country
+    );
+
+    const categoryOptions = useMemo(() => {
+        return selectedCountry?.categories?.map((cat: any) => ({
+            label: cat.name,
+            value: String(cat.id),
+        })) || [];
+    }, [selectedCountry]);
+
+    const selectedCategory = selectedCountry?.categories?.find(
+        (cat: any) => String(cat.id) === formik.values.category
     );
 
     const subCategoryOptions = useMemo(() => {
-        if (!selectedCategory) return [];
-
-        return selectedCategory.children?.map((sub: any) => ({
+        return selectedCategory?.subcategories?.map((sub: any) => ({
             label: sub.name,
-            value: sub.id
+            value: String(sub.id),
         })) || [];
     }, [selectedCategory]);
 
-    const selectedSubCategory = selectedCategory?.children?.find(
-        (sub: any) => sub.id === formik.values.subCategory
+    const selectedSubCategory = selectedCategory?.subcategories?.find(
+        (sub: any) => String(sub.id) === formik.values.subCategory
     );
 
-    const childCategoryOptions = useMemo(() => {
-        if (!selectedSubCategory) return [];
-
-        return selectedSubCategory.children?.map((child: any) => ({
-            label: child.name,
-            value: child.id
+    const productOptions = useMemo(() => {
+        return selectedSubCategory?.products?.map((product: any) => ({
+            label: product.name,
+            value: String(product.id),
         })) || [];
     }, [selectedSubCategory]);
+
+    useEffect(() => {
+        if (!formik.values.country) return;
+        formik.setFieldValue("category", "");
+        formik.setFieldValue("subCategory", "");
+        formik.setFieldValue("product", "");
+    }, [formik.values.country]);
+
+    useEffect(() => {
+        if (!formik.values.category) return;
+        formik.setFieldValue("subCategory", "");
+        formik.setFieldValue("product", "");
+    }, [formik.values.category]);
+
+    useEffect(() => {
+        if (!formik.values.subCategory) return;
+        formik.setFieldValue("product", "");
+    }, [formik.values.subCategory]);
+
+    useEffect(() => {
+        const selectedProduct = productOptions.find(
+            (product: any) => product.value === formik.values.product
+        );
+        if (selectedProduct) {
+            formik.setFieldValue("productName", selectedProduct.label);
+        }
+    }, [formik.values.product, productOptions]);
 
     const unitOptions = useMemo(() => {
         return measurements?.map((item: any) => ({
@@ -217,10 +257,31 @@ export default function QuotationDialog({ open, onClose }: Props) {
 
                         <Grid size={{ xs: 12, md: 4 }}>
                             <FormControl fullWidth>
+                                <InputLabel>Country</InputLabel>
+                                <Select
+                                    name="country"
+                                    label="Country"
+                                    value={formik.values.country}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.country && Boolean(formik.errors.country)}
+                                >
+                                    {countryOptions?.map((country: any) => (
+                                        <MenuItem key={country.value} value={country.value}>
+                                            {country.label}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <FormControl fullWidth>
                                 <InputLabel>Category</InputLabel>
                                 <Select
                                     name="category"
                                     label="Category"
+                                    disabled={!formik.values.country}
                                     value={formik.values.category}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -258,19 +319,27 @@ export default function QuotationDialog({ open, onClose }: Props) {
 
                         <Grid size={{ xs: 12, md: 4 }}>
                             <FormControl fullWidth>
-                                <InputLabel>Child Category</InputLabel>
+                                <InputLabel>Product</InputLabel>
                                 <Select
-                                    name="childCategory"
-                                    label="Child Category"
+                                    name="product"
+                                    label="Product"
                                     disabled={!formik.values.subCategory}
-                                    value={formik.values.childCategory}
-                                    onChange={formik.handleChange}
+                                    value={formik.values.product}
+                                    onChange={(event) => {
+                                        formik.handleChange(event);
+                                        const selectedProduct = productOptions?.find(
+                                            (product: any) => product.value === event.target.value
+                                        );
+                                        if (selectedProduct) {
+                                            formik.setFieldValue("productName", selectedProduct.label);
+                                        }
+                                    }}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.childCategory && Boolean(formik.errors.childCategory)}
+                                    error={formik.touched.product && Boolean(formik.errors.product)}
                                 >
-                                    {childCategoryOptions?.map((child: any) => (
-                                        <MenuItem key={child.value} value={child.value}>
-                                            {child.label}
+                                    {productOptions?.map((product: any) => (
+                                        <MenuItem key={product.value} value={product.value}>
+                                            {product.label}
                                         </MenuItem>
                                     ))}
                                 </Select>
