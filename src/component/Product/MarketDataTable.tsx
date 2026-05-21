@@ -103,7 +103,9 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                 component={Paper}
                 sx={{
                     borderRadius: "16px",
-                    overflow: "hidden",
+                    overflowX: "auto",
+                    overflowY: "hidden",
+                    WebkitOverflowScrolling: "touch",
                     boxShadow: `0 10px 40px ${alpha(theme.palette.common.black, 0.05)}`,
                     border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
                     background: `linear-gradient(135deg, ${alpha(
@@ -113,7 +115,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                     backdropFilter: "blur(10px)",
                 }}
             >
-                <Table sx={{ minWidth: 650 }}>
+                <Table sx={{ minWidth: { xs: 900, sm: 650 }, tableLayout: { xs: 'auto', sm: 'fixed' } }}>
                     <TableHead>
                         <TableRow
                             sx={{

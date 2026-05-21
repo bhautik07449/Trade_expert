@@ -163,72 +163,77 @@ export default function AboutTestimonial() {
                             </Paper>
                         </Box>
                     ) : (
-                        <SwipeableViews
-                            index={activeStep}
-                            onChangeIndex={(index) => setActiveStep(index)}
-                            enableMouseEvents
-                        >
-                            {testimonials.map((item, index) => (
-                                <Box key={index} sx={{ px: { xs: 0, sm: 2 } }}>
-                                    <Paper
-                                        elevation={3}
-                                        sx={{
-                                            p: { xs: 2, sm: 3, md: 4 },
-                                            my: 2,
-                                            borderRadius: 3,
-                                            textAlign: "center",
-                                            position: "relative",
-                                            bgcolor: "#ffffff",
-                                            maxWidth: { xs: 400, sm: 500 },
-                                            mx: "auto",
-                                        }}
-                                    >
-                                        <FormatQuoteIcon
+                        <Box sx={{ overflow: "hidden", width: "100%" }}>
+                            <SwipeableViews
+                                index={activeStep}
+                                onChangeIndex={(index) => setActiveStep(index)}
+                                enableMouseEvents
+                                style={{ width: "100%" }}
+                                containerStyle={{ width: "100%" }}
+                                slideStyle={{ padding: 0, minHeight: "auto", width: "100%" }}
+                            >
+                                {testimonials.map((item, index) => (
+                                    <Box key={index} sx={{ width: "100%", px: { xs: 0, sm: 2 }, boxSizing: "border-box", display: "flex", justifyContent: "center" }}>
+                                        <Paper
+                                            elevation={3}
                                             sx={{
-                                                fontSize: { xs: 40, md: 60 },
-                                                color: "#7cb342",
-                                                opacity: 0.15,
-                                                position: "absolute",
-                                                top: 15,
-                                                left: 15,
-                                            }}
-                                        />
-
-                                        <Avatar
-                                            src={getImageUrl(item?.client?.image)}
-                                            alt=""
-                                            sx={{
-                                                width: { xs: 70, sm: 90, md: 100 },
-                                                height: { xs: 70, sm: 90, md: 100 },
+                                                width: "100%",
+                                                maxWidth: { xs: "100%", sm: 500 },
+                                                p: { xs: 2, sm: 3, md: 4 },
+                                                my: 2,
+                                                borderRadius: 3,
+                                                textAlign: "center",
+                                                position: "relative",
+                                                bgcolor: "#ffffff",
                                                 mx: "auto",
-                                                mb: 2,
-                                                border: "4px solid #f5f1ec",
-                                            }}
-                                        />
-
-                                        <Typography
-                                            sx={{
-                                                mb: 3,
-                                                lineHeight: 1.8,
-                                                fontStyle: "italic",
-                                                fontSize: { xs: "13px", sm: "14px" },
-                                                color: "#666",
                                             }}
                                         >
-                                            "{item?.review}"
-                                        </Typography>
+                                            <FormatQuoteIcon
+                                                sx={{
+                                                    fontSize: { xs: 40, md: 60 },
+                                                    color: "#7cb342",
+                                                    opacity: 0.15,
+                                                    position: "absolute",
+                                                    top: 15,
+                                                    left: 15,
+                                                }}
+                                            />
 
-                                        <Typography
-                                            sx={{
-                                                fontWeight: 700,
-                                                color: "#333",
-                                                fontSize: { xs: "14px", sm: "16px" },
-                                            }}
-                                        >
-                                            {item?.client?.first_name + " " + item?.client?.last_name}
-                                        </Typography>
+                                            <Avatar
+                                                src={getImageUrl(item?.client?.image)}
+                                                alt=""
+                                                sx={{
+                                                    width: { xs: 70, sm: 90, md: 100 },
+                                                    height: { xs: 70, sm: 90, md: 100 },
+                                                    mx: "auto",
+                                                    mb: 2,
+                                                    border: "4px solid #f5f1ec",
+                                                }}
+                                            />
 
-                                        {/* <Typography
+                                            <Typography
+                                                sx={{
+                                                    mb: 3,
+                                                    lineHeight: 1.8,
+                                                    fontStyle: "italic",
+                                                    fontSize: { xs: "13px", sm: "14px" },
+                                                    color: "#666",
+                                                }}
+                                            >
+                                                "{item?.review}"
+                                            </Typography>
+
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: 700,
+                                                    color: "#333",
+                                                    fontSize: { xs: "14px", sm: "16px" },
+                                                }}
+                                            >
+                                                {item?.client?.first_name + " " + item?.client?.last_name}
+                                            </Typography>
+
+                                            {/* <Typography
                                         sx={{
                                             fontSize: { xs: "12px", sm: "14px" },
                                             color: "#888",
@@ -237,24 +242,25 @@ export default function AboutTestimonial() {
                                     >
                                         {item.role}
                                     </Typography> */}
-                                    </Paper>
-                                </Box>
-                            ))}
-                        </SwipeableViews>
-                    )}
+                                        </Paper>
+                                    </Box>
+                                ))}
+                            </SwipeableViews>
 
-                    <MobileStepper
-                        steps={maxSteps}
-                        position="static"
-                        activeStep={activeStep}
-                        nextButton={null}
-                        backButton={null}
-                        sx={{
-                            justifyContent: "center",
-                            bgcolor: "transparent",
-                            mt: 2,
-                        }}
-                    />
+                            <MobileStepper
+                                steps={maxSteps}
+                                position="static"
+                                activeStep={activeStep}
+                                nextButton={null}
+                                backButton={null}
+                                sx={{
+                                    justifyContent: "center",
+                                    bgcolor: "transparent",
+                                    mt: 2,
+                                }}
+                            />
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </Box>

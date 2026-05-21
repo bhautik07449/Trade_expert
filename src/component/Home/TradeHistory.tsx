@@ -62,7 +62,7 @@ export default function TradeHistory({ country }: any) {
             {loading ? (
                 <Grid container spacing={3}>
                     {[...Array(4)].map((_, index) => (
-                        <Grid size={{ xs: 12, md: 6 }} key={index}>
+                        <Grid size={{xs:12, sm:6}} key={index}>
                             <Skeleton
                                 variant="rounded"
                                 height={120}
@@ -76,22 +76,24 @@ export default function TradeHistory({ country }: any) {
             ) : (
                 <Grid container spacing={3}>
                     {tradeHistory.map((item, index) => (
-                        <Grid size={{ xs: 12, md: 12 }} key={item?.id || index}>
+                        <Grid size={{xs:12, sm:6}} key={item?.id || index}>
                             <Box
                                 sx={{
                                     display: "flex",
-                                    alignItems: "center",
-                                    gap: { xs: 1, sm: 1.5 },
+                                    flexDirection: { xs: "column", sm: "row" },
+                                    alignItems: { xs: "flex-start", sm: "center" },
+                                    gap: { xs: 1.5, sm: 2 },
                                     width: "100%",
                                 }}
                             >
                                 <Typography
                                     sx={{
-                                        minWidth: { xs: 52, sm: 70 },
+                                        minWidth: { xs: "auto", sm: 70 },
                                         fontWeight: 700,
                                         fontSize: { xs: "0.85rem", sm: "1rem" },
                                         color: "text.primary",
-                                        whiteSpace: "nowrap",
+                                        whiteSpace: { xs: "normal", sm: "nowrap" },
+                                        mb: { xs: 0.5, sm: 0 },
                                     }}
                                 >
                                     Year : {item?.year}
@@ -99,8 +101,8 @@ export default function TradeHistory({ country }: any) {
 
                                 <Box
                                     sx={{
-                                        flex: 1,
-                                        maxWidth: { xs: 35, sm: 55 },
+                                        display: { xs: "none", sm: "block" },
+                                        width: { sm: 35 },
                                         height: "1px",
                                         backgroundColor: "text.primary",
                                         position: "relative",
@@ -122,6 +124,7 @@ export default function TradeHistory({ country }: any) {
                                 <Box
                                     sx={{
                                         display: "flex",
+                                        flexDirection: { xs: "column", sm: "row" },
                                         flex: 1,
                                         minHeight: 82,
                                         borderRadius: 1,
@@ -129,12 +132,13 @@ export default function TradeHistory({ country }: any) {
                                         borderColor: "divider",
                                         backgroundColor: "#fff",
                                         overflow: "hidden",
+                                        width: "100%",
                                     }}
                                 >
                                     <Box
                                         sx={{
                                             flex: 1,
-                                            p: { xs: 1.2, sm: 1.8 },
+                                            p: { xs: 1, sm: 1.8 },
                                             display: "flex",
                                             flexDirection: "column",
                                             justifyContent: "center",
@@ -181,8 +185,9 @@ export default function TradeHistory({ country }: any) {
 
                                     <Box
                                         sx={{
-                                            width: { xs: 85, sm: 120 },
-                                            minWidth: { xs: 85, sm: 120 },
+                                            width: { xs: "100%", sm: 120 },
+                                            minWidth: { xs: "100%", sm: 120 },
+                                            height: { xs: 140, sm: "auto" },
                                             backgroundColor: "#eee",
                                         }}
                                     >
@@ -192,7 +197,7 @@ export default function TradeHistory({ country }: any) {
                                             alt={item?.content || item?.country}
                                             sx={{
                                                 width: "100%",
-                                                height: "100%",
+                                                height: { xs: 140, sm: "100%" },
                                                 objectFit: "cover",
                                                 display: "block",
                                             }}

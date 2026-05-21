@@ -39,15 +39,22 @@ export default function Values() {
                     We provide a comprehensive suite of value-added services designed to support and enhance your trading experience on our platform.
                 </Typography>
 
-                <Grid container spacing={4} mt={2}>
+                <Grid container spacing={{ xs: 3, sm: 4 }} mt={2}>
                     {data.map((item, index) => (
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
+                        <Grid size={{xs: 12, sm: 6, md: 3}} key={index}>
                             <Box
                                 sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "flex-start",
                                     textAlign: "center",
-                                    p: 3,
+                                    p: { xs: 2.5, md: 3 },
                                     borderRadius: 3,
-                                    transition: "0.3s",
+                                    transition: "transform 0.3s ease",
+                                    height: "100%",
+                                    bgcolor: "background.paper",
+                                    boxShadow: { xs: "none", sm: "0 10px 30px rgba(0,0,0,0.05)" },
                                     "&:hover": {
                                         transform: "translateY(-6px)",
                                     },
@@ -55,8 +62,8 @@ export default function Values() {
                             >
                                 <Box
                                     sx={{
-                                        width: { xs: 60, md: 80 },
-                                        height: { xs: 60, md: 80 },
+                                        width: { xs: 56, md: 72 },
+                                        height: { xs: 56, md: 72 },
                                         borderRadius: "50%",
                                         bgcolor: "#7ac943",
                                         display: "flex",
@@ -69,7 +76,7 @@ export default function Values() {
                                     <item.icon
                                         sx={{
                                             color: "#fff",
-                                            fontSize: { xs: 28, md: 36 },
+                                            fontSize: { xs: 26, md: 34 },
                                         }}
                                     />
                                 </Box>
@@ -78,10 +85,11 @@ export default function Values() {
                                     sx={{
                                         fontWeight: 600,
                                         fontSize: {
-                                            xs: "14px",
-                                            sm: "15px",
-                                            md: "16px",
+                                            xs: "0.88rem",
+                                            sm: "0.95rem",
+                                            md: "1rem",
                                         },
+                                        lineHeight: 1.5,
                                     }}
                                 >
                                     {item.title}

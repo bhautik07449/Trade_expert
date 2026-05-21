@@ -71,6 +71,7 @@ export default function Header() {
     const navigate = useNavigate();
     const navRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch<AppDispatch>();
+    const logoSrc = "/logo.jpg";
 
     useSelector((state: any) => state.page);
 
@@ -243,7 +244,7 @@ export default function Header() {
                             sx={{ display: "flex", gap: 3, alignItems: "center" }}
                         >
                             <img
-                                src="/logo.jpg"
+                                src={logoSrc}
                                 alt="logo"
                                 style={{
                                     maxWidth: "100%",
@@ -253,7 +254,7 @@ export default function Header() {
                             />
                         </Link>
 
-                        <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
+                        <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 4, alignItems: "center" }}>
                             <Typography
                                 sx={{
                                     fontSize: "14px",
@@ -563,7 +564,7 @@ export default function Header() {
                         }}
                     >
                         <img
-                            src="./logo.jpg"
+                            src={logoSrc}
                             alt="logo"
                             width={40}
                             height={40}

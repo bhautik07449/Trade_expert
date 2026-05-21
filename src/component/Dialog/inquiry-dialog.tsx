@@ -20,6 +20,8 @@ import {
     RadioGroup,
     Radio,
     CircularProgress,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material"
 
 import { useFormik } from "formik"
@@ -47,6 +49,8 @@ export default function InquiryDialog({
 }: InquiryDialogProps) {
 
     const buyerId = localStorage.getItem('token')
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     const validationSchema = Yup.object({
         subject: Yup.string().required("Subject is required"),
@@ -101,13 +105,33 @@ export default function InquiryDialog({
 
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            fullScreen={fullScreen}
+            maxWidth="lg"
+            fullWidth
+            PaperProps={{
+                sx: {
+                    m: 0,
+                    width: "100%",
+                    maxWidth: "1280px",
+                    borderRadius: { xs: 0, sm: 2 },
+                },
+            }}
+        >
 
-            <DialogTitle textAlign="center" fontWeight={700}>
+            <DialogTitle sx={{ textAlign: "center", fontWeight: 700 }}>
                 REQUEST FOR A SAMPLE
             </DialogTitle>
 
-            <DialogContent dividers>
+            <DialogContent
+                dividers
+                sx={{
+                    px: { xs: 1, sm: 2 },
+                    py: { xs: 1, sm: 2 },
+                }}
+            >
 
                 <Stack direction="row" spacing={2} alignItems="center" mb={3}>
                     <Avatar

@@ -11,6 +11,8 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material";
 
 import { useFormik } from "formik";
@@ -33,6 +35,8 @@ type Props = {
 export default function QuotationDialog({ open, onClose }: Props) {
 
     const dispatch = useDispatch<AppDispatch>();
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { categories } = useSelector(
         (state: any) => state.categories
@@ -152,12 +156,32 @@ export default function QuotationDialog({ open, onClose }: Props) {
     }, [currency]);
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-            <DialogTitle textAlign="center" fontWeight={700}>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            fullScreen={fullScreen}
+            maxWidth="lg"
+            fullWidth
+            PaperProps={{
+                sx: {
+                    m: 0,
+                    width: "100%",
+                    maxWidth: "1280px",
+                    borderRadius: { xs: 0, sm: 2 },
+                },
+            }}
+        >
+            <DialogTitle sx={{ textAlign: "center", fontWeight: 700 }}>
                 REQUEST FOR QUOTE
             </DialogTitle>
 
-            <DialogContent dividers>
+            <DialogContent
+                dividers
+                sx={{
+                    px: { xs: 1, sm: 2 },
+                    py: { xs: 1, sm: 2 },
+                }}
+            >
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2}>
 

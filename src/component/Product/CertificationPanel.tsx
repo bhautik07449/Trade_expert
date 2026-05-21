@@ -8,6 +8,12 @@ export default function CertificationPanel({ product }: any) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
+  const seasonalIsImage = (val: any) => {
+    if (!val) return false
+    if (typeof val === "string") return val.startsWith("http") || val.match(/\.(jpeg|jpg|gif|png|webp)$/i)
+    return false
+  }
+
   return (
     <Paper
       variant="outlined"
@@ -47,8 +53,9 @@ export default function CertificationPanel({ product }: any) {
               src={getImageUrl(product?.certification)}
               alt="Certification logo"
               sx={{
-                width: { xs: 200, sm: 400 },
-                height: { xs: 200, sm: 400 },
+                width: { xs: 160, sm: 260, md: 360 },
+                height: { xs: 120, sm: 220, md: 360 },
+                maxWidth: "100%",
                 objectFit: "contain",
               }}
             />
@@ -56,9 +63,25 @@ export default function CertificationPanel({ product }: any) {
         )}
 
         {tab === 1 && (
-          <Typography variant="body2" color="text.secondary">
-            {product?.seasonalChart}
-          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {seasonalIsImage(product?.seasonalChart) ? (
+              <Box
+                component="img"
+                src={getImageUrl(product?.seasonalChart)}
+                alt="Seasonal Chart"
+                sx={{
+                  width: { xs: "100%", sm: 500 },
+                  height: { xs: 200, sm: "auto" },
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {product?.seasonalChart || "No seasonal chart available."}
+              </Typography>
+            )}
+          </Box>
         )}
       </Box>
     </Paper>

@@ -43,6 +43,7 @@ export default function Email() {
             sx={{
                 background: "linear-gradient(to right, #b7e3a1, #9ee37d)",
                 py: { xs: 2, md: 3 },
+                boxSizing: "border-box",
             }}
         >
             <form onSubmit={formik.handleSubmit}>
@@ -50,20 +51,23 @@ export default function Email() {
                     sx={{
                         display: "flex",
                         flexDirection: { xs: "column", md: "row" },
-                        alignItems: "center",
+                        alignItems: { xs: "stretch", md: "center" },
                         gap: { xs: 2, md: 3 },
                         maxWidth: "1150px",
                         mx: "auto",
-                        px: 3,
+                        px: { xs: 2, sm: 3, md: 4 },
+                        width: "100%",
+                        boxSizing: "border-box",
                     }}
                 >
                     <Typography
                         variant="h6"
                         sx={{
                             fontWeight: 500,
-                            whiteSpace: "nowrap",
+                            whiteSpace: { xs: "normal", md: "nowrap" },
                             color: "#1a1a1a",
                             textAlign: { xs: "center", md: "left" },
+                            width: { xs: "100%", md: "auto" },
                         }}
                     >
                         NEWSLETTER SIGNUP
@@ -72,7 +76,7 @@ export default function Email() {
                     <Box sx={{ flex: 1, width: "100%" }}>
                         <TextField
                             fullWidth
-                            size="medium"
+                            size="small"
                             placeholder="Email"
                             type="email"
                             name="email"
@@ -87,6 +91,7 @@ export default function Email() {
                             sx={{
                                 bgcolor: "#ffffff",
                                 borderRadius: 1,
+                                mb: { xs: 0.5, md: 0 },
                             }}
                         />
 
@@ -109,11 +114,13 @@ export default function Email() {
                         sx={{
                             backgroundColor: "#5bc0de",
                             textTransform: "none",
-                            px: 3,
-                            py: 1.2,
+                            px: { xs: 2, md: 3 },
+                            py: 1.1,
                             fontSize: "14px",
                             whiteSpace: "nowrap",
                             width: { xs: "100%", md: "auto" },
+                            mt: { xs: 1, md: 0 },
+                            minWidth: { md: 140 },
                             "&:hover": {
                                 backgroundColor: "#46b8da",
                             },

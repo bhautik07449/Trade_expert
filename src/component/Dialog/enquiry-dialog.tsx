@@ -18,6 +18,8 @@ import {
     TextField,
     Typography,
     CircularProgress,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material"
 
 import { useFormik } from "formik"
@@ -127,6 +129,8 @@ export default function EnquiryDialog({
     })
 
     const dispatch = useDispatch<AppDispatch>()
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     useSelector(
         (state: any) => state.measurements
@@ -137,13 +141,33 @@ export default function EnquiryDialog({
     }, [dispatch])
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            fullScreen={fullScreen}
+            maxWidth="lg"
+            fullWidth
+            PaperProps={{
+                sx: {
+                    m: 0,
+                    width: "100%",
+                    maxWidth: "1280px",
+                    borderRadius: { xs: 0, sm: 2 },
+                },
+            }}
+        >
 
-            <DialogTitle textAlign="center" fontWeight={700}>
+            <DialogTitle sx={{ textAlign: "center", fontWeight: 700 }}>
                 REQUEST AN INQUIRY
             </DialogTitle>
 
-            <DialogContent dividers>
+            <DialogContent
+                dividers
+                sx={{
+                    px: { xs: 1, sm: 2 },
+                    py: { xs: 1, sm: 2 },
+                }}
+            >
 
                 <Stack direction="row" spacing={2} alignItems="center" mb={3}>
                     <Avatar
