@@ -154,32 +154,41 @@ export default function QuotationDialog({ open, onClose }: Props) {
         })) || [];
     }, [selectedSubCategory]);
 
-    useEffect(() => {
-        if (!formik.values.country) return;
-        formik.setFieldValue("category", "");
-        formik.setFieldValue("subCategory", "");
-        formik.setFieldValue("product", "");
-    }, [formik.values.country]);
+    const {
+        country,
+        category,
+        subCategory,
+        product,
+    } = formik.values;
+
+    const { setFieldValue } = formik;
 
     useEffect(() => {
-        if (!formik.values.category) return;
-        formik.setFieldValue("subCategory", "");
-        formik.setFieldValue("product", "");
-    }, [formik.values.category]);
+        if (!country) return;
+        setFieldValue("category", "");
+        setFieldValue("subCategory", "");
+        setFieldValue("product", "");
+    }, [country, setFieldValue]);
 
     useEffect(() => {
-        if (!formik.values.subCategory) return;
-        formik.setFieldValue("product", "");
-    }, [formik.values.subCategory]);
+        if (!category) return;
+        setFieldValue("subCategory", "");
+        setFieldValue("product", "");
+    }, [category, setFieldValue]);
+
+    useEffect(() => {
+        if (!subCategory) return;
+        setFieldValue("product", "");
+    }, [subCategory, setFieldValue]);
 
     useEffect(() => {
         const selectedProduct = productOptions.find(
-            (product: any) => product.value === formik.values.product
+            (option: any) => option.value === product
         );
         if (selectedProduct) {
-            formik.setFieldValue("productName", selectedProduct.label);
+            setFieldValue("productName", selectedProduct.label);
         }
-    }, [formik.values.product, productOptions]);
+    }, [product, productOptions, setFieldValue]);
 
     const unitOptions = useMemo(() => {
         return measurements?.map((item: any) => ({
