@@ -52,7 +52,7 @@ export default function CategoryTab({ country }: any) {
                 overflow: "hidden",
                 py: { xs: 5, md: 8 },
                 bgcolor: "background.default",
-                background:"white",
+                background: "white",
             }}
         >
             <Box
@@ -162,7 +162,7 @@ export default function CategoryTab({ country }: any) {
                         ))}
                     </Grid>
                 ) : categories && categories.length > 0 ? (
-                    <Grid container spacing={2.5}>
+                    <Grid container spacing={2.5} justifyContent="center">
                         {categories.map((cat: any, index: number) => (
                             <Grid
                                 size={{ xs: 6, sm: 6, md: 4, lg: 3 }}

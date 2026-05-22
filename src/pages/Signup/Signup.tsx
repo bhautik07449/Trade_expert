@@ -100,8 +100,7 @@ export default function SignupForm() {
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "#f5f7fb",
-        pb: { xs: 5, md: 8 },
+        bgcolor: "#f5f7fb"
       }}
     >
       <Box

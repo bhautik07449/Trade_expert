@@ -218,24 +218,6 @@ export default function MarketDevelopment() {
                                 <MenuItem value="Turnkey Project">Turnkey Project</MenuItem>
                             </TextField>
                         </Grid>
-
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                size="small"
-                                label="Specification"
-                                placeholder="Enter specific product / service requirement"
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                size="small"
-                                label="Categorizer"
-                                placeholder="Enter business category"
-                            />
-                        </Grid>
                     </Grid>
                 </Paper>
 
@@ -461,20 +443,6 @@ export default function MarketDevelopment() {
                                     </Paper>
                                 ))}
                             </Stack>
-
-                            <Grid container spacing={1.5} sx={{ mt: 2.5 }}>
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField fullWidth size="small" label="Category" />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField fullWidth size="small" label="Sub Category" />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 4 }}>
-                                    <TextField fullWidth size="small" label="Product" />
-                                </Grid>
-                            </Grid>
                         </Paper>
                     </Grid>
 

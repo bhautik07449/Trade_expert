@@ -4,7 +4,7 @@ import baseTheme from '../../src/themes/theme'
 import Footer from './Footer';
 import Content from './Content';
 import Header from './Header';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import Email from '../component/Email';
 
 function App() {

@@ -3,24 +3,87 @@ import {
     Typography,
     Container,
     Grid,
-} from "@mui/material";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import SecurityIcon from "@mui/icons-material/Security";
-import DiamondIcon from "@mui/icons-material/Diamond";
-import Title from "../commonUI/labelTitle";
+    Paper,
+    Stack,
+} from "@mui/material"
+import LocalShippingIcon from "@mui/icons-material/LocalShipping"
+import InventoryIcon from "@mui/icons-material/Inventory"
+import SecurityIcon from "@mui/icons-material/Security"
+import DiamondIcon from "@mui/icons-material/Diamond"
+import Title from "../commonUI/labelTitle"
 
 export default function Values() {
     const data = [
-        { title: "LOGISTIC SERVICES", icon: LocalShippingIcon },
-        { title: "CUSTOMIZED PACKAGING SERVICES", icon: InventoryIcon },
-        { title: "ALL TRANSIT RELATED INSURANCE", icon: SecurityIcon },
-        { title: "THIRD PARTY INSPECTION", icon: DiamondIcon },
-    ];
+        {
+            title: "Logistic Services",
+            description: "Reliable support for smooth shipping and delivery.",
+            icon: LocalShippingIcon,
+        },
+        {
+            title: "Customized Packaging",
+            description: "Tailored packaging solutions for safer product handling.",
+            icon: InventoryIcon,
+        },
+        {
+            title: "Transit Insurance",
+            description: "Coverage support for transit-related risks.",
+            icon: SecurityIcon,
+        },
+        {
+            title: "Third Party Inspection",
+            description: "Independent inspection support for better confidence.",
+            icon: DiamondIcon,
+        },
+    ]
 
     return (
-        <Box sx={{ py: { xs: 5, md: 8 }, width: "100%", bgcolor: "#f5efe9", boxSizing: "border-box" }}>
-            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
+        <Box
+            sx={{
+                position: "relative",
+                overflow: "hidden",
+                py: { xs: 6, md: 9 },
+                bgcolor: "background.default",
+                background:
+                    "linear-gradient(180deg, #F5F0EB 0%, #FFFFFF 48%, #F5F0EB 100%)",
+            }}
+        >
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: 80,
+                    right: -120,
+                    width: 260,
+                    height: 260,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(167, 123, 88, 0.22), transparent 68%)",
+                    filter: "blur(14px)",
+                }}
+            />
+
+            <Box
+                sx={{
+                    position: "absolute",
+                    bottom: 50,
+                    left: -130,
+                    width: 280,
+                    height: 280,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(95, 75, 59, 0.16), transparent 68%)",
+                    filter: "blur(16px)",
+                }}
+            />
+
+            <Container
+                sx={{
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 1,
+                }}
+            >
                 <Title title="Value Added" label="Services" />
 
                 <Typography
@@ -28,77 +91,180 @@ export default function Values() {
                     sx={{
                         textAlign: "center",
                         color: "text.secondary",
-                        maxWidth: "680px",
+                        maxWidth: "720px",
                         mx: "auto",
                         mb: { xs: 4, md: 6 },
                         mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.88rem", sm: "1rem" },
-                        lineHeight: 1.5,
+                        fontSize: { xs: "0.9rem", sm: "1rem" },
+                        lineHeight: 1.8,
                     }}
                 >
-                    We provide a comprehensive suite of value-added services designed to support and enhance your trading experience on our platform.
+                    We provide a comprehensive suite of value-added services designed to
+                    support and enhance your trading experience on our platform.
                 </Typography>
 
-                <Grid container spacing={{ xs: 3, sm: 4 }} mt={2}>
-                    {data.map((item, index) => (
-                        <Grid size={{xs: 12, sm: 6, md: 3}} key={index}>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "flex-start",
-                                    textAlign: "center",
-                                    p: { xs: 2.5, md: 3 },
-                                    borderRadius: 3,
-                                    transition: "transform 0.3s ease",
-                                    height: "100%",
-                                    bgcolor: "background.paper",
-                                    boxShadow: { xs: "none", sm: "0 10px 30px rgba(0,0,0,0.05)" },
-                                    "&:hover": {
-                                        transform: "translateY(-6px)",
-                                    },
-                                }}
-                            >
-                                <Box
+                <Grid container spacing={{ xs: 2.5, sm: 3 }} mt={1}>
+                    {data.map((item, index) => {
+                        const Icon = item.icon
+
+                        return (
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
+                                <Paper
+                                    elevation={0}
                                     sx={{
-                                        width: { xs: 56, md: 72 },
-                                        height: { xs: 56, md: 72 },
-                                        borderRadius: "50%",
-                                        bgcolor: "#7ac943",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        mx: "auto",
-                                        mb: 3,
+                                        height: "100%",
+                                        minHeight: 245,
+                                        p: { xs: 2.6, md: 3 },
+                                        borderRadius: 4,
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        textAlign: "center",
+                                        bgcolor: "background.paper",
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        boxShadow: "0 12px 35px rgba(59, 48, 39, 0.06)",
+                                        cursor: "pointer",
+                                        transition: "all 0.35s ease",
+
+                                        "&::before": {
+                                            content: '""',
+                                            position: "absolute",
+                                            inset: 0,
+                                            background:
+                                                "linear-gradient(135deg, rgba(167,123,88,0.16), rgba(232,216,193,0.35))",
+                                            opacity: 0,
+                                            transition: "opacity 0.35s ease",
+                                        },
+
+                                        "&::after": {
+                                            content: '""',
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: 4,
+                                            background: "linear-gradient(90deg, #A77B58, #5F4B3B)",
+                                            transform: "scaleX(0)",
+                                            transformOrigin: "left",
+                                            transition: "transform 0.35s ease",
+                                        },
+
+                                        "&:hover": {
+                                            transform: "translateY(-8px)",
+                                            borderColor: "primary.main",
+                                            boxShadow: "0 22px 45px rgba(59, 48, 39, 0.14)",
+                                        },
+
+                                        "&:hover::before": {
+                                            opacity: 1,
+                                        },
+
+                                        "&:hover::after": {
+                                            transform: "scaleX(1)",
+                                        },
+
+                                        "&:hover .serviceIcon": {
+                                            bgcolor: "primary.main",
+                                            color: "#fff",
+                                            transform: "scale(1.12) rotate(-6deg)",
+                                        },
+
+                                        "&:hover .serviceTitle": {
+                                            color: "primary.dark",
+                                        },
+
+                                        "&:hover .circleDecor": {
+                                            transform: "scale(1.45)",
+                                            opacity: 1,
+                                        },
                                     }}
                                 >
-                                    <item.icon
+                                    <Box
+                                        className="circleDecor"
                                         sx={{
-                                            color: "#fff",
-                                            fontSize: { xs: 26, md: 34 },
+                                            position: "absolute",
+                                            width: 120,
+                                            height: 120,
+                                            borderRadius: "50%",
+                                            top: -42,
+                                            right: -42,
+                                            background:
+                                                "radial-gradient(circle, rgba(167,123,88,0.22), transparent 68%)",
+                                            opacity: 0.55,
+                                            transition: "all 0.4s ease",
                                         }}
                                     />
-                                </Box>
 
-                                <Typography
-                                    sx={{
-                                        fontWeight: 600,
-                                        fontSize: {
-                                            xs: "0.88rem",
-                                            sm: "0.95rem",
-                                            md: "1rem",
-                                        },
-                                        lineHeight: 1.5,
-                                    }}
-                                >
-                                    {item.title}
-                                </Typography>
-                            </Box>
-                        </Grid>
-                    ))}
+                                    <Stack
+                                        spacing={2}
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        sx={{
+                                            position: "relative",
+                                            zIndex: 1,
+                                            height: "100%",
+                                        }}
+                                    >
+                                        <Box
+                                            className="serviceIcon"
+                                            sx={{
+                                                width: { xs: 62, md: 72 },
+                                                height: { xs: 62, md: 72 },
+                                                borderRadius: 3,
+                                                bgcolor: "primary.light",
+                                                color: "primary.dark",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                transition: "all 0.35s ease",
+
+                                                "& svg": {
+                                                    fontSize: { xs: 30, md: 36 },
+                                                },
+                                            }}
+                                        >
+                                            <Icon />
+                                        </Box>
+
+                                        <Box>
+                                            <Typography
+                                                className="serviceTitle"
+                                                sx={{
+                                                    fontWeight: 900,
+                                                    fontSize: {
+                                                        xs: "0.95rem",
+                                                        sm: "1rem",
+                                                        md: "1.05rem",
+                                                    },
+                                                    lineHeight: 1.4,
+                                                    color: "text.primary",
+                                                    textTransform: "uppercase",
+                                                    letterSpacing: 0.5,
+                                                    transition: "color 0.3s ease",
+                                                    mb: 1,
+                                                }}
+                                            >
+                                                {item.title}
+                                            </Typography>
+
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: "text.secondary",
+                                                    lineHeight: 1.7,
+                                                    fontSize: "0.86rem",
+                                                }}
+                                            >
+                                                {item.description}
+                                            </Typography>
+                                        </Box>
+                                    </Stack>
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
                 </Grid>
             </Container>
         </Box>
-    );
+    )
 }

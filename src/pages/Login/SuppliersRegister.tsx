@@ -30,6 +30,7 @@ import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import AbcTradeoffer from "../../component/AbcTradeoffer"
+import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 
 export default function SuppliersRegister() {
     const [searchParams] = useSearchParams();
@@ -587,6 +588,10 @@ export default function SuppliersRegister() {
 
             <Box component="section">
                 <AbcTradeoffer country={country} />
+            </Box>
+
+            <Box component="section">
+                <UpcommingFeatures />
             </Box>
 
             <Box
