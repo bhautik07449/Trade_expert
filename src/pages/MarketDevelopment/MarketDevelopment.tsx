@@ -10,43 +10,168 @@ import {
     Slider,
     Chip,
 } from "@mui/material"
-
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter"
 import PublicIcon from "@mui/icons-material/Public"
 import CategoryIcon from "@mui/icons-material/Category"
+import { useEffect, useMemo, useState } from "react"
+import MarketDevelopmentService from "../../service/marketdevelopment.service"
+import { AppDispatch } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchCategories } from "../../store/slice/categoriesSlice"
+import { useFormik } from "formik"
+
+type ProcessStep = {
+    label?: string
+}
+
+type StageField = {
+    label?: string
+    type?: string
+    options?: string[]
+}
+
+type Stage = {
+    name?: string
+    fields?: StageField[]
+}
+
+type MarketDevelopmentData = {
+    market_data?: {
+        processSteps?: ProcessStep[]
+        stages?: Stage[]
+    }
+}
+
+type FormValues = {
+    country: string
+    category: string
+    subCategory: string
+    product: string
+    budget: string
+    budgetRange: number
+    stages: {
+        [stageName: string]: {
+            [fieldLabel: string]: string
+        }
+    }
+}
 
 export default function MarketDevelopment() {
-    const processSteps = [
-        "Industry Research",
-        "Competitor Mapping",
-        "Market Positioning",
-        "Business Strategy",
-        "Execution Support",
-    ]
+    const [data, setData] = useState<MarketDevelopmentData | null>(null)
+    const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0)
 
-    const stages = [
-        "Concept",
-        "Research",
-        "Planning",
-        "Licensing",
-        "Vendor Setup",
-        "Product Setup",
-        "Marketing",
-        "Launch",
-    ]
+    const dispatch = useDispatch<AppDispatch>();
 
-    const processItems = [
-        "Land",
-        "Licensing",
-        "Services",
-        "Product / Manpower",
-        "Components",
-    ]
+    const { categories } = useSelector(
+        (state: any) => state.categories
+    );
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
+
+    const getMarketDevelopmentData = async () => {
+        try {
+            const response = await MarketDevelopmentService.getMarketDevelopment()
+            setData(response?.data?.data?.[0])
+        }
+        catch (error) {
+            console.error("Error fetching market development data:", error)
+        }
+    }
+
+    useEffect(() => {
+        getMarketDevelopmentData()
+    }, [])
+
+    const processSteps: ProcessStep[] = data?.market_data?.processSteps || []
+
+    const stages: Stage[] = data?.market_data?.stages || []
+
+    const selectedStage = stages[selectedStageIndex]
+
+    const processItems: StageField[] = selectedStage?.fields || []
+
+    const formik = useFormik<FormValues>({
+        initialValues: {
+            country: "",
+            category: "",
+            subCategory: "",
+            product: "",
+            budget: "",
+            budgetRange: 40,
+            stages: {},
+        },
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
+            try {
+                const payload = {
+                    country: values.country,
+                    category_id: values.category,
+                    sub_category_id: values.subCategory,
+                    product_id: values.product,
+                    budget: values.budget,
+                    budget_range: values.budgetRange,
+                    stages: values.stages,
+                }
+
+                console.log("submit", payload)
+
+                resetForm()
+            } catch (error) {
+                console.error("Submit error:", error)
+            } finally {
+                setSubmitting(false)
+            }
+        },
+    })
+
+    const countryOptions = useMemo(() => {
+        return categories?.map((country: any) => ({
+            label: country.country,
+            value: country.country,
+        })) || [];
+    }, [categories]);
+
+    const selectedCountry = categories?.find(
+        (country: any) => country.country === formik.values.country
+    );
+
+    const categoryOptions = useMemo(() => {
+        return selectedCountry?.categories?.map((cat: any) => ({
+            label: cat.name,
+            value: String(cat.id),
+        })) || [];
+    }, [selectedCountry]);
+
+    const selectedCategory = selectedCountry?.categories?.find(
+        (cat: any) => String(cat.id) === formik.values.category
+    );
+
+    const subCategoryOptions = useMemo(() => {
+        return selectedCategory?.subcategories?.map((sub: any) => ({
+            label: sub.name,
+            value: String(sub.id),
+        })) || [];
+    }, [selectedCategory]);
+
+    const selectedSubCategory = selectedCategory?.subcategories?.find(
+        (sub: any) => String(sub.id) === formik.values.subCategory
+    );
+
+    const productOptions = useMemo(() => {
+        return selectedSubCategory?.products?.map((product: any) => ({
+            label: product.name,
+            value: String(product.id),
+        })) || [];
+    }, [selectedSubCategory]);
 
     return (
-        <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh", pb: 10 }}>
+        <Box
+            sx={{ bgcolor: "#f5f7fb", minHeight: "100vh", pb: 10 }}
+            component="form"
+            onSubmit={formik.handleSubmit}
+        >
             <Box
                 sx={{
                     width: "100%",
@@ -146,76 +271,109 @@ export default function MarketDevelopment() {
                     </Box>
 
                     <Grid container spacing={2.5}>
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                             <TextField
                                 select
                                 fullWidth
                                 size="small"
+                                name="country"
                                 label="Choose Country"
-                                defaultValue=""
+                                value={formik.values.country}
+                                onChange={(e) => {
+                                    formik.setFieldValue("country", e.target.value)
+                                    formik.setFieldValue("category", "")
+                                    formik.setFieldValue("subCategory", "")
+                                    formik.setFieldValue("product", "")
+                                }}
                                 InputProps={{
                                     startAdornment: (
-                                        <PublicIcon
-                                            fontSize="small"
-                                            sx={{ mr: 1, color: "text.secondary" }}
-                                        />
+                                        <PublicIcon fontSize="small" sx={{ mr: 1, color: "text.secondary" }} />
                                     ),
                                 }}
                             >
                                 <MenuItem value="">Select Country</MenuItem>
-                                <MenuItem value="India">India</MenuItem>
-                                <MenuItem value="USA">USA</MenuItem>
-                                <MenuItem value="UK">UK</MenuItem>
-                                <MenuItem value="UAE">UAE</MenuItem>
+                                {countryOptions.map((item: any) => (
+                                    <MenuItem key={item.value} value={item.value}>
+                                        {item.label}
+                                    </MenuItem>
+                                ))}
                             </TextField>
                         </Grid>
 
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                             <TextField
                                 select
                                 fullWidth
                                 size="small"
-                                label="Choose Industry"
-                                defaultValue=""
-                                InputProps={{
-                                    startAdornment: (
-                                        <BusinessCenterIcon
-                                            fontSize="small"
-                                            sx={{ mr: 1, color: "text.secondary" }}
-                                        />
-                                    ),
-                                }}
-                            >
-                                <MenuItem value="">Select Industry</MenuItem>
-                                <MenuItem value="Food">Food</MenuItem>
-                                <MenuItem value="Textile">Textile</MenuItem>
-                                <MenuItem value="Agriculture">Agriculture</MenuItem>
-                                <MenuItem value="Manufacturing">Manufacturing</MenuItem>
-                                <MenuItem value="Export">Export</MenuItem>
-                            </TextField>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                            <TextField
-                                select
-                                fullWidth
-                                size="small"
+                                name="category"
                                 label="Choose Category"
-                                defaultValue=""
+                                value={formik.values.category}
+                                onChange={(e) => {
+                                    formik.setFieldValue("category", e.target.value)
+                                    formik.setFieldValue("subCategory", "")
+                                    formik.setFieldValue("product", "")
+                                }}
+                                disabled={!formik.values.country}
                                 InputProps={{
                                     startAdornment: (
-                                        <CategoryIcon
-                                            fontSize="small"
-                                            sx={{ mr: 1, color: "text.secondary" }}
-                                        />
+                                        <BusinessCenterIcon fontSize="small" sx={{ mr: 1, color: "text.secondary" }} />
                                     ),
                                 }}
                             >
                                 <MenuItem value="">Select Category</MenuItem>
-                                <MenuItem value="Startup">Startup</MenuItem>
-                                <MenuItem value="Expansion">Expansion</MenuItem>
-                                <MenuItem value="Export Setup">Export Setup</MenuItem>
-                                <MenuItem value="Turnkey Project">Turnkey Project</MenuItem>
+                                {categoryOptions.map((item: any) => (
+                                    <MenuItem key={item.value} value={item.value}>
+                                        {item.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                            <TextField
+                                select
+                                fullWidth
+                                size="small"
+                                name="subCategory"
+                                label="Choose Sub Category"
+                                value={formik.values.subCategory}
+                                onChange={(e) => {
+                                    formik.setFieldValue("subCategory", e.target.value)
+                                    formik.setFieldValue("product", "")
+                                }}
+                                disabled={!formik.values.category}
+                                InputProps={{
+                                    startAdornment: (
+                                        <CategoryIcon fontSize="small" sx={{ mr: 1, color: "text.secondary" }} />
+                                    ),
+                                }}
+                            >
+                                <MenuItem value="">Select Sub Category</MenuItem>
+                                {subCategoryOptions.map((item: any) => (
+                                    <MenuItem key={item.value} value={item.value}>
+                                        {item.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                            <TextField
+                                select
+                                fullWidth
+                                size="small"
+                                name="product"
+                                label="Choose Product"
+                                value={formik.values.product}
+                                onChange={formik.handleChange}
+                                disabled={!formik.values.subCategory}
+                            >
+                                <MenuItem value="">Select Product</MenuItem>
+                                {productOptions.map((item: any) => (
+                                    <MenuItem key={item.value} value={item.value}>
+                                        {item.label}
+                                    </MenuItem>
+                                ))}
                             </TextField>
                         </Grid>
                     </Grid>
@@ -246,7 +404,7 @@ export default function MarketDevelopment() {
                         </Typography>
                     </Box>
 
-                    <Grid container spacing={2} alignItems="stretch">
+                    <Grid container spacing={2} alignItems="stretch" justifyContent="center">
                         {processSteps.map((step, index) => (
                             <Grid key={index} size={{ xs: 12, sm: 6, md: 2.4 }}>
                                 <Paper
@@ -285,7 +443,7 @@ export default function MarketDevelopment() {
                                             fontSize: "14px",
                                         }}
                                     >
-                                        {step}
+                                        {step?.label}
                                     </Typography>
 
                                     {index !== processSteps.length - 1 && (
@@ -329,25 +487,30 @@ export default function MarketDevelopment() {
                             </Typography>
 
                             <Stack spacing={1.2}>
-                                {stages.map((stage, index) => (
+                                {stages.map((stage: Stage, index: number) => (
                                     <Box
                                         key={index}
+                                        onClick={() => setSelectedStageIndex(index)}
                                         sx={{
                                             p: 1.2,
                                             borderRadius: 2,
-                                            border: "1px solid #e5e7eb",
+                                            border:
+                                                selectedStageIndex === index
+                                                    ? "2px solid #F4A62A"
+                                                    : "1px solid #e5e7eb",
                                             display: "flex",
                                             alignItems: "center",
                                             gap: 1,
-                                            bgcolor: index === 0 ? "#fff7ed" : "#fff",
+                                            bgcolor: selectedStageIndex === index ? "#fff7ed" : "#fff",
+                                            cursor: "pointer",
                                         }}
                                     >
                                         <Chip
                                             label={index + 1}
                                             size="small"
                                             sx={{
-                                                bgcolor: index === 0 ? "#F4A62A" : "#e5e7eb",
-                                                color: index === 0 ? "#fff" : "#374151",
+                                                bgcolor: selectedStageIndex === index ? "#F4A62A" : "#e5e7eb",
+                                                color: selectedStageIndex === index ? "#fff" : "#374151",
                                                 fontWeight: 700,
                                             }}
                                         />
@@ -359,7 +522,7 @@ export default function MarketDevelopment() {
                                                 color: "#374151",
                                             }}
                                         >
-                                            {stage}
+                                            {stage?.name}
                                         </Typography>
                                     </Box>
                                 ))}
@@ -400,48 +563,49 @@ export default function MarketDevelopment() {
                             </Typography>
 
                             <Stack spacing={1.5}>
-                                {processItems.map((item, index) => (
-                                    <Paper
-                                        key={index}
-                                        variant="outlined"
-                                        sx={{
-                                            p: 1.6,
-                                            borderRadius: 2,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            gap: 2,
-                                            bgcolor: "#fafafa",
-                                        }}
-                                    >
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                                            <CheckCircleIcon
-                                                sx={{ color: "#F4A62A", fontSize: 22 }}
+                                {processItems.length > 0 ? (
+                                    processItems.map((item: StageField, index: number) => {
+                                        const stageName = selectedStage?.name || `stage_${selectedStageIndex}`
+                                        const fieldName = item?.label || `field_${index}`
+                                        const formikName = `stages.${stageName}.${fieldName}`
+
+                                        return item?.type === "text" ? (
+                                            <TextField
+                                                key={index}
+                                                fullWidth
+                                                size="small"
+                                                name={formikName}
+                                                label={item?.label}
+                                                placeholder={item?.label}
+                                                value={formik.values.stages?.[stageName]?.[fieldName] || ""}
+                                                onChange={formik.handleChange}
                                             />
-
-                                            <Typography
-                                                sx={{
-                                                    fontWeight: 700,
-                                                    color: "#374151",
-                                                }}
+                                        ) : item?.type === "select" ? (
+                                            <TextField
+                                                key={index}
+                                                select
+                                                fullWidth
+                                                size="small"
+                                                name={formikName}
+                                                label={item?.label}
+                                                value={formik.values.stages?.[stageName]?.[fieldName] || ""}
+                                                onChange={formik.handleChange}
                                             >
-                                                {item}
-                                            </Typography>
-                                        </Box>
+                                                <MenuItem value="">Select {item?.label}</MenuItem>
 
-                                        <Button
-                                            size="small"
-                                            variant="outlined"
-                                            sx={{
-                                                textTransform: "none",
-                                                borderRadius: 2,
-                                                whiteSpace: "nowrap",
-                                            }}
-                                        >
-                                            Select
-                                        </Button>
-                                    </Paper>
-                                ))}
+                                                {(item?.options || []).map((option: string, idx: number) => (
+                                                    <MenuItem key={idx} value={option.trim()}>
+                                                        {option.trim()}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        ) : null
+                                    })
+                                ) : (
+                                    <Typography sx={{ textAlign: "center", color: "text.secondary" }}>
+                                        No fields found for this stage.
+                                    </Typography>
+                                )}
                             </Stack>
                         </Paper>
                     </Grid>
@@ -479,12 +643,16 @@ export default function MarketDevelopment() {
 
                                 <Grid size={{ xs: 12, md: 4 }}>
                                     <Slider
-                                        defaultValue={40}
+                                        name="budgetRange"
+                                        value={formik.values.budgetRange}
                                         valueLabelDisplay="auto"
                                         step={10}
                                         marks
                                         min={0}
                                         max={100}
+                                        onChange={(_, value) => {
+                                            formik.setFieldValue("budgetRange", value)
+                                        }}
                                         sx={{
                                             color: "#F4A62A",
                                         }}
@@ -495,15 +663,20 @@ export default function MarketDevelopment() {
                                     <TextField
                                         fullWidth
                                         size="small"
+                                        name="budget"
                                         label="Estimated Budget"
                                         placeholder="Example: 10,00,000"
+                                        value={formik.values.budget}
+                                        onChange={formik.handleChange}
                                     />
                                 </Grid>
 
                                 <Grid size={{ xs: 12, md: 2 }}>
                                     <Button
                                         fullWidth
+                                        type="submit"
                                         variant="contained"
+                                        disabled={formik.isSubmitting}
                                         sx={{
                                             bgcolor: "#3E3126",
                                             py: 1.2,
@@ -515,7 +688,7 @@ export default function MarketDevelopment() {
                                             },
                                         }}
                                     >
-                                        Submit
+                                        {formik.isSubmitting ? "Submitting..." : "Submit"}
                                     </Button>
                                 </Grid>
                             </Grid>
