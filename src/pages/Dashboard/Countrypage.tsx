@@ -65,6 +65,10 @@ export default function CountryPage() {
             <ImageSlider slides={slides} loading={imageLoading} />
 
             <Box component="section">
+                <Analytical analyticsData={analyticsData} loading={loading} />
+            </Box>
+
+            <Box component="section">
                 <CategoryTab country={country} />
             </Box>
 
@@ -74,10 +78,6 @@ export default function CountryPage() {
 
             <Box component="section">
                 <TradeHistory country={country} />
-            </Box>
-
-            <Box component="section">
-                <Analytical analyticsData={analyticsData} loading={loading} />
             </Box>
 
             <Box component="section">

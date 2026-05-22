@@ -24,10 +24,11 @@ export default function LabelTitle({
             }}
         >
             <Typography
-                component="span"
+                component="h2"
+                variant="h3"
                 sx={{
                     color: "#8BC34A",
-                    fontWeight: 700,
+                    fontWeight: 800,
                     borderBottom: "3px solid #8BC34A",
                     pb: "2px",
                     fontSize: {
@@ -42,10 +43,11 @@ export default function LabelTitle({
             </Typography>
 
             <Typography
-                component="span"
+                component="h2"
+                variant="h3"
                 sx={{
                     color: "text.primary",
-                    fontWeight: 700,
+                    fontWeight: 800,
                     fontSize: {
                         xs: "22px",
                         sm: "26px",

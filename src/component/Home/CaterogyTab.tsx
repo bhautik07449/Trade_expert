@@ -3,29 +3,35 @@ import {
     Typography,
     Skeleton,
     Grid,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LabelTitle from "../../commonUI/labelTitle";
-import HomePageservice from "../../service/homepages.service";
+    Paper,
+    Stack,
+} from "@mui/material"
+import CategoryIcon from "@mui/icons-material/Category"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import LabelTitle from "../../commonUI/labelTitle"
+import HomePageservice from "../../service/homepages.service"
 
 export default function CategoryTab({ country }: any) {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [categories, setCategories] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
     const getCategories = async (country: string) => {
         try {
+            setLoading(true)
             const res = await HomePageservice.getCategoriesByCountry(country)
+
             if (res) {
-                setLoading(false)
-                setCategories(res?.data)
+                setCategories(res?.data || [])
             }
         } catch (error: any) {
-            setLoading(false)
             console.log(error?.response?.data?.message || error.message)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -33,154 +39,361 @@ export default function CategoryTab({ country }: any) {
         if (country) {
             getCategories(country)
         }
-    }, [country]);
+    }, [country])
 
     const handleCategoryClick = (slug: string) => {
-        navigate(`/category/${slug}`);
-    };
+        navigate(`/category/${slug}`)
+    }
 
     return (
-        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 5, md: 8 }, boxSizing: "border-box" }}>
-            <LabelTitle title="Categories" label="Sectors" />
-
-            <Typography
-                variant="body1"
+        <Box
+            sx={{
+                position: "relative",
+                overflow: "hidden",
+                py: { xs: 5, md: 8 },
+                bgcolor: "background.default",
+                background:"white",
+            }}
+        >
+            <Box
                 sx={{
-                    textAlign: "center",
-                    color: "text.secondary",
-                    maxWidth: "680px",
+                    position: "absolute",
+                    top: 70,
+                    right: -120,
+                    width: 260,
+                    height: 260,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(167, 123, 88, 0.22), transparent 68%)",
+                    filter: "blur(14px)",
+                }}
+            />
+
+            <Box
+                sx={{
+                    position: "absolute",
+                    bottom: 60,
+                    left: -130,
+                    width: 270,
+                    height: 270,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(95, 75, 59, 0.16), transparent 68%)",
+                    filter: "blur(16px)",
+                }}
+            />
+
+            <Box
+                sx={{
+                    maxWidth: "1200px",
                     mx: "auto",
-                    mb: { xs: 4, md: 6 },
-                    mt: { xs: -1.5, md: -2.5 },
-                    fontSize: { xs: "0.88rem", sm: "1rem" },
-                    lineHeight: 1.5,
+                    px: { xs: 2, sm: 4, md: 6 },
+                    boxSizing: "border-box",
+                    position: "relative",
+                    zIndex: 1,
                 }}
             >
-                Browse our verified, high-demand product sectors tailored for seamless bilateral wholesale trade and prioritized export opportunities.
-            </Typography>
+                <LabelTitle title="Categories" label="Sectors" />
 
-            {loading ? (
-                <Grid container spacing={2.5}>
-                    {[...Array(8)].map((_, i) => (
-                        <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={i}>
-                            <Skeleton
-                                variant="rounded"
-                                height={110}
-                                sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
-            ) : categories && categories.length > 0 ? (
-                <Grid container spacing={2.5}>
-                    {categories.map((cat: any, index: number) => (
-                        <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={cat.id ?? cat.slug ?? index}>
-                            <Box
-                                id={`category-card-${index}-${cat.slug || cat.id}`}
-                                onClick={() => handleCategoryClick(cat?.id)}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: 1.2,
-                                    p: { xs: 2, sm: 2.5 },
-                                    borderRadius: 3,
-                                    cursor: "pointer",
-                                    border: "1px solid",
-                                    borderColor: hoveredIndex === index ? "secondary.main" : "rgba(0, 0, 0, 0.06)",
-                                    minHeight: { xs: 100, sm: 110 },
-                                    textAlign: "center",
-                                    position: "relative",
-                                    background: hoveredIndex === index
-                                        ? "linear-gradient(145deg, #ffffff, #fffcf5)"
-                                        : "#ffffff",
-                                    boxShadow: hoveredIndex === index
-                                        ? "0 12px 28px rgba(244, 160, 36, 0.12)"
-                                        : "0 4px 16px rgba(0, 0, 0, 0.02)",
-                                    transform: hoveredIndex === index ? "translateY(-4px)" : "translateY(0)",
-                                    transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                                    overflow: "hidden",
-                                    "&::before": {
-                                        content: '""',
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        width: "100%",
-                                        height: "4px",
-                                        background: hoveredIndex === index
-                                            ? "secondary.main"
-                                            : "transparent",
-                                        transition: "background 0.3s ease",
-                                    }
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        position: "absolute",
-                                        width: 50,
-                                        height: 50,
-                                        borderRadius: "50%",
-                                        background: hoveredIndex === index
-                                            ? "radial-gradient(circle, rgba(244, 160, 36, 0.12) 0%, transparent 70%)"
-                                            : "radial-gradient(circle, rgba(0, 0, 0, 0.01) 0%, transparent 70%)",
-                                        top: -10,
-                                        right: -10,
-                                        transition: "all 0.4s ease",
-                                        transform: hoveredIndex === index ? "scale(1.5)" : "scale(1)",
-                                    }}
-                                />
-
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "0.95rem" },
-                                        color: hoveredIndex === index ? "secondary.main" : "#1e293b",
-                                        lineHeight: 1.3,
-                                        letterSpacing: "0.2px",
-                                        transition: "color 0.3s ease",
-                                        zIndex: 1,
-                                    }}
-                                >
-                                    {cat.name}
-                                </Typography>
-
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        color: hoveredIndex === index ? "#f59e0b" : "text.secondary",
-                                        fontWeight: 600,
-                                        fontSize: "0.68rem",
-                                        textTransform: "uppercase",
-                                        letterSpacing: "0.5px",
-                                        opacity: hoveredIndex === index ? 1 : 0.5,
-                                        transition: "all 0.3s ease",
-                                        zIndex: 1,
-                                    }}
-                                >
-                                    Explore →
-                                </Typography>
-                            </Box>
-                        </Grid>
-                    ))}
-                </Grid>
-            ) : (
-                <Box
+                <Typography
+                    variant="body1"
                     sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        py: 6,
+                        textAlign: "center",
+                        color: "text.secondary",
+                        maxWidth: "720px",
+                        mx: "auto",
+                        mb: { xs: 4, md: 6 },
+                        mt: { xs: -1.5, md: -2.5 },
+                        fontSize: { xs: "0.9rem", sm: "1rem" },
+                        lineHeight: 1.8,
                     }}
                 >
-                    <Typography variant="body1" color="text.secondary">
-                        No categories available
-                    </Typography>
-                </Box>
-            )}
+                    Browse verified, high-demand product sectors tailored for seamless
+                    bilateral wholesale trade and prioritized export opportunities.
+                </Typography>
+
+                {loading ? (
+                    <Grid container spacing={2.5}>
+                        {[...Array(8)].map((_, i) => (
+                            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={i}>
+                                <Paper
+                                    elevation={0}
+                                    sx={{
+                                        p: { xs: 2, sm: 2.5 },
+                                        minHeight: 150,
+                                        borderRadius: 4,
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        bgcolor: "background.paper",
+                                        boxShadow: "0 10px 28px rgba(59, 48, 39, 0.05)",
+                                    }}
+                                >
+                                    <Skeleton
+                                        variant="circular"
+                                        width={48}
+                                        height={48}
+                                        sx={{
+                                            mx: "auto",
+                                            mb: 2,
+                                            bgcolor: "primary.light",
+                                        }}
+                                    />
+                                    <Skeleton
+                                        variant="text"
+                                        width="80%"
+                                        sx={{
+                                            mx: "auto",
+                                            bgcolor: "primary.light",
+                                        }}
+                                    />
+                                    <Skeleton
+                                        variant="rounded"
+                                        width={80}
+                                        height={24}
+                                        sx={{
+                                            mx: "auto",
+                                            mt: 1.5,
+                                            borderRadius: 99,
+                                            bgcolor: "primary.light",
+                                        }}
+                                    />
+                                </Paper>
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : categories && categories.length > 0 ? (
+                    <Grid container spacing={2.5}>
+                        {categories.map((cat: any, index: number) => (
+                            <Grid
+                                size={{ xs: 6, sm: 6, md: 4, lg: 3 }}
+                                key={cat.id ?? cat.slug ?? index}
+                            >
+                                <Paper
+                                    id={`category-card-${index}-${cat.slug || cat.id}`}
+                                    elevation={0}
+                                    onClick={() => handleCategoryClick(cat?.id)}
+                                    sx={{
+                                        height: "100%",
+                                        minHeight: { xs: 145, sm: 160 },
+                                        p: { xs: 2, sm: 2.5 },
+                                        borderRadius: 4,
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        cursor: "pointer",
+                                        bgcolor: "background.paper",
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        boxShadow: "0 10px 30px rgba(59, 48, 39, 0.06)",
+                                        transition: "all 0.35s ease",
+
+                                        "&::before": {
+                                            content: '""',
+                                            position: "absolute",
+                                            inset: 0,
+                                            background:
+                                                "linear-gradient(135deg, rgba(167,123,88,0.16), rgba(232,216,193,0.35))",
+                                            opacity: 0,
+                                            transition: "opacity 0.35s ease",
+                                        },
+
+                                        "&::after": {
+                                            content: '""',
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: 4,
+                                            background:
+                                                "linear-gradient(90deg, #A77B58, #5F4B3B)",
+                                            transform: "scaleX(0)",
+                                            transformOrigin: "left",
+                                            transition: "transform 0.35s ease",
+                                        },
+
+                                        "&:hover": {
+                                            transform: "translateY(-8px)",
+                                            borderColor: "primary.main",
+                                            boxShadow: "0 22px 45px rgba(59, 48, 39, 0.14)",
+                                        },
+
+                                        "&:hover::before": {
+                                            opacity: 1,
+                                        },
+
+                                        "&:hover::after": {
+                                            transform: "scaleX(1)",
+                                        },
+
+                                        "&:hover .categoryIcon": {
+                                            bgcolor: "primary.main",
+                                            color: "#fff",
+                                            transform: "scale(1.12) rotate(-6deg)",
+                                        },
+
+                                        "&:hover .categoryName": {
+                                            color: "primary.dark",
+                                        },
+
+                                        "&:hover .exploreText": {
+                                            color: "primary.dark",
+                                            opacity: 1,
+                                            transform: "translateY(0)",
+                                        },
+
+                                        "&:hover .arrowIcon": {
+                                            transform: "translateX(4px)",
+                                        },
+
+                                        "&:hover .circleDecor": {
+                                            transform: "scale(1.45)",
+                                            opacity: 1,
+                                        },
+                                    }}
+                                >
+                                    <Box
+                                        className="circleDecor"
+                                        sx={{
+                                            position: "absolute",
+                                            width: 110,
+                                            height: 110,
+                                            borderRadius: "50%",
+                                            top: -38,
+                                            right: -38,
+                                            background:
+                                                "radial-gradient(circle, rgba(167,123,88,0.22), transparent 68%)",
+                                            opacity: 0.55,
+                                            transition: "all 0.4s ease",
+                                        }}
+                                    />
+
+                                    <Stack
+                                        spacing={1.8}
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        sx={{
+                                            height: "100%",
+                                            position: "relative",
+                                            zIndex: 1,
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        <Box
+                                            className="categoryIcon"
+                                            sx={{
+                                                width: { xs: 48, sm: 56 },
+                                                height: { xs: 48, sm: 56 },
+                                                borderRadius: 3,
+                                                bgcolor: "primary.light",
+                                                color: "primary.dark",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                transition: "all 0.35s ease",
+
+                                                "& svg": {
+                                                    fontSize: { xs: 26, sm: 30 },
+                                                },
+                                            }}
+                                        >
+                                            <CategoryIcon />
+                                        </Box>
+
+                                        <Box>
+                                            <Typography
+                                                className="categoryName"
+                                                variant="body2"
+                                                sx={{
+                                                    fontWeight: 800,
+                                                    fontSize: {
+                                                        xs: "0.82rem",
+                                                        sm: "0.92rem",
+                                                        md: "0.98rem",
+                                                    },
+                                                    color: "text.primary",
+                                                    lineHeight: 1.35,
+                                                    letterSpacing: "0.1px",
+                                                    transition: "color 0.3s ease",
+                                                }}
+                                            >
+                                                {cat.name}
+                                            </Typography>
+
+                                            <Stack
+                                                className="exploreText"
+                                                direction="row"
+                                                spacing={0.5}
+                                                alignItems="center"
+                                                justifyContent="center"
+                                                sx={{
+                                                    mt: 1,
+                                                    color: "primary.main",
+                                                    opacity: { xs: 1, md: 0.7 },
+                                                    transform: {
+                                                        xs: "translateY(0)",
+                                                        md: "translateY(4px)",
+                                                    },
+                                                    transition: "all 0.35s ease",
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 800,
+                                                        fontSize: "0.68rem",
+                                                        textTransform: "uppercase",
+                                                        letterSpacing: "0.7px",
+                                                    }}
+                                                >
+                                                    Explore
+                                                </Typography>
+
+                                                <ArrowForwardIcon
+                                                    className="arrowIcon"
+                                                    sx={{
+                                                        fontSize: 15,
+                                                        transition: "transform 0.3s ease",
+                                                    }}
+                                                />
+                                            </Stack>
+                                        </Box>
+                                    </Stack>
+                                </Paper>
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            maxWidth: 520,
+                            mx: "auto",
+                            py: 6,
+                            px: 3,
+                            textAlign: "center",
+                            borderRadius: 4,
+                            border: "1px dashed",
+                            borderColor: "divider",
+                            bgcolor: "background.paper",
+                            boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
+                        }}
+                    >
+                        <Inventory2OutlinedIcon
+                            sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
+                        />
+
+                        <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
+                        >
+                            No categories available
+                        </Typography>
+
+                        <Typography variant="body2" color="text.secondary">
+                            Categories for this country will appear here once available.
+                        </Typography>
+                    </Paper>
+                )}
+            </Box>
         </Box>
-    );
+    )
 }

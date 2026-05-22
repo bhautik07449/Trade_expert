@@ -3,17 +3,73 @@ import {
     Grid,
     Skeleton,
     Typography,
-    Paper
-} from '@mui/material';
-import LabelTitle from '../../commonUI/labelTitle';
-import { useState } from 'react';
+    Paper,
+    Stack,
+    Chip,
+} from "@mui/material"
+import LabelTitle from "../../commonUI/labelTitle"
+import TrendingUpIcon from "@mui/icons-material/TrendingUp"
+import PublicIcon from "@mui/icons-material/Public"
+import BarChartIcon from "@mui/icons-material/BarChart"
+import InsightsIcon from "@mui/icons-material/Insights"
 
-export default function Analytical({ analyticsData, loading }: { analyticsData: any[]; loading: boolean }) {
-    const [hoveredId, setHoveredId] = useState<number | null>(null);
+export default function Analytical({
+    analyticsData,
+    loading,
+}: {
+    analyticsData: any[]
+    loading: boolean
+}) {
+    const icons = [TrendingUpIcon, PublicIcon, BarChartIcon, InsightsIcon]
 
     return (
-        <>
-            <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: 'border-box' }}>
+        <Box
+            sx={{
+                position: "relative",
+                overflow: "hidden",
+                py: { xs: 5, md: 8 },
+                bgcolor: "background.default",
+                background:
+                    "linear-gradient(180deg, #F5F0EB 0%, #FFFFFF 48%, #F5F0EB 100%)",
+            }}
+        >
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: 80,
+                    left: -120,
+                    width: 260,
+                    height: 260,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(167, 123, 88, 0.22), transparent 68%)",
+                    filter: "blur(14px)",
+                }}
+            />
+
+            <Box
+                sx={{
+                    position: "absolute",
+                    right: -120,
+                    bottom: 40,
+                    width: 280,
+                    height: 280,
+                    borderRadius: "50%",
+                    background:
+                        "radial-gradient(circle, rgba(95, 75, 59, 0.16), transparent 68%)",
+                    filter: "blur(16px)",
+                }}
+            />
+
+            <Box
+                sx={{
+                    maxWidth: "1200px",
+                    mx: "auto",
+                    px: { xs: 2, sm: 4, md: 6 },
+                    position: "relative",
+                    zIndex: 1,
+                }}
+            >
                 <LabelTitle title="Analytical" label="Dashboard" />
 
                 <Typography
@@ -21,138 +77,269 @@ export default function Analytical({ analyticsData, loading }: { analyticsData: 
                     sx={{
                         textAlign: "center",
                         color: "text.secondary",
-                        maxWidth: "680px",
+                        maxWidth: "720px",
                         mx: "auto",
                         mb: { xs: 4, md: 6 },
                         mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.88rem", sm: "1rem" },
-                        lineHeight: 1.5,
+                        fontSize: { xs: "0.92rem", sm: "1rem" },
+                        lineHeight: 1.8,
                     }}
                 >
-                    Monitor aggregate trading volumes, global orders, and active procurement metrics across our centralized B2B marketplace.
+                    Monitor trading performance, global orders, procurement activity, and
+                    marketplace growth through real-time business insights.
                 </Typography>
 
-                <Box sx={{ width: '100%' }}>
-                    {loading ? (
-                        <Grid container spacing={3.5}>
-                            {[...Array(6)].map((_, index) => (
-                                <Grid size={{ xs: 12, md: 6, lg: 4 }} key={index}>
+                {loading ? (
+                    <Grid container spacing={3}>
+                        {[...Array(6)].map((_, index) => (
+                            <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={index}>
+                                <Paper
+                                    elevation={0}
+                                    sx={{
+                                        borderRadius: 4,
+                                        p: 3,
+                                        minHeight: 190,
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        bgcolor: "background.paper",
+                                        boxShadow: "0 10px 28px rgba(59, 48, 39, 0.05)",
+                                    }}
+                                >
+                                    <Skeleton
+                                        variant="circular"
+                                        width={56}
+                                        height={56}
+                                        sx={{
+                                            mb: 2,
+                                            bgcolor: "primary.light",
+                                        }}
+                                    />
+                                    <Skeleton
+                                        variant="text"
+                                        width="55%"
+                                        height={28}
+                                        sx={{ bgcolor: "primary.light" }}
+                                    />
+                                    <Skeleton
+                                        variant="text"
+                                        width="75%"
+                                        height={52}
+                                        sx={{ bgcolor: "primary.light" }}
+                                    />
                                     <Skeleton
                                         variant="rounded"
-                                        height={150}
-                                        sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}
+                                        width={90}
+                                        height={28}
+                                        sx={{
+                                            bgcolor: "primary.light",
+                                            borderRadius: 99,
+                                        }}
                                     />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    ) : (
-                        <Grid container spacing={3.5}>
-                            {analyticsData?.map((stat) => (
-                                <Grid size={{ xs: 12, md: 6, lg: 4 }} key={stat.id}>
+                                </Paper>
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <Grid container spacing={3} justifyContent="center">
+                        {analyticsData?.map((stat, index) => {
+                            const Icon = icons[index % icons.length]
+
+                            return (
+                                <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={stat.id}>
                                     <Paper
                                         id={`analytical-stat-card-${stat.id}`}
-                                        onMouseEnter={() => setHoveredId(stat.id)}
-                                        onMouseLeave={() => setHoveredId(null)}
+                                        elevation={0}
                                         sx={{
-                                            borderRadius: 3,
+                                            height: "100%",
+                                            minHeight: 190,
+                                            p: { xs: 2.5, sm: 3 },
+                                            borderRadius: 4,
+                                            position: "relative",
+                                            overflow: "hidden",
+                                            bgcolor: "background.paper",
                                             border: "1px solid",
-                                            borderColor: hoveredId === stat.id ? "#f4a024" : "rgba(0, 0, 0, 0.08)",
-                                            background: hoveredId === stat.id
-                                                ? "linear-gradient(145deg, #ffffff, #fffdfa)"
-                                                : "#ffffff",
-                                            p: { xs: 3, sm: 4 },
-                                            cursor: 'pointer',
-                                            transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            position: 'relative',
-                                            overflow: 'hidden',
-                                            minHeight: 150,
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'space-between',
-                                            boxShadow: hoveredId === stat.id
-                                                ? "0 12px 30px rgba(244, 160, 36, 0.12)"
-                                                : "0 4px 20px rgba(0, 0, 0, 0.02)",
-                                            transform: hoveredId === stat.id ? 'translateY(-5px)' : 'translateY(0)',
+                                            borderColor: "divider",
+                                            boxShadow: "0 12px 35px rgba(59, 48, 39, 0.06)",
+                                            cursor: "pointer",
+                                            transition: "all 0.35s ease",
+
                                             "&::before": {
+                                                content: '""',
+                                                position: "absolute",
+                                                inset: 0,
+                                                background:
+                                                    "linear-gradient(135deg, rgba(167,123,88,0.16), rgba(232,216,193,0.35))",
+                                                opacity: 0,
+                                                transition: "opacity 0.35s ease",
+                                            },
+
+                                            "&::after": {
                                                 content: '""',
                                                 position: "absolute",
                                                 top: 0,
                                                 left: 0,
                                                 width: "100%",
-                                                height: "4px",
-                                                background: hoveredId === stat.id ? "#f4a024" : "transparent",
-                                                transition: "background 0.3s ease",
-                                            }
+                                                height: 5,
+                                                background: "linear-gradient(90deg, #A77B58, #5F4B3B)",
+                                                transform: "scaleX(0)",
+                                                transformOrigin: "left",
+                                                transition: "transform 0.35s ease",
+                                            },
+
+                                            "&:hover": {
+                                                transform: "translateY(-8px)",
+                                                borderColor: "primary.main",
+                                                boxShadow: "0 24px 55px rgba(59, 48, 39, 0.14)",
+                                            },
+
+                                            "&:hover::before": {
+                                                opacity: 1,
+                                            },
+
+                                            "&:hover::after": {
+                                                transform: "scaleX(1)",
+                                            },
+
+                                            "&:hover .statIcon": {
+                                                transform: "scale(1.12) rotate(-6deg)",
+                                                bgcolor: "primary.main",
+                                                color: "#fff",
+                                            },
+
+                                            "&:hover .statValue": {
+                                                color: "primary.dark",
+                                            },
+
+                                            "&:hover .circleDecor": {
+                                                transform: "scale(1.35)",
+                                                opacity: 1,
+                                            },
                                         }}
                                     >
                                         <Box
+                                            className="circleDecor"
                                             sx={{
-                                                position: 'absolute',
-                                                top: -15,
-                                                right: -15,
-                                                width: 80,
-                                                height: 80,
-                                                borderRadius: '50%',
-                                                background: hoveredId === stat.id
-                                                    ? "radial-gradient(circle, rgba(244, 160, 36, 0.12) 0%, transparent 70%)"
-                                                    : "radial-gradient(circle, rgba(0, 0, 0, 0.01) 0%, transparent 70%)",
-                                                transition: 'all 0.4s ease',
-                                                transform: hoveredId === stat.id ? 'scale(1.5)' : 'scale(1)',
+                                                position: "absolute",
+                                                right: -34,
+                                                top: -34,
+                                                width: 130,
+                                                height: 130,
+                                                borderRadius: "50%",
+                                                background:
+                                                    "radial-gradient(circle, rgba(167,123,88,0.22), transparent 68%)",
+                                                opacity: 0.55,
+                                                transition: "all 0.4s ease",
                                             }}
                                         />
 
-                                        <Box sx={{ position: 'relative', zIndex: 1 }}>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    color: 'text.secondary',
-                                                    fontWeight: 600,
-                                                    fontSize: { xs: '0.85rem', md: '0.95rem' },
-                                                    mb: 1,
-                                                }}
+                                        <Stack
+                                            spacing={2.4}
+                                            sx={{
+                                                position: "relative",
+                                                zIndex: 1,
+                                                height: "100%",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <Stack
+                                                direction="row"
+                                                alignItems="flex-start"
+                                                justifyContent="space-between"
+                                                spacing={2}
                                             >
-                                                {stat?.title}
-                                            </Typography>
+                                                <Box>
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            color: "text.secondary",
+                                                            fontWeight: 700,
+                                                            fontSize: { xs: "0.82rem", md: "0.9rem" },
+                                                            textTransform: "uppercase",
+                                                            letterSpacing: 0.7,
+                                                            mb: 1,
+                                                        }}
+                                                    >
+                                                        {stat?.title}
+                                                    </Typography>
 
-                                            <Typography
-                                                variant="h3"
-                                                sx={{
-                                                    fontWeight: 800,
-                                                    color: hoveredId === stat.id ? '#d97706' : '#1e293b',
-                                                    letterSpacing: '-0.5px',
-                                                    fontSize: { xs: '1.8rem', sm: '2.2rem' },
-                                                    lineHeight: 1.2,
-                                                    mb: 2,
-                                                    transition: 'color 0.3s ease',
-                                                }}
-                                            >
-                                                {stat?.value}
-                                            </Typography>
+                                                    <Typography
+                                                        className="statValue"
+                                                        variant="h3"
+                                                        sx={{
+                                                            fontWeight: 900,
+                                                            color: "text.primary",
+                                                            letterSpacing: "-1px",
+                                                            fontSize: { xs: "2rem", sm: "2.35rem" },
+                                                            lineHeight: 1.1,
+                                                            transition: "color 0.3s ease",
+                                                        }}
+                                                    >
+                                                        {stat?.value}
+                                                    </Typography>
+                                                </Box>
 
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <Typography
-                                                    component="span"
+                                                <Box
+                                                    className="statIcon"
                                                     sx={{
-                                                        color: '#10b981',
-                                                        fontWeight: 700,
-                                                        fontSize: '0.78rem',
-                                                        bgcolor: 'rgba(16, 185, 129, 0.1)',
-                                                        px: 1,
-                                                        py: 0.25,
-                                                        borderRadius: 1,
+                                                        width: 56,
+                                                        height: 56,
+                                                        minWidth: 56,
+                                                        borderRadius: 3,
+                                                        bgcolor: "primary.light",
+                                                        color: "primary.dark",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        transition: "all 0.35s ease",
+
+                                                        "& svg": {
+                                                            fontSize: 30,
+                                                        },
                                                     }}
                                                 >
-                                                    {stat?.country}
+                                                    <Icon />
+                                                </Box>
+                                            </Stack>
+
+                                            <Stack
+                                                direction="row"
+                                                alignItems="center"
+                                                justifyContent="space-between"
+                                                spacing={2}
+                                            >
+                                                <Chip
+                                                    icon={<PublicIcon sx={{ fontSize: "16px" }} />}
+                                                    label={stat?.country}
+                                                    size="small"
+                                                    sx={{
+                                                        bgcolor: "primary.light",
+                                                        color: "primary.dark",
+                                                        fontWeight: 800,
+                                                        borderRadius: 2,
+                                                        "& .MuiChip-icon": {
+                                                            color: "primary.dark",
+                                                        },
+                                                    }}
+                                                />
+
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        color: "text.secondary",
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    Live Metric
                                                 </Typography>
-                                            </Box>
-                                        </Box>
+                                            </Stack>
+                                        </Stack>
                                     </Paper>
                                 </Grid>
-                            ))}
-                        </Grid>
-                    )}
-                </Box>
+                            )
+                        })}
+                    </Grid>
+                )}
             </Box>
-        </>
-    );
+        </Box>
+    )
 }

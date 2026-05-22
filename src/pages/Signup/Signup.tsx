@@ -27,6 +27,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import Buyerservice from "../../service/buyes.service"
+import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 
 const flipIn = keyframes`
   from { transform: rotateY(-90deg); opacity: 0; }
@@ -501,6 +502,8 @@ export default function SignupForm() {
           </Box>
         </Paper>
       </Box>
+
+      <UpcommingFeatures />
     </Box>
   )
 }
