@@ -9,8 +9,17 @@ const getMarketDevelopment = async () => {
     }
 }
 
+const addMarketDevelopment = async (payload: any) => {
+    try {
+        const response = serverCall.post('/marketdata', payload)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const MarketDevelopmentService = {
-    getMarketDevelopment
+    getMarketDevelopment, addMarketDevelopment
 };
 
 export default MarketDevelopmentService;

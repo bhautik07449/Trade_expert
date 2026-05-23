@@ -20,6 +20,7 @@ import { AppDispatch } from "../../store"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCategories } from "../../store/slice/categoriesSlice"
 import { useFormik } from "formik"
+import { toast } from "react-toastify"
 
 type ProcessStep = {
     label?: string
@@ -115,11 +116,14 @@ export default function MarketDevelopment() {
                     stages: values.stages,
                 }
 
-                console.log("submit", payload)
+                const response = await MarketDevelopmentService.addMarketDevelopment(payload)
 
-                resetForm()
-            } catch (error) {
-                console.error("Submit error:", error)
+                if (response) {
+                    resetForm()
+                    toast.success(response?.data?.message || "Market development data submitted successfully!")
+                }
+            } catch (error: any) {
+                toast.error(error?.response.data?.message || "Failed to submit market development data.")
             } finally {
                 setSubmitting(false)
             }
