@@ -35,7 +35,6 @@ import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 export default function SuppliersRegister() {
     const [searchParams] = useSearchParams();
     const country = searchParams.get("country");
-    console.log("country", country);
 
     const [value, setValue] = useState(0)
     const navigate = useNavigate()
