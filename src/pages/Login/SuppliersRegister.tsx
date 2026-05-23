@@ -130,7 +130,7 @@ export default function SuppliersRegister() {
     ]
 
     return (
-        <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh", pb: 10 }}>
+        <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh" }}>
             <Box
                 sx={{
                     width: "100%",
@@ -585,20 +585,12 @@ export default function SuppliersRegister() {
                 </Grid>
             </Box>
 
-            <Box component="section">
-                <AbcTradeoffer country={country} />
-            </Box>
-
-            <Box component="section">
-                <UpcommingFeatures />
-            </Box>
-
             <Box
                 sx={{
                     maxWidth: "1200px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
-                    mt: 6,
+                    my: 6,
                 }}
             >
                 <Paper
@@ -704,6 +696,14 @@ export default function SuppliersRegister() {
                         </Grid>
                     </Box>
                 </Paper>
+            </Box>
+
+            <Box component="section">
+                <AbcTradeoffer country={country} />
+            </Box>
+
+            <Box component="section">
+                <UpcommingFeatures />
             </Box>
         </Box>
     )

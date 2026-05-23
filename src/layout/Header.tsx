@@ -161,18 +161,7 @@ export default function Header() {
             icon: <HomeIcon fontSize="small" />,
         },
         {
-            label: "About",
-            path: "/about_us",
-            icon: <InfoIcon fontSize="small" />,
-            subItems: [
-                { label: "Know Us", path: "/about_us#know-us" },
-                { label: "Vision Mission", path: "/about_us#vision-mission" },
-                { label: "Our Team", path: "/about_us#our-team" },
-                { label: "Delivery Reach", path: "/about_us#delivery-reach" },
-            ],
-        },
-        {
-            label: "Countries",
+            label: "Countries & Categories",
             icon: <CategoryIcon fontSize="small" />,
             subItems:
                 categories?.map((country: any) => ({
@@ -204,12 +193,9 @@ export default function Header() {
                 { label: "CSR", path: "/pages/csr" },
                 { label: "Career", path: "/pages/career" },
                 { label: "FAQ", path: "/pages/faq" },
+                { label: "Quality Policy", path: "/quality-policy" },
+                { label: "Brands", path: "/brands" },
             ],
-        },
-        {
-            label: "Quality Policy",
-            path: "/quality_policies",
-            icon: <VerifiedIcon fontSize="small" />,
         },
         {
             label: "How to Pay",
@@ -217,9 +203,20 @@ export default function Header() {
             icon: <PaymentsIcon fontSize="small" />,
         },
         {
-            label: "Brands",
-            path: "/brands",
-            icon: <BusinessIcon fontSize="small" />,
+            label: "News & Events",
+            path: "/news-and-events",
+            icon: <BusinessIcon fontSize="small" />
+        },
+        {
+            label: "About",
+            path: "/about_us",
+            icon: <InfoIcon fontSize="small" />,
+            subItems: [
+                { label: "Know Us", path: "/about_us#know-us" },
+                { label: "Vision Mission", path: "/about_us#vision-mission" },
+                { label: "Our Team", path: "/about_us#our-team" },
+                { label: "Delivery Reach", path: "/about_us#delivery-reach" },
+            ],
         },
         {
             label: "Get in Touch",
@@ -422,7 +419,7 @@ export default function Header() {
                         <Box
                             key={item.label}
                             sx={{
-                                position: item.label === "Countries" ? "static" : "relative",
+                                position: item.label === "Countries & Categories" ? "static" : "relative",
                                 pb: 2,
                                 mb: -2,
                                 display: "flex",
@@ -469,12 +466,12 @@ export default function Header() {
                                     sx={{
                                         position: "absolute",
                                         top: "100%",
-                                        left: item.label === "Countries" ? "50%" : 0,
+                                        left: item.label === "Countries & Categories" ? "50%" : 0,
                                         transform:
-                                            item.label === "Countries"
+                                            item.label === "Countries & Categories"
                                                 ? "translateX(-50%)"
                                                 : "none",
-                                        width: item.label === "Countries" ? "1100px" : "auto",
+                                        width: item.label === "Countries & Categories" ? "1100px" : "auto",
                                         maxWidth: "98vw",
                                         zIndex: 999,
                                         overflow: "hidden",
@@ -491,7 +488,7 @@ export default function Header() {
                                             zIndex: -1,
                                         },
                                         "&::before":
-                                            item.label === "Countries"
+                                            item.label === "Countries & Categories"
                                                 ? {
                                                     content: '""',
                                                     position: "absolute",
@@ -505,7 +502,7 @@ export default function Header() {
                                                 : {},
                                     }}
                                 >
-                                    {item.label === "Countries" ? (
+                                    {item.label === "Countries & Categories" ? (
                                         categoriesLoading ? (
                                             <Box
                                                 sx={{
@@ -587,7 +584,7 @@ export default function Header() {
                         )}
 
                         {menuStack.length > 0 &&
-                            menuStack[menuStack.length - 1].label === "Countries" &&
+                            menuStack[menuStack.length - 1].label === "Countries & Categories" &&
                             categoriesLoading ? (
                             <Box sx={{ px: 2 }}>
                                 <Skeleton variant="text" height={50} />
