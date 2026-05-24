@@ -72,8 +72,8 @@ export default function Router(): JSX.Element {
       <Route path='/about_us' element={<AboutUs />} />
       <Route path="/product-list/:slug" element={<ProductList />} />
       <Route path="/product-details/:id" element={<ProductPage />} />
-      <Route path="/quality_policies" element={<QualityPolicies />} />
-      <Route path="/brands" element={<Brand />} />
+      <Route path="/pages/quality_policies" element={<QualityPolicies />} />
+      <Route path="/pages/brands" element={<Brand />} />
       <Route path="/how-to-pay" element={<HowToPay />} />
       <Route path="/get-in-touch" element={<GetInTouch />} />
       <Route path="/pages/:slug" element={<Resource />} />
@@ -88,6 +88,7 @@ export default function Router(): JSX.Element {
       <Route path="/trade-offers" element={<Tradeoffer />} />
       <Route path="/abc" element={<Abc />} />
       <Route path="/market-development" element={<MarketDevelopment />} />
+      <Route path="/news-and-events" element={<PageNotFound />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

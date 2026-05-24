@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import Buyerservice from "../../service/buyes.service"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
+import AbcTradeoffer from "../../component/AbcTradeoffer"
 
 const flipIn = keyframes`
   from { transform: rotateY(-90deg); opacity: 0; }
@@ -502,6 +503,8 @@ export default function SignupForm() {
         </Paper>
       </Box>
 
+      <AbcTradeoffer />
+      
       <UpcommingFeatures />
     </Box>
   )

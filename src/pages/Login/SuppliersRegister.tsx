@@ -699,10 +699,6 @@ export default function SuppliersRegister() {
             </Box>
 
             <Box component="section">
-                <AbcTradeoffer country={country} />
-            </Box>
-
-            <Box component="section">
                 <UpcommingFeatures />
             </Box>
         </Box>

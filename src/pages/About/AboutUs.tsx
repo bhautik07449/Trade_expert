@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
+import OverPresences from "../../component/Home/OverPresences";
 
 export default function AboutUs() {
     const dispatch = useDispatch<AppDispatch>();
@@ -53,12 +54,18 @@ export default function AboutUs() {
     }, [location]);
 
     return (
-        <Box>
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                color: "text.primary",
+                overflow: "hidden",
+            }}
+        >
             {pageDetail && (
                 <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
-                    description={pageDetail.meta_description || ''}
-                    keywords={pageDetail.meta_keyword || ''}
+                    title={pageDetail.page_meta_title || pageDetail.page_title || "About Us"}
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
                 />
             )}
 
@@ -73,81 +80,110 @@ export default function AboutUs() {
                     sx={{
                         color: "secondary.main",
                         mb: 5,
-                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                        textAlign: "justify",
+                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                            textAlign: "justify",
                         px: 3
-                    }}
-                    dangerouslySetInnerHTML={{
+                        }}
+                        dangerouslySetInnerHTML={{
                         __html: pageDetail?.content || null,
-                    }}
+                        }}
                     maxWidth="md"
                     mx="auto"
-                />
+                    />
             )}
 
-            <Container maxWidth="lg" sx={{ py: { xs: 5, md: 10 } }}>
+            <Container maxWidth="lg" sx={{ py: { xs: 5, md: 9 } }}>
                 <Grid container spacing={4} id="vision-mission">
                     {cards.map((item, index) => (
                         <Grid size={{ xs: 12, sm: 6, md: 6 }} key={index}>
                             <Box
                                 sx={{
+                                    position: "relative",
+                                    overflow: "hidden",
+                                    height: "100%",
                                     textAlign: "center",
                                     p: { xs: 3, md: 4 },
-                                    bgcolor: "white",
-                                    borderRadius: 3,
-                                    boxShadow: 3,
-                                    height: "100%",
-                                    transition: "0.3s",
+                                    bgcolor: "background.paper",
+                                    borderRadius: 4,
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    boxShadow: "0 16px 40px rgba(95, 75, 59, 0.10)",
+                                    transition: "all 0.3s ease",
+                                    "&:before": {
+                                        content: '""',
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "5px",
+                                        bgcolor: "primary.main",
+                                    },
+                                    "&:after": {
+                                        content: '""',
+                                        position: "absolute",
+                                        right: "-45px",
+                                        bottom: "-45px",
+                                        width: "130px",
+                                        height: "130px",
+                                        borderRadius: "50%",
+                                        bgcolor: "primary.light",
+                                        opacity: 0.35,
+                                    },
                                     "&:hover": {
-                                        boxShadow: 8,
-                                        transform: "translateY(-6px)",
+                                        transform: "translateY(-8px)",
+                                        boxShadow: "0 22px 55px rgba(95, 75, 59, 0.18)",
+                                        borderColor: "primary.light",
                                     },
                                 }}
                             >
-                                <Typography
-                                    component="span"
-                                    sx={{
-                                        color: "#8BC34A",
-                                        fontWeight: 700,
-                                        borderBottom: "3px solid #8BC34A",
-                                        pb: "4px",
-                                        fontSize: {
-                                            xs: "18px",
-                                            sm: "20px",
-                                            md: "22px",
-                                        },
-                                    }}
-                                >
-                                    {item.title1}
-                                </Typography>{" "}
-                                <Typography
-                                    component="span"
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: {
-                                            xs: "18px",
-                                            sm: "20px",
-                                            md: "22px",
-                                        },
-                                    }}
-                                >
-                                    {item.title2}
-                                </Typography>
+                                <Box sx={{ position: "relative", zIndex: 1 }}>
+                                    <Typography
+                                        component="span"
+                                        sx={{
+                                            color: "primary.main",
+                                            fontWeight: 800,
+                                            borderBottom: "3px solid",
+                                            borderColor: "primary.main",
+                                            pb: "4px",
+                                            fontSize: {
+                                                xs: "20px",
+                                                sm: "22px",
+                                                md: "24px",
+                                            },
+                                        }}
+                                    >
+                                        {item.title1}
+                                    </Typography>{" "}
+                                    <Typography
+                                        component="span"
+                                        sx={{
+                                            color: "text.primary",
+                                            fontWeight: 800,
+                                            fontSize: {
+                                                xs: "20px",
+                                                sm: "22px",
+                                                md: "24px",
+                                            },
+                                        }}
+                                    >
+                                        {item.title2}
+                                    </Typography>
 
-                                <Typography
-                                    sx={{
-                                        mt: 3,
-                                        fontSize: {
-                                            xs: "13px",
-                                            sm: "14px",
-                                            md: "15px",
-                                        },
-                                        lineHeight: 1.8,
-                                        color: "#666",
-                                    }}
-                                >
-                                    {item.desc}
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            mt: 3,
+                                            fontSize: {
+                                                xs: "14px",
+                                                sm: "15px",
+                                                md: "16px",
+                                            },
+                                            lineHeight: 1.8,
+                                            color: "text.secondary",
+                                        }}
+                                    >
+                                        {item.desc}
+                                    </Typography>
+                                </Box>
                             </Box>
                         </Grid>
                     ))}
@@ -156,28 +192,7 @@ export default function AboutUs() {
 
             <OurView />
 
-            <Box
-                id="delivery-reach"
-                sx={{
-                    bgcolor: "white",
-                    textAlign: "center",
-                    py: { xs: 5, md: 8 },
-                    px: 2,
-                }}
-            >
-                <Title title="Delivery" label="Reach" />
-
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/network-reach.gif"
-                    alt="Network Reach"
-                    sx={{
-                        width: "100%",
-                        maxWidth: 800,
-                        mt: { xs: 3, md: 5 },
-                    }}
-                />
-            </Box>
+            <OverPresences />
         </Box>
     );
 }

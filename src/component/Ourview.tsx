@@ -13,20 +13,20 @@ export default function OurView() {
     const getImages = async () => {
         setLoading(true);
         try {
-            const res = await CMSservice.getCertificate()
+            const res = await CMSservice.getCertificate();
             if (res) {
-                setCertImages(res?.data?.data)
+                setCertImages(res?.data?.data);
             }
         } catch (error) {
             console.log("error", error);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        getImages()
-    }, [])
+        getImages();
+    }, []);
 
     const sliderSettings = {
         dots: true,
@@ -44,41 +44,41 @@ export default function OurView() {
             sx={{
                 position: "relative",
                 py: { xs: 6, md: 10 },
-                backgroundImage:
-                    "url(https://sourceseas.itcoders.in/img/video-bg.jpg)",
+                bgcolor: "secondary.dark",
+                backgroundImage: `
+                    linear-gradient(rgba(62, 49, 38, 0.88), rgba(62, 49, 38, 0.9)),
+                    url(https://sourceseas.itcoders.in/img/video-bg.jpg)
+                `,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
         >
-            <Box
+            <Container
                 sx={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.6)",
-                    zIndex: 1,
+                    position: "relative",
+                    zIndex: 2,
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
                 }}
-            />
-
-            <Container sx={{ position: "relative", zIndex: 2, maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
+            >
                 <Box
                     sx={{
                         display: "grid",
                         gridTemplateColumns: {
                             xs: "1fr",
-                            sm: "1fr",
                             md: "1fr 1fr",
                         },
                         gap: { xs: 5, md: 8 },
                         alignItems: "center",
                     }}
                 >
-
                     <Box textAlign="center">
                         <Typography
                             sx={{
-                                color: "#6fbf4a",
-                                fontWeight: 700,
-                                mb: 4,
+                                color: "primary.light",
+                                fontWeight: 800,
+                                mb: 1,
                                 fontSize: {
                                     xs: "22px",
                                     sm: "26px",
@@ -90,33 +90,87 @@ export default function OurView() {
                             Certifications and Accreditation
                         </Typography>
 
+                        <Typography
+                            sx={{
+                                color: "rgba(255,255,255,0.72)",
+                                fontSize: { xs: "14px", md: "15px" },
+                                mb: 4,
+                            }}
+                        >
+                            Recognitions that reflect our commitment to trusted trade services.
+                        </Typography>
+
                         <Box
                             sx={{
-                                maxWidth: { xs: "280px", sm: "350px", md: "450px" },
+                                maxWidth: { xs: "290px", sm: "370px", md: "460px" },
                                 mx: "auto",
-                                bgcolor: "white",
-                                p: 1,
-                                borderRadius: 2,
-                                boxShadow: 3
+                                bgcolor: "background.paper",
+                                p: { xs: 1.2, sm: 1.5 },
+                                borderRadius: 4,
+                                border: "1px solid",
+                                borderColor: "divider",
+                                boxShadow: "0 20px 45px rgba(0,0,0,0.28)",
+                                "& .slick-dots": {
+                                    bottom: "-34px",
+                                },
+                                "& .slick-dots li button:before": {
+                                    color: "#E8D8C1",
+                                    opacity: 0.6,
+                                    fontSize: "9px",
+                                },
+                                "& .slick-dots li.slick-active button:before": {
+                                    color: "#A77B58",
+                                    opacity: 1,
+                                },
+                                "& .slick-prev, & .slick-next": {
+                                    zIndex: 5,
+                                    width: 34,
+                                    height: 34,
+                                    borderRadius: "50%",
+                                    bgcolor: "rgba(167, 123, 88, 0.9)",
+                                    transition: "0.25s",
+                                    "&:hover": {
+                                        bgcolor: "primary.dark",
+                                    },
+                                },
+                                "& .slick-prev": {
+                                    left: "-14px",
+                                },
+                                "& .slick-next": {
+                                    right: "-14px",
+                                },
+                                "& .slick-prev:before, & .slick-next:before": {
+                                    fontSize: "18px",
+                                    opacity: 1,
+                                    color: "#fff",
+                                },
                             }}
                         >
                             {loading ? (
-                                <Skeleton variant="rectangular" width="100%" height={299} sx={{ borderRadius: 2 }} />
+                                <Skeleton
+                                    variant="rectangular"
+                                    width="100%"
+                                    height={299}
+                                    sx={{
+                                        borderRadius: 3,
+                                        bgcolor: "primary.light",
+                                    }}
+                                />
                             ) : (
                                 <Slider {...sliderSettings}>
                                     {certImages.map((img, index) => (
-                                        <Box key={index} sx={{ outline: 'none' }}>
+                                        <Box key={index} sx={{ outline: "none" }}>
                                             <Box
                                                 component="img"
                                                 src={getImageUrl(img?.image)}
                                                 alt={`cert-${index}`}
                                                 sx={{
                                                     width: "100%",
-                                                    height: "299px",
+                                                    height: { xs: "240px", sm: "299px" },
                                                     objectFit: "contain",
                                                     display: "block",
-                                                    borderRadius: 2,
-                                                    bgcolor: 'white'
+                                                    borderRadius: 3,
+                                                    bgcolor: "background.paper",
                                                 }}
                                             />
                                         </Box>
@@ -129,9 +183,9 @@ export default function OurView() {
                     <Box textAlign="center">
                         <Typography
                             sx={{
-                                color: "#6fbf4a",
-                                fontWeight: 700,
-                                mb: 4,
+                                color: "primary.light",
+                                fontWeight: 800,
+                                mb: 1,
                                 fontSize: {
                                     xs: "22px",
                                     sm: "26px",
@@ -143,30 +197,46 @@ export default function OurView() {
                             Our YouTube Channel
                         </Typography>
 
+                        <Typography
+                            sx={{
+                                color: "rgba(255,255,255,0.72)",
+                                fontSize: { xs: "14px", md: "15px" },
+                                mb: 4,
+                            }}
+                        >
+                            Watch our updates, insights, and company stories.
+                        </Typography>
+
                         <Box
                             sx={{
                                 position: "relative",
                                 width: "100%",
-                                maxWidth: "500px",
+                                maxWidth: "520px",
                                 mx: "auto",
                                 aspectRatio: "16/9",
                                 overflow: "hidden",
-                                boxShadow: 3,
+                                borderRadius: 4,
+                                border: "1px solid rgba(232, 216, 193, 0.28)",
+                                boxShadow: "0 20px 45px rgba(0,0,0,0.32)",
+                                bgcolor: "background.paper",
+                                p: 1,
                             }}
                         >
-                            <iframe
+                            <Box
+                                component="iframe"
                                 src="https://www.youtube.com/embed/zFd9B9PR4Bw"
                                 title="YouTube video player"
                                 allowFullScreen
-                                style={{
+                                sx={{
                                     width: "100%",
                                     height: "100%",
                                     border: "none",
+                                    borderRadius: 3,
+                                    display: "block",
                                 }}
                             />
                         </Box>
                     </Box>
-
                 </Box>
             </Container>
         </Box>

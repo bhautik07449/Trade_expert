@@ -186,6 +186,17 @@ export default function Header() {
                 })) || [],
         },
         {
+            label: "News & Events",
+            path: "/news-and-events",
+            icon: <BusinessIcon fontSize="small" />
+        },
+        {
+            
+            label: "IR",
+            path: "/news-and-events",
+            icon: <BusinessIcon fontSize="small" />
+        },
+        {
             label: "Resource",
             icon: <SourceIcon fontSize="small" />,
             subItems: [
@@ -193,19 +204,9 @@ export default function Header() {
                 { label: "CSR", path: "/pages/csr" },
                 { label: "Career", path: "/pages/career" },
                 { label: "FAQ", path: "/pages/faq" },
-                { label: "Quality Policy", path: "/quality-policy" },
-                { label: "Brands", path: "/brands" },
+                { label: "Quality Policy", path: "/pages/quality_policies" },
+                { label: "Brands", path: "/pages/brands" },
             ],
-        },
-        {
-            label: "How to Pay",
-            path: "/how-to-pay",
-            icon: <PaymentsIcon fontSize="small" />,
-        },
-        {
-            label: "News & Events",
-            path: "/news-and-events",
-            icon: <BusinessIcon fontSize="small" />
         },
         {
             label: "About",

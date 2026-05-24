@@ -11,7 +11,7 @@ export const PageNotFound = () => {
         <Typography variant='h3'>Page Not Found</Typography>
       </Grid>
       <Grid sx={{ mt: 3 }}>
-        <Typography variant='h5'>Sorry, we couldn't find this page. Click this link to return to <Link to="/dashboard">Dashbaord</Link>.</Typography>
+        <Typography variant='h5'>Sorry, we couldn't find this page. Click this link to return to <Link to="/">Dashbaord</Link>.</Typography>
       </Grid>
     </Grid>
   )
