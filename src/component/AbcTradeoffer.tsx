@@ -1,9 +1,10 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
 import LabelTitle from "../commonUI/labelTitle";
 import { useNavigate } from "react-router-dom";
 
 export default function AbcTradeoffer({ country }: any) {
     const navigate = useNavigate();
+    const theme = useTheme();
 
     const tab = [
         {
@@ -19,79 +20,108 @@ export default function AbcTradeoffer({ country }: any) {
     ];
 
     return (
-        <Box sx={{ py: { xs: 3, md: 4 } }}>
-            <LabelTitle title="Get Started" label="Quick Links" />
+        <Box
+            sx={{
+                py: { xs: 4, md: 6 },
+                width: "100%",
+                bgcolor: "background.default",
+                boxSizing: "border-box",
+            }}
+        >
+            <LabelTitle title="Explore Services" label="Quick Access" />
 
-            <Container sx={{ maxWidth: "1200px", mx: "auto" }}>
+            <Container
+                sx={{
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                    mt: { xs: 3, md: 4 },
+                }}
+            >
                 <Grid container spacing={4}>
                     {tab.map((item, index) => (
                         <Grid size={{ xs: 12, md: 6 }} key={index}>
                             <Box
                                 sx={{
-                                    border: "1px solid",
-                                    borderColor: "rgba(0, 0, 0, 0.08)",
+                                    height: "100%",
+                                    border: `1px solid ${theme.palette.divider}`,
                                     borderRadius: 3,
-                                    p: { xs: 4, md: 6 },
+                                    p: { xs: 3, sm: 4, md: 5 },
                                     textAlign: "center",
-                                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    background: "#ffffff",
-                                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.02)",
+                                    bgcolor: "background.paper",
+                                    boxShadow: "0 8px 24px rgba(59, 48, 39, 0.06)",
+                                    transition: "all 0.3s ease",
                                     position: "relative",
                                     overflow: "hidden",
-                                    "&:hover": {
-                                        boxShadow: "0 12px 30px rgba(0, 0, 0, 0.08)",
-                                        transform: "translateY(-4px)",
-                                        borderColor: "#f4a024",
-                                    },
-                                }}
-                            >
-                                <Box
-                                    sx={{
+                                    "&::before": {
+                                        content: '""',
                                         position: "absolute",
                                         top: 0,
                                         left: 0,
-                                        right: 0,
-                                        height: "4px",
-                                        background: index === 0 ? "linear-gradient(to right, #f4a024, #e0931f)" : "linear-gradient(to right, #1976d2, #1565c0)",
-                                        opacity: 0.8,
-                                    }}
-                                />
-
+                                        width: "100%",
+                                        height: "5px",
+                                        bgcolor: index === 0 ? "primary.main" : "secondary.main",
+                                    },
+                                    "&:hover": {
+                                        transform: "translateY(-6px)",
+                                        boxShadow: "0 14px 34px rgba(59, 48, 39, 0.14)",
+                                        borderColor: index === 0 ? "primary.main" : "secondary.main",
+                                    },
+                                }}
+                            >
                                 <Box mb={4} mt={1}>
                                     <Typography
                                         component="h3"
                                         sx={{
+                                            color: "text.primary",
                                             fontWeight: 700,
-                                            color: "#1e293b",
                                             fontSize: {
-                                                xs: "1.2rem",
-                                                md: "1.4rem",
+                                                xs: "1.15rem",
+                                                md: "1.45rem",
                                             },
                                         }}
                                     >
                                         {item.value}
+                                    </Typography>
+
+                                    <Typography
+                                        sx={{
+                                            color: "text.secondary",
+                                            mt: 1,
+                                            fontSize: {
+                                                xs: "0.9rem",
+                                                md: "1rem",
+                                            },
+                                        }}
+                                    >
+                                        {index === 0
+                                            ? "Access ABC services and related information."
+                                            : "Browse available trade offers and opportunities."}
                                     </Typography>
                                 </Box>
 
                                 <Button
                                     id={`country-action-btn-${index}`}
                                     variant="contained"
-                                    fullWidth={true}
+                                    fullWidth
                                     sx={{
-                                        bgcolor: index === 0 ? "#f4a024" : "#1e293b",
+                                        bgcolor: index === 0 ? "primary.main" : "secondary.main",
                                         color: "#fff",
                                         fontWeight: 600,
-                                        py: 1.5,
+                                        py: 1.35,
                                         borderRadius: 2,
-                                        boxShadow: index === 0 ? "0 4px 12px rgba(244, 160, 36, 0.25)" : "0 4px 12px rgba(30, 41, 59, 0.25)",
+                                        boxShadow: "none",
                                         fontSize: {
                                             xs: "0.95rem",
                                             md: "1.05rem",
                                         },
                                         textTransform: "none",
                                         "&:hover": {
-                                            bgcolor: index === 0 ? "#e0931f" : "#0f172a",
-                                            boxShadow: index === 0 ? "0 6px 16px rgba(244, 160, 36, 0.35)" : "0 6px 16px rgba(30, 41, 59, 0.35)",
+                                            bgcolor: index === 0 ? "primary.dark" : "secondary.dark",
+                                            boxShadow:
+                                                index === 0
+                                                    ? "0 6px 18px rgba(122, 90, 58, 0.28)"
+                                                    : "0 6px 18px rgba(62, 49, 38, 0.28)",
                                         },
                                     }}
                                     onClick={() => navigate(`${item.link}?country=${country}`)}

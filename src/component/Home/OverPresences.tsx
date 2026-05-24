@@ -20,7 +20,7 @@ export default function OverPresences() {
             const response = await HomePageservice.getPresences();
 
             if (response) {
-                setPresences(response?.data?.data || []);
+                setPresences(response?.data?.countries || []);
             }
         } catch (error: any) {
             console.log(error?.response?.data?.message || "Presences data not fetch");
@@ -35,7 +35,7 @@ export default function OverPresences() {
 
     const selectedCountries = useMemo(() => {
         return presences
-            ?.map((presence) => presence?.country?.toLowerCase()?.trim())
+            ?.map((presence) => presence?.toLowerCase()?.trim())
             ?.filter(Boolean);
     }, [presences]);
 

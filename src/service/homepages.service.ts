@@ -20,7 +20,7 @@ const getEvents = async () => {
 
 const getPresences = async () => {
     try {
-        const response = serverCall.get('/presences')
+        const response = serverCall.get('/presences/countries')
         return response
     } catch (error) {
         throw error

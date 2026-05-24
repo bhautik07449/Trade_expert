@@ -1,42 +1,79 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LabelTitle from "../commonUI/labelTitle";
 
 export default function SupplierTab({ country }: any) {
     const navigate = useNavigate();
+    const theme = useTheme();
 
     const tab = [
         {
-            label: "Become Authorized",
+            label: "Join as",
             value: "Supplier",
             button: "Register",
             link: `/suppliers/register?country=${country}`,
         },
         {
-            label: "Wants to",
-            value: "source from us",
+            label: "Join as public or",
+            value: "private personnel",
+            button: "Register",
+            link: `/public/register?country=${country}`,
+        },
+        {
+            label: "Join as",
+            value: "a Buyer",
             button: "Login or Register",
             link: "/login",
         },
     ];
 
     return (
-        <Box sx={{ py: { xs: 3, md: 4 }, width: "100%", bgcolor: "#fff", boxSizing: "border-box" }}>
-            <LabelTitle title="Get Started" label="Quick Links" />
+        <Box
+            sx={{
+                py: { xs: 4, md: 6 },
+                width: "100%",
+                bgcolor: "background.default",
+                boxSizing: "border-box",
+            }}
+        >
+            <LabelTitle title="Join the Platform" label="Register or Login" />
 
-            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
+            <Container
+                sx={{
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                    mt: { xs: 3, md: 4 },
+                }}
+            >
                 <Grid container spacing={4}>
                     {tab.map((item, index) => (
-                        <Grid size={{ xs: 12, md: 6 }} key={index}>
+                        <Grid size={{ xs: 12, md: 4 }} key={index}>
                             <Box
                                 sx={{
-                                    border: "1px solid #e0e0e0",
+                                    height: "100%",
+                                    border: `1px solid ${theme.palette.divider}`,
                                     borderRadius: 3,
-                                    p: { xs: 4, md: 6 },
+                                    p: { xs: 3, sm: 4 },
                                     textAlign: "center",
-                                    transition: "0.3s",
+                                    bgcolor: "background.paper",
+                                    boxShadow: "0 8px 24px rgba(59, 48, 39, 0.06)",
+                                    transition: "all 0.3s ease",
+                                    position: "relative",
+                                    overflow: "hidden",
+                                    "&::before": {
+                                        content: '""',
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "5px",
+                                        bgcolor: "primary.main",
+                                    },
                                     "&:hover": {
-                                        boxShadow: 4,
+                                        transform: "translateY(-6px)",
+                                        boxShadow: "0 14px 34px rgba(59, 48, 39, 0.14)",
+                                        borderColor: "primary.main",
                                     },
                                 }}
                             >
@@ -44,13 +81,13 @@ export default function SupplierTab({ country }: any) {
                                     <Typography
                                         component="span"
                                         sx={{
-                                            color: "#8BC34A",
-                                            fontWeight: 500,
-                                            borderBottom: "3px solid #8BC34A",
+                                            color: "primary.main",
+                                            fontWeight: 600,
+                                            borderBottom: `3px solid ${theme.palette.primary.light}`,
                                             pb: "4px",
                                             fontSize: {
-                                                xs: "18px",
-                                                md: "22px",
+                                                xs: "16px",
+                                                md: "20px",
                                             },
                                         }}
                                     >
@@ -59,10 +96,11 @@ export default function SupplierTab({ country }: any) {
                                     <Typography
                                         component="span"
                                         sx={{
-                                            fontWeight: 500,
+                                            color: "text.primary",
+                                            fontWeight: 600,
                                             fontSize: {
-                                                xs: "18px",
-                                                md: "22px",
+                                                xs: "16px",
+                                                md: "20px",
                                             },
                                         }}
                                     >
@@ -72,17 +110,22 @@ export default function SupplierTab({ country }: any) {
 
                                 <Button
                                     variant="contained"
-                                    fullWidth={true}
+                                    fullWidth
                                     sx={{
-                                        bgcolor: "#f4a024",
+                                        bgcolor: "primary.main",
+                                        color: "#fff",
                                         py: 1.3,
+                                        borderRadius: 2,
+                                        fontWeight: 600,
                                         fontSize: {
                                             xs: "14px",
                                             md: "16px",
                                         },
                                         textTransform: "none",
+                                        boxShadow: "none",
                                         "&:hover": {
-                                            bgcolor: "#e0931f",
+                                            bgcolor: "primary.dark",
+                                            boxShadow: "0 6px 18px rgba(122, 90, 58, 0.28)",
                                         },
                                     }}
                                     onClick={() => navigate(item.link)}
@@ -95,5 +138,5 @@ export default function SupplierTab({ country }: any) {
                 </Grid>
             </Container>
         </Box>
-    )
+    );
 }
