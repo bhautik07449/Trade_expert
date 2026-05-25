@@ -29,7 +29,6 @@ import * as Yup from "yup"
 import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import AbcTradeoffer from "../../component/AbcTradeoffer"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 
 export default function SuppliersRegister() {
