@@ -31,8 +31,6 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import SourceIcon from "@mui/icons-material/Source";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import PaymentsIcon from "@mui/icons-material/Payments";
 import BusinessIcon from "@mui/icons-material/Business";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import { toast } from "react-toastify";

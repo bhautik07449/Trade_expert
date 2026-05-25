@@ -1,5 +1,5 @@
 import { Box, Typography, Skeleton, Paper, Tabs, Tab, Container, Divider } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../../service/brand.service";
 import { getImageUrl } from "../../utils/imageUtils";

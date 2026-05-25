@@ -2,17 +2,8 @@ import {
     Box,
     Typography,
     Container,
-    Paper,
-    Tabs,
-    Tab,
-    Grid,
-    Card,
-    CardContent,
-    CardMedia,
-    Chip,
     Divider,
 } from "@mui/material";
-import { useState } from "react";
 import SEO from "../../component/SEO";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";

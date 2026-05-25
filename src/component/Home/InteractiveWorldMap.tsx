@@ -202,8 +202,6 @@ export default function InteractiveWorldMap() {
                                 {({ geographies }) => (
                                     <>
                                         {geographies.map((geo) => {
-                                            const isSelected = selectedCountry === geo.properties.name;
-
                                             return (
                                                 <Geography
                                                     key={geo.rsmKey}
