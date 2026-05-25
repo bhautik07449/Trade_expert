@@ -17,19 +17,26 @@ interface BrandItem {
     country?: string;
 }
 
-interface BrandGroup {
+interface BrandCategoryGroup {
     category: {
         id?: number;
         name: string;
     };
-    country: string;
     data: BrandItem[];
 }
 
+interface BrandCountryGroup {
+    country: string;
+    category: BrandCategoryGroup[];
+}
+
 export default function Brand() {
-    const [list, setList] = useState<BrandGroup[]>([])
-    const [loading, setLoading] = useState(true)
-    const [activeCategory, setActiveCategory] = useState("all");
+    const [list, setList] = useState<BrandCountryGroup[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const [activeCategoryByCountry, setActiveCategoryByCountry] = useState<
+        Record<string, string>
+    >({});
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -42,56 +49,59 @@ export default function Brand() {
     }, [dispatch]);
 
     const getList = async () => {
-        setLoading(true)
+        setLoading(true);
+
         try {
-            const res = await Brandservice.getList()
+            const res = await Brandservice.getList();
+
             if (res) {
-                setList(res?.data?.data || [])
+                setList(res?.data?.data || []);
             }
         } catch (error) {
-            toast.error("bran not found")
+            toast.error("Brand not found");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        getList()
-    }, [])
+        getList();
+    }, []);
 
-    const categoryTabs = useMemo(() => {
-        return Array.from(
-            new Map(
-                list
-                    .filter((item) => item?.category?.name)
-                    .map((item) => [
-                        item.category.name,
-                        {
-                            id: item.category.id,
-                            name: item.category.name,
-                        },
-                    ])
-            ).values()
-        );
-    }, [list]);
+    const getActiveCategory = (country: string) => {
+        return activeCategoryByCountry[country] || "all";
+    };
 
-    const filteredList = useMemo(() => {
+    const handleCategoryChange = (country: string, value: string) => {
+        setActiveCategoryByCountry((prev) => ({
+            ...prev,
+            [country]: value,
+        }));
+    };
+
+    const getFilteredCategoryGroups = (countryGroup: BrandCountryGroup) => {
+        const activeCategory = getActiveCategory(countryGroup.country);
+
         if (activeCategory === "all") {
-            return list;
+            return countryGroup.category;
         }
 
-        return list.filter(
-            (item) => item?.category?.name === activeCategory
+        return countryGroup.category.filter(
+            (categoryGroup) => categoryGroup.category.name === activeCategory
         );
-    }, [list, activeCategory]);
+    };
 
     return (
-        <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
+        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 10 }}>
             {pageDetail && (
                 <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
-                    description={pageDetail.meta_description || ''}
-                    keywords={pageDetail.meta_keyword || ''}
+                    title={
+                        pageDetail.page_meta_title ||
+                        pageDetail.page_title ||
+                        "Brands"
+                    }
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
                 />
             )}
 
@@ -127,203 +137,321 @@ export default function Brand() {
                         px: 2,
                     }}
                 >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            Brands
-                        </Typography>
-                    </Box>
+                    <Typography
+                        variant="h3"
+                        sx={{
+                            color: "#fff",
+                            fontWeight: 700,
+                            fontSize: {
+                                xs: "28px",
+                                sm: "38px",
+                                md: "48px",
+                            },
+                        }}
+                    >
+                        Brands
+                    </Typography>
                 </Box>
             </Box>
 
-            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
-
-                <Box sx={{ p: 4, textAlign: 'center' }}>
+            <Container
+                sx={{
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                }}
+            >
+                <Box sx={{ p: 4, textAlign: "center" }}>
                     {pageLoading ? (
                         <PageContentSkeleton />
-                    ) : pageDetail?.content && (
-                        <Typography
-                            sx={{
-                                color: "secondary.main",
-                                mb: 5,
-                                fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                                textAlign: "justify",
-                            }}
-                            dangerouslySetInnerHTML={{
-                                __html: pageDetail?.content || null,
-                            }}
-                        />
+                    ) : (
+                        pageDetail?.content && (
+                            <Typography
+                                sx={{
+                                    color: "secondary.main",
+                                    mb: 5,
+                                    fontSize: {
+                                        xs: "14px",
+                                        sm: "16px",
+                                        md: "18px",
+                                    },
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )
                     )}
                 </Box>
 
-                {!loading && categoryTabs.length > 0 && (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            mb: 5,
-                            p: 1,
-                        }}
-                    >
-                        <Tabs
-                            value={activeCategory}
-                            onChange={(_, value) => setActiveCategory(value)}
-                            variant="scrollable"
-                            scrollButtons="auto"
-                            allowScrollButtonsMobile
-                            sx={{
-                                minHeight: 52,
-                                "& .MuiTabs-indicator": {
-                                    display: "none",
-                                },
-                                "& .MuiTabs-scrollButtons": {
-                                    color: "secondary.main",
-                                },
-                                "& .MuiTab-root": {
-                                    minHeight: 44,
-                                    mx: 0.5,
-                                    px: 3,
-                                    borderRadius: 2,
-                                    textTransform: "none",
-                                    fontWeight: 700,
-                                    color: "text.secondary",
-                                    border: "1px solid",
-                                    borderColor: "divider",
-                                    transition: "0.25s ease",
-                                },
-                                "& .MuiTab-root:hover": {
-                                    bgcolor: "primary.light",
-                                    color: "secondary.dark",
-                                },
-                                "& .Mui-selected": {
-                                    bgcolor: "primary.main",
-                                    color: "#fff !important",
-                                },
-                            }}
-                        >
-                            <Tab label="All" value="all" />
-
-                            {categoryTabs.map((category) => (
-                                <Tab
-                                    key={category.id}
-                                    label={category.name}
-                                    value={category.name}
-                                />
-                            ))}
-                        </Tabs>
-                    </Paper>
-                )}
-
-                <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 7 }}>
                     {loading ? (
                         Array.from(new Array(3)).map((_, i) => (
-                            <Box key={i} sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, py: 4, display: "flex", gap: 4, flexDirection: "column", alignItems: "center", width: "100%", boxSizing: "border-box" }}>
-                                <Skeleton variant="circular" width={100} height={100} />
-                                <Box sx={{ width: "100%", textAlign: "center" }}>
-                                    <Skeleton variant="text" width="30%" sx={{ mx: "auto", mb: 2 }} />
-                                    <Skeleton variant="text" width="80%" sx={{ mx: "auto" }} />
-                                    <Skeleton variant="text" width="75%" sx={{ mx: "auto" }} />
-                                </Box>
+                            <Box
+                                key={i}
+                                sx={{
+                                    maxWidth: "1200px",
+                                    mx: "auto",
+                                    width: "100%",
+                                    py: 4,
+                                    textAlign: "center",
+                                }}
+                            >
+                                <Skeleton
+                                    variant="text"
+                                    width="25%"
+                                    height={50}
+                                    sx={{ mx: "auto", mb: 2 }}
+                                />
+
+                                <Skeleton
+                                    variant="rectangular"
+                                    height={50}
+                                    width="100%"
+                                    sx={{ borderRadius: 2, mb: 4 }}
+                                />
+
+                                <Skeleton
+                                    variant="circular"
+                                    width={100}
+                                    height={100}
+                                    sx={{ mx: "auto", mb: 3 }}
+                                />
+
+                                <Skeleton
+                                    variant="text"
+                                    width="30%"
+                                    sx={{ mx: "auto", mb: 2 }}
+                                />
+                                <Skeleton variant="text" width="80%" sx={{ mx: "auto" }} />
+                                <Skeleton variant="text" width="75%" sx={{ mx: "auto" }} />
                             </Box>
                         ))
-                    ) : (
-                        filteredList?.map((item, index) => (
-                            <Box key={index}>
-                                <Box sx={{ p: 2, textAlign: 'center' }}>
-                                    <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'secondary.main' }}>
-                                        {item?.category?.name}
-                                    </Typography>
-                                    <Typography variant="h6" component="h2" sx={{ fontWeight: 300, color: 'secondary.main' }}>
-                                        {item?.country}
-                                    </Typography>
-                                </Box>
+                    ) : list.length > 0 ? (
+                        list.map((countryGroup, countryIndex) => {
+                            const activeCategory = getActiveCategory(countryGroup.country);
+                            const filteredCategoryGroups =
+                                getFilteredCategoryGroups(countryGroup);
 
-                                {item.data.map((brand, brandIndex) => (
-                                    <Box key={brand.id || brandIndex}>
-                                        <Box
+                            return (
+                                <Box key={countryGroup.country || countryIndex}>
+                                    {/* Country Title */}
+                                    <Typography
+                                        variant="h4"
+                                        component="h2"
+                                        sx={{
+                                            textAlign: "center",
+                                            fontWeight: 700,
+                                            color: "secondary.main",
+                                            mb: 3,
+                                        }}
+                                    >
+                                        {countryGroup.country}
+                                    </Typography>
+
+                                    {/* Category Tabs */}
+                                    {countryGroup.category.length > 0 && (
+                                        <Paper
+                                            elevation={0}
+                                            sx={{
+                                                mb: 5,
+                                                p: 1,
+                                                bgcolor: "transparent",
+                                                boxShadow: "none",
+                                            }}
+                                        >
+                                            <Tabs
+                                                value={activeCategory}
+                                                onChange={(_, value) =>
+                                                    handleCategoryChange(
+                                                        countryGroup.country,
+                                                        value
+                                                    )
+                                                }
+                                                variant="scrollable"
+                                                scrollButtons="auto"
+                                                allowScrollButtonsMobile
+                                                centered={false}
+                                                sx={{
+                                                    minHeight: 52,
+                                                    "& .MuiTabs-indicator": {
+                                                        display: "none",
+                                                    },
+                                                    "& .MuiTabs-flexContainer": {
+                                                        justifyContent: {
+                                                            xs: "flex-start",
+                                                            md: "center",
+                                                        },
+                                                    },
+                                                    "& .MuiTabs-scrollButtons": {
+                                                        color: "secondary.main",
+                                                    },
+                                                    "& .MuiTab-root": {
+                                                        minHeight: 44,
+                                                        mx: 0.5,
+                                                        px: 3,
+                                                        borderRadius: 2,
+                                                        textTransform: "none",
+                                                        fontWeight: 700,
+                                                        color: "text.secondary",
+                                                        border: "1px solid",
+                                                        borderColor: "divider",
+                                                    },
+                                                    "& .MuiTab-root:hover": {
+                                                        bgcolor: "primary.light",
+                                                        color: "secondary.dark",
+                                                    },
+                                                    "& .Mui-selected": {
+                                                        bgcolor: "primary.main",
+                                                        color: "#fff !important",
+                                                        borderColor: "primary.main",
+                                                    },
+                                                }}
+                                            >
+                                                <Tab label="All" value="all" />
+
+                                                {countryGroup.category.map((categoryGroup) => (
+                                                    <Tab
+                                                        key={
+                                                            categoryGroup.category.id ||
+                                                            categoryGroup.category.name
+                                                        }
+                                                        label={categoryGroup.category.name}
+                                                        value={categoryGroup.category.name}
+                                                    />
+                                                ))}
+                                            </Tabs>
+                                        </Paper>
+                                    )}
+
+                                    {filteredCategoryGroups.map(
+                                        (categoryGroup, categoryIndex) => (
+                                            <Box
+                                                key={
+                                                    categoryGroup.category.id ||
+                                                    categoryGroup.category.name ||
+                                                    categoryIndex
+                                                }
+                                            >
+                                                {activeCategory === "all" && (
+                                                    <Typography
+                                                        variant="h5"
+                                                        sx={{
+                                                            textAlign: "center",
+                                                            fontWeight: 600,
+                                                            color: "secondary.main",
+                                                            mb: 3,
+                                                        }}
+                                                    >
+                                                        {categoryGroup.category.name}
+                                                    </Typography>
+                                                )}
+
+                                                {categoryGroup.data.map((brand, brandIndex) => (
+                                                    <Box key={brand.id || brandIndex}>
+                                                        <Box
+                                                            sx={{
+                                                                maxWidth: "900px",
+                                                                mx: "auto",
+                                                                py: 3,
+                                                                px: { xs: 1, sm: 2 },
+                                                                display: "flex",
+                                                                flexDirection: "column",
+                                                                alignItems: "center",
+                                                                textAlign: "center",
+                                                            }}
+                                                        >
+                                                            <Box
+                                                                component="img"
+                                                                src={getImageUrl(brand?.logo)}
+                                                                alt={brand?.name}
+                                                                sx={{
+                                                                    width: 110,
+                                                                    height: 110,
+                                                                    objectFit: "contain",
+                                                                    mb: 3,
+                                                                }}
+                                                            />
+
+                                                            <Typography
+                                                                variant="h6"
+                                                                sx={{
+                                                                    color: "secondary.main",
+                                                                    mb: 2,
+                                                                    fontWeight: 700,
+                                                                }}
+                                                            >
+                                                                {brand?.name}
+                                                            </Typography>
+
+                                                            <Typography
+                                                                sx={{
+                                                                    color: "text.secondary",
+                                                                    lineHeight: 1.8,
+                                                                    maxWidth: "850px",
+                                                                }}
+                                                            >
+                                                                {brand?.description}
+                                                            </Typography>
+                                                        </Box>
+
+                                                        {brandIndex !==
+                                                            categoryGroup.data.length - 1 && (
+                                                                <Divider
+                                                                    sx={{
+                                                                        maxWidth: "850px",
+                                                                        mx: "auto",
+                                                                        my: 3,
+                                                                        borderColor: "divider",
+                                                                    }}
+                                                                />
+                                                            )}
+                                                    </Box>
+                                                ))}
+
+                                                {categoryIndex !==
+                                                    filteredCategoryGroups.length - 1 && (
+                                                        <Divider
+                                                            sx={{
+                                                                maxWidth: "1000px",
+                                                                mx: "auto",
+                                                                my: 6,
+                                                                borderColor: "divider",
+                                                            }}
+                                                        />
+                                                    )}
+                                            </Box>
+                                        )
+                                    )}
+
+                                    {countryIndex !== list.length - 1 && (
+                                        <Divider
                                             sx={{
                                                 maxWidth: "1200px",
                                                 mx: "auto",
-                                                px: { xs: 2, sm: 3, md: 4 },
-                                                py: 3,
-                                                display: "flex",
-                                                gap: 4,
-                                                flexWrap: "wrap",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                boxSizing: "border-box",
-                                                width: "100%",
+                                                my: 7,
+                                                borderColor: "divider",
                                             }}
-                                        >
-                                            <img
-                                                src={getImageUrl(brand?.logo)}
-                                                alt={brand?.name}
-                                                style={{
-                                                    width: "100px",
-                                                    height: "100px",
-                                                    objectFit: "contain",
-                                                }}
-                                            />
-
-                                            <Box>
-                                                <Typography
-                                                    variant="h6"
-                                                    sx={{
-                                                        color: "secondary.main",
-                                                        mb: 4,
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {brand?.name}
-                                                </Typography>
-
-                                                <Typography
-                                                    sx={{
-                                                        color: "text.secondary",
-                                                        lineHeight: 1.8,
-                                                    }}
-                                                >
-                                                    {brand?.description}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-
-                                        {brandIndex !== item.data.length - 1 && (
-                                            <Divider
-                                                sx={{
-                                                    maxWidth: "900px",
-                                                    mx: "auto",
-                                                    my: 3,
-                                                    borderColor: "divider",
-                                                }}
-                                            />
-                                        )}
-                                    </Box>
-                                ))}
-
-                                {index !== filteredList.length - 1 && (
-                                    <Divider
-                                        sx={{
-                                            maxWidth: "1200px",
-                                            mx: "auto",
-                                            my: 5,
-                                            borderColor: "divider",
-                                        }}
-                                    />
-                                )}
-                            </Box>
-                        ))
+                                        />
+                                    )}
+                                </Box>
+                            );
+                        })
+                    ) : (
+                        <Box sx={{ textAlign: "center", py: 5 }}>
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                No brands found.
+                            </Typography>
+                        </Box>
                     )}
                 </Box>
-
             </Container>
-        </Box >
-    )
+        </Box>
+    );
 }
