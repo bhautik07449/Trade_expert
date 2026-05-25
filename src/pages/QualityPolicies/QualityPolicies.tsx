@@ -32,7 +32,8 @@ export default function QualityPolicies() {
     const getList = async () => {
         setLoading(true)
         try {
-            const res = await CMSservice.getList()
+            const res = await CMSservice.getList();
+
             if (res) {
                 setList(res?.data?.data)
             }
