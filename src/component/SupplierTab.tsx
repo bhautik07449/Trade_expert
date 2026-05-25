@@ -17,7 +17,7 @@ export default function SupplierTab({ country }: any) {
             label: "Join as public or",
             value: "private personnel",
             button: "Register",
-            link: `/public/register?country=${country}`,
+            link: `/personnel/register?country=${country}`,
         },
         {
             label: "Join as",

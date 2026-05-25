@@ -187,13 +187,13 @@ export default function Header() {
         },
         {
             label: "News & Events",
-            path: "/news-and-events",
+            path: "/news_and_events",
             icon: <BusinessIcon fontSize="small" />
         },
         {
 
             label: "IR",
-            path: "/news-and-events",
+            path: "/investor_relations",
             icon: <BusinessIcon fontSize="small" />
         },
         {

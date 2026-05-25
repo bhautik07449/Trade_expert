@@ -1,0 +1,221 @@
+import {
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
+    IconButton,
+} from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useRef } from "react";
+import LabelTitle from "../../commonUI/labelTitle";
+
+export default function Multilingual() {
+    const sliderRef = useRef<HTMLDivElement | null>(null);
+
+    const multilingualTiles = [
+        {
+            title: "Market Updates",
+            description: "Latest news and updates from global markets.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+        {
+            title: "Trade Events",
+            description: "Important international trade events and exhibitions.",
+            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
+        },
+        {
+            title: "Business News",
+            description: "Current business insights and industry related news.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+        {
+            title: "Market Updates",
+            description: "Latest news and updates from global markets.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+        {
+            title: "Trade Events",
+            description: "Important international trade events and exhibitions.",
+            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
+        },
+        {
+            title: "Business News",
+            description: "Current business insights and industry related news.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+        {
+            title: "Market Updates",
+            description: "Latest news and updates from global markets.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+        {
+            title: "Trade Events",
+            description: "Important international trade events and exhibitions.",
+            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
+        },
+        {
+            title: "Business News",
+            description: "Current business insights and industry related news.",
+            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
+        },
+    ];
+
+    const handleScroll = (direction: "left" | "right") => {
+        if (!sliderRef.current) return;
+
+        const scrollAmount = 340;
+
+        sliderRef.current.scrollBy({
+            left: direction === "left" ? -scrollAmount : scrollAmount,
+            behavior: "smooth",
+        });
+    };
+
+    return (
+        <Box sx={{ mb: 7, position: "relative" }}>
+            <LabelTitle title="Multilingual" label="Title" />
+
+            <Box
+                sx={{
+                    position: "relative",
+                    mt: 3,
+                }}
+            >
+                <IconButton
+                    onClick={() => handleScroll("left")}
+                    sx={{
+                        position: "absolute",
+                        left: { xs: -6, md: -20 },
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 2,
+                        bgcolor: "background.paper",
+                        color: "secondary.main",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 8px 20px rgba(62,49,38,0.15)",
+                        "&:hover": {
+                            bgcolor: "primary.light",
+                            color: "secondary.dark",
+                        },
+                    }}
+                >
+                    <ArrowBackIosNewIcon fontSize="small" />
+                </IconButton>
+
+                <Box
+                    ref={sliderRef}
+                    sx={{
+                        display: "flex",
+                        gap: 3,
+                        overflowX: "auto",
+                        scrollBehavior: "smooth",
+                        px: { xs: 1, md: 2 },
+                        py: 1,
+                        scrollbarWidth: "none",
+                        "&::-webkit-scrollbar": {
+                            display: "none",
+                        },
+                    }}
+                >
+                    {multilingualTiles.map((item, index) => (
+                        <Card
+                            key={index}
+                            elevation={0}
+                            sx={{
+                                flex: "0 0 auto",
+                                width: {
+                                    xs: "82%",
+                                    sm: 320,
+                                    md: 340,
+                                },
+                                height: 340,
+                                border: "1px solid",
+                                borderColor: "divider",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                                bgcolor: "background.paper",
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={item.image}
+                                alt={item.title}
+                                sx={{
+                                    height: 160,
+                                    objectFit: "cover",
+                                    flexShrink: 0,
+                                }}
+                            />
+
+                            <CardContent
+                                sx={{
+                                    textAlign: "center",
+                                    height: 180,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        color: "secondary.main",
+                                        fontWeight: 700,
+                                        mb: 1,
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: "vertical",
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    {item.title}
+                                </Typography>
+
+                                <Typography
+                                    sx={{
+                                        color: "text.secondary",
+                                        fontSize: "14px",
+                                        lineHeight: 1.7,
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 3,
+                                        WebkitBoxOrient: "vertical",
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    {item.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Box>
+
+                <IconButton
+                    onClick={() => handleScroll("right")}
+                    sx={{
+                        position: "absolute",
+                        right: { xs: -6, md: -20 },
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 2,
+                        bgcolor: "background.paper",
+                        color: "secondary.main",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 8px 20px rgba(62,49,38,0.15)",
+                        "&:hover": {
+                            bgcolor: "primary.light",
+                            color: "secondary.dark",
+                        },
+                    }}
+                >
+                    <ArrowForwardIosIcon fontSize="small" />
+                </IconButton>
+            </Box>
+        </Box>
+    );
+}

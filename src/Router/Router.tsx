@@ -1,6 +1,8 @@
 import React, { useLayoutEffect, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import MarketDevelopment from '../pages/MarketDevelopment/MarketDevelopment';
+import PersonnelRegister from '../pages/PersonnelRegister/PersonnelRegister';
+import NewsAndEvents from '../pages/NewsAndEvents/NewsAndEvents';
+import InvestorRelations from '../pages/InvestorRelations/InvestorRelations';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -27,6 +29,7 @@ const Career = React.lazy(() => import('../pages/Resource/Career'));
 const Faq = React.lazy(() => import('../pages/Resource/Faq'));
 const Abc = React.lazy(() => import('../pages/Abc/Abc'));
 const Tradeoffer = React.lazy(() => import('../pages/TradeOffer/Tradeoffer'));
+const MarketDevelopment = React.lazy(() => import('../pages/MarketDevelopment/MarketDevelopment'));
 
 type Props = {
   children: JSX.Element;
@@ -98,7 +101,9 @@ export default function Router(): JSX.Element {
         <Route path="/trade-offers" element={<Tradeoffer />} />
         <Route path="/abc" element={<Abc />} />
         <Route path="/market-development" element={<MarketDevelopment />} />
-        <Route path="/news-and-events" element={<PageNotFound />} />
+        <Route path="/news_and_events" element={<NewsAndEvents />} />
+        <Route path="/investor_relations" element={<InvestorRelations />} />
+        <Route path="/personnel/register" element={<PersonnelRegister />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
