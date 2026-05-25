@@ -3,12 +3,14 @@ import categoriesReducer from "./slice/categoriesSlice";
 import measurementReducer from './slice/measurementSlice';
 import currencyReducer from './slice/currencySlice'
 import pageSlice from './slice/pageSlice'
+import countryReducer from './slice/countrySlice'
 
 const reducer = {
   categories: categoriesReducer,
   measurements: measurementReducer,
   currency: currencyReducer,
-  page: pageSlice
+  page: pageSlice,
+  country: countryReducer,
 };
 
 const store = configureStore({

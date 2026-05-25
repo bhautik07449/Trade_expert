@@ -9,20 +9,27 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 
-interface Props {
+interface QualityPolicyItem {
+    id?: number;
     logo: string;
     name: string;
     description: string;
+    country?: string;
+}
+
+interface QualityPolicyGroup {
     category: {
+        id?: number;
         name: string;
     };
-    country?: string
+    country: string;
+    data: QualityPolicyItem[];
 }
 
 export default function QualityPolicies() {
-    const [list, setList] = useState<Props[]>([]);
+    const [list, setList] = useState<QualityPolicyGroup[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeCountry, setActiveCountry] = useState("all");
+    const [activeCategory, setActiveCategory] = useState("all");
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -35,7 +42,8 @@ export default function QualityPolicies() {
     }, [dispatch]);
 
     const getList = async () => {
-        setLoading(true)
+        setLoading(true);
+
         try {
             const res = await CMSservice.getList();
 
@@ -43,39 +51,41 @@ export default function QualityPolicies() {
                 setList(res?.data?.data || []);
             }
         } catch (error) {
-            toast.error("Quality Policies not fetch")
+            toast.error("Quality Policies not fetch");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         getList();
     }, []);
 
-    const getCountryName = (item: Props) => {
-        return item?.country || "";
-    };
-
-    const countryTabs = useMemo(() => {
-        const uniqueCountries = Array.from(
-            new Set(
+    const categoryTabs = useMemo(() => {
+        return Array.from(
+            new Map(
                 list
-                    ?.map((item) => getCountryName(item))
-                    ?.filter((country) => country && country.trim() !== "")
-            )
+                    .filter((item) => item?.category?.name)
+                    .map((item) => [
+                        item.category.name,
+                        {
+                            id: item.category.id,
+                            name: item.category.name,
+                        },
+                    ])
+            ).values()
         );
-
-        return uniqueCountries;
     }, [list]);
 
     const filteredList = useMemo(() => {
-        if (activeCountry === "all") {
+        if (activeCategory === "all") {
             return list;
         }
 
-        return list.filter((item) => getCountryName(item) === activeCountry);
-    }, [list, activeCountry]);
+        return list.filter(
+            (item) => item?.category?.name === activeCategory
+        );
+    }, [list, activeCategory]);
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
@@ -98,7 +108,7 @@ export default function QualityPolicies() {
                 <Box
                     component="img"
                     src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                    alt="Supplier Banner"
+                    alt="Quality Policies Banner"
                     sx={{
                         width: "100%",
                         height: "100%",
@@ -111,7 +121,7 @@ export default function QualityPolicies() {
                     sx={{
                         position: "absolute",
                         inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
+                        bgcolor: "rgba(62,49,38,0.55)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -119,42 +129,52 @@ export default function QualityPolicies() {
                         px: 2,
                     }}
                 >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            Quality Policies
-                        </Typography>
-                    </Box>
+                    <Typography
+                        variant="h3"
+                        sx={{
+                            color: "#fff",
+                            fontWeight: 800,
+                            fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                        }}
+                    >
+                        Quality Policies
+                    </Typography>
                 </Box>
             </Box>
 
-            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 } }}>
-
-                <Box sx={{ p: 4, textAlign: 'center' }}>
+            <Container
+                sx={{
+                    maxWidth: "1200px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                }}
+            >
+                <Box sx={{ py: { xs: 3, md: 5 }, textAlign: "center" }}>
                     {pageLoading ? (
                         <PageContentSkeleton />
-                    ) : pageDetail?.content && (
-                        <Typography
-                            sx={{
-                                color: "secondary.main",
-                                mb: 5,
-                                fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                                textAlign: "justify",
-                            }}
-                            dangerouslySetInnerHTML={{
-                                __html: pageDetail?.content || null,
-                            }}
-                        />
+                    ) : (
+                        pageDetail?.content && (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    mb: 5,
+                                    fontSize: {
+                                        xs: "14px",
+                                        sm: "16px",
+                                        md: "18px",
+                                    },
+                                    textAlign: "justify",
+                                    lineHeight: 1.8,
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )
                     )}
                 </Box>
 
-                {!loading && countryTabs.length > 0 && (
+                {!loading && categoryTabs.length > 0 && (
                     <Paper
                         elevation={0}
                         sx={{
@@ -163,8 +183,8 @@ export default function QualityPolicies() {
                         }}
                     >
                         <Tabs
-                            value={activeCountry}
-                            onChange={(_, value) => setActiveCountry(value)}
+                            value={activeCategory}
+                            onChange={(_, value) => setActiveCategory(value)}
                             variant="scrollable"
                             scrollButtons="auto"
                             allowScrollButtonsMobile
@@ -195,16 +215,17 @@ export default function QualityPolicies() {
                                 "& .Mui-selected": {
                                     bgcolor: "primary.main",
                                     color: "#fff !important",
+                                    borderColor: "primary.main",
                                 },
                             }}
                         >
                             <Tab label="All" value="all" />
 
-                            {countryTabs.map((country) => (
+                            {categoryTabs.map((category) => (
                                 <Tab
-                                    key={country}
-                                    label={country}
-                                    value={country}
+                                    key={category.id}
+                                    label={category.name}
+                                    value={category.name}
                                 />
                             ))}
                         </Tabs>
@@ -228,9 +249,9 @@ export default function QualityPolicies() {
                             </Grid>
                         </Box>
                     ))
-                ) : (
-                    filteredList?.map((item, index) => (
-                        <Box key={index} sx={{ mb: 8 }}>
+                ) : filteredList.length > 0 ? (
+                    filteredList.map((group, groupIndex) => (
+                        <Box key={groupIndex} sx={{ mb: 8 }}>
                             <Box
                                 sx={{
                                     border: "2px solid #3E3126",
@@ -240,43 +261,86 @@ export default function QualityPolicies() {
                                     fontWeight: 600,
                                 }}
                             >
-                                {item?.category?.name}
+                                {group?.category?.name} - {group?.country}
                             </Box>
 
-                            <Grid
-                                container
-                                spacing={4}
-                                alignItems="center"
-                            >
-                                <Grid size={{ xs: 12, md: 5 }}>
-                                    <Box
-                                        component="img"
-                                        src={getImageUrl(item?.logo)}
-                                        alt={item?.name}
-                                        sx={{
-                                            width: "100%",
-                                            maxWidth: "200px",
-                                            mx: "auto",
-                                            display: "block",
-                                        }}
-                                    />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, md: 7 }}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ color: "secondary.main", mb: 2, fontWeight: 600 }}
+                            {group.data.map((item, index) => (
+                                <Paper
+                                    key={item.id || index}
+                                    elevation={0}
+                                    sx={{
+                                        mb: 4,
+                                    }}
+                                >
+                                    <Grid
+                                        container
+                                        spacing={4}
+                                        alignItems="center"
                                     >
-                                        {item?.name}
-                                    </Typography>
+                                        <Grid size={{ xs: 12, md: 5 }}>
+                                            <Box
+                                                component="img"
+                                                src={getImageUrl(item?.logo)}
+                                                alt={item?.name}
+                                                sx={{
+                                                    width: "100%",
+                                                    maxWidth: "200px",
+                                                    mx: "auto",
+                                                    display: "block",
+                                                }}
+                                            />
+                                        </Grid>
 
-                                    <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
-                                        {item?.description}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
+                                        <Grid size={{ xs: 12, md: 7 }}>
+                                            <Typography
+                                                variant="h5"
+                                                sx={{
+                                                    color: "secondary.main",
+                                                    mb: 2,
+                                                    fontWeight: 700,
+                                                }}
+                                            >
+                                                {item?.name}
+                                            </Typography>
+
+                                            <Typography
+                                                sx={{
+                                                    color: "text.secondary",
+                                                    fontSize: {
+                                                        xs: "14px",
+                                                        md: "16px",
+                                                    },
+                                                    lineHeight: 1.8,
+                                                }}
+                                            >
+                                                {item?.description}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            ))}
                         </Box>
                     ))
+                ) : (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            p: 4,
+                            textAlign: "center",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            borderRadius: 3,
+                        }}
+                    >
+                        <Typography
+                            sx={{
+                                color: "text.secondary",
+                                fontWeight: 600,
+                            }}
+                        >
+                            No quality policies found.
+                        </Typography>
+                    </Paper>
                 )}
             </Container>
         </Box>

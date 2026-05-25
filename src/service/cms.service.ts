@@ -3,7 +3,7 @@ import serverCall from "../serverCall";
 
 const getList = async () => {
     try {
-        const response = await serverCall.get('/qualitypolicy')
+        const response = await serverCall.get('/qualitypolicy/grouped')
         return response
     } catch (error) {
         throw error

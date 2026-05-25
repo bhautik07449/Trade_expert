@@ -6,6 +6,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import FilterCenterFocusIcon from '@mui/icons-material/FilterCenterFocus';
 import { useNavigate } from 'react-router-dom';
 import { geoCentroid } from 'd3-geo';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { setSelectedCountry } from '../../store/slice/countrySlice';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -36,13 +39,18 @@ const DISPLAY_NAMES: Record<string, string> = {
 export default function InteractiveWorldMap() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const selectedCountry = useSelector(
+        (state: RootState) => state.country.selectedCountry
+    );
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
     const baseZoom = isMobile ? 1.3 : isTablet ? 1.8 : 2.0;
 
-    const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+    // const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [tooltipContent, setTooltipContent] = useState<string>('');
     const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
@@ -201,8 +209,10 @@ export default function InteractiveWorldMap() {
                                                     key={geo.rsmKey}
                                                     geography={geo}
                                                     onClick={() => {
-                                                        setSelectedCountry(geo.properties.name);
-                                                        navigate(`/${geo.properties.name}`);
+                                                        const countryName = geo.properties.name;
+
+                                                        dispatch(setSelectedCountry(countryName));
+                                                        navigate(`/${countryName}`);
                                                     }}
                                                     onMouseEnter={() => {
                                                         setTooltipContent(geo.properties.name);
@@ -213,22 +223,30 @@ export default function InteractiveWorldMap() {
                                                     }}
                                                     style={{
                                                         default: {
-                                                            fill: isSelected ? "#1976D2" : (isDark ? '#374151' : "#E2E8F0"),
+                                                            fill:
+                                                                selectedCountry === geo.properties.name
+                                                                    ? theme.palette.primary.main
+                                                                    : isDark
+                                                                        ? "#374151"
+                                                                        : theme.palette.primary.light,
                                                             outline: "none",
-                                                            stroke: isDark ? 'rgba(255,255,255,0.05)' : '#FFFFFF',
+                                                            stroke: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
                                                             strokeWidth: 0.5,
-                                                            transition: "all 250ms"
+                                                            transition: "all 250ms",
                                                         },
                                                         hover: {
-                                                            fill: isSelected ? "#1976D2" : "#4FC3F7",
+                                                            fill:
+                                                                selectedCountry === geo.properties.name
+                                                                    ? theme.palette.primary.main
+                                                                    : theme.palette.primary.dark,
                                                             outline: "none",
                                                             cursor: "pointer",
-                                                            transition: "all 250ms"
+                                                            transition: "all 250ms",
                                                         },
                                                         pressed: {
-                                                            fill: "#0D47A1",
-                                                            outline: "none"
-                                                        }
+                                                            fill: theme.palette.secondary.dark,
+                                                            outline: "none",
+                                                        },
                                                     }}
                                                 />
                                             );

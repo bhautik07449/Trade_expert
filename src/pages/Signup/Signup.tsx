@@ -29,6 +29,8 @@ import { toast } from "react-toastify"
 import Buyerservice from "../../service/buyes.service"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 import AbcTradeoffer from "../../component/AbcTradeoffer"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store"
 
 const flipIn = keyframes`
   from { transform: rotateY(-90deg); opacity: 0; }
@@ -45,6 +47,10 @@ export default function SignupForm() {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = React.useState(false)
   const [flipExit, setFlipExit] = React.useState(false)
+
+  const selectedCountry = useSelector(
+    (state: RootState) => state.country.selectedCountry
+  );
 
   const validationSchema = Yup.object({
     gender: Yup.string().required("Required"),
@@ -503,8 +509,8 @@ export default function SignupForm() {
         </Paper>
       </Box>
 
-      <AbcTradeoffer />
-      
+      <AbcTradeoffer country={selectedCountry} />
+
       <UpcommingFeatures />
     </Box>
   )

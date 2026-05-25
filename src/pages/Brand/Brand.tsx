@@ -1,4 +1,4 @@
-import { Box, Typography, Skeleton, Paper, Tabs, Tab, Container } from "@mui/material";
+import { Box, Typography, Skeleton, Paper, Tabs, Tab, Container, Divider } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../../service/brand.service";
@@ -9,20 +9,27 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 
-interface Props {
-    logo: string,
-    name: string,
-    description: string,
+interface BrandItem {
+    id?: number;
+    logo: string;
+    name: string;
+    description: string;
+    country?: string;
+}
+
+interface BrandGroup {
     category: {
-        name: string
-    },
-    country?: string
+        id?: number;
+        name: string;
+    };
+    country: string;
+    data: BrandItem[];
 }
 
 export default function Brand() {
-    const [list, setList] = useState<Props[]>([])
+    const [list, setList] = useState<BrandGroup[]>([])
     const [loading, setLoading] = useState(true)
-    const [activeCountry, setActiveCountry] = useState("all");
+    const [activeCategory, setActiveCategory] = useState("all");
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -39,7 +46,7 @@ export default function Brand() {
         try {
             const res = await Brandservice.getList()
             if (res) {
-                setList(res?.data || [])
+                setList(res?.data?.data || [])
             }
         } catch (error) {
             toast.error("bran not found")
@@ -52,29 +59,31 @@ export default function Brand() {
         getList()
     }, [])
 
-    const getCountryName = (item: Props) => {
-        return item?.country || "";
-    };
-
-    const countryTabs = useMemo(() => {
-        const uniqueCountries = Array.from(
-            new Set(
+    const categoryTabs = useMemo(() => {
+        return Array.from(
+            new Map(
                 list
-                    ?.map((item) => getCountryName(item))
-                    ?.filter((country) => country && country.trim() !== "")
-            )
+                    .filter((item) => item?.category?.name)
+                    .map((item) => [
+                        item.category.name,
+                        {
+                            id: item.category.id,
+                            name: item.category.name,
+                        },
+                    ])
+            ).values()
         );
-
-        return uniqueCountries;
     }, [list]);
 
     const filteredList = useMemo(() => {
-        if (activeCountry === "all") {
+        if (activeCategory === "all") {
             return list;
         }
 
-        return list.filter((item) => getCountryName(item) === activeCountry);
-    }, [list, activeCountry]);
+        return list.filter(
+            (item) => item?.category?.name === activeCategory
+        );
+    }, [list, activeCategory]);
 
     return (
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
@@ -97,7 +106,7 @@ export default function Brand() {
                 <Box
                     component="img"
                     src="https://sourceseas.itcoders.in/img/front-end/brands.jpg"
-                    alt="Supplier Banner"
+                    alt="Brands Banner Image"
                     sx={{
                         width: "100%",
                         height: "100%",
@@ -153,7 +162,7 @@ export default function Brand() {
                     )}
                 </Box>
 
-                {!loading && countryTabs.length > 0 && (
+                {!loading && categoryTabs.length > 0 && (
                     <Paper
                         elevation={0}
                         sx={{
@@ -162,8 +171,8 @@ export default function Brand() {
                         }}
                     >
                         <Tabs
-                            value={activeCountry}
-                            onChange={(_, value) => setActiveCountry(value)}
+                            value={activeCategory}
+                            onChange={(_, value) => setActiveCategory(value)}
                             variant="scrollable"
                             scrollButtons="auto"
                             allowScrollButtonsMobile
@@ -199,11 +208,11 @@ export default function Brand() {
                         >
                             <Tab label="All" value="all" />
 
-                            {countryTabs.map((country) => (
+                            {categoryTabs.map((category) => (
                                 <Tab
-                                    key={country}
-                                    label={country}
-                                    value={country}
+                                    key={category.id}
+                                    label={category.name}
+                                    value={category.name}
                                 />
                             ))}
                         </Tabs>
@@ -229,17 +238,86 @@ export default function Brand() {
                                     <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'secondary.main' }}>
                                         {item?.category?.name}
                                     </Typography>
+                                    <Typography variant="h6" component="h2" sx={{ fontWeight: 300, color: 'secondary.main' }}>
+                                        {item?.country}
+                                    </Typography>
                                 </Box>
 
-                                <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, display: "flex", gap: 4, flexWrap: "wrap", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", boxSizing: "border-box", width: "100%" }}>
-                                    <img src={getImageUrl(item?.logo)} alt="FSSAI Approved Foods" style={{ width: '100px', height: "100px" }} />
-                                    <Box>
-                                        <Typography variant="h6" sx={{ color: 'secondary.main', mb: 4 }}>
-                                            {item?.name}
-                                        </Typography>
-                                        <Typography>{item?.description}</Typography>
+                                {item.data.map((brand, brandIndex) => (
+                                    <Box key={brand.id || brandIndex}>
+                                        <Box
+                                            sx={{
+                                                maxWidth: "1200px",
+                                                mx: "auto",
+                                                px: { xs: 2, sm: 3, md: 4 },
+                                                py: 3,
+                                                display: "flex",
+                                                gap: 4,
+                                                flexWrap: "wrap",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                boxSizing: "border-box",
+                                                width: "100%",
+                                            }}
+                                        >
+                                            <img
+                                                src={getImageUrl(brand?.logo)}
+                                                alt={brand?.name}
+                                                style={{
+                                                    width: "100px",
+                                                    height: "100px",
+                                                    objectFit: "contain",
+                                                }}
+                                            />
+
+                                            <Box>
+                                                <Typography
+                                                    variant="h6"
+                                                    sx={{
+                                                        color: "secondary.main",
+                                                        mb: 4,
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {brand?.name}
+                                                </Typography>
+
+                                                <Typography
+                                                    sx={{
+                                                        color: "text.secondary",
+                                                        lineHeight: 1.8,
+                                                    }}
+                                                >
+                                                    {brand?.description}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                        {brandIndex !== item.data.length - 1 && (
+                                            <Divider
+                                                sx={{
+                                                    maxWidth: "900px",
+                                                    mx: "auto",
+                                                    my: 3,
+                                                    borderColor: "divider",
+                                                }}
+                                            />
+                                        )}
                                     </Box>
-                                </Box>
+                                ))}
+
+                                {index !== filteredList.length - 1 && (
+                                    <Divider
+                                        sx={{
+                                            maxWidth: "1200px",
+                                            mx: "auto",
+                                            my: 5,
+                                            borderColor: "divider",
+                                        }}
+                                    />
+                                )}
                             </Box>
                         ))
                     )}
