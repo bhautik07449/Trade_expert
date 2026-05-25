@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 import OverPresences from "../../component/Home/OverPresences";
+import InteractiveWorldMap from "../../component/Home/InteractiveWorldMap";
 
 export default function AboutUs() {
     const dispatch = useDispatch<AppDispatch>();
@@ -80,16 +81,16 @@ export default function AboutUs() {
                     sx={{
                         color: "secondary.main",
                         mb: 5,
-                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            textAlign: "justify",
+                        fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                        textAlign: "justify",
                         px: 3
-                        }}
-                        dangerouslySetInnerHTML={{
+                    }}
+                    dangerouslySetInnerHTML={{
                         __html: pageDetail?.content || null,
-                        }}
+                    }}
                     maxWidth="md"
                     mx="auto"
-                    />
+                />
             )}
 
             <Container maxWidth="lg" sx={{ py: { xs: 5, md: 9 } }}>
@@ -193,6 +194,8 @@ export default function AboutUs() {
             <OurView />
 
             <OverPresences />
+
+            <InteractiveWorldMap />
         </Box>
     );
 }

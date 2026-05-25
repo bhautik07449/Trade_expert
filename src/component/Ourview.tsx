@@ -46,7 +46,6 @@ export default function OurView() {
                 py: { xs: 6, md: 10 },
                 bgcolor: "secondary.dark",
                 backgroundImage: `
-                    linear-gradient(rgba(62, 49, 38, 0.88), rgba(62, 49, 38, 0.9)),
                     url(https://sourceseas.itcoders.in/img/video-bg.jpg)
                 `,
                 backgroundSize: "cover",
@@ -80,10 +79,10 @@ export default function OurView() {
                                 fontWeight: 800,
                                 mb: 1,
                                 fontSize: {
-                                    xs: "22px",
-                                    sm: "26px",
-                                    md: "30px",
-                                    lg: "34px",
+                                    xs: "28px",
+                                    sm: "22px",
+                                    md: "26px",
+                                    lg: "30px",
                                 },
                             }}
                         >
@@ -134,10 +133,10 @@ export default function OurView() {
                                     },
                                 },
                                 "& .slick-prev": {
-                                    left: "-14px",
+                                    left: "-10px",
                                 },
                                 "& .slick-next": {
-                                    right: "-14px",
+                                    right: "-10px",
                                 },
                                 "& .slick-prev:before, & .slick-next:before": {
                                     fontSize: "18px",
@@ -187,10 +186,10 @@ export default function OurView() {
                                 fontWeight: 800,
                                 mb: 1,
                                 fontSize: {
-                                    xs: "22px",
-                                    sm: "26px",
-                                    md: "30px",
-                                    lg: "34px",
+                                    xs: "28px",
+                                    sm: "22px",
+                                    md: "26px",
+                                    lg: "30px",
                                 },
                             }}
                         >

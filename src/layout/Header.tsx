@@ -191,7 +191,7 @@ export default function Header() {
             icon: <BusinessIcon fontSize="small" />
         },
         {
-            
+
             label: "IR",
             path: "/news-and-events",
             icon: <BusinessIcon fontSize="small" />
@@ -211,13 +211,7 @@ export default function Header() {
         {
             label: "About",
             path: "/about_us",
-            icon: <InfoIcon fontSize="small" />,
-            subItems: [
-                { label: "Know Us", path: "/about_us#know-us" },
-                { label: "Vision Mission", path: "/about_us#vision-mission" },
-                { label: "Our Team", path: "/about_us#our-team" },
-                { label: "Delivery Reach", path: "/about_us#delivery-reach" },
-            ],
+            icon: <InfoIcon fontSize="small" />
         },
         {
             label: "Get in Touch",

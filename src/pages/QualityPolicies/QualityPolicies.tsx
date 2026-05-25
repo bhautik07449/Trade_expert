@@ -1,5 +1,5 @@
-import { Box, Typography, Container, Grid, Skeleton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Typography, Container, Grid, Skeleton, Paper, Tabs, Tab } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import { toast } from "react-toastify";
@@ -10,20 +10,25 @@ import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 interface Props {
-    logo: string,
-    name: string,
-    description: string
+    logo: string;
+    name: string;
+    description: string;
     category: {
-        name: string
-    }
+        name: string;
+    };
+    country?: string
 }
 
 export default function QualityPolicies() {
-    const [list, setList] = useState<Props[]>([])
-    const [loading, setLoading] = useState(true)
+    const [list, setList] = useState<Props[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [activeCountry, setActiveCountry] = useState("all");
+
     const dispatch = useDispatch<AppDispatch>();
 
-    const { pageDetail, loading: pageLoading } = useSelector((state: RootState) => state.page);
+    const { pageDetail, loading: pageLoading } = useSelector(
+        (state: RootState) => state.page
+    );
 
     useEffect(() => {
         dispatch(fetchFlatPageBySlug("quality_policies"));
@@ -35,7 +40,7 @@ export default function QualityPolicies() {
             const res = await CMSservice.getList();
 
             if (res) {
-                setList(res?.data?.data)
+                setList(res?.data?.data || []);
             }
         } catch (error) {
             toast.error("Quality Policies not fetch")
@@ -45,8 +50,32 @@ export default function QualityPolicies() {
     }
 
     useEffect(() => {
-        getList()
-    }, [])
+        getList();
+    }, []);
+
+    const getCountryName = (item: Props) => {
+        return item?.country || "";
+    };
+
+    const countryTabs = useMemo(() => {
+        const uniqueCountries = Array.from(
+            new Set(
+                list
+                    ?.map((item) => getCountryName(item))
+                    ?.filter((country) => country && country.trim() !== "")
+            )
+        );
+
+        return uniqueCountries;
+    }, [list]);
+
+    const filteredList = useMemo(() => {
+        if (activeCountry === "all") {
+            return list;
+        }
+
+        return list.filter((item) => getCountryName(item) === activeCountry);
+    }, [list, activeCountry]);
 
     return (
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
@@ -125,6 +154,63 @@ export default function QualityPolicies() {
                     )}
                 </Box>
 
+                {!loading && countryTabs.length > 0 && (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            mb: 5,
+                            p: 1,
+                        }}
+                    >
+                        <Tabs
+                            value={activeCountry}
+                            onChange={(_, value) => setActiveCountry(value)}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            allowScrollButtonsMobile
+                            sx={{
+                                minHeight: 52,
+                                "& .MuiTabs-indicator": {
+                                    display: "none",
+                                },
+                                "& .MuiTabs-scrollButtons": {
+                                    color: "secondary.main",
+                                },
+                                "& .MuiTab-root": {
+                                    minHeight: 44,
+                                    mx: 0.5,
+                                    px: 3,
+                                    borderRadius: 2,
+                                    textTransform: "none",
+                                    fontWeight: 700,
+                                    color: "text.secondary",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    transition: "0.25s ease",
+                                },
+                                "& .MuiTab-root:hover": {
+                                    bgcolor: "primary.light",
+                                    color: "secondary.dark",
+                                },
+                                "& .Mui-selected": {
+                                    bgcolor: "primary.main",
+                                    color: "#fff !important",
+                                },
+                            }}
+                        >
+                            <Tab label="All" value="all" />
+
+                            {countryTabs.map((country) => (
+                                <Tab
+                                    key={country}
+                                    label={country}
+                                    value={country}
+                                />
+                            ))}
+                        </Tabs>
+                    </Paper>
+                )}
+
                 {loading ? (
                     Array.from(new Array(3)).map((_, i) => (
                         <Box key={i} sx={{ mb: 8 }}>
@@ -143,7 +229,7 @@ export default function QualityPolicies() {
                         </Box>
                     ))
                 ) : (
-                    list?.map((item, index) => (
+                    filteredList?.map((item, index) => (
                         <Box key={index} sx={{ mb: 8 }}>
                             <Box
                                 sx={{

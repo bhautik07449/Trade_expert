@@ -9,19 +9,27 @@ import {
     ListItemText,
     ListItemButton,
     CircularProgress,
+    Stack,
+    Divider,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Homeservice from "../../service/home.service";
 import { toast } from "react-toastify";
 import SEO from "../../component/SEO";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
+import ContactInfoCard from "../../commonUI/ContactInfoCard";
+
+const tabs = [
+    { label: "Fill Form", value: "fill-form" },
+    { label: "By Call", value: "by-call" },
+    { label: "Chat With Us", value: "chat-with-us" },
+    { label: "Email Us", value: "email-us" },
+];
 
 export default function GetInTouch() {
     const [activeTab, setActiveTab] = useState("fill-form");
@@ -63,32 +71,36 @@ export default function GetInTouch() {
             phone: "",
             message: "",
         },
-
-        validationSchema: validationSchema,
-
+        validationSchema,
         onSubmit: async (values, { resetForm }) => {
-
             try {
-                const res = await Homeservice.getIntouch(values)
+                const res = await Homeservice.getIntouch(values);
+
                 if (res) {
-                    toast.success(res?.data?.message)
-                    resetForm()
+                    toast.success(res?.data?.message);
+                    resetForm();
                 } else {
                     toast.error("Something went wrong");
                 }
             } catch (error) {
-                toast.error("contect message not send")
+                toast.error("Contact message not sent");
             }
         },
     });
 
     return (
-        <Box sx={{ bgcolor: "#f4f4f4", minHeight: "100vh", pb: 10 }}>
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                minHeight: "100vh",
+                pb: { xs: 6, md: 10 },
+            }}
+        >
             {pageDetail && (
                 <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
-                    description={pageDetail.meta_description || ''}
-                    keywords={pageDetail.meta_keyword || ''}
+                    title={pageDetail.page_meta_title || pageDetail.page_title || "Contact"}
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
                 />
             )}
 
@@ -133,7 +145,7 @@ export default function GetInTouch() {
                                 fontSize: { xs: "28px", sm: "38px", md: "48px" },
                             }}
                         >
-                            Contact to Sourceseas
+                            Get In Touch
                         </Typography>
                     </Box>
                 </Box>
@@ -143,60 +155,106 @@ export default function GetInTouch() {
                 sx={{
                     maxWidth: "1200px",
                     mx: "auto",
-                    mt: { xs: 4, md: 8 },
+                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
-                    boxSizing: "border-box",
-                    width: "100%",
+                    position: "relative",
+                    zIndex: 2,
                 }}
             >
-                {loading ? (
-                    <Box sx={{ mb: 5 }}>
-                        <PageContentSkeleton />
-                    </Box>
-                ) : pageDetail?.content && (
-                    <Typography
+                {(loading || pageDetail?.content) && (
+                    <Paper
+                        elevation={0}
                         sx={{
-                            color: "secondary.main",
-                            mb: 5,
-                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            textAlign: "justify",
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                         }}
-                        dangerouslySetInnerHTML={{
-                            __html: pageDetail?.content || null,
-                        }}
-                    />
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )}
+                    </Paper>
                 )}
 
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Paper
-                            elevation={3}
+                            elevation={0}
                             sx={{
                                 p: 2,
-                                bgcolor: "#e9dfd6",
+                                borderRadius: 4,
+                                bgcolor: "secondary.main",
+                                border: "1px solid",
+                                borderColor: "divider",
+                                boxShadow: "0 18px 45px rgba(62,49,38,0.10)",
                             }}
                         >
-                            <List>
-                                {["Fill form", "By Call", "Chat With Us", "Email Us"].map(
-                                    (text, index) => (
-                                        <ListItemButton onClick={() => setActiveTab(text.toLowerCase().replace(" ", "-"))} key={index}
-                                            selected={activeTab === text.toLowerCase().replace(" ", "-")}
-                                            sx={{
-                                                borderRadius: 2,
-                                                mb: 1,
-                                                "&.Mui-selected": {
-                                                    bgcolor: "#7cb342",
-                                                    color: "#fff",
-                                                },
-                                                "&.Mui-selected:hover": {
-                                                    bgcolor: "#689f38",
-                                                },
+                            <Typography
+                                sx={{
+                                    px: 1,
+                                    mb: 1.5,
+                                    color: "primary.light",
+                                    fontWeight: 700,
+                                    fontSize: 13,
+                                    textTransform: "uppercase",
+                                    letterSpacing: 1.5,
+                                }}
+                            >
+                                Contact Options
+                            </Typography>
+
+                            <List disablePadding>
+                                {tabs.map((tab) => (
+                                    <ListItemButton
+                                        key={tab.value}
+                                        onClick={() => setActiveTab(tab.value)}
+                                        selected={activeTab === tab.value}
+                                        sx={{
+                                            borderRadius: 2,
+                                            mb: 1,
+                                            color: "primary.light",
+                                            px: 2,
+                                            py: 1.3,
+                                            transition: "0.25s ease",
+                                            "&:hover": {
+                                                bgcolor: "rgba(232,216,193,0.12)",
+                                            },
+                                            "&.Mui-selected": {
+                                                bgcolor: "primary.main",
+                                                color: "#fff",
+                                                boxShadow:
+                                                    "0 8px 20px rgba(167,123,88,0.35)",
+                                            },
+                                            "&.Mui-selected:hover": {
+                                                bgcolor: "primary.dark",
+                                            },
+                                        }}
+                                    >
+                                        <ListItemText
+                                            primary={tab.label}
+                                            primaryTypographyProps={{
+                                                fontWeight:
+                                                    activeTab === tab.value ? 700 : 500,
                                             }}
-                                        >
-                                            <ListItemText primary={text} />
-                                        </ListItemButton>
-                                    ))
-                                }
+                                        />
+                                    </ListItemButton>
+                                ))}
                             </List>
                         </Paper>
                     </Grid>
@@ -204,37 +262,62 @@ export default function GetInTouch() {
                     <Grid size={{ xs: 12, md: 9 }}>
                         {activeTab === "fill-form" && (
                             <Paper
-                                elevation={3}
+                                elevation={0}
                                 sx={{
-                                    p: 3,
-                                    bgcolor: "#e9dfd6",
+                                    p: { xs: 2.5, sm: 3, md: 4 },
+                                    borderRadius: 4,
+                                    bgcolor: "background.paper",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                                 }}
                             >
                                 <Typography
-                                    variant="h5"
+                                    variant="h4"
                                     sx={{
-                                        mb: 3,
-                                        fontWeight: 600,
+                                        mb: 1,
+                                        color: "text.primary",
+                                        fontWeight: 800,
                                     }}
                                 >
-                                    <span style={{ color: "#7cb342" }}>
+                                    <Box
+                                        component="span"
+                                        sx={{ color: "primary.main" }}
+                                    >
                                         Write
-                                    </span>{" "}
+                                    </Box>{" "}
                                     to Us
                                 </Typography>
+
+                                <Typography
+                                    sx={{
+                                        mb: 4,
+                                        color: "text.secondary",
+                                        maxWidth: 650,
+                                    }}
+                                >
+                                    Fill out the form below and our team will get back to
+                                    you as soon as possible.
+                                </Typography>
+
                                 <form onSubmit={formik.handleSubmit}>
                                     <Grid container spacing={3}>
                                         <Grid size={{ xs: 12, md: 6 }}>
                                             <TextField
                                                 fullWidth
                                                 label="First Name"
-                                                variant="outlined"
                                                 name="first_name"
                                                 value={formik.values.first_name}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                error={formik.touched.first_name && Boolean(formik.errors.first_name)}
-                                                helperText={formik.touched.first_name && formik.errors.first_name}
+                                                error={
+                                                    formik.touched.first_name &&
+                                                    Boolean(formik.errors.first_name)
+                                                }
+                                                helperText={
+                                                    formik.touched.first_name &&
+                                                    formik.errors.first_name
+                                                }
                                             />
                                         </Grid>
 
@@ -242,13 +325,18 @@ export default function GetInTouch() {
                                             <TextField
                                                 fullWidth
                                                 label="Last Name"
-                                                variant="outlined"
                                                 name="last_name"
                                                 value={formik.values.last_name}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                error={formik.touched.last_name && Boolean(formik.errors.last_name)}
-                                                helperText={formik.touched.last_name && formik.errors.last_name}
+                                                error={
+                                                    formik.touched.last_name &&
+                                                    Boolean(formik.errors.last_name)
+                                                }
+                                                helperText={
+                                                    formik.touched.last_name &&
+                                                    formik.errors.last_name
+                                                }
                                             />
                                         </Grid>
 
@@ -256,14 +344,19 @@ export default function GetInTouch() {
                                             <TextField
                                                 fullWidth
                                                 label="Email"
-                                                variant="outlined"
                                                 name="email"
                                                 type="email"
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                                helperText={formik.touched.email && formik.errors.email}
+                                                error={
+                                                    formik.touched.email &&
+                                                    Boolean(formik.errors.email)
+                                                }
+                                                helperText={
+                                                    formik.touched.email &&
+                                                    formik.errors.email
+                                                }
                                             />
                                         </Grid>
 
@@ -271,14 +364,19 @@ export default function GetInTouch() {
                                             <TextField
                                                 fullWidth
                                                 label="Phone"
-                                                variant="outlined"
                                                 type="tel"
                                                 name="phone"
                                                 value={formik.values.phone}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                error={formik.touched.phone && Boolean(formik.errors.phone)}
-                                                helperText={formik.touched.phone && formik.errors.phone}
+                                                error={
+                                                    formik.touched.phone &&
+                                                    Boolean(formik.errors.phone)
+                                                }
+                                                helperText={
+                                                    formik.touched.phone &&
+                                                    formik.errors.phone
+                                                }
                                             />
                                         </Grid>
 
@@ -288,13 +386,18 @@ export default function GetInTouch() {
                                                 label="Message"
                                                 multiline
                                                 rows={5}
-                                                variant="outlined"
                                                 name="message"
                                                 value={formik.values.message}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                error={formik.touched.message && Boolean(formik.errors.message)}
-                                                helperText={formik.touched.message && formik.errors.message}
+                                                error={
+                                                    formik.touched.message &&
+                                                    Boolean(formik.errors.message)
+                                                }
+                                                helperText={
+                                                    formik.touched.message &&
+                                                    formik.errors.message
+                                                }
                                             />
                                         </Grid>
 
@@ -303,16 +406,32 @@ export default function GetInTouch() {
                                                 type="submit"
                                                 variant="contained"
                                                 disabled={formik.isSubmitting}
-                                                startIcon={formik.isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+                                                startIcon={
+                                                    formik.isSubmitting ? (
+                                                        <CircularProgress
+                                                            size={20}
+                                                            color="inherit"
+                                                        />
+                                                    ) : null
+                                                }
                                                 sx={{
-                                                    bgcolor: "#7cb342",
+                                                    bgcolor: "primary.main",
+                                                    color: "#fff",
                                                     px: 4,
+                                                    py: 1.2,
+                                                    borderRadius: 2,
+                                                    textTransform: "none",
+                                                    fontWeight: 700,
+                                                    boxShadow:
+                                                        "0 10px 24px rgba(167,123,88,0.30)",
                                                     "&:hover": {
-                                                        bgcolor: "#689f38",
+                                                        bgcolor: "primary.dark",
                                                     },
                                                 }}
                                             >
-                                                {formik.isSubmitting ? "Sending..." : "Send"}
+                                                {formik.isSubmitting
+                                                    ? "Sending..."
+                                                    : "Send Message"}
                                             </Button>
                                         </Grid>
                                     </Grid>
@@ -321,100 +440,93 @@ export default function GetInTouch() {
                         )}
 
                         {activeTab === "by-call" && (
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    p: 3,
-                                    bgcolor: "#e9dfd6",
-                                }}
-                            >
-                                <Typography
-                                    variant="h5"
-                                    sx={{
-                                        mb: 3,
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    <span style={{ color: "#7cb342" }}>
-                                        Call
-                                    </span>{" "}
-                                    Us
-                                </Typography>
-
-                                <Typography variant="body1">
-                                    Need Assitance in Buying or need clarification on products.
-                                </Typography>
-
-                                <Typography variant="body1">
-                                    call or whatsapp us at (+91) 9925099215
-                                </Typography>
-                            </Paper>
+                            <ContactInfoCard
+                                titleHighlight="Call"
+                                title="Us"
+                                description="Need assistance in buying or clarification on products?"
+                                details={[
+                                    "Call or WhatsApp us at",
+                                    "(+91) 9925099215",
+                                ]}
+                            />
                         )}
 
-                        {activeTab === "chat-with us" && (
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    p: 3,
-                                    bgcolor: "#e9dfd6",
-                                }}
-                            >
-                                <Typography
-                                    variant="h5"
-                                    sx={{
-                                        mb: 3,
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    <span style={{ color: "#7cb342" }}>
-                                        Chat
-                                    </span>{" "}
-                                    With Us
-                                </Typography>
-
-                                <Typography variant="body1">
-                                    You can online chat with us for the frequently get the quote.
-                                </Typography>
-
-                                <Typography variant="body1">
-                                    For that please click on the bottom right corner <b>"Leave Message"</b> box.
-                                </Typography>
-                            </Paper>
+                        {activeTab === "chat-with-us" && (
+                            <ContactInfoCard
+                                titleHighlight="Chat"
+                                title="With Us"
+                                description="You can chat with us online to quickly get product information or a quote."
+                                details={[
+                                    'Please click on the bottom-right "Leave Message" box.',
+                                ]}
+                            />
                         )}
 
                         {activeTab === "email-us" && (
                             <Paper
-                                elevation={3}
+                                elevation={0}
                                 sx={{
-                                    p: 3,
-                                    bgcolor: "#e9dfd6",
+                                    p: { xs: 2.5, sm: 3, md: 4 },
+                                    borderRadius: 4,
+                                    bgcolor: "background.paper",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                                 }}
                             >
                                 <Typography
-                                    variant="h5"
+                                    variant="h4"
                                     sx={{
                                         mb: 3,
-                                        fontWeight: 600,
+                                        color: "text.primary",
+                                        fontWeight: 800,
                                     }}
                                 >
-                                    <span style={{ color: "#7cb342" }}>
+                                    <Box
+                                        component="span"
+                                        sx={{ color: "primary.main" }}
+                                    >
                                         Email
-                                    </span>{" "}
+                                    </Box>{" "}
                                     Us
                                 </Typography>
 
-                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                                    Sourceseas overseas Pvt. Ltd.
-                                </Typography>
+                                <Stack spacing={1.4}>
+                                    <Typography
+                                        sx={{
+                                            color: "text.primary",
+                                            fontWeight: 800,
+                                            fontSize: 18,
+                                        }}
+                                    >
+                                        Sourceseas Overseas Pvt. Ltd.
+                                    </Typography>
 
-                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                                    Registered Office
-                                </Typography>
+                                    <Divider sx={{ borderColor: "divider" }} />
 
-                                <Typography variant="body1">
-                                    C-604, Shree Nidhi Residency <br />Nr. Sudamachowk, <br /> Satelite Road, <br />Mota Varachha, Surat(Guj), <br />India - 3940101 <br /> +91 9925099215
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            color: "secondary.main",
+                                            fontWeight: 700,
+                                        }}
+                                    >
+                                        Registered Office
+                                    </Typography>
 
+                                    <Typography
+                                        sx={{
+                                            color: "text.secondary",
+                                            lineHeight: 1.8,
+                                        }}
+                                    >
+                                        C-604, Shree Nidhi Residency <br />
+                                        Nr. Sudamachowk, <br />
+                                        Satellite Road, <br />
+                                        Mota Varachha, Surat, Gujarat, <br />
+                                        India - 394010 <br />
+                                        +91 9925099215
+                                    </Typography>
+                                </Stack>
                             </Paper>
                         )}
                     </Grid>
