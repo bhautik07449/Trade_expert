@@ -23,6 +23,7 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 import ContactInfoCard from "../../commonUI/ContactInfoCard";
+import CountryTab from "../../commonUI/CountryTab";
 
 const tabs = [
     { label: "Fill Form", value: "fill-form" },
@@ -32,6 +33,7 @@ const tabs = [
 ];
 
 export default function GetInTouch() {
+    const [activeCountry, setActiveCountry] = useState<string>("");
     const [activeTab, setActiveTab] = useState("fill-form");
     const dispatch = useDispatch<AppDispatch>();
 
@@ -70,11 +72,18 @@ export default function GetInTouch() {
             email: "",
             phone: "",
             message: "",
+            country: ""
         },
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
+
+            const payload = {
+                ...values,
+                country: activeCountry,
+            };
+
             try {
-                const res = await Homeservice.getIntouch(values);
+                const res = await Homeservice.getIntouch(payload);
 
                 if (res) {
                     toast.success(res?.data?.message);
@@ -191,6 +200,8 @@ export default function GetInTouch() {
                         )}
                     </Paper>
                 )}
+
+                <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 3 }}>

@@ -5,17 +5,14 @@ import {
     Divider,
 } from "@mui/material";
 import SEO from "../../component/SEO";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import Multilingual from "./Multilingual";
-import Events from "../../component/Home/Events";
 import PreambleAndUpcoming from "./PreambleAndUpcoming";
+import { useState } from "react";
+import CountryTab from "../../commonUI/CountryTab";
+import Eventsection from "../../component/Eventsection";
 
 export default function NewsAndEvents() {
-
-    const selectedCountry = useSelector(
-        (state: RootState) => state.country.selectedCountry
-    );
+    const [activeCountry, setActiveCountry] = useState<string>("");
 
     return (
         <Box
@@ -85,6 +82,8 @@ export default function NewsAndEvents() {
                     pt: { xs: 4, md: 6 },
                 }}
             >
+                <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+
                 <Box sx={{ textAlign: "center", mb: 4 }}>
                     <Typography
                         variant="h4"
@@ -94,7 +93,7 @@ export default function NewsAndEvents() {
                             mb: 1,
                         }}
                     >
-                        {selectedCountry}
+                        {activeCountry}
                     </Typography>
 
                     <Divider
@@ -116,7 +115,7 @@ export default function NewsAndEvents() {
                 </Box>
             </Container>
 
-            <Events />
+            <Eventsection />
         </Box>
     );
 }

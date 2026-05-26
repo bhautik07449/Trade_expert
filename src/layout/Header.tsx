@@ -184,6 +184,11 @@ export default function Header() {
                 })) || [],
         },
         {
+            label: "ESG",
+            path: "/pages/csr",
+            icon: <BusinessIcon fontSize="small" />
+        },
+        {
             label: "News & Events",
             path: "/news_and_events",
             icon: <BusinessIcon fontSize="small" />
@@ -199,7 +204,6 @@ export default function Header() {
             icon: <SourceIcon fontSize="small" />,
             subItems: [
                 { label: "Gallery", path: "/pages/gallery" },
-                { label: "CSR", path: "/pages/csr" },
                 { label: "Career", path: "/pages/career" },
                 { label: "FAQ", path: "/pages/faq" },
                 { label: "Quality Policy", path: "/pages/quality_policies" },

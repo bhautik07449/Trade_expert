@@ -163,9 +163,19 @@ const careerForm = async (body) => {
     }
 }
 
+const getDeliveryReach = async (country: string) => {
+    try {
+        const response = await serverCall.get(`/deliveryreach?country=${country}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm
+    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
+    getDeliveryReach
 };
 
 export default CMSservice;
