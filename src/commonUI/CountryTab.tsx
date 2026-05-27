@@ -1,4 +1,4 @@
-import { Paper, Tab, Tabs, Box } from "@mui/material";
+import { Paper, Tab, Tabs, Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import HomePageservice from "../service/homepages.service";
 
@@ -7,11 +7,16 @@ type CountryTabProps = {
     setActiveCountry: (country: string) => void;
 };
 
-export default function CountryTab({ activeCountry, setActiveCountry }: CountryTabProps) {
+export default function CountryTab({
+    activeCountry,
+    setActiveCountry,
+}: CountryTabProps) {
     const [country, setCountry] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const getPresencesData = async () => {
         try {
+            setLoading(true);
             const response = await HomePageservice.getPresences();
 
             if (response) {
@@ -24,6 +29,8 @@ export default function CountryTab({ activeCountry, setActiveCountry }: CountryT
             }
         } catch (error: any) {
             console.log(error?.response?.data?.message || "Presences data not fetch");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -55,81 +62,102 @@ export default function CountryTab({ activeCountry, setActiveCountry }: CountryT
                     },
                 }}
             >
-                <Tabs
-                    value={activeCountry || false}
-                    onChange={(_, value) => setActiveCountry(value)}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    allowScrollButtonsMobile
-                    aria-label="country tabs"
-                    sx={{
-                        minHeight: 52,
+                {loading ? (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: { xs: "flex-start", md: "center" },
+                            gap: 1,
+                        }}
+                    >
+                        {[...Array(6)].map((_, index) => (
+                            <Skeleton
+                                key={index}
+                                variant="rounded"
+                                animation="wave"
+                                width={110}
+                                height={44}
+                                sx={{ borderRadius: 2, flexShrink: 0 }}
+                            />
+                        ))}
+                    </Box>
+                ) : (
+                    <Tabs
+                        value={activeCountry || false}
+                        onChange={(_, value) => setActiveCountry(value)}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        allowScrollButtonsMobile
+                        aria-label="country tabs"
+                        sx={{
+                            minHeight: 52,
 
-                        "& .MuiTabs-scroller": {
-                            overflowX: "auto !important",
-                            overflowY: "hidden",
-                            scrollBehavior: "smooth",
-                            scrollbarWidth: "none",
-                            "&::-webkit-scrollbar": {
+                            "& .MuiTabs-scroller": {
+                                overflowX: "auto !important",
+                                overflowY: "hidden",
+                                scrollBehavior: "smooth",
+                                scrollbarWidth: "none",
+                                "&::-webkit-scrollbar": {
+                                    display: "none",
+                                },
+                            },
+
+                            "& .MuiTabs-indicator": {
                                 display: "none",
                             },
-                        },
 
-                        "& .MuiTabs-indicator": {
-                            display: "none",
-                        },
-
-                        "& .MuiTabs-flexContainer": {
-                            gap: 1,
-                            justifyContent: {
-                                xs: "flex-start",
-                                md: "center",
+                            "& .MuiTabs-flexContainer": {
+                                gap: 1,
+                                justifyContent: {
+                                    xs: "flex-start",
+                                    md: "center",
+                                },
+                                flexWrap: "nowrap",
                             },
-                            flexWrap: "nowrap",
-                        },
 
-                        "& .MuiTabs-scrollButtons": {
-                            color: "secondary.main",
-                            width: 34,
-                            "&.Mui-disabled": {
-                                opacity: 0.25,
+                            "& .MuiTabs-scrollButtons": {
+                                color: "secondary.main",
+                                width: 34,
+                                "&.Mui-disabled": {
+                                    opacity: 0.25,
+                                },
                             },
-                        },
 
-                        "& .MuiTab-root": {
-                            minHeight: 44,
-                            minWidth: "auto",
-                            px: { xs: 2.2, sm: 3 },
-                            borderRadius: 2,
-                            textTransform: "none",
-                            fontWeight: 700,
-                            color: "text.secondary",
-                            border: "1px solid",
-                            borderColor: "divider",
-                            whiteSpace: "nowrap",
-                            flexShrink: 0,
-                        },
+                            "& .MuiTab-root": {
+                                minHeight: 44,
+                                minWidth: "auto",
+                                px: { xs: 2.2, sm: 3 },
+                                borderRadius: 2,
+                                textTransform: "none",
+                                fontWeight: 700,
+                                color: "text.secondary",
+                                border: "1px solid",
+                                borderColor: "divider",
+                                whiteSpace: "nowrap",
+                                flexShrink: 0,
+                            },
 
-                        "& .MuiTab-root:hover": {
-                            bgcolor: "primary.light",
-                            color: "secondary.dark",
-                        },
+                            "& .MuiTab-root:hover": {
+                                bgcolor: "primary.light",
+                                color: "secondary.dark",
+                            },
 
-                        "& .Mui-selected": {
-                            bgcolor: "primary.main",
-                            color: "#fff !important",
-                            borderColor: "primary.main",
-                        },
-                    }}
-                >
-                    {country.map((countryName) => (
-                        <Tab
-                            key={countryName}
-                            label={countryName}
-                            value={countryName}
-                        />
-                    ))}
-                </Tabs>
+                            "& .Mui-selected": {
+                                bgcolor: "primary.main",
+                                color: "#fff !important",
+                                borderColor: "primary.main",
+                            },
+                        }}
+                    >
+                        {country.map((countryName) => (
+                            <Tab
+                                key={countryName}
+                                label={countryName}
+                                value={countryName}
+                            />
+                        ))}
+                    </Tabs>
+                )}
             </Box>
         </Paper>
     );

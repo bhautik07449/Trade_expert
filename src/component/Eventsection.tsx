@@ -14,17 +14,22 @@ export default function Eventsection({ country }: any) {
     const [loading, setLoading] = useState(true);
 
     const getEventsData = async (country: string) => {
+        if (!country) return;
+
         try {
+            setLoading(true);
             const response = await HomePageservice.getEvents(country);
-            setLoading(false)
+
             if (response) {
-                setEventsData(response?.data?.data);
+                setEventsData(response?.data?.data || []);
             }
         } catch (error: any) {
-            setLoading(false)
-            console.log(error?.response?.data?.message || "event data not fetch")
+            setEventsData([]);
+            console.log(error?.response?.data?.message || "event data not fetch");
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         getEventsData(country);
@@ -70,8 +75,12 @@ export default function Eventsection({ country }: any) {
                                 <Grid size={{ xs: 12, md: 6, lg: 4 }} key={index}>
                                     <Skeleton
                                         variant="rounded"
+                                        animation="wave"
                                         height={150}
-                                        sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}
+                                        sx={{
+                                            borderRadius: 3,
+                                            boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+                                        }}
                                     />
                                 </Grid>
                             ))}
@@ -197,6 +206,18 @@ export default function Eventsection({ country }: any) {
                         </Grid>
                     )}
                 </Box>
+
+                {!loading && country && eventsData.length === 0 && (
+                    <Typography
+                        sx={{
+                            textAlign: "center",
+                            color: "text.secondary",
+                            mt: 3,
+                        }}
+                    >
+                        No Events found for this country.
+                    </Typography>
+                )}
             </Box>
         </Box>
     );

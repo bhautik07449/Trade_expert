@@ -15,23 +15,30 @@ import { toast } from "react-toastify";
 
 export default function NewsAndEvents() {
     const [activeCountry, setActiveCountry] = useState<string>("");
-    const [multilingual, setMultilingual] = useState([])
+    const [multilingual, setMultilingual] = useState([]);
+    const [multilingualLoading, setMultilingualLoading] = useState(false);
 
     const getMultilingual = async (country: string) => {
+        if (!country) return;
+
         try {
-            const res = await NewsandeventService.getMultilingual(country)
+            setMultilingualLoading(true);
+            const res = await NewsandeventService.getMultilingual(country);
 
             if (res) {
-                setMultilingual(res?.data?.data)
+                setMultilingual(res?.data?.data || []);
             }
         } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+            toast.error(error?.response?.data?.message);
+            setMultilingual([]);
+        } finally {
+            setMultilingualLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        getMultilingual(activeCountry)
-    }, [activeCountry])
+        getMultilingual(activeCountry);
+    }, [activeCountry]);
 
     return (
         <Box
@@ -126,7 +133,7 @@ export default function NewsAndEvents() {
                 </Box>
 
                 <Box component="section">
-                    <Multilingual multilingualTiles={multilingual} />
+                    <Multilingual multilingualTiles={multilingual} loading={multilingualLoading} />
                 </Box>
 
                 <Box component="section">
