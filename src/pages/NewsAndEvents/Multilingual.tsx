@@ -11,56 +11,18 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRef } from "react";
 import LabelTitle from "../../commonUI/labelTitle";
 
-export default function Multilingual() {
-    const sliderRef = useRef<HTMLDivElement | null>(null);
+type MultilingualTile = {
+    image: string;
+    title: string;
+    description: string;
+};
 
-    const multilingualTiles = [
-        {
-            title: "Market Updates",
-            description: "Latest news and updates from global markets.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-        {
-            title: "Trade Events",
-            description: "Important international trade events and exhibitions.",
-            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
-        },
-        {
-            title: "Business News",
-            description: "Current business insights and industry related news.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-        {
-            title: "Market Updates",
-            description: "Latest news and updates from global markets.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-        {
-            title: "Trade Events",
-            description: "Important international trade events and exhibitions.",
-            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
-        },
-        {
-            title: "Business News",
-            description: "Current business insights and industry related news.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-        {
-            title: "Market Updates",
-            description: "Latest news and updates from global markets.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-        {
-            title: "Trade Events",
-            description: "Important international trade events and exhibitions.",
-            image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
-        },
-        {
-            title: "Business News",
-            description: "Current business insights and industry related news.",
-            image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-        },
-    ];
+type MultilingualProps = {
+    multilingualTiles: MultilingualTile[];
+};
+
+export default function Multilingual({ multilingualTiles }: MultilingualProps) {
+    const sliderRef = useRef<HTMLDivElement | null>(null);
 
     const handleScroll = (direction: "left" | "right") => {
         if (!sliderRef.current) return;

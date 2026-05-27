@@ -9,9 +9,9 @@ const getAnalyticalData = async () => {
     }
 }
 
-const getEvents = async () => {
+const getEvents = async (country?: string) => {
     try {
-        const response = serverCall.get('/events')
+        const response = serverCall.get('/events', { params: country ? { country: country } : {} })
         return response
     } catch (error) {
         throw error

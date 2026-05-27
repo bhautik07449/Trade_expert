@@ -9,13 +9,13 @@ import { useEffect, useState } from "react";
 import HomePageservice from "../service/homepages.service";
 import LabelTitle from "../commonUI/labelTitle";
 
-export default function Eventsection() {
+export default function Eventsection({ country }: any) {
     const [eventsData, setEventsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const getEventsData = async () => {
+    const getEventsData = async (country: string) => {
         try {
-            const response = await HomePageservice.getEvents();
+            const response = await HomePageservice.getEvents(country);
             setLoading(false)
             if (response) {
                 setEventsData(response?.data?.data);
@@ -27,8 +27,8 @@ export default function Eventsection() {
     }
 
     useEffect(() => {
-        getEventsData();
-    }, []);
+        getEventsData(country);
+    }, [country]);
 
     return (
         <Box
@@ -103,7 +103,7 @@ export default function Eventsection() {
                                         <Box
                                             sx={{
                                                 width: { xs: 110, sm: 250 },
-                                                minWidth: { xs: 110, sm: 250 },                                            
+                                                minWidth: { xs: 110, sm: 250 },
                                                 flexShrink: 0,
                                                 position: "relative",
                                                 overflow: "hidden",

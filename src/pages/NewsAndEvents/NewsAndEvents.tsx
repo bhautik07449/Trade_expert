@@ -7,12 +7,31 @@ import {
 import SEO from "../../component/SEO";
 import Multilingual from "./Multilingual";
 import PreambleAndUpcoming from "./PreambleAndUpcoming";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CountryTab from "../../commonUI/CountryTab";
 import Eventsection from "../../component/Eventsection";
+import NewsandeventService from "../../service/newsandevent.service";
+import { toast } from "react-toastify";
 
 export default function NewsAndEvents() {
     const [activeCountry, setActiveCountry] = useState<string>("");
+    const [multilingual, setMultilingual] = useState([])
+
+    const getMultilingual = async (country: string) => {
+        try {
+            const res = await NewsandeventService.getMultilingual(country)
+
+            if (res) {
+                setMultilingual(res?.data?.data)
+            }
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message)
+        }
+    }
+
+    useEffect(() => {
+        getMultilingual(activeCountry)
+    }, [activeCountry])
 
     return (
         <Box
@@ -107,15 +126,15 @@ export default function NewsAndEvents() {
                 </Box>
 
                 <Box component="section">
-                    <Multilingual />
+                    <Multilingual multilingualTiles={multilingual} />
                 </Box>
 
                 <Box component="section">
-                    <PreambleAndUpcoming />
+                    <PreambleAndUpcoming country={activeCountry} />
                 </Box>
             </Container>
 
-            <Eventsection />
+            <Eventsection country={activeCountry} />
         </Box>
     );
 }

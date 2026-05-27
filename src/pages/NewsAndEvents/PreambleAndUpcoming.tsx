@@ -1,46 +1,95 @@
-import { Box, Card, CardContent, CardMedia, Chip, Grid, Paper, Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import {
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    Chip,
+    Grid,
+    Paper,
+    Tab,
+    Tabs,
+    Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import LabelTitle from "../../commonUI/labelTitle";
+import HomePageservice from "../../service/homepages.service";
+import NewsandeventService from "../../service/newsandevent.service";
 
-const categories = ["Policy", "Preamble", "Upcoming Updates"];
+type Category = {
+    id: string;
+    name: string;
+    slug: string;
+    pageTitle?: string;
+    metaKeyword?: string;
+    metaDescription?: string;
+    status?: string;
+    country?: string;
+    lastUpdatedAt?: string;
+    createdAt?: string;
+};
 
-const newsData = [
-    {
-        title: "Canada Import Policy Update",
-        category: "Policy",
-        description:
-            "New import policy updates and documentation changes for Canadian trade.",
-        image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
-    },
-    {
-        title: "Upcoming Food Trade Event",
-        category: "Upcoming Updates",
-        description:
-            "Upcoming international food and agricultural trade event details.",
-        image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-    },
-    {
-        title: "Trade Preamble Notice",
-        category: "Preamble",
-        description:
-            "Important preamble and introductory notes related to overseas trade.",
-        image: "https://sourceseas.itcoders.in/img/front-end/quality.jpg",
-    },
-    {
-        title: "Export Regulation Update",
-        category: "Policy",
-        description:
-            "Latest updates regarding export regulations and compliance requirements.",
-        image: "https://sourceseas.itcoders.in/img/front-end/brands.jpg",
-    },
-];
+type PreambleItem = {
+    image: string;
+    title: string;
+    description: string;
+    category: string | Category;
+};
 
-export default function PreambleAndUpcoming() {
-    const [activeCategory, setActiveCategory] = useState("Policy");
+export default function PreambleAndUpcoming({ country }: { country: string }) {
+    const [activeCategory, setActiveCategory] = useState("");
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [preamble, setPreamble] = useState<PreambleItem[]>([]);
 
-    const filteredNews = newsData.filter(
-        (item) => item.category === activeCategory
-    );
+    const getCategories = async (country: string) => {
+        try {
+            const res = await HomePageservice.getCategoriesByCountry(country);
+
+            if (res) {
+                setCategories(res?.data || []);
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || error.message);
+        }
+    };
+
+    useEffect(() => {
+        if (country) {
+            getCategories(country);
+        }
+    }, [country]);
+
+    useEffect(() => {
+        if (categories.length > 0 && !activeCategory) {
+            setActiveCategory(categories[0].name);
+        }
+    }, [categories, activeCategory]);
+
+    const getPreambleData = async () => {
+        try {
+            const res = await NewsandeventService.getPolicypreamble();
+
+            if (res) {
+                setPreamble(res?.data?.data || []);
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || error.message);
+        }
+    };
+
+    useEffect(() => {
+        getPreambleData();
+    }, [activeCategory]);
+
+    const filteredPreamble = activeCategory
+        ? preamble.filter((item) => {
+              const itemCategory =
+                  typeof item.category === "object"
+                      ? item.category?.name
+                      : item.category;
+
+              return itemCategory === activeCategory;
+          })
+        : preamble;
 
     return (
         <Box sx={{ mb: 4 }}>
@@ -92,73 +141,80 @@ export default function PreambleAndUpcoming() {
                 >
                     {categories.map((category) => (
                         <Tab
-                            key={category}
-                            label={category}
-                            value={category}
+                            key={category.id}
+                            label={category.name}
+                            value={category.name}
                         />
                     ))}
                 </Tabs>
             </Paper>
 
             <Grid container spacing={4}>
-                {filteredNews.map((item, index) => (
-                    <Grid key={index} size={{ xs: 12, md: 4 }}>
-                        <Card
-                            elevation={0}
-                            sx={{
-                                height: "100%",
-                                border: "1px solid",
-                                borderColor: "divider",
-                                borderRadius: 3,
-                                bgcolor: "background.paper",
-                                overflow: "hidden",
-                            }}
-                        >
-                            <CardMedia
-                                component="img"
-                                image={item.image}
-                                alt={item.title}
-                                sx={{
-                                    height: { xs: 180, sm: 220 },
-                                    objectFit: "cover",
-                                }}
-                            />
+                {filteredPreamble.map((item, index) => {
+                    const categoryLabel =
+                        typeof item.category === "object"
+                            ? item.category?.name
+                            : item.category;
 
-                            <CardContent>
-                                <Chip
-                                    label={item.category}
+                    return (
+                        <Grid key={index} size={{ xs: 12, md: 4 }}>
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    height: "100%",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    borderRadius: 3,
+                                    bgcolor: "background.paper",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    image={item.image}
+                                    alt={item.title}
                                     sx={{
-                                        mb: 2,
-                                        bgcolor: "primary.light",
-                                        color: "secondary.dark",
-                                        fontWeight: 700,
+                                        height: { xs: 180, sm: 220 },
+                                        objectFit: "cover",
                                     }}
                                 />
 
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        color: "secondary.main",
-                                        fontWeight: 700,
-                                        mb: 1.5,
-                                    }}
-                                >
-                                    {item.title}
-                                </Typography>
+                                <CardContent>
+                                    <Chip
+                                        label={categoryLabel}
+                                        sx={{
+                                            mb: 2,
+                                            bgcolor: "primary.light",
+                                            color: "secondary.dark",
+                                            fontWeight: 700,
+                                        }}
+                                    />
 
-                                <Typography
-                                    sx={{
-                                        color: "text.secondary",
-                                        lineHeight: 1.8,
-                                    }}
-                                >
-                                    {item.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            color: "secondary.main",
+                                            fontWeight: 700,
+                                            mb: 1.5,
+                                        }}
+                                    >
+                                        {item.title}
+                                    </Typography>
+
+                                    <Typography
+                                        sx={{
+                                            color: "text.secondary",
+                                            lineHeight: 1.8,
+                                        }}
+                                    >
+                                        {item.description}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    );
+                })}
             </Grid>
         </Box>
-    )
+    );
 }
