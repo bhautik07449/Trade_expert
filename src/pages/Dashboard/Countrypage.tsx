@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Container } from "@mui/material"
 import { useParams } from "react-router-dom"
 import ImageSlider from "../../commonUI/ImageSlider"
 import CategoryTab from "../../component/Home/CaterogyTab"
@@ -10,6 +10,18 @@ import { useEffect, useState } from "react"
 import HomePageservice from "../../service/homepages.service"
 import SupplierTab from "../../component/SupplierTab"
 import AbcTradeoffer from "../../component/AbcTradeoffer"
+import CardImageSlider from "../../commonUI/CardImageSlider"
+
+const data = [
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" },
+    { image: "https://res.cloudinary.com/dr0xw4ztr/image/upload/v1778127798/o68lemrjsl1owjn15fkk.png" }
+]
 
 export default function CountryPage() {
     const [analyticsData, setAnalyticsData] = useState<any[]>([]);
@@ -86,6 +98,52 @@ export default function CountryPage() {
 
             <Box component="section">
                 <AbcTradeoffer country={country} />
+            </Box>
+
+            <Box
+                component="section"
+                sx={{
+                    position: "relative",
+                    py: { xs: 6, md: 10 },
+                    bgcolor: "background.default",
+                    overflow: "hidden",
+                }}
+            >
+                <Container
+                    sx={{
+                        position: "relative",
+                        zIndex: 2,
+                        maxWidth: "1200px !important",
+                        mx: "auto",
+                        px: { xs: 2, sm: 3, md: 4 },
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: "grid",
+                            gridTemplateColumns: {
+                                xs: "1fr",
+                                md: "repeat(2, minmax(0, 1fr))",
+                            },
+                            gap: { xs: 7, md: 5, lg: 7 },
+                            alignItems: "stretch",
+                        }}
+                    >
+                        <CardImageSlider
+                            title="Membership Resources"
+                            description="Explore useful membership documents and visual resources."
+                            loading={false}
+                            cardImages={data}
+                        />
+
+                        <CardImageSlider
+                            title="Affiliation Resources"
+                            description="View affiliation-related resources and supporting material."
+                            loading={false}
+                            cardImages={data}
+                        />
+                    </Box>
+                </Container>
             </Box>
         </Box>
     )
