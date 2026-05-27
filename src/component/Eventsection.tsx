@@ -102,8 +102,8 @@ export default function Eventsection() {
                                     >
                                         <Box
                                             sx={{
-                                                width: { xs: 110, sm: 200 },
-                                                minWidth: { xs: 110, sm: 200 },
+                                                width: { xs: 110, sm: 250 },
+                                                minWidth: { xs: 110, sm: 250 },                                            
                                                 flexShrink: 0,
                                                 position: "relative",
                                                 overflow: "hidden",
