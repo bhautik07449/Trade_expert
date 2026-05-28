@@ -126,7 +126,7 @@ export default function InvestorRelations() {
 
             <Container
                 sx={{
-                    maxWidth: "1200px !important",
+                    maxWidth: "1400px !important",
                     mx: "auto",
                     px: { xs: 2, sm: 3, md: 4 },
                     py: { xs: 4, md: 6 },

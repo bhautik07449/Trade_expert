@@ -95,7 +95,7 @@ export default function Gallery() {
                 </Box>
             </Box>
             
-            <Box sx={{ maxWidth: "1100px", mx: "auto", px: 2 }}>
+            <Box sx={{ maxWidth: "1400px", mx: "auto", px: 2 }}>
                 {pageLoading ? (
                     <PageContentSkeleton />
                 ) : pageDetail?.content && (

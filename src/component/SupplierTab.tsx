@@ -17,7 +17,7 @@ export default function SupplierTab({ country }: any) {
             label: "Join as public or",
             value: "private personnel",
             button: "Register",
-            link: `/personnel/register?country=${country}`,
+            link: `/pages/career`,
         },
         {
             label: "Join as",
@@ -40,7 +40,7 @@ export default function SupplierTab({ country }: any) {
 
             <Container
                 sx={{
-                    maxWidth: "1200px !important",
+                    maxWidth: "1400px !important",
                     mx: "auto",
                     px: { xs: 2, sm: 3, md: 4 },
                     mt: { xs: 3, md: 4 },

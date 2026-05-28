@@ -32,7 +32,7 @@ export default function AbcTradeoffer({ country }: any) {
 
             <Container
                 sx={{
-                    maxWidth: "1200px !important",
+                    maxWidth: "1400px !important",
                     mx: "auto",
                     px: { xs: 2, sm: 3, md: 4 },
                     mt: { xs: 3, md: 4 },

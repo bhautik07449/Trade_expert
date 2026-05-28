@@ -162,7 +162,7 @@ export default function GetInTouch() {
 
             <Box
                 sx={{
-                    maxWidth: "1200px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },

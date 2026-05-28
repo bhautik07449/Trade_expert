@@ -78,7 +78,7 @@ export default function ProductListByCountry({ country }: { country?: string }) 
             sx={{
                 px: { xs: 2, sm: 4, md: 6 },
                 py: { xs: 5, md: 8 },
-                maxWidth: "1200px",
+                maxWidth: "1400px",
                 mx: "auto",
             }}
         >
@@ -246,7 +246,6 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                                     }}
                                     products={selectedCategory?.product_data || []}
                                     loading={loading}
-                                    visiblecard={3}
                                 />
                             ) : (
                                 <Box sx={{ py: 4, textAlign: "center" }}>

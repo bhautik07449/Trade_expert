@@ -54,7 +54,7 @@ export default function ProductOverView({ category }: any) {
     }, [category])
 
     return (
-        <Box sx={{ maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 } }}>
+        <Box sx={{ maxWidth: "1400px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 } }}>
             {allProducts?.length > 0 && (
                 <CardUi
                     title='All Season'
@@ -69,7 +69,6 @@ export default function ProductOverView({ category }: any) {
                     }}
                     products={allProducts}
                     loading={loading}
-                    visiblecard={3}
                 />
             )}
 
@@ -87,7 +86,6 @@ export default function ProductOverView({ category }: any) {
                     }}
                     products={currentProducts}
                     loading={loading}
-                    visiblecard={3}
                 />
             )}
 
@@ -105,7 +103,6 @@ export default function ProductOverView({ category }: any) {
                     }}
                     products={upcomingProducts}
                     loading={loading}
-                    visiblecard={3}
                 />
             )}
             <InquiryDialog

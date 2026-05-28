@@ -63,7 +63,7 @@ export default function Analytical({
 
             <Box
                 sx={{
-                    maxWidth: "1200px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     px: { xs: 2, sm: 4, md: 6 },
                     position: "relative",
@@ -92,7 +92,7 @@ export default function Analytical({
                 {loading ? (
                     <Grid container spacing={3}>
                         {[...Array(6)].map((_, index) => (
-                            <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={index}>
+                            <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={index}>
                                 <Paper
                                     elevation={0}
                                     sx={{
@@ -145,7 +145,7 @@ export default function Analytical({
                             const Icon = icons[index % icons.length]
 
                             return (
-                                <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={stat.id}>
+                                <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={stat.id}>
                                     <Paper
                                         id={`analytical-stat-card-${stat.id}`}
                                         elevation={0}

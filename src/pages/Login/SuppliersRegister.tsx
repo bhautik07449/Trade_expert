@@ -213,7 +213,7 @@ export default function SuppliersRegister() {
 
             <Box
                 sx={{
-                    maxWidth: "1200px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
                     mt: { xs: -5, md: -7 },
@@ -586,7 +586,7 @@ export default function SuppliersRegister() {
 
             <Box
                 sx={{
-                    maxWidth: "1200px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
                     my: 6,

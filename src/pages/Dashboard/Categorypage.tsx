@@ -89,7 +89,7 @@ export default function CategoryPage() {
                     sx={{
                         position: "relative",
                         zIndex: 2,
-                        maxWidth: "1200px !important",
+                        maxWidth: "1400px !important",
                         mx: "auto",
                         px: { xs: 2, sm: 3, md: 4 },
                     }}

@@ -70,7 +70,7 @@ export default function CardUi({
     }
 
     return (
-        <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", boxSizing: "border-box" }}>
+        <Box sx={{ width: "100%", maxWidth: "1400px", mx: "auto", boxSizing: "border-box" }}>
             {title && label && (
                 <Title title={title} label={label} />
             )}

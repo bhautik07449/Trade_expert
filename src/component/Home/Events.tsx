@@ -40,7 +40,7 @@ export default function Events() {
         >
             <Box
                 sx={{
-                    maxWidth: "1200px", mx: "auto",
+                    maxWidth: "1400px", mx: "auto",
                     boxSizing: "border-box",
                     mb: 4,
                 }}

@@ -141,7 +141,7 @@ export default function Career() {
 
             <Box
                 sx={{
-                    maxWidth: "1440px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     px: { xs: 2, sm: 3 },
                     mt: { xs: -4, md: -6 },

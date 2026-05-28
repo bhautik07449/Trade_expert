@@ -131,7 +131,7 @@ export default function SpotMarketTable({ category }: any) {
     }, [category])
 
     return (
-        <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: "border-box" }}>
+        <Box sx={{ width: "100%", maxWidth: "1400px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: "border-box" }}>
             <Title title="Spot Market" label="Rate" />
 
             <Box

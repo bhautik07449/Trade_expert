@@ -46,7 +46,7 @@ export default function OurProcess() {
         >
             <Container
                 sx={{
-                    maxWidth: "1300px !important",
+                    maxWidth: "1400px !important",
                     mx: "auto",
                     px: { xs: 2, sm: 3, md: 4 },
                 }}

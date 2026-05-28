@@ -33,7 +33,7 @@ export default function TradeHistory({ country }: any) {
     return (
         <Box
             sx={{
-                maxWidth: "1200px",
+                maxWidth: "1400px",
                 mx: "auto",
                 px: { xs: 2, sm: 4, md: 6 },
                 py: { xs: 3, md: 4 },

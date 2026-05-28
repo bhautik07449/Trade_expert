@@ -156,7 +156,7 @@ export default function Brand() {
 
             <Container
                 sx={{
-                    maxWidth: "1200px !important",
+                    maxWidth: "1400px !important",
                     mx: "auto",
                     px: { xs: 2, sm: 3, md: 4 },
                 }}
@@ -191,7 +191,7 @@ export default function Brand() {
                             <Box
                                 key={i}
                                 sx={{
-                                    maxWidth: "1200px",
+                                    maxWidth: "1400px",
                                     mx: "auto",
                                     width: "100%",
                                     py: 4,
@@ -428,7 +428,7 @@ export default function Brand() {
                                     {countryIndex !== list.length - 1 && (
                                         <Divider
                                             sx={{
-                                                maxWidth: "1200px",
+                                                maxWidth: "1400px",
                                                 mx: "auto",
                                                 my: 7,
                                                 borderColor: "divider",

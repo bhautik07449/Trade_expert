@@ -76,7 +76,7 @@ export default function ProductPage() {
                 />
             )}
 
-            <Container sx={{ maxWidth: "1200px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, py: { xs: 4, md: 8 } }}>
+            <Container sx={{ maxWidth: "1400px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, py: { xs: 4, md: 8 } }}>
                 {loading ? (
                     <Grid container spacing={{ xs: 3, md: 4 }}>
                         <Grid size={{ xs: 12, md: 5 }}>

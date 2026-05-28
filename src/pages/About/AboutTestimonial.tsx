@@ -78,7 +78,7 @@ export default function AboutTestimonial() {
         >
             <Box
                 sx={{
-                    maxWidth: "1200px",
+                    maxWidth: "1400px",
                     mx: "auto",
                     display: "grid",
                     gridTemplateColumns: {
