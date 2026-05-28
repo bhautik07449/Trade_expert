@@ -1,0 +1,117 @@
+import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
+import HomePageservice from "../../service/homepages.service";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+export default function FinancialService({ activeCountry }: any) {
+    const [services, setServices] = useState<any[]>([]);
+    const [serviceLoading, setServiceLoading] = useState<boolean>(false);
+
+    const getServiceData = async () => {
+        try {
+            setServiceLoading(true);
+            setServices([]);
+
+            const res = await HomePageservice.getServices();
+
+            const serviceList = Array.isArray(res?.data?.data)
+                ? res?.data?.data
+                : [];
+
+            setServices(serviceList);
+        } catch (error: any) {
+            setServices([]);
+
+            toast.error(
+                error?.response?.data?.message ||
+                error?.response?.message ||
+                "Something went wrong"
+            );
+        } finally {
+            setServiceLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (activeCountry) {
+            getServiceData();
+        } else {
+            setServices([]);
+        }
+    }, [activeCountry]);
+
+    return (
+        <Box sx={{ mb: 5 }}>
+            <Typography
+                variant="h5"
+                sx={{
+                    color: "secondary.main",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    mb: 3,
+                }}
+            >
+                Financial Service
+            </Typography>
+
+            <Grid container spacing={2}>
+                {serviceLoading ? (
+                    [1, 2, 3, 4].map((item) => (
+                        <Grid
+                            key={item}
+                            size={{ xs: 12, sm: 6, md: 3 }}
+                        >
+                            <Skeleton
+                                variant="rounded"
+                                height={72}
+                                animation="wave"
+                            />
+                        </Grid>
+                    ))
+                ) : services.length > 0 ? (
+                    services.map((service, index) => (
+                        <Grid
+                            key={service?.id || index}
+                            size={{ xs: 12, sm: 6, md: 3 }}
+                        >
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: 2,
+                                    textAlign: "center",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    borderRadius: 2,
+                                    bgcolor: "background.default",
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        color: "secondary.main",
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    {service?.name}
+                                </Typography>
+                            </Paper>
+                        </Grid>
+                    ))
+                ) : (
+                    <Grid size={{ xs: 12 }}>
+                        <Typography
+                            sx={{
+                                textAlign: "center",
+                                color: "text.secondary",
+                                py: 2,
+                            }}
+                        >
+                            {activeCountry
+                                ? "No services found."
+                                : "Please select a country to view services."}
+                        </Typography>
+                    </Grid>
+                )}
+            </Grid>
+        </Box>
+    )
+}

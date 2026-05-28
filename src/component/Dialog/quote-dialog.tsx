@@ -41,8 +41,6 @@ export default function QuotationDialog({ open, onClose }: Props) {
     const { categories } = useSelector(
         (state: any) => state.categories
     );
-
-    console.log("categories",categories);
     
     const { flatList: measurements } = useSelector(
         (state: any) => state.measurements

@@ -1,8 +1,9 @@
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, CircularProgress, Skeleton, Typography } from "@mui/material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { getImageUrl } from "../utils/imageUtils";
+import { useState } from "react";
 
 type CardSlider = {
     cardImages: Images[];
@@ -15,12 +16,20 @@ type Images = {
     image: string;
 };
 
+const IMAGE_HEIGHT = {
+    xs: 240,
+    sm: 300,
+    md: 340,
+};
+
 export default function CardImageSlider({
     cardImages,
     loading,
     title,
     description,
 }: CardSlider) {
+    const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+
     const sliderSettings = {
         dots: true,
         infinite: cardImages?.length > 1,
@@ -31,6 +40,11 @@ export default function CardImageSlider({
         autoplaySpeed: 2500,
         arrows: cardImages?.length > 1,
         adaptiveHeight: false,
+        lazyLoad: "ondemand" as const,
+    };
+
+    const handleImageLoad = (index: number) => {
+        setLoadedImages((prev) => ({ ...prev, [index]: true }));
     };
 
     return (
@@ -150,9 +164,13 @@ export default function CardImageSlider({
                         variant="rectangular"
                         animation="wave"
                         width="100%"
-                        height={299}
                         sx={{
                             borderRadius: 3,
+                            height: {
+                                xs: `${IMAGE_HEIGHT.xs}px`,
+                                sm: `${IMAGE_HEIGHT.sm}px`,
+                                md: `${IMAGE_HEIGHT.md}px`,
+                            },
                         }}
                     />
                 ) : cardImages?.length > 0 ? (
@@ -160,22 +178,61 @@ export default function CardImageSlider({
                         {cardImages.map((img, index) => (
                             <Box key={index} sx={{ outline: "none" }}>
                                 <Box
-                                    component="img"
-                                    src={getImageUrl(img?.image)}
-                                    alt={`${title}-${index}`}
                                     sx={{
+                                        position: "relative",
                                         width: "100%",
                                         height: {
-                                            xs: "230px",
-                                            sm: "280px",
-                                            md: "320px",
+                                            xs: `${IMAGE_HEIGHT.xs}px`,
+                                            sm: `${IMAGE_HEIGHT.sm}px`,
+                                            md: `${IMAGE_HEIGHT.md}px`,
                                         },
-                                        objectFit: "contain",
-                                        display: "block",
                                         borderRadius: 3,
-                                        bgcolor: "background.paper",
+                                        overflow: "hidden",
+                                        bgcolor: "background.default",
                                     }}
-                                />
+                                >
+                                    {!loadedImages[index] && (
+                                        <Box
+                                            sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                bottom: 0,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                bgcolor: "background.default",
+                                                zIndex: 2,
+                                            }}
+                                        >
+                                            <CircularProgress
+                                                size={36}
+                                                thickness={4}
+                                                sx={{ color: "#A77B58" }}
+                                            />
+                                        </Box>
+                                    )}
+
+                                    <Box
+                                        component="img"
+                                        src={getImageUrl(img?.image)}
+                                        alt={`${title}-${index}`}
+                                        onLoad={() => handleImageLoad(index)}
+                                        sx={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            objectPosition: "center",
+                                            display: "block",
+                                            opacity: loadedImages[index] ? 1 : 0,
+                                            transition: "opacity 0.35s ease-in-out",
+                                            imageRendering: "auto",
+                                            backfaceVisibility: "hidden",
+                                            transform: "translateZ(0)",
+                                        }}
+                                    />
+                                </Box>
                             </Box>
                         ))}
                     </Slider>
@@ -183,9 +240,9 @@ export default function CardImageSlider({
                     <Box
                         sx={{
                             height: {
-                                xs: "230px",
-                                sm: "280px",
-                                md: "320px",
+                                xs: `${IMAGE_HEIGHT.xs}px`,
+                                sm: `${IMAGE_HEIGHT.sm}px`,
+                                md: `${IMAGE_HEIGHT.md}px`,
                             },
                             borderRadius: 3,
                             bgcolor: "background.default",

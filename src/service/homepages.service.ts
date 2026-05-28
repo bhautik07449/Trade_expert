@@ -108,10 +108,56 @@ const getContentOverViewByCategory = async (category: string) => {
     }
 }
 
+const getMembership = async (country?: string) => {
+    try {
+        const response = serverCall.get('/membership', { params: country ? { country: country } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getAffiliation = async (country?: string) => {
+    try {
+        const response = serverCall.get('/affiliation', { params: country ? { country: country } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getProduct = async (country?: string) => {
+    try {
+        const response = serverCall.get('/products', { params: country ? { country: country } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const getServices = async (country?: string) => {
+    try {
+        const response = serverCall.get('/financialservice', { params: country ? { country: country } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const inquiryIR = async (value: any) => {
+    try {
+        const response = serverCall.post('/investorrelations', value)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const HomePageservice = {
     getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
     getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
-    getCategoriesByCountry, getProductsByCategory, getContentOverViewByCategory
+    getCategoriesByCountry, getProductsByCategory, getContentOverViewByCategory, getMembership, getAffiliation,
+    getProduct, getServices, inquiryIR
 };
 
 export default HomePageservice;
