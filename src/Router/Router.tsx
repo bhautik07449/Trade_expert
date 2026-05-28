@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import PersonnelRegister from '../pages/PersonnelRegister/PersonnelRegister';
 import NewsAndEvents from '../pages/NewsAndEvents/NewsAndEvents';
 import InvestorRelations from '../pages/InvestorRelations/InvestorRelations';
+import PublicDashboard from '../pages/BuyerDashboard/PublicDashboard';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -97,6 +98,8 @@ export default function Router(): JSX.Element {
             </PrivateRoute>
           }
         />
+        <Route path="/public_dashboard" element={<PublicDashboard />} />
+        <Route path="/supplier_dashboard" element={<PublicDashboard />} />
         <Route path="/credit-account" element={<CreditAccount />} />
         <Route path="/trade-offers" element={<Tradeoffer />} />
         <Route path="/abc" element={<Abc />} />

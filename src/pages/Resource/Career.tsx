@@ -10,17 +10,21 @@ import {
     Divider,
     Stack,
     CircularProgress,
+    InputAdornment,
+    IconButton,
 } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice"
 import SEO from "../../component/SEO"
 import { useFormik } from "formik"
 import { toast } from "react-toastify"
 import CMSservice from "../../service/cms.service"
+import { Visibility, VisibilityOff } from "@mui/icons-material"
 
 export default function Career() {
+    const [showPassword, setShowPassword] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
 
     const { pageDetail } = useSelector((state: RootState) => state.page)
@@ -57,6 +61,7 @@ export default function Career() {
             house_ownership: "",
             economic_class: "",
             business_model: "",
+            password: "",
         },
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -305,6 +310,34 @@ export default function Career() {
                                             <MenuItem value="Female">Female</MenuItem>
                                             <MenuItem value="Other">Other</MenuItem>
                                         </TextField>
+
+                                        <TextField
+                                            label="Password"
+                                            name="password"
+                                            type={showPassword ? "text" : "password"}
+                                            fullWidth
+                                            size="small"
+                                            value={formik.values.password}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched.password && Boolean(formik.errors.password)
+                                            }
+                                            helperText={formik.touched.password && formik.errors.password}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
                                     </Stack>
                                 </Paper>
                             </Grid>
