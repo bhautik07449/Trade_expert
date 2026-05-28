@@ -9,7 +9,6 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 import OverPresences from "../../component/Home/OverPresences";
-import InteractiveWorldMap from "../../component/Home/InteractiveWorldMap";
 import AboutMap from "../../component/Home/AboutMap";
 
 export default function AboutUs() {

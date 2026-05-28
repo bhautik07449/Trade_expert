@@ -5,7 +5,6 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const processSteps = [
     {

@@ -1,5 +1,5 @@
 import { Paper, Tab, Tabs, Box, Skeleton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomePageservice from "../service/homepages.service";
 
 type CountryTabProps = {
@@ -14,29 +14,37 @@ export default function CountryTab({
     const [country, setCountry] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const getPresencesData = async () => {
-        try {
-            setLoading(true);
-            const response = await HomePageservice.getPresences();
+    const activeCountryRef = useRef(activeCountry);
+    const hasFetchedRef = useRef(false);
 
-            if (response) {
+    useEffect(() => {
+        activeCountryRef.current = activeCountry;
+    }, [activeCountry]);
+
+    useEffect(() => {
+        if (hasFetchedRef.current) return;
+
+        hasFetchedRef.current = true;
+
+        const getPresencesData = async () => {
+            try {
+                setLoading(true);
+                const response = await HomePageservice.getPresences();
                 const countries = response?.data?.countries || [];
                 setCountry(countries);
 
-                if (countries.length > 0 && !activeCountry) {
+                if (countries.length > 0 && !activeCountryRef.current) {
                     setActiveCountry(countries[0]);
                 }
-            }
-        } catch (error: any) {
+            } catch (error: any) {
             console.log(error?.response?.data?.message || "Presences data not fetch");
-        } finally {
-            setLoading(false);
-        }
-    };
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    useEffect(() => {
         getPresencesData();
-    }, []);
+    }, [setActiveCountry]);
 
     return (
         <Paper
