@@ -4,11 +4,13 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { getImageUrl } from "../utils/imageUtils";
 import { useState } from "react";
+import LabelTitle from "./labelTitle";
 
 type CardSlider = {
     cardImages: Images[];
     loading: boolean;
     title: string;
+    label: string;
     description?: string;
 };
 
@@ -17,28 +19,32 @@ type Images = {
 };
 
 const IMAGE_HEIGHT = {
-    xs: 240,
-    sm: 300,
-    md: 340,
+    xs: 220,
+    sm: 280,
+    md: 320,
+    lg: 360,
 };
 
 export default function CardImageSlider({
     cardImages,
     loading,
     title,
+    label,
     description,
 }: CardSlider) {
     const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
+    const hasMultipleImages = cardImages?.length > 1;
+
     const sliderSettings = {
-        dots: true,
-        infinite: cardImages?.length > 1,
+        dots: hasMultipleImages,
+        infinite: hasMultipleImages,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        autoplay: cardImages?.length > 1,
+        autoplay: hasMultipleImages,
         autoplaySpeed: 2500,
-        arrows: cardImages?.length > 1,
+        arrows: hasMultipleImages,
         adaptiveHeight: false,
         lazyLoad: "ondemand" as const,
     };
@@ -50,35 +56,33 @@ export default function CardImageSlider({
     return (
         <Box
             sx={{
-                textAlign: "center",
+                width: "100%",
                 height: "100%",
+                minWidth: 0,
                 display: "flex",
                 flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
             }}
         >
-            <Box sx={{ mb: { xs: 2.5, md: 3 } }}>
-                <Typography
-                    sx={{
-                        color: "secondary.main",
-                        fontWeight: 800,
-                        mb: 1,
-                        fontSize: {
-                            xs: "24px",
-                            sm: "26px",
-                            md: "30px",
-                        },
-                        textTransform: "capitalize",
-                    }}
-                >
-                    {title}
-                </Typography>
+            <Box
+                sx={{
+                    mb: { xs: 2, sm: 2.5, md: 3 },
+                    px: { xs: 1, sm: 0 },
+                }}
+            >
+                <LabelTitle title={title} label={label} />
 
                 {description && (
                     <Typography
                         sx={{
                             color: "text.secondary",
-                            fontSize: { xs: "14px", md: "15px" },
-                            maxWidth: 420,
+                            fontSize: {
+                                xs: "13.5px",
+                                sm: "14px",
+                                md: "15px",
+                            },
+                            maxWidth: 440,
                             mx: "auto",
                             lineHeight: 1.7,
                         }}
@@ -91,40 +95,61 @@ export default function CardImageSlider({
             <Box
                 sx={{
                     width: "100%",
-                    maxWidth: { xs: "100%", sm: 420, md: 500 },
+                    maxWidth: {
+                        xs: "100%",
+                        sm: 520,
+                        md: "100%",
+                        lg: 560,
+                    },
                     mx: "auto",
                     bgcolor: "background.paper",
-                    p: { xs: 1.2, sm: 1.5 },
-                    borderRadius: 4,
+                    p: { xs: 1, sm: 1.25, md: 1.5 },
+                    borderRadius: { xs: 3, md: 4 },
                     border: "1px solid",
                     borderColor: "divider",
-                    boxShadow: "0 18px 45px rgba(0,0,0,0.12)",
-                    overflow: "hidden",
+                    boxShadow: {
+                        xs: "0 10px 26px rgba(59,48,39,0.08)",
+                        md: "0 18px 45px rgba(59,48,39,0.12)",
+                    },
+                    overflow: "visible",
+                    minWidth: 0,
 
                     "& .slick-slider": {
                         width: "100%",
+                        minWidth: 0,
                     },
 
                     "& .slick-list": {
-                        borderRadius: 3,
+                        borderRadius: { xs: 2.5, md: 3 },
+                        overflow: "hidden",
+                    },
+
+                    "& .slick-track": {
+                        display: "flex",
+                        alignItems: "stretch",
+                    },
+
+                    "& .slick-slide": {
+                        height: "auto",
                     },
 
                     "& .slick-slide > div": {
+                        height: "100%",
                         lineHeight: 0,
                     },
 
                     "& .slick-dots": {
-                        bottom: "-30px",
+                        bottom: { xs: "-28px", sm: "-32px" },
                     },
 
                     "& .slick-dots li": {
-                        mx: 0,
+                        mx: -0.2,
                     },
 
                     "& .slick-dots li button:before": {
                         color: "#A77B58",
                         opacity: 0.35,
-                        fontSize: "9px",
+                        fontSize: { xs: "8px", sm: "9px" },
                     },
 
                     "& .slick-dots li.slick-active button:before": {
@@ -134,26 +159,29 @@ export default function CardImageSlider({
 
                     "& .slick-prev, & .slick-next": {
                         zIndex: 5,
-                        width: 34,
-                        height: 34,
+                        width: { xs: 30, sm: 34, md: 38 },
+                        height: { xs: 30, sm: 34, md: 38 },
                         borderRadius: "50%",
                         bgcolor: "rgba(167, 123, 88, 0.92)",
-                        transition: "0.25s",
+                        boxShadow: "0 8px 20px rgba(59,48,39,0.18)",
+                        transition: "0.25s ease",
+                        display: { xs: "none !important", sm: "block" },
+
                         "&:hover": {
                             bgcolor: "primary.dark",
                         },
                     },
 
                     "& .slick-prev": {
-                        left: { xs: 6, sm: -12 },
+                        left: { sm: 8, md: -14, lg: -18 },
                     },
 
                     "& .slick-next": {
-                        right: { xs: 6, sm: -12 },
+                        right: { sm: 8, md: -14, lg: -18 },
                     },
 
                     "& .slick-prev:before, & .slick-next:before": {
-                        fontSize: "17px",
+                        fontSize: { sm: "16px", md: "18px" },
                         opacity: 1,
                         color: "#fff",
                     },
@@ -165,11 +193,12 @@ export default function CardImageSlider({
                         animation="wave"
                         width="100%"
                         sx={{
-                            borderRadius: 3,
+                            borderRadius: { xs: 2.5, md: 3 },
                             height: {
                                 xs: `${IMAGE_HEIGHT.xs}px`,
                                 sm: `${IMAGE_HEIGHT.sm}px`,
                                 md: `${IMAGE_HEIGHT.md}px`,
+                                lg: `${IMAGE_HEIGHT.lg}px`,
                             },
                         }}
                     />
@@ -185,8 +214,9 @@ export default function CardImageSlider({
                                             xs: `${IMAGE_HEIGHT.xs}px`,
                                             sm: `${IMAGE_HEIGHT.sm}px`,
                                             md: `${IMAGE_HEIGHT.md}px`,
+                                            lg: `${IMAGE_HEIGHT.lg}px`,
                                         },
-                                        borderRadius: 3,
+                                        borderRadius: { xs: 2.5, md: 3 },
                                         overflow: "hidden",
                                         bgcolor: "background.default",
                                     }}
@@ -195,10 +225,7 @@ export default function CardImageSlider({
                                         <Box
                                             sx={{
                                                 position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                right: 0,
-                                                bottom: 0,
+                                                inset: 0,
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
@@ -207,9 +234,9 @@ export default function CardImageSlider({
                                             }}
                                         >
                                             <CircularProgress
-                                                size={36}
+                                                size={34}
                                                 thickness={4}
-                                                sx={{ color: "#A77B58" }}
+                                                sx={{ color: "primary.main" }}
                                             />
                                         </Box>
                                     )}
@@ -243,16 +270,19 @@ export default function CardImageSlider({
                                 xs: `${IMAGE_HEIGHT.xs}px`,
                                 sm: `${IMAGE_HEIGHT.sm}px`,
                                 md: `${IMAGE_HEIGHT.md}px`,
+                                lg: `${IMAGE_HEIGHT.lg}px`,
                             },
-                            borderRadius: 3,
+                            borderRadius: { xs: 2.5, md: 3 },
                             bgcolor: "background.default",
+                            border: "1px dashed",
+                            borderColor: "divider",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             px: 2,
                         }}
                     >
-                        <Typography color="text.secondary">
+                        <Typography color="text.secondary" sx={{ fontSize: 14 }}>
                             No images available.
                         </Typography>
                     </Box>

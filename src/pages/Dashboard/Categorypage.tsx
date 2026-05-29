@@ -7,6 +7,11 @@ import OverViewContent from "../../component/Home/OverViewContent";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
 import CardImageSlider from "../../commonUI/CardImageSlider";
+import CategoryInsight from "../../component/Category/CategoryInsight";
+import StateStanding from "../../component/Category/StateStanding";
+import ComodityProfile from "../../component/Category/ComodityProfile";
+import CommodityProcessFlow from "../../component/Category/CommodityProcessFlow";
+import Events from "../../component/Home/Events";
 
 export default function CategoryPage() {
     const { category } = useParams();
@@ -74,24 +79,30 @@ export default function CategoryPage() {
             <ImageSlider slides={slides} loading={imageLoading} />
             <OverViewContent category={category} />
             <SpotMarketTable category={category} />
+            <CategoryInsight category={category} />
+            <StateStanding category={category} />
             <ProductOverView category={category} />
+            <ComodityProfile category={category} />
+            <CommodityProcessFlow />
+            <Events />
 
             <Box
                 component="section"
                 sx={{
                     position: "relative",
-                    py: { xs: 6, md: 10 },
+                    py: { xs: 5, sm: 6, md: 8, lg: 10 },
                     bgcolor: "background.default",
                     overflow: "hidden",
                 }}
             >
                 <Container
+                    maxWidth={false}
                     sx={{
                         position: "relative",
                         zIndex: 2,
-                        maxWidth: "1400px !important",
+                        maxWidth: "1400px",
                         mx: "auto",
-                        px: { xs: 2, sm: 3, md: 4 },
+                        px: { xs: 2, sm: 3, md: 4, lg: 5 },
                     }}
                 >
                     <Box
@@ -101,19 +112,21 @@ export default function CategoryPage() {
                                 xs: "1fr",
                                 md: "repeat(2, minmax(0, 1fr))",
                             },
-                            gap: { xs: 7, md: 5, lg: 7 },
+                            gap: { xs: 5, sm: 6, md: 4, lg: 6 },
                             alignItems: "stretch",
                         }}
                     >
                         <CardImageSlider
-                            title="Membership Resources"
+                            title="Membership"
+                            label="Resources"
                             description="Explore useful membership documents and visual resources."
                             loading={membershipLoading}
                             cardImages={membership}
                         />
 
                         <CardImageSlider
-                            title="Affiliation Resources"
+                            title="Affiliation"
+                            label="Resources"
                             description="View affiliation-related resources and supporting material."
                             loading={affiliationLoading}
                             cardImages={affiliation}
