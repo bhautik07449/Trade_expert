@@ -9,23 +9,12 @@ import {
 import CardUi from "../../commonUI/CardUi"
 import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
-import InquiryDialog from "../Dialog/inquiry-dialog"
-import EnquiryDialog from "../Dialog/enquiry-dialog"
 import LabelTitle from "../../commonUI/labelTitle"
 
 export default function ProductListByCountry({ country }: { country?: string }) {
-    const [open, setOpen] = useState(false)
     const [allProducts, setAllProducts] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-    const [openEnquiry, setOpenEnquiry] = useState(false)
     const [activeCategory, setActiveCategory] = useState<Record<number, number>>({})
-
-    const [selectedProduct, setSelectedProduct] = useState<{
-        name?: string
-        description?: string
-        images?: string
-        id?: any
-    } | null>(null)
 
     const getProducts = async (country: string) => {
         setLoading(true)
@@ -62,15 +51,6 @@ export default function ProductListByCountry({ country }: { country?: string }) 
             ...prev,
             [groupIndex]: categoryIndex,
         }))
-    }
-
-    const handleSelectProduct = (product: any) => {
-        setSelectedProduct({
-            name: product.name,
-            description: product?.description,
-            images: product?.images?.[0],
-            id: product.id,
-        })
     }
 
     return (
@@ -236,14 +216,6 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                             {selectedCategory ? (
                                 <CardUi
                                     label=""
-                                    onEnquire={(product: any) => {
-                                        handleSelectProduct(product)
-                                        setOpenEnquiry(true)
-                                    }}
-                                    onRequestSample={(product: any) => {
-                                        handleSelectProduct(product)
-                                        setOpen(true)
-                                    }}
                                     products={selectedCategory?.product_data || []}
                                     loading={loading}
                                 />
@@ -271,28 +243,6 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                     </Typography>
                 </Box>
             )}
-
-            <InquiryDialog
-                open={open}
-                onClose={() => setOpen(false)}
-                product={{
-                    name: selectedProduct?.name,
-                    description: selectedProduct?.description,
-                    images: selectedProduct?.images,
-                    id: selectedProduct?.id,
-                }}
-            />
-
-            <EnquiryDialog
-                open={openEnquiry}
-                onClose={() => setOpenEnquiry(false)}
-                product={{
-                    name: selectedProduct?.name,
-                    description: selectedProduct?.description,
-                    images: selectedProduct?.images,
-                    id: selectedProduct?.id,
-                }}
-            />
         </Box>
     )
 }

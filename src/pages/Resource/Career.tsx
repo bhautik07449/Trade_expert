@@ -253,16 +253,6 @@ export default function Career() {
                                         <TextField
                                             fullWidth
                                             size="small"
-                                            label="Email"
-                                            name="email"
-                                            value={formik.values.email}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.email && Boolean(formik.errors.email)}
-                                            helperText={formik.touched.email && formik.errors.email}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            size="small"
                                             label="Family Member"
                                             name="family_member"
                                             value={formik.values.family_member}
@@ -310,116 +300,6 @@ export default function Career() {
                                             <MenuItem value="Female">Female</MenuItem>
                                             <MenuItem value="Other">Other</MenuItem>
                                         </TextField>
-
-                                        <TextField
-                                            label="Password"
-                                            name="password"
-                                            type={showPassword ? "text" : "password"}
-                                            fullWidth
-                                            size="small"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            error={
-                                                formik.touched.password && Boolean(formik.errors.password)
-                                            }
-                                            helperText={formik.touched.password && formik.errors.password}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            onClick={() => setShowPassword(!showPassword)}
-                                                            edge="end"
-                                                            aria-label="toggle password visibility"
-                                                        >
-                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </Stack>
-                                </Paper>
-                            </Grid>
-
-                            <Grid size={{ xs: 12, md: 3 }}>
-                                <Paper
-                                    variant="outlined"
-                                    sx={{
-                                        p: 2.5,
-                                        borderRadius: 1,
-                                        height: "100%",
-                                        bgcolor: "#fafafa",
-                                    }}
-                                >
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontWeight: 700,
-                                            color: "primary.main",
-                                            mb: 2,
-                                            borderBottom: "2px solid",
-                                            borderColor: "primary.main",
-                                            pb: 1,
-                                        }}
-                                    >
-                                        Professional Interest
-                                    </Typography>
-
-                                    <Stack spacing={2}>
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            label="Education"
-                                            name="education"
-                                            value={formik.values.education}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.education && Boolean(formik.errors.education)}
-                                            helperText={formik.touched.education && formik.errors.education}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            label="Certification"
-                                            name="certification"
-                                            value={formik.values.certification}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.certification && Boolean(formik.errors.certification)}
-                                            helperText={formik.touched.certification && formik.errors.certification}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            multiline
-                                            rows={3}
-                                            label="Experience"
-                                            name="experience"
-                                            value={formik.values.experience}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.experience && Boolean(formik.errors.experience)}
-                                            helperText={formik.touched.experience && formik.errors.experience}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            multiline
-                                            rows={3}
-                                            label="Work Interest"
-                                            name="work_interest"
-                                            value={formik.values.work_interest}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.work_interest && Boolean(formik.errors.work_interest)}
-                                            helperText={formik.touched.work_interest && formik.errors.work_interest}
-                                        />
-                                        <TextField
-                                            fullWidth size="small"
-                                            label="Personal Initiative"
-                                            name="personal_initiative"
-                                            value={formik.values.personal_initiative}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.personal_initiative && Boolean(formik.errors.personal_initiative)}
-                                            helperText={formik.touched.personal_initiative && formik.errors.personal_initiative}
-                                        />
                                     </Stack>
                                 </Paper>
                             </Grid>
@@ -508,6 +388,88 @@ export default function Career() {
                                             onChange={formik.handleChange}
                                             error={formik.touched.faith && Boolean(formik.errors.faith)}
                                             helperText={formik.touched.faith && formik.errors.faith}
+                                        />
+                                    </Stack>
+                                </Paper>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: 3 }}>
+                                <Paper
+                                    variant="outlined"
+                                    sx={{
+                                        p: 2.5,
+                                        borderRadius: 1,
+                                        height: "100%",
+                                        bgcolor: "#fafafa",
+                                    }}
+                                >
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: "primary.main",
+                                            mb: 2,
+                                            borderBottom: "2px solid",
+                                            borderColor: "primary.main",
+                                            pb: 1,
+                                        }}
+                                    >
+                                        Professional Interest
+                                    </Typography>
+
+                                    <Stack spacing={2}>
+                                        <TextField
+                                            fullWidth
+                                            size="small"
+                                            label="Education"
+                                            name="education"
+                                            value={formik.values.education}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.education && Boolean(formik.errors.education)}
+                                            helperText={formik.touched.education && formik.errors.education}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            size="small"
+                                            label="Certification"
+                                            name="certification"
+                                            value={formik.values.certification}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.certification && Boolean(formik.errors.certification)}
+                                            helperText={formik.touched.certification && formik.errors.certification}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            size="small"
+                                            multiline
+                                            rows={3}
+                                            label="Experience"
+                                            name="experience"
+                                            value={formik.values.experience}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.experience && Boolean(formik.errors.experience)}
+                                            helperText={formik.touched.experience && formik.errors.experience}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            size="small"
+                                            multiline
+                                            rows={3}
+                                            label="Work Interest"
+                                            name="work_interest"
+                                            value={formik.values.work_interest}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.work_interest && Boolean(formik.errors.work_interest)}
+                                            helperText={formik.touched.work_interest && formik.errors.work_interest}
+                                        />
+                                        <TextField
+                                            fullWidth size="small"
+                                            label="Personal Initiative"
+                                            name="personal_initiative"
+                                            value={formik.values.personal_initiative}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.personal_initiative && Boolean(formik.errors.personal_initiative)}
+                                            helperText={formik.touched.personal_initiative && formik.errors.personal_initiative}
                                         />
                                     </Stack>
                                 </Paper>
@@ -649,10 +611,52 @@ export default function Career() {
                                 <Box
                                     sx={{
                                         display: "flex",
+                                        flexDirection: { xs: "column", sm: "row" },
                                         justifyContent: { xs: "center", sm: "flex-end" },
+                                        alignItems: { xs: "stretch", sm: "flex-start" },
+                                        gap: 2,
                                         mt: 2,
+                                        width: "100%",
+
                                     }}
                                 >
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        label="Email"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.email && Boolean(formik.errors.email)}
+                                        helperText={formik.touched.email && formik.errors.email}
+                                    />
+                                    <TextField
+                                        label="Password"
+                                        name="password"
+                                        type={showPassword ? "text" : "password"}
+                                        fullWidth
+                                        size="small"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={
+                                            formik.touched.password && Boolean(formik.errors.password)
+                                        }
+                                        helperText={formik.touched.password && formik.errors.password}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        edge="end"
+                                                        aria-label="toggle password visibility"
+                                                    >
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
                                     <Button
                                         type="submit"
                                         variant="contained"

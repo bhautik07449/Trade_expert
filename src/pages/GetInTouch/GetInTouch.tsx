@@ -198,10 +198,11 @@ export default function GetInTouch() {
                                 }}
                             />
                         )}
+                        
+                        <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
                     </Paper>
                 )}
 
-                <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 3 }}>

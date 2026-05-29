@@ -9,7 +9,7 @@ import {
     IconButton,
     Skeleton,
 } from "@mui/material"
-import { Link as RouterLink } from "react-router-dom"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
 import Title from "./labelTitle"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import { getImageUrl } from "../utils/imageUtils"
@@ -26,8 +26,6 @@ type Product = {
 export default function CardUi({
     title,
     label,
-    onEnquire,
-    onRequestSample,
     products,
     visiblecard = 4,
     loading = false
@@ -42,6 +40,7 @@ export default function CardUi({
 }) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [visibleCards, setVisibleCards] = useState(visiblecard)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const updateVisibleCards = () => {
@@ -179,24 +178,9 @@ export default function CardUi({
                                                     color="primary"
                                                     fullWidth
                                                     sx={{ mt: 2, fontSize: "12px" }}
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onEnquire && onEnquire(product)
-                                                    }}
+                                                    onClick={(e) => navigate(`/product-details/${product?.id}`)}
                                                 >
-                                                    Enquire now
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    fullWidth
-                                                    sx={{ mt: 2, fontSize: "12px" }}
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onRequestSample && onRequestSample(product)
-                                                    }}
-                                                >
-                                                    request sample
+                                                    Trade deal
                                                 </Button>
                                             </Box>
                                         </CardContent>

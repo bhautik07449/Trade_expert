@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ImageSlider from '../../commonUI/ImageSlider'
 import CardUi from '../../commonUI/CardUi'
 import SpotMarketTable from '../../commonUI/spotMarket'
-import InquiryDialog from '../../component/Dialog/inquiry-dialog'
 import OurView from '../../component/Ourview'
 import OurProcess from '../../component/OurProcess'
 import Values from '../../component/Values'
 import AboutTestimonial from '../About/AboutTestimonial'
 import Homeservice from '../../service/home.service'
-import EnquiryDialog from '../../component/Dialog/enquiry-dialog'
 import SEO from '../../component/SEO'
 
 export const Dashboard = () => {
@@ -16,14 +14,6 @@ export const Dashboard = () => {
   const [currentProducts, setCurrentProducts] = useState([])
   const [upcomingProducts, setUpcomingProducts] = useState([])
   const hasFetched = useRef(false)
-  const [open, setOpen] = useState(false)
-  const [openEnquiry, setOpenEnquiry] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState<{
-    name?: string
-    description?: string
-    images?: string
-    id?: any
-  } | null>(null)
   const [loading, setLoading] = useState(true)
   const [slides, setSlides] = useState<any[]>([])
   const [imageLoading, setImageLoading] = useState(true)
@@ -92,14 +82,6 @@ export const Dashboard = () => {
       <CardUi
         title='All Season'
         label='Availability'
-        onEnquire={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpenEnquiry(true)
-        }}
-        onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
-        }}
         products={allProducts}
         loading={loading}
       />
@@ -107,14 +89,6 @@ export const Dashboard = () => {
       <CardUi
         title='Current'
         label='Season'
-        onEnquire={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpenEnquiry(true)
-        }}
-        onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
-        }}
         products={currentProducts}
         loading={loading}
       />
@@ -122,14 +96,6 @@ export const Dashboard = () => {
       <CardUi
         title='Upcoming'
         label='Season'
-        onEnquire={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpenEnquiry(true)
-        }}
-        onRequestSample={(product) => {
-          setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-          setOpen(true)
-        }}
         products={upcomingProducts}
         loading={loading}
       />
@@ -137,28 +103,6 @@ export const Dashboard = () => {
       <OurProcess />
       <Values />
       <AboutTestimonial />
-
-      <InquiryDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        product={{
-          name: selectedProduct?.name,
-          description: selectedProduct?.description,
-          images: selectedProduct?.images,
-          id: selectedProduct?.id
-        }}
-      />
-
-      <EnquiryDialog
-        open={openEnquiry}
-        onClose={() => setOpenEnquiry(false)}
-        product={{
-          name: selectedProduct?.name,
-          description: selectedProduct?.description,
-          images: selectedProduct?.images,
-          id: selectedProduct?.id
-        }}
-      />
     </>
   )
 }

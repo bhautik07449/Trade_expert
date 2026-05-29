@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import CardUi from "../../commonUI/CardUi";
-import InquiryDialog from "../../component/Dialog/inquiry-dialog";
-import EnquiryDialog from "../../component/Dialog/enquiry-dialog";
 import SEO from "../../component/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -17,14 +15,6 @@ export default function Abc() {
 
     const [list, setList] = useState<any>([])
     const [loading, setLoading] = useState(true)
-    const [open, setOpen] = useState(false)
-    const [openEnquiry, setOpenEnquiry] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState<{
-        name?: string
-        description?: string
-        images?: string
-        id?: any
-    } | null>(null)
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -182,14 +172,6 @@ export default function Abc() {
 
                                     <CardUi
                                         label='Availability'
-                                        onEnquire={(product: any) => {
-                                            setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                            setOpenEnquiry(true)
-                                        }}
-                                        onRequestSample={(product: any) => {
-                                            setSelectedProduct({ name: product.name, description: product?.description, images: product?.images?.[0], id: product.id })
-                                            setOpen(true)
-                                        }}
                                         products={item?.product_data}
                                         visiblecard={3}
                                         loading={loading}
@@ -206,28 +188,6 @@ export default function Abc() {
                     </Grid>
                 )}
             </Container>
-
-            <InquiryDialog
-                open={open}
-                onClose={() => setOpen(false)}
-                product={{
-                    name: selectedProduct?.name,
-                    description: selectedProduct?.description,
-                    images: selectedProduct?.images,
-                    id: selectedProduct?.id
-                }}
-            />
-
-            <EnquiryDialog
-                open={openEnquiry}
-                onClose={() => setOpenEnquiry(false)}
-                product={{
-                    name: selectedProduct?.name,
-                    description: selectedProduct?.description,
-                    images: selectedProduct?.images,
-                    id: selectedProduct?.id
-                }}
-            />
         </Box>
     );
 }

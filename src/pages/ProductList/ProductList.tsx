@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material"
 import CardUi from "../../commonUI/CardUi"
-import InquiryDialog from "../../component/Dialog/inquiry-dialog"
 import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
 import { useParams } from "react-router-dom"
@@ -11,13 +10,6 @@ export default function ProductList() {
     const { slug } = useParams();
     const [product, setProduct] = useState([])
     const [loading, setLoading] = useState(true)
-
-    const [open, setOpen] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState<{
-        name: string
-        description?: string
-        image?: string
-    } | null>(null)
 
     useEffect(() => {
         const getProduct = async () => {
@@ -40,8 +32,8 @@ export default function ProductList() {
 
     return (
         <>
-            <SEO 
-                title={`${slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Products'} - Tradexpert`} 
+            <SEO
+                title={`${slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Products'} - Tradexpert`}
                 description={`Explore our wide range of ${slug ? slug.replace(/-/g, ' ') : ''} products. Connect with verified suppliers and buyers on Tradexpert.`}
             />
             <Box sx={{ py: { xs: 4, md: 8 }, mb: { xs: 6, md: 8 }, boxSizing: "border-box", width: "100%" }}>
@@ -49,14 +41,6 @@ export default function ProductList() {
                     <CardUi
                         title='All'
                         label='Product'
-                        onEnquire={(product) => {
-                            setSelectedProduct(product)
-                            setOpen(true)
-                        }}
-                        onRequestSample={(product) => {
-                            setSelectedProduct({ name: product.name })
-                            setOpen(true)
-                        }}
                         products={product}
                         loading={loading}
                     />
@@ -71,17 +55,6 @@ export default function ProductList() {
                         </Box>
                     )}
             </Box>
-
-            <InquiryDialog
-                open={open}
-                onClose={() => setOpen(false)}
-                product={{
-                    name: selectedProduct?.name || "Flavoured Khakhra",
-                    description:
-                        selectedProduct?.description ||
-                        "Khakhra is a thin cracker common in the Gujarati and Rajasthani cuisines of western India...",
-                }}
-            />
         </>
     )
 }
