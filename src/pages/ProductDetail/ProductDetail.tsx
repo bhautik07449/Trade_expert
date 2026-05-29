@@ -67,10 +67,10 @@ export default function ProductPage() {
     return (
         <>
             {product && (
-                <SEO 
-                    title={product?.pageTitle || product?.name || 'Product Details'} 
-                    description={product?.metaDescription || product?.name || 'View product details on Tradexpert'} 
-                    keywords={product?.metaKeywords || product?.name} 
+                <SEO
+                    title={product?.pageTitle || product?.name || 'Product Details'}
+                    description={product?.metaDescription || product?.name || 'View product details on Tradexpert'}
+                    keywords={product?.metaKeywords || product?.name}
                     type="product"
                     image={product?.images?.[0]}
                 />
@@ -121,10 +121,6 @@ export default function ProductPage() {
                                 />
 
                                 <ProductSpecsTabs specs={product.specs} />
-
-                                <Box mt={2}>
-                                    <CtaButtons product={product} />
-                                </Box>
                             </Grid>
                         </Grid>
 
@@ -134,9 +130,12 @@ export default function ProductPage() {
                             </Grid>
                         </Grid>
 
-                        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
+                        <Box mt={2}>
+                            <CtaButtons product={product} />
+                        </Box>
 
-                            <Grid size={{ md: 12 }}>
+                        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mt: 3 }}>
+                            <Grid size={{ xs: 12 }}>
                                 <CertificationPanel product={product} />
                             </Grid>
 

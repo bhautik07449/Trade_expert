@@ -106,6 +106,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                     overflowX: "auto",
                     overflowY: "hidden",
                     WebkitOverflowScrolling: "touch",
+                    scrollbarGutter: "stable",
                     boxShadow: `0 10px 40px ${alpha(theme.palette.common.black, 0.05)}`,
                     border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
                     background: `linear-gradient(135deg, ${alpha(
@@ -113,6 +114,21 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                         0.9
                     )} 0%, ${theme.palette.background.paper} 100%)`,
                     backdropFilter: "blur(10px)",
+
+                    "&::-webkit-scrollbar": {
+                        height: 8,
+                    },
+                    "&::-webkit-scrollbar-track": {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                        borderRadius: 99,
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.35),
+                        borderRadius: 99,
+                    },
+                    "&::-webkit-scrollbar-thumb:hover": {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.55),
+                    },
                 }}
             >
                 <Table sx={{ minWidth: { xs: 900, sm: 650 }, tableLayout: { xs: 'auto', sm: 'fixed' } }}>
@@ -158,16 +174,13 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                             <TableRow
                                 key={item.id || index}
                                 sx={{
-                                    transition: "all 0.2s ease",
+                                    transition: "background-color 0.2s ease",
                                     "&:hover": {
-                                        bgcolor: alpha(theme.palette.primary.main, 0.02),
-                                        transform: "translateY(-1px)",
-                                        boxShadow: `0 4px 12px ${alpha(
-                                            theme.palette.common.black,
-                                            0.03
-                                        )}`,
+                                        bgcolor: alpha(theme.palette.primary.main, 0.04),
                                     },
-                                    "&:last-child td, &:last-child th": { border: 0 },
+                                    "&:last-child td, &:last-child th": {
+                                        border: 0,
+                                    },
                                 }}
                             >
                                 <TableCell sx={{ py: 2, color: "text.secondary", fontSize: "0.85rem" }}>

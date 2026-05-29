@@ -165,10 +165,12 @@ export default function Header() {
                 categories?.map((country: any) => ({
                     label: country?.country,
                     type: "country",
+                    path: `/${country?.country}`,
                     subItems:
                         country?.categories?.map((category: any) => ({
                             label: category?.name,
                             type: "category",
+                            path: `/category/${category?.id}`,
                             subItems:
                                 category?.subcategories?.map((subcategory: any) => ({
                                     label: subcategory?.name,
@@ -843,6 +845,7 @@ function CountriesMegaMenu({
                         <ListItem key={country.label} disablePadding>
                             <ListItemButton
                                 onMouseEnter={() => setHoveredCountry(country)}
+                                onClick={() => country.path && navigate(country.path)}
                                 selected={hoveredCountry?.label === country.label}
                                 sx={{
                                     py: 1.5,
@@ -896,6 +899,7 @@ function CountriesMegaMenu({
                             <ListItem key={category.label} disablePadding>
                                 <ListItemButton
                                     onMouseEnter={() => setHoveredCategory(category)}
+                                    onClick={() => category.path && navigate(category.path)}
                                     selected={hoveredCategory?.label === category.label}
                                     sx={{
                                         py: 1.2,
