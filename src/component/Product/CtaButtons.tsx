@@ -6,8 +6,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InlineEnquiryForm from "../Form/InlineEnquiryForm";
 import InlineSampleForm from "../Form/InlineSampleForm";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 type ActiveTab = "inquiry" | "sample";
 
