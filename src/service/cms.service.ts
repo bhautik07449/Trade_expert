@@ -172,10 +172,19 @@ const getDeliveryReach = async (country: string) => {
     }
 }
 
+const getCategoryById = async (id: string) => {
+    try {
+        const response = await serverCall.get(`/categories/${id}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach
+    getDeliveryReach, getCategoryById
 };
 
 export default CMSservice;

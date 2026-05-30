@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ImageSlider from "../../commonUI/ImageSlider";
 import SpotMarketTable from "../../commonUI/spotMarket";
@@ -12,42 +12,24 @@ import StateStanding from "../../component/Category/StateStanding";
 import ComodityProfile from "../../component/Category/ComodityProfile";
 import CommodityProcessFlow from "../../component/Category/CommodityProcessFlow";
 import Events from "../../component/Home/Events";
+import CMSservice from "../../service/cms.service";
+import { toast } from "react-toastify";
 
 export default function CategoryPage() {
     const { category } = useParams();
 
-    const [slides, setSlides] = useState<any[]>([])
-    const [imageLoading, setImageLoading] = useState(true)
+    const [categoryName, setCategoryName] = useState()
+
     const [membership, setMembership] = useState<any[]>([])
     const [membershipLoading, setMembershipLoading] = useState(true)
     const [affiliationLoading, setAffiliationLoading] = useState(true)
     const [affiliation, setAffiliation] = useState<any[]>([])
 
-    const getSlide = async (category: string) => {
-        try {
-            const res = await HomePageservice.getImageSliderByCategory(category)
-            if (res) {
-                setImageLoading(false)
-                setSlides(res?.data?.data)
-            }
-        } catch (error: any) {
-            setImageLoading(false)
-            console.log(error?.response?.data?.message || error.message)
-        }
-    }
-
-    useEffect(() => {
-        if (category) {
-            getSlide(category)
-        }
-    }, [category]);
-
-
     const getAffiliation = async () => {
         try {
             const res = await HomePageservice.getAffiliation()
             if (res) {
-                setAffiliation(res?.data?.data)
+                setAffiliation(res?.data)
             }
         } catch (error: any) {
             console.log(error?.response?.data?.message || error.message)
@@ -69,70 +51,154 @@ export default function CategoryPage() {
         }
     }
 
+    const getCategory = async (id: any) => {
+        try {
+            const res = await CMSservice.getCategoryById(id);
+            setCategoryName(res?.data?.name)
+        } catch (error: any) {
+            toast.error(error?.response?.message || "Category not found");
+            return null;
+        }
+    };
+
     useEffect(() => {
         getAffiliation()
         getMembership()
-    }, [])
+        getCategory(category)
+    }, [category])
 
     return (
         <Box>
-            <ImageSlider slides={slides} loading={imageLoading} />
-            <OverViewContent category={category} />
-            <SpotMarketTable category={category} />
-            <CategoryInsight category={category} />
-            <StateStanding category={category} />
-            <ProductOverView category={category} />
-            <ComodityProfile category={category} />
-            <CommodityProcessFlow />
-            <Events />
-
             <Box
-                component="section"
                 sx={{
-                    position: "relative",
-                    py: { xs: 5, sm: 6, md: 8, lg: 10 },
-                    bgcolor: "background.default",
+                    width: "100%",
+                    height: { xs: 180, sm: 260, md: 340 },
                     overflow: "hidden",
+                    position: "relative",
                 }}
             >
-                <Container
-                    maxWidth={false}
+                <Box
+                    component="img"
+                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                    alt="Supplier Banner"
                     sx={{
-                        position: "relative",
-                        zIndex: 2,
-                        maxWidth: "1400px",
-                        mx: "auto",
-                        px: { xs: 2, sm: 3, md: 4, lg: 5 },
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        bgcolor: "rgba(0,0,0,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        px: 2,
                     }}
                 >
-                    <Box
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            {categoryName}
+                        </Typography>
+                    </Box>
+                </Box>
+            </Box>
+
+            <Box
+                sx={{
+                    mt: { xs: -5, md: -7 },
+                    position: "relative",
+                    zIndex: 2,
+                }}
+            >
+                <Paper
+                    elevation={0}
+                    sx={{
+                        mb: 4,
+                        maxWidth: "1400px",
+                        mx: 'auto',
+                        p: { xs: 2.5, sm: 3, md: 4 },
+                        borderRadius: 4,
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                        textAlign: "center",
+                        fontSize: { xs: "14px", sm: "16px" },
+                    }}
+                >
+                    {categoryName}
+                </Paper>
+
+                <OverViewContent category={category} />
+                <SpotMarketTable category={category} />
+                <CategoryInsight category={category} />
+                <StateStanding category={category} />
+                <ProductOverView category={category} />
+                <ComodityProfile category={category} />
+                <CommodityProcessFlow />
+                <Events />
+
+                <Box
+                    component="section"
+                    sx={{
+                        position: "relative",
+                        py: { xs: 5, sm: 6, md: 8, lg: 10 },
+                        bgcolor: "background.default",
+                        overflow: "hidden",
+                    }}
+                >
+                    <Container
+                        maxWidth={false}
                         sx={{
-                            display: "grid",
-                            gridTemplateColumns: {
-                                xs: "1fr",
-                                md: "repeat(2, minmax(0, 1fr))",
-                            },
-                            gap: { xs: 5, sm: 6, md: 4, lg: 6 },
-                            alignItems: "stretch",
+                            position: "relative",
+                            zIndex: 2,
+                            maxWidth: "1400px",
+                            mx: "auto",
+                            px: { xs: 2, sm: 3, md: 4, lg: 5 },
                         }}
                     >
-                        <CardImageSlider
-                            title="Membership"
-                            label="Resources"
-                            description="Explore useful membership documents and visual resources."
-                            loading={membershipLoading}
-                            cardImages={membership}
-                        />
+                        <Box
+                            sx={{
+                                display: "grid",
+                                gridTemplateColumns: {
+                                    xs: "1fr",
+                                    md: "repeat(2, minmax(0, 1fr))",
+                                },
+                                gap: { xs: 5, sm: 6, md: 4, lg: 6 },
+                                alignItems: "stretch",
+                            }}
+                        >
+                            <CardImageSlider
+                                title="Membership"
+                                label="Resources"
+                                description="Explore useful membership documents and visual resources."
+                                loading={membershipLoading}
+                                cardImages={membership}
+                            />
 
-                        <CardImageSlider
-                            title="Affiliation"
-                            label="Resources"
-                            description="View affiliation-related resources and supporting material."
-                            loading={affiliationLoading}
-                            cardImages={affiliation}
-                        />
-                    </Box>
-                </Container>
+                            <CardImageSlider
+                                title="Affiliation"
+                                label="Resources"
+                                description="View affiliation-related resources and supporting material."
+                                loading={affiliationLoading}
+                                cardImages={affiliation}
+                            />
+                        </Box>
+                    </Container>
+                </Box>
             </Box>
         </Box>
     )
