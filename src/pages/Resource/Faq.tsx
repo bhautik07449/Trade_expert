@@ -4,7 +4,8 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    Skeleton
+    Skeleton,
+    Paper
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
@@ -48,7 +49,7 @@ export default function Faq() {
         <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
             {pageDetail && (
                 <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
+                    title={pageDetail.page_title || 'Career'}
                     description={pageDetail.meta_description || ''}
                     keywords={pageDetail.meta_keyword || ''}
                 />
@@ -101,21 +102,46 @@ export default function Faq() {
                 </Box>
             </Box>
 
-            <Box sx={{ maxWidth: "900px", mx: "auto", px: 2 }}>
-                {pageLoading ? (
-                    <PageContentSkeleton />
-                ) : pageDetail?.content && (
-                    <Typography
+            <Box
+                sx={{
+                    maxWidth: "1400px",
+                    mx: "auto",
+                    mt: { xs: -5, md: -7 },
+                    px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
+                }}
+            >
+                {(loading || pageDetail?.content) && (
+                    <Paper
+                        elevation={0}
                         sx={{
-                            color: "secondary.main",
-                            mb: 5,
-                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            textAlign: "justify",
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                         }}
-                        dangerouslySetInnerHTML={{
-                            __html: pageDetail?.content || null,
-                        }}
-                    />
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )}
+
+                    </Paper>
                 )}
 
                 {loading ? (

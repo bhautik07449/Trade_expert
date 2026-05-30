@@ -2,7 +2,8 @@ import {
     Box,
     Container,
     Typography,
-    Divider
+    Divider,
+    Paper
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import SEO from "../../component/SEO";
@@ -11,6 +12,10 @@ import HomePageservice from "../../service/homepages.service";
 import InquiryForm from "./InquiryForm";
 import FinancialService from "./FinancialService";
 import ProductSelection from "./ProductSelection";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function InvestorRelations() {
     const [activeCountry, setActiveCountry] = useState<string>("");
@@ -20,6 +25,14 @@ export default function InvestorRelations() {
     const [product, setProduct] = useState<any[]>([]);
 
     const [productLoading, setProductLoading] = useState<boolean>(false);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("investor_relations"));
+    }, [dispatch]);
 
     const getProductData = async (country: string) => {
         try {
@@ -73,11 +86,13 @@ export default function InvestorRelations() {
                 minHeight: "100vh",
             }}
         >
-            <SEO
-                title="Investor Relations - SourceSeas"
-                description="Explore investment opportunities, product selections, financial services, and international trade support with SourceSeas."
-                keywords="investor relations, investment support, export assistance, international trade, product sourcing"
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_title}
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
+                />
+            )}
 
             <Box
                 sx={{
@@ -90,7 +105,7 @@ export default function InvestorRelations() {
                 <Box
                     component="img"
                     src="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg"
-                    alt="Investor Relations Banner"
+                    alt="Supplier Banner"
                     sx={{
                         width: "100%",
                         height: "100%",
@@ -111,31 +126,63 @@ export default function InvestorRelations() {
                         px: 2,
                     }}
                 >
-                    <Typography
-                        variant="h3"
-                        sx={{
-                            color: "#fff",
-                            fontWeight: 700,
-                            fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                        }}
-                    >
-                        Investor Relations
-                    </Typography>
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                color: "#fff",
+                                fontWeight: 700,
+                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
+                            }}
+                        >
+                            Investor Relations
+                        </Typography>
+                    </Box>
                 </Box>
             </Box>
 
-            <Container
+            <Box
                 sx={{
-                    maxWidth: "1400px !important",
+                    maxWidth: "1400px",
                     mx: "auto",
+                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
-                    py: { xs: 4, md: 6 },
+                    position: "relative",
+                    zIndex: 2,
                 }}
             >
-                <CountryTab
-                    activeCountry={activeCountry}
-                    setActiveCountry={setActiveCountry}
-                />
+                <Paper
+                    elevation={0}
+                    sx={{
+                        mb: 4,
+                        p: { xs: 2.5, sm: 3, md: 4 },
+                        borderRadius: 4,
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                    }}
+                >
+                    {(loading || pageDetail?.content) && (
+                        loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )
+                    )}
+
+                    <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+                </Paper>
 
                 <Divider sx={{ my: 4 }} />
 
@@ -155,7 +202,7 @@ export default function InvestorRelations() {
                 <Divider sx={{ my: 5 }} />
 
                 <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} />
-            </Container>
+            </Box>
         </Box>
     );
 }

@@ -3,6 +3,7 @@ import {
     Typography,
     Container,
     Divider,
+    Paper,
 } from "@mui/material";
 import SEO from "../../component/SEO";
 import Multilingual from "./Multilingual";
@@ -12,11 +13,22 @@ import CountryTab from "../../commonUI/CountryTab";
 import Eventsection from "../../component/Eventsection";
 import NewsandeventService from "../../service/newsandevent.service";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function NewsAndEvents() {
     const [activeCountry, setActiveCountry] = useState<string>("");
     const [multilingual, setMultilingual] = useState([]);
     const [multilingualLoading, setMultilingualLoading] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("news_and_events"));
+    }, [dispatch]);
 
     const getMultilingual = async (country: string) => {
         if (!country) return;
@@ -47,11 +59,13 @@ export default function NewsAndEvents() {
                 minHeight: "100vh",
             }}
         >
-            <SEO
-                title="News & Events - SourceSeas"
-                description="Stay updated with the latest news, events, and updates in the world of international trade and sourcing."
-                keywords="trade news, market updates, trade events, import policy, export regulations, sourcing news"
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_title}
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
+                />
+            )}
 
             <Box
                 sx={{
@@ -100,15 +114,48 @@ export default function NewsAndEvents() {
                 </Box>
             </Box>
 
-            <Container
+            <Box
                 sx={{
-                    maxWidth: "1400px !important",
+                    maxWidth: "1400px",
                     mx: "auto",
+                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
-                    pt: { xs: 4, md: 6 },
+                    position: "relative",
+                    zIndex: 2,
                 }}
             >
-                <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+                <Paper
+                    elevation={0}
+                    sx={{
+                        mb: 4,
+                        p: { xs: 2.5, sm: 3, md: 4 },
+                        borderRadius: 4,
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                    }}
+                >
+                    {(loading || pageDetail?.content) && (
+                        loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )
+
+                    )}
+                    <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+                </Paper>
 
                 <Box sx={{ textAlign: "center", mb: 4 }}>
                     <Typography
@@ -139,7 +186,7 @@ export default function NewsAndEvents() {
                 <Box component="section">
                     <PreambleAndUpcoming country={activeCountry} />
                 </Box>
-            </Container>
+            </Box>
 
             <Eventsection country={activeCountry} />
         </Box>

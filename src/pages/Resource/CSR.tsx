@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import SEO from "../../component/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -16,7 +16,13 @@ export default function CSR() {
     }, [dispatch]);
 
     return (
-        <Box sx={{ bgcolor: 'white', minHeight: '100vh', pb: 10 }}>
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                minHeight: "100vh",
+                pb: { xs: 6, md: 10 },
+            }}
+        >
             {pageDetail && (
                 <SEO
                     title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
@@ -72,22 +78,46 @@ export default function CSR() {
                 </Box>
             </Box>
 
-            <Box sx={{ maxWidth: "1400px", mx: "auto", px: 2 }}>
-                {loading ? (
-                    <PageContentSkeleton />
-                ) : pageDetail?.content && (
-                    <Typography
-                        sx={{
-                            color: "secondary.main",
-                            mb: 5,
-                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            textAlign: "justify",
-                        }}
-                        dangerouslySetInnerHTML={{
-                            __html: pageDetail?.content || null,
-                        }}
-                    />
-                )}
+            <Box
+                sx={{
+                    maxWidth: "1400px",
+                    mx: "auto",
+                    mt: { xs: -5, md: -7 },
+                    px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
+                }}
+            >
+                <Paper
+                    elevation={0}
+                    sx={{
+                        mb: 4,
+                        p: { xs: 2.5, sm: 3, md: 4 },
+                        borderRadius: 4,
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                    }}
+                >
+                    {(loading || pageDetail?.content) && (
+                        loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )
+                    )}
+                </Paper>
             </Box>
         </Box >
     )

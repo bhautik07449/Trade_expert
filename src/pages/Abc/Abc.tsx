@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Skeleton, Grid } from "@mui/material";
+import { Box, Container, Typography, Skeleton, Grid, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import { useSearchParams } from "react-router-dom";
+import PageContentSkeleton from "../../component/PageContentSkeleton";
 
 export default function Abc() {
     const [searchParams] = useSearchParams();
@@ -101,20 +102,45 @@ export default function Abc() {
                 </Box>
             </Box>
 
-            <Container maxWidth="lg">
-
-                {pageDetail?.content && (
-                    <Typography
+            <Box
+                sx={{
+                    maxWidth: "1400px",
+                    mx: "auto",
+                    mt: { xs: -5, md: -7 },
+                    px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
+                }}
+            >
+                {(loading || pageDetail?.content) && (
+                    <Paper
+                        elevation={0}
                         sx={{
-                            color: "secondary.main",
-                            mb: 5,
-                            fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            textAlign: "center",
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                         }}
-                        dangerouslySetInnerHTML={{
-                            __html: pageDetail?.content || null,
-                        }}
-                    />
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: pageDetail?.content || "",
+                                }}
+                            />
+                        )}
+                    </Paper>
                 )}
 
                 {loading ? (
@@ -187,7 +213,7 @@ export default function Abc() {
                         </Typography>
                     </Grid>
                 )}
-            </Container>
+            </Box>
         </Box>
     );
 }

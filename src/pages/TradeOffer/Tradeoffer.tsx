@@ -11,6 +11,7 @@ import {
     TableHead,
     TableRow,
     Skeleton,
+    Paper,
 } from "@mui/material";
 import { useEffect } from "react";
 import CMSservice from "../../service/cms.service";
@@ -124,45 +125,67 @@ export default function Tradeoffer() {
                 </Box>
             </Box>
 
-            <Container sx={{ maxWidth: "1400px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, pt: 4 }}>
-                <Grid container spacing={2} justifyContent="center">
-                    {loading && stockLots.length === 0 ? (
-                        Array.from(new Array(4)).map((_, i) => (
-                            <Grid key={i}>
-                                <Skeleton variant="rectangular" width={120} height={36} sx={{ borderRadius: 1 }} />
+            <Box
+                sx={{
+                    maxWidth: "1400px !important",
+                    mx: "auto",
+                    mt: { xs: -5, md: -7 },
+                    px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
+                }}
+            >
+                <Paper
+                    elevation={0}
+                    sx={{
+                        mb: 4,
+                        p: { xs: 2.5, sm: 3, md: 4 },
+                        borderRadius: 4,
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 18px 45px rgba(12, 10, 7, 0.08)",
+                    }}
+                >
+                    <Grid container spacing={2} justifyContent="center">
+                        {loading && stockLots.length === 0 ? (
+                            Array.from(new Array(4)).map((_, i) => (
+                                <Grid key={i}>
+                                    <Skeleton variant="rectangular" width={120} height={36} sx={{ borderRadius: 1 }} />
+                                </Grid>
+                            ))
+                        ) : stockLots.length > 0 ? (
+                            stockLots.map((text, i) => (
+                                <Grid key={i}>
+                                    <Button
+                                        variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
+                                        onClick={() => {
+                                            setSelectedOffer(text?.trade_type?.name);
+                                            setStockLotsId(text?.id)
+                                        }}
+                                        sx={{
+                                            borderColor: "black",
+                                            color: selectedOffer === text?.trade_type?.name ? "white" : "black",
+                                            bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
+                                            fontSize: "12px",
+                                            px: 2,
+                                            py: 1,
+                                        }}
+                                    >
+                                        {text?.trade_type?.name}
+                                    </Button>
+                                </Grid>
+                            ))
+                        ) : (
+                            <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
+                                <Typography variant="h6" color="textSecondary">
+                                    No Trade Offers Found
+                                </Typography>
                             </Grid>
-                        ))
-                    ) : stockLots.length > 0 ? (
-                        stockLots.map((text, i) => (
-                            <Grid key={i}>
-                                <Button
-                                    variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
-                                    onClick={() => {
-                                        setSelectedOffer(text?.trade_type?.name);
-                                        setStockLotsId(text?.id)
-                                    }}
-                                    sx={{
-                                        borderColor: "black",
-                                        color: selectedOffer === text?.trade_type?.name ? "white" : "black",
-                                        bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
-                                        fontSize: "12px",
-                                        px: 2,
-                                        py: 1,
-                                    }}
-                                >
-                                    {text?.trade_type?.name}
-                                </Button>
-                            </Grid>
-                        ))
-                    ) : (
-                        <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
-                            <Typography variant="h6" color="textSecondary">
-                                No Trade Offers Found
-                            </Typography>
-                        </Grid>
-                    )}
-                </Grid>
-            </Container>
+                        )}
+                    </Grid>
+                </Paper>
+            </Box>
 
             <Container sx={{ maxWidth: "1400px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, mt: 5 }}>
                 {loading ? (

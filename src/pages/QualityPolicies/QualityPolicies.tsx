@@ -91,7 +91,7 @@ export default function QualityPolicies() {
         <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
             {pageDetail && (
                 <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Career'}
+                    title={pageDetail.page_title}
                     description={pageDetail.meta_description || ''}
                     keywords={pageDetail.meta_keyword || ''}
                 />
@@ -142,37 +142,46 @@ export default function QualityPolicies() {
                 </Box>
             </Box>
 
-            <Container
+            <Box
                 sx={{
-                    maxWidth: "1400px !important",
+                    maxWidth: "1400px",
                     mx: "auto",
+                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
                 }}
             >
-                <Box sx={{ py: { xs: 3, md: 5 }, textAlign: "center" }}>
-                    {pageLoading ? (
-                        <PageContentSkeleton />
-                    ) : (
-                        pageDetail?.content && (
+                {(loading || pageDetail?.content) && (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                        }}
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : (
                             <Typography
                                 sx={{
                                     color: "text.secondary",
-                                    mb: 5,
-                                    fontSize: {
-                                        xs: "14px",
-                                        sm: "16px",
-                                        md: "18px",
-                                    },
-                                    textAlign: "justify",
+                                    fontSize: { xs: "14px", sm: "16px" },
                                     lineHeight: 1.8,
+                                    textAlign: "justify",
                                 }}
                                 dangerouslySetInnerHTML={{
                                     __html: pageDetail?.content || "",
                                 }}
                             />
-                        )
-                    )}
-                </Box>
+                        )}
+                    </Paper>
+                )}
 
                 {!loading && categoryTabs.length > 0 && (
                     <Paper
@@ -342,7 +351,7 @@ export default function QualityPolicies() {
                         </Typography>
                     </Paper>
                 )}
-            </Container>
+            </Box>
         </Box>
     );
 }

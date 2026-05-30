@@ -154,36 +154,46 @@ export default function Brand() {
                 </Box>
             </Box>
 
-            <Container
+            <Box
                 sx={{
-                    maxWidth: "1400px !important",
+                    maxWidth: "1400px",
                     mx: "auto",
+                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
+                    position: "relative",
+                    zIndex: 2,
                 }}
             >
-                <Box sx={{ p: 4, textAlign: "center" }}>
-                    {pageLoading ? (
-                        <PageContentSkeleton />
-                    ) : (
-                        pageDetail?.content && (
+                {(loading || pageDetail?.content) && (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                        }}
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : (
                             <Typography
                                 sx={{
-                                    color: "secondary.main",
-                                    mb: 5,
-                                    fontSize: {
-                                        xs: "14px",
-                                        sm: "16px",
-                                        md: "18px",
-                                    },
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
                                     textAlign: "justify",
                                 }}
                                 dangerouslySetInnerHTML={{
                                     __html: pageDetail?.content || "",
                                 }}
                             />
-                        )
-                    )}
-                </Box>
+                        )}
+                    </Paper>
+                )}
 
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 7 }}>
                     {loading ? (
@@ -451,7 +461,7 @@ export default function Brand() {
                         </Box>
                     )}
                 </Box>
-            </Container>
+            </Box>
         </Box>
     );
 }
