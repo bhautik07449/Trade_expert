@@ -59,7 +59,7 @@ const countryOptions = [
 export default function CreditAccount() {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
+    const { pageDetail } = useSelector((state: RootState) => state.page);
 
     useEffect(() => {
         dispatch(fetchFlatPageBySlug("credit-account"));

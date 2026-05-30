@@ -1,4 +1,4 @@
-import { Box, Typography, Skeleton, Paper, Tabs, Tab, Container, Divider } from "@mui/material";
+import { Box, Typography, Skeleton, Paper, Tabs, Tab, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../../service/brand.service";
@@ -40,7 +40,7 @@ export default function Brand() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { pageDetail, loading: pageLoading } = useSelector(
+    const { pageDetail } = useSelector(
         (state: RootState) => state.page
     );
 

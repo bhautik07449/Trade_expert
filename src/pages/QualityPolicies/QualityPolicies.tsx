@@ -1,4 +1,4 @@
-import { Box, Typography, Container, Grid, Skeleton, Paper, Tabs, Tab } from "@mui/material";
+import { Box, Typography, Grid, Skeleton, Paper, Tabs, Tab } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
@@ -33,7 +33,7 @@ export default function QualityPolicies() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { pageDetail, loading: pageLoading } = useSelector(
+    const { pageDetail } = useSelector(
         (state: RootState) => state.page
     );
 

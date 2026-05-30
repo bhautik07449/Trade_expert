@@ -21,7 +21,7 @@ export default function Faq() {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch<AppDispatch>();
 
-    const { pageDetail, loading: pageLoading } = useSelector((state: RootState) => state.page);
+    const { pageDetail } = useSelector((state: RootState) => state.page);
 
     useEffect(() => {
         dispatch(fetchFlatPageBySlug("faq"));
