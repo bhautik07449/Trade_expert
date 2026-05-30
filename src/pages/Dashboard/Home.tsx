@@ -7,7 +7,6 @@ import Events from '../../component/Home/Events';
 import OurProcess from '../../component/OurProcess';
 import Values from '../../component/Values';
 import AboutTestimonial from '../About/AboutTestimonial';
-import OverPresences from '../../component/Home/OverPresences';
 import { useEffect, useState } from 'react';
 import HomePageservice from '../../service/homepages.service';
 import SEO from '../../component/SEO';
@@ -45,7 +44,6 @@ export default function Home() {
                 <InteractiveWorldMap />
                 <Analytical analyticsData={analyticsData} loading={loading} />
                 <Events />
-                <OverPresences />
                 <OurProcess />
                 <Values />
                 <AboutTestimonial />

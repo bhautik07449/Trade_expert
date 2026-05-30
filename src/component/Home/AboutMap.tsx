@@ -8,6 +8,7 @@ import { geoCentroid } from 'd3-geo';
 import LabelTitle from '../../commonUI/labelTitle';
 import CMSservice from '../../service/cms.service';
 import { toast } from 'react-toastify';
+import HomePageservice from '../../service/homepages.service';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -43,6 +44,7 @@ export default function AboutMap() {
 
     const baseZoom = isMobile ? 1.3 : isTablet ? 1.8 : 2.0;
 
+    const [presences, setPresences] = useState<any[]>([]);
     const [selectedCountry, setSelectedCountry] = useState<string>('India');
     const [tooltipContent, setTooltipContent] = useState<string>('');
     const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -54,6 +56,22 @@ export default function AboutMap() {
     useEffect(() => {
         setPosition(prev => ({ ...prev, zoom: baseZoom }));
     }, [baseZoom]);
+
+    const getPresencesData = async () => {
+        try {
+            const response = await HomePageservice.getPresences();
+
+            if (response) {
+                setPresences(response?.data?.countries || []);
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || "Presences data not fetch");
+        }
+    };
+
+    useEffect(() => {
+        getPresencesData();
+    }, []);
 
     useEffect(() => {
         const el = mapWrapperRef.current;
@@ -117,19 +135,32 @@ export default function AboutMap() {
         }
     }, [selectedCountry])
 
+    const normalizeCountryName = (name: string = "") =>
+        name.trim().toLowerCase();
+
+    const presenceCountries = presences.map((item: any) =>
+        normalizeCountryName(item?.country || item?.name || item)
+    );
+
+    const isPresenceCountry = (countryName: string) =>
+        presenceCountries.includes(normalizeCountryName(countryName));
+
+    const isSelectedCountry = (countryName: string) =>
+        normalizeCountryName(selectedCountry || "") === normalizeCountryName(countryName);
+
     return (
-        <Box component="section" sx={{ width: '100%', mb: { xs: 3, md: 5 } }}>
-            <LabelTitle title='Delivery' label='Reach' />
+        <Box component="section" sx={{ width: '100%', mb: { xs: 3, md: 5 }, py: { xs: 5, md: 8 }, }}>
+            <LabelTitle title='Our Presence &' label='Delivery Reach' />
 
             <Paper
                 elevation={4}
                 sx={{
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid',
-                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
-                    overflow: 'hidden',
-                    position: 'relative'
+                    bgcolor: "transparent",
+                    background: "transparent",
+                    boxShadow: "none",
+                    border: "none",
+                    overflow: "hidden",
+                    position: "relative",
                 }}
             >
                 <Box sx={{
@@ -233,8 +264,9 @@ export default function AboutMap() {
                                                     }}
                                                     style={{
                                                         default: {
-                                                            fill:
-                                                                selectedCountry === geo.properties.name
+                                                            fill: isSelectedCountry(geo.properties.name)
+                                                                ? theme.palette.secondary.dark
+                                                                : isPresenceCountry(geo.properties.name)
                                                                     ? theme.palette.primary.main
                                                                     : isDark
                                                                         ? "#374151"
@@ -346,6 +378,6 @@ export default function AboutMap() {
                     </Box>
                 ))}
             </Box>
-        </Box>
+        </Box >
     );
 }

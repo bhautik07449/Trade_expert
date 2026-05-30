@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
-import OverPresences from "../../component/Home/OverPresences";
 import AboutMap from "../../component/Home/AboutMap";
 
 export default function AboutUs() {
@@ -192,8 +191,6 @@ export default function AboutUs() {
             </Container>
 
             <OurView />
-
-            <OverPresences />
 
             <AboutMap />
         </Box>

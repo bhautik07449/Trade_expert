@@ -9,6 +9,7 @@ import { geoCentroid } from 'd3-geo';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { setSelectedCountry } from '../../store/slice/countrySlice';
+import HomePageservice from '../../service/homepages.service';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -37,6 +38,8 @@ const DISPLAY_NAMES: Record<string, string> = {
 };
 
 export default function InteractiveWorldMap() {
+    const [presences, setPresences] = useState<any[]>([]);
+
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
@@ -56,6 +59,22 @@ export default function InteractiveWorldMap() {
     const [showTooltip, setShowTooltip] = useState(false);
     const [position, setPosition] = useState({ coordinates: [0, 0] as [number, number], zoom: 1 });
     const mapWrapperRef = useRef<HTMLDivElement>(null);
+
+    const getPresencesData = async () => {
+        try {
+            const response = await HomePageservice.getPresences();
+
+            if (response) {
+                setPresences(response?.data?.countries || []);
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || "Presences data not fetch");
+        }
+    };
+
+    useEffect(() => {
+        getPresencesData();
+    }, []);
 
     useEffect(() => {
         setPosition(prev => ({ ...prev, zoom: baseZoom }));
@@ -104,6 +123,19 @@ export default function InteractiveWorldMap() {
 
     const labelFontSize = Math.max(2.5, Math.min(5, 4 / position.zoom));
     const isDark = theme.palette.mode === 'dark';
+
+    const normalizeCountryName = (name: string = "") =>
+        name.trim().toLowerCase();
+
+    const presenceCountries = presences.map((item: any) =>
+        normalizeCountryName(item?.country || item?.name || item)
+    );
+
+    const isPresenceCountry = (countryName: string) =>
+        presenceCountries.includes(normalizeCountryName(countryName));
+
+    const isSelectedCountry = (countryName: string) =>
+        normalizeCountryName(selectedCountry || "") === normalizeCountryName(countryName);
 
     return (
         <Box component="section" sx={{ width: '100%', mb: { xs: 3, md: 5 } }}>
@@ -221,8 +253,9 @@ export default function InteractiveWorldMap() {
                                                     }}
                                                     style={{
                                                         default: {
-                                                            fill:
-                                                                selectedCountry === geo.properties.name
+                                                            fill: isSelectedCountry(geo.properties.name)
+                                                                ? theme.palette.secondary.dark
+                                                                : isPresenceCountry(geo.properties.name)
                                                                     ? theme.palette.primary.main
                                                                     : isDark
                                                                         ? "#374151"

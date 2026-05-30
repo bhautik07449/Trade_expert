@@ -39,7 +39,7 @@ export default function OurProcess() {
         <Box
             sx={{
                 py: { xs: 5, md: 8 },
-                bgcolor: "white",
+                bgcolor: "background.default",
                 textAlign: "center",
                 boxSizing: "border-box",
             }}

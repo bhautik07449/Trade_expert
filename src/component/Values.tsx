@@ -42,9 +42,7 @@ export default function Values() {
                 position: "relative",
                 overflow: "hidden",
                 py: { xs: 6, md: 9 },
-                bgcolor: "background.default",
-                background:
-                    "linear-gradient(180deg, #F5F0EB 0%, #FFFFFF 48%, #F5F0EB 100%)",
+                bgcolor: "white"
             }}
         >
             <Box

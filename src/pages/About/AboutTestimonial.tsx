@@ -70,7 +70,6 @@ export default function AboutTestimonial() {
     return (
         <Box
             sx={{
-                bgcolor: "white",
                 py: { xs: 6, md: 10 },
                 width: "100%",
                 boxSizing: "border-box",
