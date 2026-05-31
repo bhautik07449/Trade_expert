@@ -1,6 +1,5 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import ImageSlider from "../../commonUI/ImageSlider";
 import SpotMarketTable from "../../commonUI/spotMarket";
 import ProductOverView from "../../component/Home/ProductOverView";
 import OverViewContent from "../../component/Home/OverViewContent";

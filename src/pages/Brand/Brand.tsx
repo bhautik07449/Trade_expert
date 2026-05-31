@@ -9,6 +9,8 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
 import CountryTab from "../../commonUI/CountryTab";
+import SubCategoryTab from "../../commonUI/SubCategoryTab";
+import BrandsProductView from "../../commonUI/BrandsProductView";
 
 interface BrandItem {
     id?: number;
@@ -18,12 +20,31 @@ interface BrandItem {
     country?: string;
 }
 
+interface SubCategoryItem {
+    id?: number;
+    name: string;
+}
+
+interface ProductItem {
+    id: number
+    name: string
+    images: string[]
+    category: string
+    categoryColor: string
+    description: string
+    subcategory: {
+        name?: string
+    }
+}
+
 interface BrandCategoryGroup {
     category: {
         id?: number;
         name: string;
     };
-    data: BrandItem[];
+    brands: BrandItem[];
+    subcategories: SubCategoryItem[];
+    products: ProductItem[];
 }
 
 interface BrandCountryGroup {
@@ -37,6 +58,10 @@ export default function Brand() {
     const [activeCountry, setActiveCountry] = useState("India");
 
     const [activeCategoryByCountry, setActiveCategoryByCountry] = useState<
+        Record<string, string>
+    >({});
+
+    const [activeSubCategory, setActiveSubCategory] = useState<
         Record<string, string>
     >({});
 
@@ -90,6 +115,50 @@ export default function Brand() {
 
         return countryGroup.category.filter(
             (categoryGroup) => categoryGroup.category.name === activeCategory
+        );
+    };
+
+    const getSubCategoryKey = (country: string, categoryName: string) => {
+        return `${country}-${categoryName}`;
+    };
+
+    const getActiveSubCategory = (
+        country: string,
+        categoryName: string,
+        subcategories: SubCategoryItem[]
+    ) => {
+        const key = getSubCategoryKey(country, categoryName);
+
+        if (activeSubCategory[key]) {
+            return activeSubCategory[key];
+        }
+
+        return subcategories?.[0]?.name || "";
+    };
+
+    const handleSubCategoryChange = (
+        country: string,
+        categoryName: string,
+        value: string
+    ) => {
+        const key = getSubCategoryKey(country, categoryName);
+
+        setActiveSubCategory((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+
+    const getFilteredProducts = (
+        products: ProductItem[],
+        activeSubCategory: string
+    ) => {
+        if (!activeSubCategory) {
+            return products || [];
+        }
+
+        return (products || []).filter(
+            (product) => product?.subcategory?.name === activeSubCategory
         );
     };
 
@@ -342,8 +411,19 @@ export default function Brand() {
                                         </Paper>
                                     )}
 
-                                    {filteredCategoryGroups.map(
-                                        (categoryGroup, categoryIndex) => (
+                                    {filteredCategoryGroups.map((categoryGroup, categoryIndex) => {
+                                        const activeSubCategory = getActiveSubCategory(
+                                            countryGroup.country,
+                                            categoryGroup.category.name,
+                                            categoryGroup.subcategories || []
+                                        );
+
+                                        const filteredProducts = getFilteredProducts(
+                                            categoryGroup.products || [],
+                                            activeSubCategory
+                                        );
+
+                                        return (
                                             <Box
                                                 key={
                                                     categoryGroup.category.id ||
@@ -365,7 +445,7 @@ export default function Brand() {
                                                     </Typography>
                                                 )}
 
-                                                {categoryGroup.data.map((brand, brandIndex) => (
+                                                {categoryGroup.brands.map((brand, brandIndex) => (
                                                     <Box key={brand.id || brandIndex}>
                                                         <Box
                                                             sx={{
@@ -407,40 +487,53 @@ export default function Brand() {
                                                                     color: "text.secondary",
                                                                     lineHeight: 1.8,
                                                                     maxWidth: "850px",
+                                                                    mb: 3,
                                                                 }}
                                                             >
                                                                 {brand?.description}
                                                             </Typography>
+
+                                                            <SubCategoryTab
+                                                                subcategory={categoryGroup?.subcategories || []}
+                                                                activeSubCategory={activeSubCategory}
+                                                                setActiveSubCategory={(value) =>
+                                                                    handleSubCategoryChange(
+                                                                        countryGroup.country,
+                                                                        categoryGroup.category.name,
+                                                                        value
+                                                                    )
+                                                                }
+                                                            />
                                                         </Box>
 
-                                                        {brandIndex !==
-                                                            categoryGroup.data.length - 1 && (
-                                                                <Divider
-                                                                    sx={{
-                                                                        maxWidth: "850px",
-                                                                        mx: "auto",
-                                                                        my: 3,
-                                                                        borderColor: "divider",
-                                                                    }}
-                                                                />
-                                                            )}
+                                                        {brandIndex !== categoryGroup.brands.length - 1 && (
+                                                            <Divider
+                                                                sx={{
+                                                                    maxWidth: "850px",
+                                                                    mx: "auto",
+                                                                    my: 3,
+                                                                    borderColor: "divider",
+                                                                }}
+                                                            />
+                                                        )}
                                                     </Box>
                                                 ))}
 
-                                                {categoryIndex !==
-                                                    filteredCategoryGroups.length - 1 && (
-                                                        <Divider
-                                                            sx={{
-                                                                maxWidth: "1000px",
-                                                                mx: "auto",
-                                                                my: 6,
-                                                                borderColor: "divider",
-                                                            }}
-                                                        />
-                                                    )}
+                                                <BrandsProductView products={filteredProducts} />
+
+                                                {categoryIndex !== filteredCategoryGroups.length - 1 && (
+                                                    <Divider
+                                                        sx={{
+                                                            maxWidth: "1000px",
+                                                            mx: "auto",
+                                                            my: 6,
+                                                            borderColor: "divider",
+                                                        }}
+                                                    />
+                                                )}
                                             </Box>
-                                        )
-                                    )}
+                                        );
+                                    })}
 
                                     {countryIndex !== list.length - 1 && (
                                         <Divider

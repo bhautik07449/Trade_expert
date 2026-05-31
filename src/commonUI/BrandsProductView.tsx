@@ -1,0 +1,149 @@
+import { useEffect, useState } from "react"
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Link,
+    Typography,
+    IconButton
+} from "@mui/material"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
+import { ChevronLeft, ChevronRight } from "@mui/icons-material"
+import { getImageUrl } from "../utils/imageUtils"
+
+type Product = {
+    id: number
+    name: string
+    images: string[]
+    category: string
+    categoryColor: string
+    description: string
+}
+
+export default function BrandsProductView({ products, visiblecard = 4 }: { products: Product[], visiblecard?: number }) {
+    const [currentStartIndex, setCurrentStartIndex] = useState(0)
+    const [visibleCards, setVisibleCards] = useState(visiblecard)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const updateVisibleCards = () => {
+            const width = window.innerWidth
+            if (width < 600) setVisibleCards(1)
+            else if (width < 900) setVisibleCards(2)
+            else if (width < 1200) setVisibleCards(3)
+            else setVisibleCards(visiblecard)
+        }
+
+        updateVisibleCards()
+        window.addEventListener("resize", updateVisibleCards)
+        return () => window.removeEventListener("resize", updateVisibleCards)
+    }, [visiblecard])
+
+    const handleNext = () => {
+        if (currentStartIndex + visibleCards < products.length) {
+            setCurrentStartIndex(currentStartIndex + 1)
+        }
+    }
+
+    const handlePrev = () => {
+        if (currentStartIndex > 0) {
+            setCurrentStartIndex(currentStartIndex - 1)
+        }
+    }
+
+    return (
+        <Box sx={{ width: "100%", maxWidth: "1400px", mx: "auto", boxSizing: "border-box" }}>
+
+            <Box sx={{ position: "relative", overflow: "hidden" }}>
+                <IconButton
+                    sx={{
+                        position: "absolute",
+                        left: 0,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 3,
+                        bgcolor: "#f5f5f5",
+                        "&:hover": { backgroundColor: "#e0e0e0" },
+                    }}
+                    onClick={handlePrev}
+                >
+                    <ChevronLeft />
+                </IconButton>
+
+                <IconButton
+                    sx={{
+                        position: "absolute",
+                        right: 0,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 3,
+                        bgcolor: "#f5f5f5",
+                        "&:hover": { backgroundColor: "#e0e0e0" },
+                    }}
+                    onClick={handleNext}
+                >
+                    <ChevronRight />
+                </IconButton>
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        transition: "transform 0.5s ease-in-out",
+                        width: `${(products.length / visibleCards) * 100}%`,
+                        transform: `translateX(-${(currentStartIndex * 100) / products.length}%)`,
+                    }}
+                >
+                    {products?.map((product) => (
+                        <Box
+                            key={product.id}
+                            sx={{
+                                width: `${100 / products.length}%`,
+                                flexShrink: 0,
+                                px: 1,
+                            }}
+                        >
+                            <Link component={RouterLink} to={`/product-details/${product?.id}`} underline="none">
+                                <Card
+                                    sx={{
+                                        borderRadius: 3,
+                                        overflow: "hidden",
+                                        boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                                    }}
+                                >
+                                    <Box
+                                        component="img"
+                                        src={getImageUrl(product?.images?.[0])}
+                                        alt={product?.name}
+                                        sx={{ width: "100%", height: 220, objectFit: "contain", bgcolor: "#f5f5f5" }}
+                                    />
+
+                                    <CardContent>
+                                        <Typography align="center" fontWeight={600}>
+                                            {product.name}
+                                        </Typography>
+
+                                        <Box sx={{
+                                            display: "flex",
+                                            gap: 2,
+                                        }}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                fullWidth
+                                                sx={{ mt: 2, fontSize: "12px" }}
+                                                onClick={(e) => navigate(`/product-details/${product?.id}`)}
+                                            >
+                                                Check Offer
+                                            </Button>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
+        </Box>
+    )
+}
