@@ -15,10 +15,14 @@ import Events from "../../component/Home/Events";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 
+type Category = {
+    name?: string
+}
+
 export default function CategoryPage() {
     const { category } = useParams();
 
-    const [categoryName, setCategoryName] = useState()
+    const [categoryName, setCategoryName] = useState<Category>()
 
     const [membership, setMembership] = useState<any[]>([])
     const [membershipLoading, setMembershipLoading] = useState(true)
@@ -29,7 +33,7 @@ export default function CategoryPage() {
         try {
             const res = await HomePageservice.getAffiliation()
             if (res) {
-                setAffiliation(res?.data)
+                setAffiliation(res?.data?.data)
             }
         } catch (error: any) {
             console.log(error?.response?.data?.message || error.message)
@@ -54,7 +58,7 @@ export default function CategoryPage() {
     const getCategory = async (id: any) => {
         try {
             const res = await CMSservice.getCategoryById(id);
-            setCategoryName(res?.data?.name)
+            setCategoryName(res?.data)
         } catch (error: any) {
             toast.error(error?.response?.message || "Category not found");
             return null;
@@ -110,7 +114,7 @@ export default function CategoryPage() {
                                 fontSize: { xs: "28px", sm: "38px", md: "48px" },
                             }}
                         >
-                            {categoryName}
+                            {categoryName?.name}
                         </Typography>
                     </Box>
                 </Box>
@@ -139,7 +143,7 @@ export default function CategoryPage() {
                         fontSize: { xs: "14px", sm: "16px" },
                     }}
                 >
-                    {categoryName}
+                    {categoryName?.name}
                 </Paper>
 
                 <OverViewContent category={category} />

@@ -47,7 +47,7 @@ export default function ComodityProfile({
                 position: "relative",
                 overflow: "hidden",
                 py: { xs: 4, sm: 5, md: 8 },
-                bgcolor: "background.default",
+                bgcolor: "white",
             }}
         >
             <Box

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
 import PageContentSkeleton from "../../component/PageContentSkeleton";
+import CountryTab from "../../commonUI/CountryTab";
 
 interface BrandItem {
     id?: number;
@@ -33,6 +34,7 @@ interface BrandCountryGroup {
 export default function Brand() {
     const [list, setList] = useState<BrandCountryGroup[]>([]);
     const [loading, setLoading] = useState(true);
+    const [activeCountry, setActiveCountry] = useState("India");
 
     const [activeCategoryByCountry, setActiveCategoryByCountry] = useState<
         Record<string, string>
@@ -48,11 +50,11 @@ export default function Brand() {
         dispatch(fetchFlatPageBySlug("brands"));
     }, [dispatch]);
 
-    const getList = async () => {
+    const getList = async (country: string) => {
         setLoading(true);
 
         try {
-            const res = await Brandservice.getList();
+            const res = await Brandservice.getList(country);
 
             if (res) {
                 setList(res?.data?.data || []);
@@ -65,8 +67,8 @@ export default function Brand() {
     };
 
     useEffect(() => {
-        getList();
-    }, []);
+        getList(activeCountry);
+    }, [activeCountry]);
 
     const getActiveCategory = (country: string) => {
         return activeCategoryByCountry[country] || "all";
@@ -192,6 +194,11 @@ export default function Brand() {
                                 }}
                             />
                         )}
+
+                        <CountryTab
+                            activeCountry={activeCountry}
+                            setActiveCountry={setActiveCountry}
+                        />
                     </Paper>
                 )}
 
