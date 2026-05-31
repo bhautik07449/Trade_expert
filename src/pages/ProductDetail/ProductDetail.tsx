@@ -1,6 +1,6 @@
 import { Container, Grid, Box, Typography, Divider, Skeleton } from "@mui/material"
 import ProductGallery from "../../component/Product/ProductGallery"
-import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
+// import ProductSpecsTabs from "../../component/Product/ProductSpecsTabs"
 import CtaButtons from "../../component/Product/CtaButtons"
 import CertificationPanel from "../../component/Product/CertificationPanel"
 import MarketDataTable from "../../component/Product/MarketDataTable"
@@ -120,7 +120,7 @@ export default function ProductPage() {
                                     dangerouslySetInnerHTML={{ __html: product?.description }}
                                 />
 
-                                <ProductSpecsTabs specs={product.specs} />
+                                {/* <ProductSpecsTabs specs={product.specs} /> */}
                             </Grid>
                         </Grid>
 

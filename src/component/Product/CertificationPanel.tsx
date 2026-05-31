@@ -1,18 +1,63 @@
-import * as React from "react"
-import { Box, Paper, Tabs, Tab, Typography, useTheme, useMediaQuery } from "@mui/material"
-import { getImageUrl } from "../../utils/imageUtils"
+import * as React from "react";
+import {
+  Box,
+  Paper,
+  Tabs,
+  Tab,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
+import { getImageUrl } from "../../utils/imageUtils";
 
 export default function CertificationPanel({ product }: any) {
-  const [tab, setTab] = React.useState(0)
+  const [tab, setTab] = React.useState(0);
 
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+  const specs = product?.specs || {};
+  const keys = Object.keys(specs);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const seasonalIsImage = (val: any) => {
-    if (!val) return false
-    if (typeof val === "string") return val.startsWith("http") || val.match(/\.(jpeg|jpg|gif|png|webp)$/i)
-    return false
-  }
+    if (!val) return false;
+
+    if (typeof val === "string") {
+      return (
+        val.startsWith("http") ||
+        /\.(jpeg|jpg|gif|png|webp)$/i.test(val)
+      );
+    }
+
+    return false;
+  };
+
+  const renderValue = (value: any) => {
+    if (value === null || value === undefined || value === "") {
+      return "-";
+    }
+
+    if (typeof value === "string" || typeof value === "number") {
+      return value;
+    }
+
+    if (Array.isArray(value)) {
+      return value.join(", ");
+    }
+
+    if (typeof value === "object") {
+      return value?.name || JSON.stringify(value);
+    }
+
+    return String(value);
+  };
+
+  const activeSpecKey = tab >= 2 ? keys[tab - 2] : "";
+  const activeSpecRows = activeSpecKey ? specs[activeSpecKey] || [] : [];
 
   return (
     <Paper
@@ -21,6 +66,8 @@ export default function CertificationPanel({ product }: any) {
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
         minHeight: 200,
+        width: "100%",
+        overflowX: "auto",
       }}
     >
       <Tabs
@@ -43,22 +90,37 @@ export default function CertificationPanel({ product }: any) {
       >
         <Tab label="Product Certification" />
         <Tab label="Seasonal Chart" />
+
+        {keys.map((key) => (
+          <Tab
+            key={key}
+            label={key}
+            id={`spec-tab-${key}`}
+            aria-controls={`spec-panel-${key}`}
+          />
+        ))}
       </Tabs>
 
-      <Box sx={{ p: { xs: 2, md: 3 }, flex: 1 }}>
+      <Box sx={{ p: { xs: 2, md: 3 }, flex: 1, width: "100%" }}>
         {tab === 0 && (
           <Box display="flex" justifyContent="center">
-            <Box
-              component="img"
-              src={getImageUrl(product?.certification)}
-              alt="Certification logo"
-              sx={{
-                width: { xs: 160, sm: 260, md: 360 },
-                height: { xs: 120, sm: 220, md: 360 },
-                maxWidth: "100%",
-                objectFit: "contain",
-              }}
-            />
+            {product?.certification ? (
+              <Box
+                component="img"
+                src={getImageUrl(product?.certification)}
+                alt="Certification logo"
+                sx={{
+                  width: { xs: 160, sm: 260, md: 360 },
+                  height: { xs: 120, sm: 220, md: 360 },
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                No certification available.
+              </Typography>
+            )}
           </Box>
         )}
 
@@ -83,7 +145,90 @@ export default function CertificationPanel({ product }: any) {
             )}
           </Box>
         )}
+
+        {tab >= 2 && (
+          <Box sx={{ width: "100%" }}>
+            {activeSpecRows.length > 0 ? (
+              <Table
+                sx={{
+                  width: "100%",
+                  minWidth: { xs: 220, md: "100%" },
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  borderCollapse: "separate",
+                  borderSpacing: 0,
+                }}
+              >
+                <TableBody>
+                  {activeSpecRows.map((row: any, idx: number) => (
+                    <TableRow
+                      key={idx}
+                      sx={{
+                        "&:nth-of-type(odd)": {
+                          bgcolor: "background.default",
+                        },
+                        "&:hover": {
+                          bgcolor: "primary.light",
+                        },
+                        "&:last-child td, &:last-child th": {
+                          borderBottom: 0,
+                        },
+                      }}
+                    >
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        sx={{
+                          width: { xs: "45%", md: "35%" },
+                          fontWeight: 700,
+                          color: "secondary.main",
+                          bgcolor: "background.paper",
+                          borderRight: "1px solid",
+                          borderColor: "divider",
+                          py: 1.8,
+                          px: { xs: 2, md: 3 },
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {renderValue(row?.label)}
+                      </TableCell>
+
+                      <TableCell
+                        sx={{
+                          width: { xs: "55%", md: "65%" },
+                          color: "text.secondary",
+                          py: 1.8,
+                          px: { xs: 2, md: 3 },
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {renderValue(row?.value)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <Box
+                sx={{
+                  width: "100%",
+                  border: "1px dashed",
+                  borderColor: "divider",
+                  borderRadius: 2,
+                  p: 3,
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  No specification available.
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        )}
       </Box>
     </Paper>
-  )
+  );
 }
