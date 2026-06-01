@@ -27,10 +27,8 @@ export default function Analytical({
             sx={{
                 position: "relative",
                 overflow: "hidden",
-                py: { xs: 5, md: 8 },
-                bgcolor: "background.default",
-                background:
-                    "linear-gradient(180deg, #F5F0EB 0%, #FFFFFF 48%, #F5F0EB 100%)",
+                py: { xs: 6, md: 10 },
+                bgcolor: "white"
             }}
         >
             <Box
@@ -70,24 +68,7 @@ export default function Analytical({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Analytical" label="Dashboard" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: "720px",
-                        mx: "auto",
-                        mb: { xs: 4, md: 6 },
-                        mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.92rem", sm: "1rem" },
-                        lineHeight: 1.8,
-                    }}
-                >
-                    Monitor trading performance, global orders, procurement activity, and
-                    marketplace growth through real-time business insights.
-                </Typography>
+                <LabelTitle title="Overall" label="Stats" tabLine="Monitor trading performance, global orders, procurement activity, and marketplace growth through real-time business insights." />
 
                 {loading ? (
                     <Grid container spacing={3}>

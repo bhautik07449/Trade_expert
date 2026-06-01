@@ -33,7 +33,7 @@ export default function Events() {
     return (
         <Box
             sx={{
-                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 bgcolor: "white",
                 boxSizing: "border-box",
             }}
@@ -45,23 +45,7 @@ export default function Events() {
                     mb: 4,
                 }}
             >
-                <LabelTitle title="Trade" label="Events" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: "680px",
-                        mx: "auto",
-                        mb: { xs: 4, md: 6 },
-                        mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.88rem", sm: "1rem" },
-                        lineHeight: 1.5,
-                    }}
-                >
-                    Stay updated with the latest trade events, expos, and industry gatherings happening around the world.
-                </Typography>
+                <LabelTitle title="News &" label="Events" />
 
                 <Box sx={{ width: '100%' }}>
                     {loading ? (

@@ -10,10 +10,24 @@ import AboutTestimonial from '../About/AboutTestimonial';
 import { useEffect, useState } from 'react';
 import HomePageservice from '../../service/homepages.service';
 import SEO from '../../component/SEO';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { fetchFlatPageBySlug } from '../../store/slice/pageSlice';
+import CountriesSnapshot from '../../component/Home/CountriesSnapshot';
+import ESG from '../../component/Home/ESG';
+import UpcomingCollabration from '../../component/Home/UpcomingCollabration';
 
 export default function Home() {
     const [analyticsData, setAnalyticsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pageDetail } = useSelector((state: RootState) => state.page);
+
+    useEffect(() => {
+        dispatch(fetchFlatPageBySlug("home"));
+    }, [dispatch]);
 
     const getAnalyticalData = async () => {
         try {
@@ -34,19 +48,24 @@ export default function Home() {
 
     return (
         <>
-            <SEO
-                title="Tradexpert - Global Market Insights & Trade Opportunities"
-                description="Tradexpert: Your Global Intelligence Hub. Explore real-time trade analytics, B2B spot markets, upcoming seasonal products, and verified supplier connections worldwide."
-                keywords="B2B, marketplace, spot market, trade analytics, export, import, wholesale, suppliers, buyers, seasonal products, trade intelligence"
-            />
+            {pageDetail && (
+                <SEO
+                    title={pageDetail.page_title}
+                    description={pageDetail.meta_description || ""}
+                    keywords={pageDetail.meta_keyword || ""}
+                />
+            )}
 
             <Box>
                 <InteractiveWorldMap />
-                <Analytical analyticsData={analyticsData} loading={loading} />
+                <CountriesSnapshot />
                 <Events />
+                <ESG />
+                <Analytical analyticsData={analyticsData} loading={loading} />
                 <OurProcess />
                 <Values />
                 <AboutTestimonial />
+                <UpcomingCollabration />
             </Box>
         </>
     );

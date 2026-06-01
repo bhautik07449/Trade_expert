@@ -38,7 +38,7 @@ export default function OurProcess() {
     return (
         <Box
             sx={{
-                py: { xs: 5, md: 8 },
+                py: { xs: 6, md: 10 },
                 bgcolor: "background.default",
                 textAlign: "center",
                 boxSizing: "border-box",
@@ -51,24 +51,7 @@ export default function OurProcess() {
                     px: { xs: 2, sm: 3, md: 4 },
                 }}
             >
-                <Title title="Our" label="Process" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: "680px",
-                        mx: "auto",
-                        mb: { xs: 4, md: 6 },
-                        mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.88rem", sm: "1rem" },
-                        lineHeight: 1.5,
-                    }}
-                >
-                    Discover how Tradexpert transforms the way businesses trade by
-                    providing a seamless, data-driven platform for global business.
-                </Typography>
+                <Title title="Ecosytem " label="works like" tabLine="Discover how Tradexpert transforms the way businesses trade by providing a seamless, data-driven platform for global business." />
 
                 <Box
                     sx={{

@@ -51,7 +51,7 @@ export default function CountryTab({
             elevation={0}
             sx={{
                 mb: 5,
-                p: 1,
+                py: 1,
                 bgcolor: "transparent",
                 boxShadow: "none",
                 width: "100%",

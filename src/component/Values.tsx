@@ -41,7 +41,7 @@ export default function Values() {
             sx={{
                 position: "relative",
                 overflow: "hidden",
-                py: { xs: 6, md: 9 },
+                py: { xs: 6, md: 10 },
                 bgcolor: "white"
             }}
         >
@@ -82,24 +82,7 @@ export default function Values() {
                     zIndex: 1,
                 }}
             >
-                <Title title="Value Added" label="Services" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: "720px",
-                        mx: "auto",
-                        mb: { xs: 4, md: 6 },
-                        mt: { xs: -1.5, md: -2.5 },
-                        fontSize: { xs: "0.9rem", sm: "1rem" },
-                        lineHeight: 1.8,
-                    }}
-                >
-                    We provide a comprehensive suite of value-added services designed to
-                    support and enhance your trading experience on our platform.
-                </Typography>
+                <Title title="Services to" label="look out for" tabLine="We provide a comprehensive suite of value-added services designed to support and enhance your trading experience on our platform." />
 
                 <Grid container spacing={{ xs: 2.5, sm: 3 }} mt={1}>
                     {data.map((item, index) => {
