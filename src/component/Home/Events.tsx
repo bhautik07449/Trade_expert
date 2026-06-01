@@ -45,7 +45,7 @@ export default function Events() {
                     mb: 4,
                 }}
             >
-                <LabelTitle title="News &" label="Events" />
+                <LabelTitle title="News &" label="Events" tagLine="Stay updated with the latest news and upcoming events in the trading world." />
 
                 <Box sx={{ width: '100%' }}>
                     {loading ? (

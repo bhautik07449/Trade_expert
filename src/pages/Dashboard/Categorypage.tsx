@@ -13,6 +13,8 @@ import CommodityProcessFlow from "../../component/Category/CommodityProcessFlow"
 import Events from "../../component/Home/Events";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
+import PageMainLayout from "../../commonUI/PageMainLayout";
+import SEO from "../../component/SEO";
 
 type Category = {
     name?: string
@@ -72,136 +74,87 @@ export default function CategoryPage() {
 
     return (
         <Box>
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                    alt="Supplier Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/quality.jpg" slug="category" activeCountry="" setActiveCountry={() => { }} title={categoryName?.name} />
 
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            {categoryName?.name}
-                        </Typography>
-                    </Box>
-                </Box>
+            <Box component="section">
+                <SpotMarketTable category={category} />
+            </Box>
+
+            <Box component="section">
+                <ProductOverView category={category} />
+            </Box>
+
+            <Box component="section">
+                <OverViewContent category={category} />
+            </Box>
+
+            <Box component="section">
+                <ComodityProfile category={category} />
+            </Box>
+
+            <Box component="section">
+                <StateStanding category={category} />
+            </Box>
+
+            <Box component="section">
+                <CategoryInsight category={category} />
+            </Box>
+
+            <Box component="section">
+                <CommodityProcessFlow />
+            </Box>
+
+            <Box component="section">
+                <Events />
             </Box>
 
             <Box
+                component="section"
                 sx={{
-                    mt: { xs: -5, md: -7 },
                     position: "relative",
-                    zIndex: 2,
+                    py: { xs: 5, sm: 6, md: 8, lg: 10 },
+                    bgcolor: "background.default",
+                    overflow: "hidden",
                 }}
             >
-                <Paper
-                    elevation={0}
-                    sx={{
-                        mb: 4,
-                        maxWidth: "1400px",
-                        mx: 'auto',
-                        p: { xs: 2.5, sm: 3, md: 4 },
-                        borderRadius: 4,
-                        bgcolor: "background.paper",
-                        border: "1px solid",
-                        borderColor: "divider",
-                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
-                        textAlign: "center",
-                        fontSize: { xs: "14px", sm: "16px" },
-                    }}
-                >
-                    {categoryName?.name}
-                </Paper>
-
-                <OverViewContent category={category} />
-                <SpotMarketTable category={category} />
-                <CategoryInsight category={category} />
-                <StateStanding category={category} />
-                <ProductOverView category={category} />
-                <ComodityProfile category={category} />
-                <CommodityProcessFlow />
-                <Events />
-
-                <Box
-                    component="section"
+                <Container
+                    maxWidth={false}
                     sx={{
                         position: "relative",
-                        py: { xs: 5, sm: 6, md: 8, lg: 10 },
-                        bgcolor: "background.default",
-                        overflow: "hidden",
+                        zIndex: 2,
+                        maxWidth: "1400px",
+                        mx: "auto",
+                        px: { xs: 2, sm: 3, md: 4, lg: 5 },
                     }}
                 >
-                    <Container
-                        maxWidth={false}
+                    <Box
                         sx={{
-                            position: "relative",
-                            zIndex: 2,
-                            maxWidth: "1400px",
-                            mx: "auto",
-                            px: { xs: 2, sm: 3, md: 4, lg: 5 },
+                            display: "grid",
+                            gridTemplateColumns: {
+                                xs: "1fr",
+                                md: "repeat(2, minmax(0, 1fr))",
+                            },
+                            gap: { xs: 5, sm: 6, md: 4, lg: 6 },
+                            alignItems: "stretch",
                         }}
                     >
-                        <Box
-                            sx={{
-                                display: "grid",
-                                gridTemplateColumns: {
-                                    xs: "1fr",
-                                    md: "repeat(2, minmax(0, 1fr))",
-                                },
-                                gap: { xs: 5, sm: 6, md: 4, lg: 6 },
-                                alignItems: "stretch",
-                            }}
-                        >
-                            <CardImageSlider
-                                title="Membership"
-                                label="Resources"
-                                description="Explore useful membership documents and visual resources."
-                                loading={membershipLoading}
-                                cardImages={membership}
-                            />
+                        <CardImageSlider
+                            title="Membership"
+                            label="Resources"
+                            description="Explore useful membership documents and visual resources."
+                            loading={membershipLoading}
+                            cardImages={membership}
+                        />
 
-                            <CardImageSlider
-                                title="Affiliation"
-                                label="Resources"
-                                description="View affiliation-related resources and supporting material."
-                                loading={affiliationLoading}
-                                cardImages={affiliation}
-                            />
-                        </Box>
-                    </Container>
-                </Box>
+                        <CardImageSlider
+                            title="Affiliation"
+                            label="Resources"
+                            description="View affiliation-related resources and supporting material."
+                            loading={affiliationLoading}
+                            cardImages={affiliation}
+                        />
+                    </Box>
+                </Container>
             </Box>
         </Box>
     )

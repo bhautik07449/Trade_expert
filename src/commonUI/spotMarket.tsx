@@ -11,7 +11,7 @@ import {
     Skeleton,
     Typography,
 } from "@mui/material"
-import Title from "./labelTitle"
+import LabelTitle from "./labelTitle"
 import HomePageservice from "../service/homepages.service"
 
 type ColumnType = {
@@ -131,14 +131,17 @@ export default function SpotMarketTable({ category }: any) {
     }, [category])
 
     return (
-        <Box sx={{ width: "100%", maxWidth: "1400px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 }, boxSizing: "border-box" }}>
-            <Title title="Spot Market" label="Rate" />
+        <Box sx={{ width: "100%", py: { xs: 6, md: 10 }, boxSizing: "border-box", bgcolor: "background.default" }}>
+            <LabelTitle title="Spot Market" label="Rate" tagLine="Get real-time updates on the latest spot market rates and trends." />
 
             <Box
                 sx={{
                     width: "100%",
+                    maxWidth: "1400px",
+                    mx: "auto",
                     display: "flex",
                     justifyContent: "center",
+                    px: { xs: 2, sm: 4, md: 6 },
                 }}
             >
                 {loading ? (

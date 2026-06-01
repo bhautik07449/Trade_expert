@@ -49,52 +49,38 @@ export default function OverViewContent({ category }: any) {
             : [];
 
     return (
-        <Box
-            sx={{
-                maxWidth: "1050px",
-                mx: "auto",
-                px: { xs: 2, sm: 4, md: 6 },
-                py: { xs: 4, md: 6 },
-            }}
-        >
-            <LabelTitle title="Content" label="OverView" />
-
-            <Typography
-                sx={{
-                    textAlign: "center",
-                    color: "text.secondary",
-                    maxWidth: "720px",
-                    mx: "auto",
-                    mb: { xs: 4, md: 6 },
-                    mt: { xs: -1, md: -2 },
-                    fontSize: { xs: "0.9rem", sm: "1rem" },
-                    lineHeight: 1.6,
-                }}
-            >
-                Explore market dynamics, understand key economic indicators, and view
-                featured listings for this category.
-            </Typography>
-
+        <Box sx={{ bgcolor: "background.default" }}>
             <Box
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: { xs: 3, md: 4 },
+                    maxWidth: "1050px",
+                    mx: "auto",
+                    px: { xs: 2, sm: 4, md: 6 },
+                    py: { xs: 6, md: 10 },
                 }}
             >
-                <OverviewRow
-                    title="Country Background"
-                    loading={loading}
-                    content={extractContent(data?.country_background)}
-                />
+                <LabelTitle title="Country" label="Overview" tagLine="Explore market dynamics, understand key economic indicators, and view featured listings for this category." />
 
-                <OverviewRow
-                    title="Category Specific"
-                    loading={loading}
-                    content={extractContent(data?.category_specific)}
-                />
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: { xs: 3, md: 4 },
+                    }}
+                >
+                    <OverviewRow
+                        title="Country Background"
+                        loading={loading}
+                        content={extractContent(data?.country_background)}
+                    />
 
-                <GlobalImportanceRow loading={loading} items={globalItems} />
+                    <OverviewRow
+                        title="Category Specific"
+                        loading={loading}
+                        content={extractContent(data?.category_specific)}
+                    />
+
+                    <GlobalImportanceRow loading={loading} items={globalItems} />
+                </Box>
             </Box>
         </Box>
     );
@@ -177,7 +163,7 @@ function GlobalImportanceRow({
     items: string[];
     loading: boolean;
 }) {
-    
+
     return (
         <Box
             sx={{

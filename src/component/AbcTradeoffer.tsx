@@ -30,7 +30,7 @@ export default function AbcTradeoffer({ country }: any) {
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="Explore" label="Services" tabLine="Discover a range of services designed to meet your trading needs and expand your business opportunities." />
+            <LabelTitle title="Explore" label="Services" tagLine="Discover a range of services designed to meet your trading needs and expand your business opportunities." />
 
             <Container
                 sx={{

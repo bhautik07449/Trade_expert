@@ -167,7 +167,7 @@ export default function ESG({ visiblecard = 3 }: { visiblecard?: number }) {
             }}
         >
             <Box sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-                <LabelTitle title="ESG" label="" />
+                <LabelTitle title="ESG" label="" tagLine="Evaluate the environmental, social, and governance practices of companies in which you invest." />
 
                 <Stack direction="row" justifyContent="center" spacing={2} sx={{ mb: 4 }}>
                     {(["E", "S", "G"] as TabKey[]).map((tab) => (

@@ -72,7 +72,7 @@ export default function Analytical({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title={title || "Overall"} label={label || "Stats"} tabLine="Monitor trading performance, global orders, procurement activity, and marketplace growth through real-time business insights." />
+                <LabelTitle title={title || "Overall"} label={label || "Stats"} tagLine="Monitor trading performance, global orders, procurement activity, and marketplace growth through real-time business insights." />
 
                 {loading ? (
                     <Grid container spacing={3}>

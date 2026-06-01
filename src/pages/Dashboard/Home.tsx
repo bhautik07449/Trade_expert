@@ -57,15 +57,41 @@ export default function Home() {
             )}
 
             <Box>
-                <InteractiveWorldMap />
-                <CountriesSnapshot />
-                <Events />
-                <ESG />
-                <Analytical analyticsData={analyticsData} loading={loading} />
-                <OurProcess />
-                <Values />
-                <AboutTestimonial />
-                <UpcomingCollabration />
+                <Box component="section">
+                    <InteractiveWorldMap />
+                </Box>
+
+                <Box component="section">
+                    <CountriesSnapshot />
+                </Box>
+
+                <Box component="section">
+                    <Events />
+                </Box>
+
+                <Box component="section">
+                    <ESG />
+                </Box>
+
+                <Box component="section">
+                    <Analytical analyticsData={analyticsData} loading={loading} />
+                </Box>
+
+                <Box component="section">
+                    <OurProcess />
+                </Box>
+
+                <Box component="section">
+                    <Values />
+                </Box>
+
+                <Box component="section">
+                    <AboutTestimonial />
+                </Box>
+
+                <Box component="section">
+                    <UpcomingCollabration />
+                </Box>
             </Box>
         </>
     );

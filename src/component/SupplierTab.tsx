@@ -36,7 +36,7 @@ export default function SupplierTab({ country }: any) {
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="Join the" label="Platform" tabLine="Choose the right option to join our platform and start trading." />
+            <LabelTitle title="Join the" label="Platform" tagLine="Choose the right option to join our platform and start trading." />
 
             <Container
                 sx={{

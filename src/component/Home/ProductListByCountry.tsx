@@ -61,7 +61,7 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                 mx: "auto",
             }}
         >
-            <LabelTitle title="Product List" label="By Country" tabLine={`Explore the diverse range of products available in ${country}, showcasing the unique offerings and trade opportunities within the country.`} />
+            <LabelTitle title="Product List" label="By Country" tagLine={`Explore the diverse range of products available in ${country}, showcasing the unique offerings and trade opportunities within the country.`} />
 
             <Typography
                 variant="body1"

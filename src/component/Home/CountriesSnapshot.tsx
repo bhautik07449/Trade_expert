@@ -31,7 +31,7 @@ export default function CountriesSnapshot() {
             }}
         >
             <Stack spacing={3}>
-                <LabelTitle title="Countries" label="Snapshot" />
+                <LabelTitle title="Countries" label="Snapshot" tagLine="Get a comprehensive overview of the global market and the economic standing of different countries." />
 
                 <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 

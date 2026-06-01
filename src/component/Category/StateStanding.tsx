@@ -42,8 +42,8 @@ export default function StateStanding({
             sx={{
                 position: "relative",
                 overflow: "hidden",
-                bgcolor: "white",
-                py: { xs: 3, md: 4 }
+                bgcolor: "background.default",
+                py: { xs: 6, md: 10 }
             }}
         >
             <Box
@@ -55,7 +55,7 @@ export default function StateStanding({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="State Standing" label="Contribution" />
+                <LabelTitle title="State" label="Standing" />
 
                 <Typography
                     variant="body1"

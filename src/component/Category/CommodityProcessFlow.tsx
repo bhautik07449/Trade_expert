@@ -29,8 +29,8 @@ type CommodityProcessFlowProps = {
 
 export default function CommodityProcessFlow({
     steps = processSteps,
-    title = "Industrial Commodity",
-    label = "Process",
+    title = "Sector value",
+    label = "Chain",
     itemsPerRow = 4,
 }: CommodityProcessFlowProps) {
     const rows = steps.reduce<string[][]>((acc, item, index) => {
@@ -190,7 +190,7 @@ export default function CommodityProcessFlow({
         <Box
             component="section"
             sx={{
-                py: { xs: 4, sm: 5, md: 8 },
+                py: { xs: 6, md: 10 },
                 position: "relative",
                 overflow: "hidden",
                 bgcolor: "background.default",
@@ -200,30 +200,10 @@ export default function CommodityProcessFlow({
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    px: { xs: 2, sm: 3, md: 5, lg: 6 },
+                    px: { xs: 2, sm: 4, lg: 6 },
                 }}
             >
-                <LabelTitle title={title} label={label} />
-
-                <Typography
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: 760,
-                        mx: "auto",
-                        mb: { xs: 4, md: 5 },
-                        mt: { xs: -1, md: -2 },
-                        fontSize: {
-                            xs: "0.86rem",
-                            sm: "0.94rem",
-                            md: "1rem",
-                        },
-                        lineHeight: 1.75,
-                    }}
-                >
-                    Understand the commodity workflow from sourcing to delivery
-                    through a simple step-by-step process flow.
-                </Typography>
+                <LabelTitle title={title} label={label} tagLine="Understand the commodity workflow from sourcing to delivery through a simple step-by-step process flow." />
 
                 <Paper
                     elevation={0}

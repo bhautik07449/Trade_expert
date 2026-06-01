@@ -77,7 +77,7 @@ export default function UpcomingCollabration({ visiblecard = 3 }: { visiblecard?
             }}
         >
             <Box sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-                <LabelTitle title="Upcoming" label="Collaboration" />
+                <LabelTitle title="Upcoming" label="Collaboration" tagLine="Discover the latest collaborative initiatives and upcoming partnerships in the trading world." />
 
                 <Box sx={{ position: "relative", overflow: "hidden" }}>
                     <IconButton

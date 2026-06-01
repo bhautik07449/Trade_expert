@@ -51,7 +51,7 @@ export default function OurProcess() {
                     px: { xs: 2, sm: 3, md: 4 },
                 }}
             >
-                <Title title="Ecosytem " label="works like" tabLine="Discover how Tradexpert transforms the way businesses trade by providing a seamless, data-driven platform for global business." />
+                <Title title="Ecosytem " label="works like" tagLine="Discover how Tradexpert transforms the way businesses trade by providing a seamless, data-driven platform for global business." />
 
                 <Box
                     sx={{

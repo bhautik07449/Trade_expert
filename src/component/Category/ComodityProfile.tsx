@@ -74,29 +74,7 @@ export default function ComodityProfile({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Commodity" label="Profile" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: 760,
-                        mx: "auto",
-                        mb: { xs: 3.5, sm: 4, md: 6 },
-                        mt: { xs: -1, md: -2.5 },
-                        fontSize: {
-                            xs: "0.86rem",
-                            sm: "0.94rem",
-                            md: "1rem",
-                        },
-                        lineHeight: { xs: 1.65, md: 1.8 },
-                        px: { xs: 0.5, sm: 0 },
-                    }}
-                >
-                    View BSE, NSE, and other market reference codes for{" "}
-                    {category || "this category"}.
-                </Typography>
+                <LabelTitle title="Sector" label="Performance" tagLine="Analyze the performance of commodities within this sector." />
 
                 {loading ? (
                     <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}>

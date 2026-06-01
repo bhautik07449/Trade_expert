@@ -44,33 +44,35 @@ export default function ProductOverView({ category }: any) {
     }, [category])
 
     return (
-        <Box sx={{ maxWidth: "1400px", mx: "auto", px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 } }}>
-            {allProducts?.length > 0 && (
-                <CardUi
-                    title='All Season'
-                    label='Availability'
-                    products={allProducts}
-                    loading={loading}
-                />
-            )}
+        <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 }, bgcolor: "white" }}>
+            <Box sx={{ maxWidth: "1400px", mx: "auto", }}>
+                {allProducts?.length > 0 && (
+                    <CardUi
+                        title='All Season'
+                        label='Availability'
+                        products={allProducts}
+                        loading={loading}
+                    />
+                )}
 
-            {currentProducts?.length > 0 && (
-                <CardUi
-                    title='Current'
-                    label='Season'
-                    products={currentProducts}
-                    loading={loading}
-                />
-            )}
+                {currentProducts?.length > 0 && (
+                    <CardUi
+                        title='Current'
+                        label='Season'
+                        products={currentProducts}
+                        loading={loading}
+                    />
+                )}
 
-            {upcomingProducts?.length > 0 && (
-                <CardUi
-                    title='Upcoming'
-                    label='Season'
-                    products={upcomingProducts}
-                    loading={loading}
-                />
-            )}
+                {upcomingProducts?.length > 0 && (
+                    <CardUi
+                        title='Upcoming'
+                        label='Season'
+                        products={upcomingProducts}
+                        loading={loading}
+                    />
+                )}
+            </Box>
         </Box>
     )
 }

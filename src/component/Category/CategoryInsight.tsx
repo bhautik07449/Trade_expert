@@ -45,8 +45,8 @@ export default function CategoryInsight({
             sx={{
                 position: "relative",
                 overflow: "hidden",
-                py: { xs: 4, sm: 5, md: 8 },
-                bgcolor: "background.default",
+                py: { xs: 6, md: 10 },
+                bgcolor: "white",
             }}
         >
             <Box
@@ -73,30 +73,7 @@ export default function CategoryInsight({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Category Market" label="Overview" />
-
-                <Typography
-                    variant="body1"
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        maxWidth: 760,
-                        mx: "auto",
-                        mb: { xs: 3.5, sm: 4, md: 6 },
-                        mt: { xs: -1, md: -2.5 },
-                        fontSize: {
-                            xs: "0.86rem",
-                            sm: "0.94rem",
-                            md: "1rem",
-                        },
-                        lineHeight: { xs: 1.65, md: 1.8 },
-                        px: { xs: 0.5, sm: 0 },
-                    }}
-                >
-                    Explore suppliers, service providers, market participants,
-                    community profile, national market, events, and industry
-                    updates for {category || "this category"}.
-                </Typography>
+                <LabelTitle title="Cluster" label="Market Insights" tagLine="Discover key market trends, supplier dynamics, and industry insights for this category." />
 
                 {loading ? (
                     <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}>

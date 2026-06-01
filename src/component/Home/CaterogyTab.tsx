@@ -93,7 +93,7 @@ export default function CategoryTab({ country }: any) {
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Active" label="Categories" tabLine={`Explore the most sought-after product categories in ${country ? country : "the world"}, and discover the key sectors driving trade and economic growth in your selected region.`} />
+                <LabelTitle title="Active" label="Categories" tagLine={`Explore the most sought-after product categories in ${country ? country : "the world"}, and discover the key sectors driving trade and economic growth in your selected region.`} />
 
                 <Typography
                     variant="body1"

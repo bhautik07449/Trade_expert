@@ -3,12 +3,12 @@ import { Box, Typography } from "@mui/material";
 export default function LabelTitle({
     title,
     label,
-    tabLine,
+    tagLine,
     id
 }: {
     title: string;
     label: string;
-    tabLine?: string;
+    tagLine?: string;
     id?: string
 }) {
     return (
@@ -63,7 +63,7 @@ export default function LabelTitle({
                 </Typography>
             </Box>
 
-            {tabLine && (
+            {tagLine && (
                 <Typography
                     variant="body1"
                     sx={{
@@ -77,7 +77,7 @@ export default function LabelTitle({
                         lineHeight: 1.8,
                     }}
                 >
-                    {tabLine}
+                    {tagLine}
                 </Typography>
             )}
         </Box>
