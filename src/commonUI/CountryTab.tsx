@@ -37,7 +37,7 @@ export default function CountryTab({
                     setActiveCountry(countries[0]);
                 }
             } catch (error: any) {
-            console.log(error?.response?.data?.message || "Presences data not fetch");
+                console.log(error?.response?.data?.message || "Presences data not fetch");
             } finally {
                 setLoading(false);
             }
@@ -51,7 +51,9 @@ export default function CountryTab({
             elevation={0}
             sx={{
                 mb: 5,
-                py: 1,
+                maxWidth: "1400px",
+                mx: "auto",
+                px: { xs: 2, sm: 3, md: 4 },
                 bgcolor: "transparent",
                 boxShadow: "none",
                 width: "100%",

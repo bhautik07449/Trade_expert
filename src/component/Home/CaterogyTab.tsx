@@ -50,7 +50,7 @@ export default function CategoryTab({ country }: any) {
             sx={{
                 position: "relative",
                 overflow: "hidden",
-                py: { xs: 5, md: 8 },
+                py: { xs: 6, md: 10 },
                 bgcolor: "background.default",
                 background: "white",
             }}
@@ -93,7 +93,7 @@ export default function CategoryTab({ country }: any) {
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Categories" label="Sectors" />
+                <LabelTitle title="Active" label="Categories" tabLine={`Explore the most sought-after product categories in ${country ? country : "the world"}, and discover the key sectors driving trade and economic growth in your selected region.`} />
 
                 <Typography
                     variant="body1"
@@ -108,8 +108,7 @@ export default function CategoryTab({ country }: any) {
                         lineHeight: 1.8,
                     }}
                 >
-                    Browse verified, high-demand product sectors tailored for seamless
-                    bilateral wholesale trade and prioritized export opportunities.
+
                 </Typography>
 
                 {loading ? (

@@ -8,12 +8,14 @@ export default function AbcTradeoffer({ country }: any) {
 
     const tab = [
         {
-            value: "Go to ABC",
+            value: "Countries trade diversity",
+            description: "Explore the diversity of trade across different countries and regions.",
             button: "ABC",
             link: "/abc",
         },
         {
-            value: "Go to Trade Offer",
+            value: "On Going deals",
+            description: "Discover current trade offers and opportunities available in the market.",
             button: "Trade Offer",
             link: "/trade-offers",
         },
@@ -22,19 +24,18 @@ export default function AbcTradeoffer({ country }: any) {
     return (
         <Box
             sx={{
-                py: { xs: 4, md: 6 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 width: "100%",
-                bgcolor: "background.default",
+                bgcolor: "white",
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="Explore Services" label="Quick Access" />
+            <LabelTitle title="Explore" label="Services" tabLine="Discover a range of services designed to meet your trading needs and expand your business opportunities." />
 
             <Container
                 sx={{
                     maxWidth: "1400px !important",
                     mx: "auto",
-                    px: { xs: 2, sm: 3, md: 4 },
                     mt: { xs: 3, md: 4 },
                 }}
             >
@@ -94,9 +95,7 @@ export default function AbcTradeoffer({ country }: any) {
                                             },
                                         }}
                                     >
-                                        {index === 0
-                                            ? "Access ABC services and related information."
-                                            : "Browse available trade offers and opportunities."}
+                                        {item?.description}
                                     </Typography>
                                 </Box>
 

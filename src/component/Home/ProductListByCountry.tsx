@@ -56,13 +56,12 @@ export default function ProductListByCountry({ country }: { country?: string }) 
     return (
         <Box
             sx={{
-                px: { xs: 2, sm: 4, md: 6 },
-                py: { xs: 5, md: 8 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 maxWidth: "1400px",
                 mx: "auto",
             }}
         >
-            <LabelTitle title="Product List" label="By Country" />
+            <LabelTitle title="Product List" label="By Country" tabLine={`Explore the diverse range of products available in ${country}, showcasing the unique offerings and trade opportunities within the country.`} />
 
             <Typography
                 variant="body1"
@@ -77,7 +76,7 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                     lineHeight: 1.8,
                 }}
             >
-                Browse verified, high-demand products by category and country.
+
             </Typography>
 
             {loading ? (

@@ -35,34 +35,17 @@ export default function TradeHistory({ country }: any) {
             sx={{
                 maxWidth: "1400px",
                 mx: "auto",
-                px: { xs: 2, sm: 4, md: 6 },
-                py: { xs: 3, md: 4 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 boxSizing: "border-box",
                 mb: 4,
             }}
         >
-            <LabelTitle title="Trade" label="History" />
-
-            <Typography
-                variant="body1"
-                sx={{
-                    textAlign: "center",
-                    color: "text.secondary",
-                    maxWidth: "680px",
-                    mx: "auto",
-                    mb: { xs: 4, md: 6 },
-                    mt: { xs: -1.5, md: -2.5 },
-                    fontSize: { xs: "0.88rem", sm: "1rem" },
-                    lineHeight: 1.5,
-                }}
-            >
-                Explore the latest import and export trade data from {country}.
-            </Typography>
+            <LabelTitle title="Trade" label="Important" tabLine={`Explore the historical trade trends and patterns in ${country ? country : "Global"} to understand market dynamics and identify potential opportunities for growth.`} />
 
             {loading ? (
                 <Grid container spacing={3}>
                     {[...Array(4)].map((_, index) => (
-                        <Grid size={{xs:12, sm:6}} key={index}>
+                        <Grid size={{ xs: 12, sm: 6 }} key={index}>
                             <Skeleton
                                 variant="rounded"
                                 height={120}
@@ -76,7 +59,7 @@ export default function TradeHistory({ country }: any) {
             ) : (
                 <Grid container spacing={3}>
                     {tradeHistory.map((item, index) => (
-                        <Grid size={{xs:12, sm:6}} key={item?.id || index}>
+                        <Grid size={{ xs: 12, sm: 6 }} key={item?.id || index}>
                             <Box
                                 sx={{
                                     display: "flex",

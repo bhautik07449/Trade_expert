@@ -16,9 +16,13 @@ import InsightsIcon from "@mui/icons-material/Insights"
 export default function Analytical({
     analyticsData,
     loading,
+    title,
+    label
 }: {
     analyticsData: any[]
-    loading: boolean
+    loading: boolean,
+    title?: string,
+    label?: string
 }) {
     const icons = [TrendingUpIcon, PublicIcon, BarChartIcon, InsightsIcon]
 
@@ -68,7 +72,7 @@ export default function Analytical({
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Overall" label="Stats" tabLine="Monitor trading performance, global orders, procurement activity, and marketplace growth through real-time business insights." />
+                <LabelTitle title={title || "Overall"} label={label || "Stats"} tabLine="Monitor trading performance, global orders, procurement activity, and marketplace growth through real-time business insights." />
 
                 {loading ? (
                     <Grid container spacing={3}>

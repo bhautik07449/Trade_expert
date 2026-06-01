@@ -30,19 +30,18 @@ export default function SupplierTab({ country }: any) {
     return (
         <Box
             sx={{
-                py: { xs: 4, md: 6 },
+                px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 width: "100%",
                 bgcolor: "background.default",
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="Join the Platform" label="Register or Login" />
+            <LabelTitle title="Join the" label="Platform" tabLine="Choose the right option to join our platform and start trading." />
 
             <Container
                 sx={{
                     maxWidth: "1400px !important",
                     mx: "auto",
-                    px: { xs: 2, sm: 3, md: 4 },
                     mt: { xs: 3, md: 4 },
                 }}
             >
