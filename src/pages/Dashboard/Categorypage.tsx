@@ -1,4 +1,4 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 import SpotMarketTable from "../../commonUI/spotMarket";
 import ProductOverView from "../../component/Home/ProductOverView";
@@ -14,7 +14,6 @@ import Events from "../../component/Home/Events";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
-import SEO from "../../component/SEO";
 
 type Category = {
     name?: string
