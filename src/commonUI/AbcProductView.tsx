@@ -23,7 +23,7 @@ type Product = {
     description: string
 }
 
-export default function BrandsProductView({ products, visiblecard = 4, }: { products: Product[]; visiblecard?: number; }) {
+export default function AbcProductView({ products, visiblecard = 4, }: { products: Product[]; visiblecard?: number; }) {
     const navigate = useNavigate();
 
     const [currentStartIndex, setCurrentStartIndex] = useState(0);
@@ -168,7 +168,7 @@ export default function BrandsProductView({ products, visiblecard = 4, }: { prod
                                 />
 
                                 <CardContent>
-                                    <Typography align="center" fontWeight={600}>
+                                    <Typography align="center" noWrap title={product.name} fontWeight={600}>
                                         {product.name}
                                     </Typography>
 

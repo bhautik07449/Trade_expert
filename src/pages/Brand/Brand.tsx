@@ -1,16 +1,11 @@
-import { Box, Typography, Skeleton, Paper, Tabs, Tab, Divider } from "@mui/material";
+import { Box, Typography, Skeleton, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Brandservice from "../../service/brand.service";
 import { getImageUrl } from "../../utils/imageUtils";
-import SEO from "../../component/SEO";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
-import PageContentSkeleton from "../../component/PageContentSkeleton";
-import CountryTab from "../../commonUI/CountryTab";
 import SubCategoryTab from "../../commonUI/SubCategoryTab";
 import BrandsProductView from "../../commonUI/BrandsProductView";
+import PageMainLayout from "../../commonUI/PageMainLayout";
 
 interface BrandItem {
     id?: number;
@@ -57,23 +52,10 @@ export default function Brand() {
     const [loading, setLoading] = useState(true);
     const [activeCountry, setActiveCountry] = useState("India");
 
-    const [activeCategoryByCountry, setActiveCategoryByCountry] = useState<
-        Record<string, string>
-    >({});
-
     const [activeSubCategory, setActiveSubCategory] = useState<
         Record<string, string>
     >({});
 
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { pageDetail } = useSelector(
-        (state: RootState) => state.page
-    );
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("brands"));
-    }, [dispatch]);
 
     const getList = async (country: string) => {
         setLoading(true);
@@ -94,29 +76,6 @@ export default function Brand() {
     useEffect(() => {
         getList(activeCountry);
     }, [activeCountry]);
-
-    const getActiveCategory = (country: string) => {
-        return activeCategoryByCountry[country] || "all";
-    };
-
-    const handleCategoryChange = (country: string, value: string) => {
-        setActiveCategoryByCountry((prev) => ({
-            ...prev,
-            [country]: value,
-        }));
-    };
-
-    const getFilteredCategoryGroups = (countryGroup: BrandCountryGroup) => {
-        const activeCategory = getActiveCategory(countryGroup.country);
-
-        if (activeCategory === "all") {
-            return countryGroup.category;
-        }
-
-        return countryGroup.category.filter(
-            (categoryGroup) => categoryGroup.category.name === activeCategory
-        );
-    };
 
     const getSubCategoryKey = (country: string, categoryName: string) => {
         return `${country}-${categoryName}`;
@@ -163,67 +122,8 @@ export default function Brand() {
     };
 
     return (
-        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 10 }}>
-            {pageDetail && (
-                <SEO
-                    title={
-                        pageDetail.page_meta_title ||
-                        pageDetail.page_title ||
-                        "Brands"
-                    }
-                    description={pageDetail.meta_description || ""}
-                    keywords={pageDetail.meta_keyword || ""}
-                />
-            )}
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/brands.jpg"
-                    alt="Brands Banner Image"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Typography
-                        variant="h3"
-                        sx={{
-                            color: "#fff",
-                            fontWeight: 700,
-                            fontSize: {
-                                xs: "28px",
-                                sm: "38px",
-                                md: "48px",
-                            },
-                        }}
-                    >
-                        Brands
-                    </Typography>
-                </Box>
-            </Box>
+        <Box sx={{ bgcolor: "background.default", minHeight: "100vh", pb: 10 }}>
+            <PageMainLayout title="Brands" slug="brands" image="https://sourceseas.itcoders.in/img/front-end/brands.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
             <Box
                 sx={{
@@ -235,42 +135,6 @@ export default function Brand() {
                     zIndex: 2,
                 }}
             >
-                {(loading || pageDetail?.content) && (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            mb: 4,
-                            p: { xs: 2.5, sm: 3, md: 4 },
-                            borderRadius: 4,
-                            bgcolor: "background.paper",
-                            border: "1px solid",
-                            borderColor: "divider",
-                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
-                        }}
-                    >
-                        {loading ? (
-                            <PageContentSkeleton />
-                        ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: { xs: "14px", sm: "16px" },
-                                    lineHeight: 1.8,
-                                    textAlign: "justify",
-                                }}
-                                dangerouslySetInnerHTML={{
-                                    __html: pageDetail?.content || "",
-                                }}
-                            />
-                        )}
-
-                        <CountryTab
-                            activeCountry={activeCountry}
-                            setActiveCountry={setActiveCountry}
-                        />
-                    </Paper>
-                )}
-
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 7 }}>
                     {loading ? (
                         Array.from(new Array(3)).map((_, i) => (
@@ -316,101 +180,10 @@ export default function Brand() {
                         ))
                     ) : list.length > 0 ? (
                         list.map((countryGroup, countryIndex) => {
-                            const activeCategory = getActiveCategory(countryGroup.country);
-                            const filteredCategoryGroups =
-                                getFilteredCategoryGroups(countryGroup);
+                            const filteredCategoryGroups = countryGroup.category;
 
                             return (
                                 <Box key={countryGroup.country || countryIndex}>
-                                    {/* Country Title */}
-                                    <Typography
-                                        variant="h4"
-                                        component="h2"
-                                        sx={{
-                                            textAlign: "center",
-                                            fontWeight: 700,
-                                            color: "secondary.main",
-                                            mb: 3,
-                                        }}
-                                    >
-                                        {countryGroup.country}
-                                    </Typography>
-
-                                    {/* Category Tabs */}
-                                    {countryGroup.category.length > 0 && (
-                                        <Paper
-                                            elevation={0}
-                                            sx={{
-                                                mb: 5,
-                                                p: 1,
-                                                bgcolor: "transparent",
-                                                boxShadow: "none",
-                                            }}
-                                        >
-                                            <Tabs
-                                                value={activeCategory}
-                                                onChange={(_, value) =>
-                                                    handleCategoryChange(
-                                                        countryGroup.country,
-                                                        value
-                                                    )
-                                                }
-                                                variant="scrollable"
-                                                scrollButtons="auto"
-                                                allowScrollButtonsMobile
-                                                centered={false}
-                                                sx={{
-                                                    minHeight: 52,
-                                                    "& .MuiTabs-indicator": {
-                                                        display: "none",
-                                                    },
-                                                    "& .MuiTabs-flexContainer": {
-                                                        justifyContent: {
-                                                            xs: "flex-start",
-                                                            md: "center",
-                                                        },
-                                                    },
-                                                    "& .MuiTabs-scrollButtons": {
-                                                        color: "secondary.main",
-                                                    },
-                                                    "& .MuiTab-root": {
-                                                        minHeight: 44,
-                                                        mx: 0.5,
-                                                        px: 3,
-                                                        borderRadius: 2,
-                                                        textTransform: "none",
-                                                        fontWeight: 700,
-                                                        color: "text.secondary",
-                                                        border: "1px solid",
-                                                        borderColor: "divider",
-                                                    },
-                                                    "& .MuiTab-root:hover": {
-                                                        bgcolor: "primary.light",
-                                                        color: "secondary.dark",
-                                                    },
-                                                    "& .Mui-selected": {
-                                                        bgcolor: "primary.main",
-                                                        color: "#fff !important",
-                                                        borderColor: "primary.main",
-                                                    },
-                                                }}
-                                            >
-                                                <Tab label="All" value="all" />
-
-                                                {countryGroup.category.map((categoryGroup) => (
-                                                    <Tab
-                                                        key={
-                                                            categoryGroup.category.id ||
-                                                            categoryGroup.category.name
-                                                        }
-                                                        label={categoryGroup.category.name}
-                                                        value={categoryGroup.category.name}
-                                                    />
-                                                ))}
-                                            </Tabs>
-                                        </Paper>
-                                    )}
-
                                     {filteredCategoryGroups.map((categoryGroup, categoryIndex) => {
                                         const activeSubCategory = getActiveSubCategory(
                                             countryGroup.country,
@@ -431,19 +204,17 @@ export default function Brand() {
                                                     categoryIndex
                                                 }
                                             >
-                                                {activeCategory === "all" && (
-                                                    <Typography
-                                                        variant="h5"
-                                                        sx={{
-                                                            textAlign: "center",
-                                                            fontWeight: 600,
-                                                            color: "secondary.main",
-                                                            mb: 3,
-                                                        }}
-                                                    >
-                                                        {categoryGroup.category.name}
-                                                    </Typography>
-                                                )}
+                                                <Typography
+                                                    variant="h5"
+                                                    sx={{
+                                                        textAlign: "center",
+                                                        fontWeight: 600,
+                                                        color: "secondary.main",
+                                                        mb: 3,
+                                                    }}
+                                                >
+                                                    {categoryGroup.category.name}
+                                                </Typography>
 
                                                 {categoryGroup.brands.map((brand, brandIndex) => (
                                                     <Box key={brand.id || brandIndex}>

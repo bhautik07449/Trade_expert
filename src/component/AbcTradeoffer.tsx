@@ -10,13 +10,13 @@ export default function AbcTradeoffer({ country }: any) {
         {
             value: "Countries trade diversity",
             description: "Explore the diversity of trade across different countries and regions.",
-            button: "ABC",
+            button: "Go to ABC type",
             link: "/abc",
         },
         {
             value: "On Going deals",
             description: "Discover current trade offers and opportunities available in the market.",
-            button: "Trade Offer",
+            button: "Go to Trade Deals",
             link: "/trade-offers",
         },
     ];
@@ -123,7 +123,7 @@ export default function AbcTradeoffer({ country }: any) {
                                                     : "0 6px 18px rgba(62, 49, 38, 0.28)",
                                         },
                                     }}
-                                    onClick={() => navigate(`${item.link}?country=${country}`)}
+                                    onClick={() => navigate(`${item.link}`)}
                                 >
                                     {item.button}
                                 </Button>

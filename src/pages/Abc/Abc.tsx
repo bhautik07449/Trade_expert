@@ -1,29 +1,16 @@
-import { Box, Typography, Skeleton, Grid, Paper } from "@mui/material";
+import { Box, Typography, Skeleton, Grid, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
-import CardUi from "../../commonUI/CardUi";
-import SEO from "../../component/SEO";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
-import { useSearchParams } from "react-router-dom";
-import PageContentSkeleton from "../../component/PageContentSkeleton";
+import PageMainLayout from "../../commonUI/PageMainLayout";
+import AbcProductView from "../../commonUI/AbcProductView";
 
 export default function Abc() {
-    const [searchParams] = useSearchParams();
-    const country = searchParams.get("country");
+    const [activeCountry, setActiveCountry] = useState("");
+    const [activeCategory, setActiveCategory] = useState<Record<number, number>>({})
 
     const [list, setList] = useState<any>([])
     const [loading, setLoading] = useState(true)
-
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { pageDetail } = useSelector((state: RootState) => state.page);
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("abc"));
-    }, [dispatch]);
 
     const getList = async (country: string) => {
         setLoading(true)
@@ -40,109 +27,35 @@ export default function Abc() {
     }
 
     useEffect(() => {
-        if (country) {
-            getList(country)
+        setActiveCategory({});
+    }, [activeCountry]);
+
+    useEffect(() => {
+        if (activeCountry) {
+            getList(activeCountry)
         }
-    }, [country])
+    }, [activeCountry])
+
+    const handleTabChange = (groupIndex: number, categoryIndex: number) => {
+        setActiveCategory((prev) => ({
+            ...prev,
+            [groupIndex]: categoryIndex,
+        }))
+    }
 
     return (
-        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            {pageDetail && (
-                <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || 'Abc'}
-                    description={pageDetail.meta_description || ''}
-                    keywords={pageDetail.meta_keyword || ''}
-                />
-            )}
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
-                    alt="Supplier Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            Abc Menus
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+        <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
             <Box
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    mt: { xs: -5, md: -7 },
-                    px: { xs: 2, sm: 3, md: 4 },
+                    px: { xs: 2, sm: 4, md: 6 }, pb: { xs: 6, md: 10 },
                     position: "relative",
                     zIndex: 2,
                 }}
             >
-                {(loading || pageDetail?.content) && (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            mb: 4,
-                            p: { xs: 2.5, sm: 3, md: 4 },
-                            borderRadius: 4,
-                            bgcolor: "background.paper",
-                            border: "1px solid",
-                            borderColor: "divider",
-                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
-                        }}
-                    >
-                        {loading ? (
-                            <PageContentSkeleton />
-                        ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: { xs: "14px", sm: "16px" },
-                                    lineHeight: 1.8,
-                                    textAlign: "justify",
-                                }}
-                                dangerouslySetInnerHTML={{
-                                    __html: pageDetail?.content || "",
-                                }}
-                            />
-                        )}
-                    </Paper>
-                )}
-
                 {loading ? (
                     Array.from(new Array(2)).map((_, i) => (
                         <Box key={i} sx={{ mb: 6 }}>
@@ -150,62 +63,114 @@ export default function Abc() {
                             <Grid container spacing={2}>
                                 {Array.from(new Array(3)).map((_, j) => (
                                     <Grid size={{ xs: 12, sm: 4 }} key={j}>
-                                        <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
+                                        <Skeleton
+                                            variant="rectangular"
+                                            height={300}
+                                            sx={{ borderRadius: 2 }}
+                                        />
                                     </Grid>
                                 ))}
                             </Grid>
                         </Box>
                     ))
                 ) : list?.length > 0 ? (
-                    list?.map((entry: any, entryIndex: number) => (
-                        <Box key={entryIndex} sx={{ mb: 4 }}>
-                            {entry?.abc_type?.name && (
-                                <Typography
-                                    variant="h5"
-                                    sx={{
-                                        fontWeight: 700,
-                                        mb: 3,
-                                        color: "secondary.main",
-                                        textAlign: "center",
-                                        textTransform: "uppercase",
-                                        letterSpacing: 1
-                                    }}
-                                >
-                                    {entry.abc_type.name}
-                                </Typography>
-                            )}
+                    list?.map((entry: any, entryIndex: number) => {
+                        const selectedCategoryIndex = activeCategory[entryIndex] ?? 0;
+                        const selectedItem = entry?.item?.[selectedCategoryIndex];
 
-                            {entry?.item?.map((item: any, itemIndex: number) => (
-                                <Box
-                                    key={itemIndex}
-                                    sx={{
-                                        mb: 6
-                                    }}
-                                >
-                                    <Box
+                        return (
+                            <Box key={entryIndex} sx={{ mb: 6 }}>
+                                {entry?.abc_type?.name && (
+                                    <Typography
+                                        variant="h5"
                                         sx={{
-                                            border: "2px solid #3E3126",
+                                            fontWeight: 700,
+                                            mb: 3,
+                                            color: "secondary.main",
                                             textAlign: "center",
-                                            py: 1.5,
-                                            mb: 6,
-                                            fontWeight: 600,
-                                            fontSize: "1.2rem",
-                                            color: "#3E3126"
+                                            textTransform: "uppercase",
+                                            letterSpacing: 1,
                                         }}
                                     >
-                                        {item?.category?.name}
-                                    </Box>
+                                        {entry.abc_type.name}
+                                    </Typography>
+                                )}
 
-                                    <CardUi
-                                        label='Availability'
-                                        products={item?.product_data}
-                                        visiblecard={3}
-                                        loading={loading}
+                                <Tabs
+                                    value={selectedCategoryIndex}
+                                    onChange={(_, value) => handleTabChange(entryIndex, value)}
+                                    variant="scrollable"
+                                    scrollButtons="auto"
+                                    TabIndicatorProps={{ sx: { display: "none" } }}
+                                    sx={{
+                                        minHeight: "auto",
+                                        mb: 4,
+
+                                        "& .MuiTabs-flexContainer": {
+                                            gap: 1.2,
+                                            justifyContent: { xs: "flex-start", md: "center" },
+                                        },
+
+                                        "& .MuiTab-root": {
+                                            minHeight: "auto",
+                                            minWidth: "auto",
+                                            px: { xs: 1.8, sm: 2.5 },
+                                            py: 1,
+                                            borderRadius: 99,
+                                            textTransform: "none",
+                                            fontWeight: 800,
+                                            color: "text.secondary",
+                                            border: "1px solid",
+                                            borderColor: "divider",
+                                            bgcolor: "background.paper",
+                                            transition: "all 0.3s ease",
+                                        },
+
+                                        "& .MuiTab-root:hover": {
+                                            color: "primary.dark",
+                                            borderColor: "primary.main",
+                                            bgcolor: "primary.light",
+                                        },
+
+                                        "& .Mui-selected": {
+                                            color: "#fff !important",
+                                            bgcolor: "primary.main",
+                                            borderColor: "primary.main",
+                                            boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
+                                        },
+                                    }}
+                                >
+                                    {entry?.item?.map((item: any, categoryIndex: number) => (
+                                        <Tab
+                                            key={item?.category?.id || categoryIndex}
+                                            label={item?.category?.name}
+                                        />
+                                    ))}
+                                </Tabs>
+
+                                {selectedItem?.product_data?.length > 0 ? (
+                                    <AbcProductView
+                                        products={selectedItem.product_data}
                                     />
-                                </Box>
-                            ))}
-                        </Box>
-                    ))
+                                ) : (
+                                    <Box
+                                        sx={{
+                                            textAlign: "center",
+                                            py: 5,
+                                            bgcolor: "background.paper",
+                                            borderRadius: 3,
+                                            border: "1px dashed",
+                                            borderColor: "divider",
+                                        }}
+                                    >
+                                        <Typography variant="h6" color="text.secondary">
+                                            No products found in this category
+                                        </Typography>
+                                    </Box>
+                                )}
+                            </Box>
+                        );
+                    })
                 ) : (
                     <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
                         <Typography variant="h6" color="textSecondary">
