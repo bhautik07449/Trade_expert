@@ -49,7 +49,7 @@ export default function CategoryTabview({
             setActiveCategory("");
             getCategories(country);
         }
-    }, [country]);
+    }, [country, setActiveCategory]);
 
     return (
         <Paper
