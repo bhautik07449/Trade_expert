@@ -3,11 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import { toast } from "react-toastify";
-import SEO from "../../component/SEO";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
-import PageContentSkeleton from "../../component/PageContentSkeleton";
+import PageMainLayout from "../../commonUI/PageMainLayout";
 
 interface QualityPolicyItem {
     id?: number;
@@ -30,16 +26,6 @@ export default function QualityPolicies() {
     const [list, setList] = useState<QualityPolicyGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState("all");
-
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { pageDetail } = useSelector(
-        (state: RootState) => state.page
-    );
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("quality_policies"));
-    }, [dispatch]);
 
     const getList = async () => {
         setLoading(true);
@@ -88,59 +74,8 @@ export default function QualityPolicies() {
     }, [list, activeCategory]);
 
     return (
-        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            {pageDetail && (
-                <SEO
-                    title={pageDetail.page_title}
-                    description={pageDetail.meta_description || ''}
-                    keywords={pageDetail.meta_keyword || ''}
-                />
-            )}
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                    alt="Quality Policies Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(62,49,38,0.55)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Typography
-                        variant="h3"
-                        sx={{
-                            color: "#fff",
-                            fontWeight: 800,
-                            fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                        }}
-                    >
-                        Quality Policies
-                    </Typography>
-                </Box>
-            </Box>
+        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: { xs: 6, md: 10 } }}>
+            <PageMainLayout title="Quality Policies" slug="quality_policies" image="https://sourceseas.itcoders.in/img/front-end/quality.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -152,37 +87,6 @@ export default function QualityPolicies() {
                     zIndex: 2,
                 }}
             >
-                {(loading || pageDetail?.content) && (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            mb: 4,
-                            p: { xs: 2.5, sm: 3, md: 4 },
-                            borderRadius: 4,
-                            bgcolor: "background.paper",
-                            border: "1px solid",
-                            borderColor: "divider",
-                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
-                        }}
-                    >
-                        {loading ? (
-                            <PageContentSkeleton />
-                        ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: { xs: "14px", sm: "16px" },
-                                    lineHeight: 1.8,
-                                    textAlign: "justify",
-                                }}
-                                dangerouslySetInnerHTML={{
-                                    __html: pageDetail?.content || "",
-                                }}
-                            />
-                        )}
-                    </Paper>
-                )}
-
                 {!loading && categoryTabs.length > 0 && (
                     <Paper
                         elevation={0}

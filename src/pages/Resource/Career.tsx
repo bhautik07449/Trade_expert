@@ -13,25 +13,16 @@ import {
     InputAdornment,
     IconButton,
 } from "@mui/material"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../store"
-import { useEffect, useState } from "react"
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice"
-import SEO from "../../component/SEO"
+import { useState } from "react"
 import { useFormik } from "formik"
 import { toast } from "react-toastify"
 import CMSservice from "../../service/cms.service"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
+import PageMainLayout from "../../commonUI/PageMainLayout"
 
 export default function Career() {
+    const [activeCountry, setActiveCountry] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const dispatch = useDispatch<AppDispatch>()
-
-    const { pageDetail } = useSelector((state: RootState) => state.page)
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("career"))
-    }, [dispatch])
 
     const formik = useFormik({
         initialValues: {
@@ -77,79 +68,14 @@ export default function Career() {
     })
 
     return (
-        <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh", pb: 10 }}>
-            {pageDetail && (
-                <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || "Career"}
-                    description={pageDetail.meta_description || ""}
-                    keywords={pageDetail.meta_keyword || ""}
-                />
-            )}
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/my_account_bg1.jpg"
-                    alt="Career Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.45)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                                textTransform: "capitalize",
-                            }}
-                        >
-                            Build Career at Sourceseas
-                        </Typography>
-
-                        <Typography
-                            sx={{
-                                color: "#fff",
-                                mt: 1,
-                                fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                            }}
-                        >
-                            Resources → Work Interest & Career
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+        <Box sx={{ bgcolor: "background.default", minHeight: "100vh", pb: { xs: 6, md: 10 }, }}>
+            <PageMainLayout title="career" slug="career" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
             <Box
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    px: { xs: 2, sm: 3 },
-                    mt: { xs: -4, md: -6 },
+                    px: { xs: 2, sm: 3 }, 
                     position: "relative",
                     zIndex: 2,
                 }}

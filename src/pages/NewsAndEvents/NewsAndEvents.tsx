@@ -45,7 +45,7 @@ export default function NewsAndEvents() {
                 minHeight: "100vh",
             }}
         >
-            <PageMainLayout  image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
             <Box
                 sx={{

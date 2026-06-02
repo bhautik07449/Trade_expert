@@ -12,18 +12,13 @@ import {
     Stack,
     Divider,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Homeservice from "../../service/home.service";
 import { toast } from "react-toastify";
-import SEO from "../../component/SEO";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
-import PageContentSkeleton from "../../component/PageContentSkeleton";
 import ContactInfoCard from "../../commonUI/ContactInfoCard";
-import CountryTab from "../../commonUI/CountryTab";
+import PageMainLayout from "../../commonUI/PageMainLayout";
 
 const tabs = [
     { label: "Fill Form", value: "fill-form" },
@@ -35,13 +30,6 @@ const tabs = [
 export default function GetInTouch() {
     const [activeCountry, setActiveCountry] = useState<string>("");
     const [activeTab, setActiveTab] = useState("fill-form");
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { pageDetail, loading } = useSelector((state: RootState) => state.page);
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("get-in-touch"));
-    }, [dispatch]);
 
     const validationSchema = Yup.object({
         first_name: Yup.string()
@@ -105,60 +93,7 @@ export default function GetInTouch() {
                 pb: { xs: 6, md: 10 },
             }}
         >
-            {pageDetail && (
-                <SEO
-                    title={pageDetail.page_meta_title || pageDetail.page_title || "Contact"}
-                    description={pageDetail.meta_description || ""}
-                    keywords={pageDetail.meta_keyword || ""}
-                />
-            )}
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                    alt="Supplier Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            Get In Touch
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+            <PageMainLayout title="Get In Touch" slug="get-in-touch" image="https://sourceseas.itcoders.in/img/front-end/faq.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
 
             <Box
                 sx={{
@@ -170,40 +105,6 @@ export default function GetInTouch() {
                     zIndex: 2,
                 }}
             >
-                {(loading || pageDetail?.content) && (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            mb: 4,
-                            p: { xs: 2.5, sm: 3, md: 4 },
-                            borderRadius: 4,
-                            bgcolor: "background.paper",
-                            border: "1px solid",
-                            borderColor: "divider",
-                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
-                        }}
-                    >
-                        {loading ? (
-                            <PageContentSkeleton />
-                        ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: { xs: "14px", sm: "16px" },
-                                    lineHeight: 1.8,
-                                    textAlign: "justify",
-                                }}
-                                dangerouslySetInnerHTML={{
-                                    __html: pageDetail?.content || "",
-                                }}
-                            />
-                        )}
-                        
-                        <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
-                    </Paper>
-                )}
-
-
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Paper

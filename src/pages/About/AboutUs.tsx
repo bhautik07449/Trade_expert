@@ -1,5 +1,5 @@
 import { Box, Typography, Container, Grid } from "@mui/material";
-import Title from "../../commonUI/labelTitle";
+import LabelTitle from "../../commonUI/labelTitle";
 import OurView from "../../component/Ourview";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -69,7 +69,7 @@ export default function AboutUs() {
                 />
             )}
 
-            <Title title="Know" label="Us" id="know-us" />
+            <LabelTitle title="Know" label="Us" id="know-us" />
 
             {loading ? (
                 <Box maxWidth="md" mx="auto" px={3} mb={5}>
@@ -91,7 +91,7 @@ export default function AboutUs() {
                     mx="auto"
                 />
             )}
-
+            
             <Container maxWidth="lg" sx={{ py: { xs: 5, md: 9 } }}>
                 <Grid container spacing={4} id="vision-mission">
                     {cards.map((item, index) => (
