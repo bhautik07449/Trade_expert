@@ -1,5 +1,4 @@
 import * as React from "react"
-import { keyframes } from "@mui/material/styles"
 import {
     Box,
     Paper,
