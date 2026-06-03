@@ -2,65 +2,95 @@ import {
     Box,
     Divider
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import HomePageservice from "../../service/homepages.service";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store";
+import { fetchCategories } from "../../store/slice/categoriesSlice";
 import InquiryForm from "./InquiryForm";
 import FinancialService from "./FinancialService";
 import ProductSelection from "./ProductSelection";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 
 export default function InvestorRelations() {
+    const dispatch = useDispatch<AppDispatch>();
+
     const [activeCountry, setActiveCountry] = useState<string>("");
+    const [activeCategory, setActiveCategory] = useState<string>("");
+    const [activeSubCategory, setActiveSubCategory] = useState<string>("");
     const [activeProduct, setActiveProduct] = useState<string>("");
-    const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [product, setProduct] = useState<any[]>([]);
-    const [productLoading, setProductLoading] = useState<boolean>(false);
 
-
-    const getProductData = async (country: string) => {
-        try {
-            setProductLoading(true);
-            setProduct([]);
-            setActiveProduct("");
-            setSelectedProduct(null);
-
-            const res = await HomePageservice.getProduct(country);
-            const productList = Array.isArray(res?.data?.data)
-                ? res?.data?.data
-                : [];
-
-            setProduct(productList);
-
-            if (productList.length > 0) {
-                setActiveProduct(productList[0]?.name || "");
-                setSelectedProduct(productList[0]);
-            }
-        } catch (error: any) {
-            setProduct([]);
-            setActiveProduct("");
-            setSelectedProduct(null);
-        } finally {
-            setProductLoading(false);
-        }
-    };
+    const { categories, loading: categoriesLoading } = useSelector(
+        (state: any) => state.categories
+    );
 
     useEffect(() => {
-        if (activeCountry) {
-            getProductData(activeCountry);
-        } else {
-            setProduct([]);
-            setActiveProduct("");
-            setSelectedProduct(null);
-        }
+        dispatch(fetchCategories());
+    }, [dispatch]);
+
+    const selectedCountryData = useMemo(() => {
+        return categories?.find(
+            (item: any) => item.country === activeCountry
+        ) || null;
+    }, [categories, activeCountry]);
+
+    const categoryList = useMemo(() => {
+        return selectedCountryData?.categories || [];
+    }, [selectedCountryData]);
+
+    const selectedCategoryData = useMemo(() => {
+        return categoryList.find(
+            (cat: any) => String(cat.id) === activeCategory
+        ) || null;
+    }, [categoryList, activeCategory]);
+
+    const subcategoryList = useMemo(() => {
+        return selectedCategoryData?.subcategories || [];
+    }, [selectedCategoryData]);
+
+    const selectedSubCategoryData = useMemo(() => {
+        return subcategoryList.find(
+            (sub: any) => String(sub.id) === activeSubCategory
+        ) || null;
+    }, [subcategoryList, activeSubCategory]);
+
+    const productList = useMemo(() => {
+        return selectedSubCategoryData?.products || [];
+    }, [selectedSubCategoryData]);
+
+    const selectedProduct = useMemo(() => {
+        return productList.find(
+            (prod: any) => String(prod.id) === activeProduct
+        ) || null;
+    }, [productList, activeProduct]);
+
+    useEffect(() => {
+        setActiveCategory("");
+        setActiveSubCategory("");
+        setActiveProduct("");
     }, [activeCountry]);
 
-    const handleProductSelect = (selectedName: string) => {
-        setActiveProduct(selectedName);
+    useEffect(() => {
+        if (categoryList.length > 0) {
+            setActiveCategory(String(categoryList[0].id));
+        } else {
+            setActiveCategory("");
+        }
+    }, [categoryList]);
 
-        const selected = product.find((item) => item?.name === selectedName);
+    useEffect(() => {
+        setActiveSubCategory("");
+        setActiveProduct("");
+        if (subcategoryList.length > 0) {
+            setActiveSubCategory(String(subcategoryList[0].id));
+        }
+    }, [activeCategory, subcategoryList.length]);
 
-        setSelectedProduct(selected || null);
-    };
+    useEffect(() => {
+        setActiveProduct("");
+        if (productList.length > 0) {
+            setActiveProduct(String(productList[0].id));
+        }
+    }, [activeSubCategory, productList.length]);
 
     return (
         <Box
@@ -85,12 +115,18 @@ export default function InvestorRelations() {
                 <Divider sx={{ my: 4 }} />
 
                 <ProductSelection
-                    handleProductSelect={handleProductSelect}
-                    productLoading={productLoading}
-                    product={product}
-                    activeProduct={activeProduct}
-                    selectedProduct={selectedProduct}
                     activeCountry={activeCountry}
+                    categoriesLoading={categoriesLoading}
+                    categoryList={categoryList}
+                    activeCategory={activeCategory}
+                    setActiveCategory={setActiveCategory}
+                    subcategoryList={subcategoryList}
+                    activeSubCategory={activeSubCategory}
+                    setActiveSubCategory={setActiveSubCategory}
+                    productList={productList}
+                    activeProduct={activeProduct}
+                    setActiveProduct={setActiveProduct}
+                    selectedProduct={selectedProduct}
                 />
 
                 <Divider sx={{ my: 5 }} />
