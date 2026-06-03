@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -13,123 +13,104 @@ import {
     Skeleton,
     Paper,
 } from "@mui/material";
-import { useEffect } from "react";
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
-import SEO from "../../component/SEO";
-import { useSearchParams } from "react-router-dom";
+import PageMainLayout from "../../commonUI/PageMainLayout";
+import { getImageUrl } from "../../utils/imageUtils";
 
 export default function Tradeoffer() {
-    const [searchParams] = useSearchParams();
-    const country = searchParams.get("country");
+    const [activeCountry, setActiveCountry] = useState("");
 
-    const [selectedOffer, setSelectedOffer] = useState();
     const [stockLots, setStockLots] = useState<any[]>([]);
-    const [stockLotsId, setStockLotsId] = useState<any>();
-    const [stockLotsData, setStockLotsData] = useState<any>();
-    const [loading, setLoading] = useState(false);
+    const [selectedOfferId, setSelectedOfferId] = useState<number | string>("");
+    const [selectedOfferName, setSelectedOfferName] = useState("");
+    const [stockLotsData, setStockLotsData] = useState<any>(null);
+
+    const [offerLoading, setOfferLoading] = useState(false);
+    const [detailLoading, setDetailLoading] = useState(false);
+
+    const getTradeOffer = async (country: string) => {
+        setOfferLoading(true);
+        setStockLots([]);
+        setStockLotsData(null);
+        setSelectedOfferId("");
+        setSelectedOfferName("");
+
+        try {
+            const res = await CMSservice.getTradeOffer(country);
+            const data = res?.data?.data || [];
+
+            setStockLots(data);
+
+            if (data.length > 0) {
+                const firstOffer = data[0];
+
+                setSelectedOfferId(firstOffer?.id);
+                setSelectedOfferName(firstOffer?.trade_type?.name || "");
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || "Something went wrong");
+            toast.error(error?.response?.data?.message || "Something went wrong");
+        } finally {
+            setOfferLoading(false);
+        }
+    };
+
+    const getStockLotsById = async (id: number | string) => {
+        setDetailLoading(true);
+        setStockLotsData(null);
+
+        try {
+            const res = await CMSservice.getStocklots(id);
+
+            if (res) {
+                setStockLotsData(res?.data);
+            }
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Something went wrong");
+        } finally {
+            setDetailLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const getTradeOffer = async (country: string) => {
-            setLoading(true);
-            try {
-                const res = await CMSservice.getTradeOffer(country);
-                if (res) {
-                    setStockLots(res?.data?.data);
-                    setSelectedOffer(res?.data?.data[0]?.trade_type?.name)
-                    setStockLotsId(res?.data?.data[0]?.id)
-                }
-            } catch (error: any) {
-                console.log(error?.response?.data?.message, "something went wrong")
-            } finally {
-                setLoading(false);
-            }
+        if (activeCountry) {
+            getTradeOffer(activeCountry);
         }
-
-        if (country) {
-            getTradeOffer(country);
-        }
-
-    }, [country]);
+    }, [activeCountry]);
 
     useEffect(() => {
-        const getStockLotsById = async (id: string) => {
-            setLoading(true);
-            try {
-                const res = await CMSservice.getStocklots(id);
-                if (res) {
-                    setStockLotsData(res?.data);
-                }
-            } catch (error) {
-                toast.error("something went wrong")
-            } finally {
-                setLoading(false);
-            }
+        if (selectedOfferId) {
+            getStockLotsById(selectedOfferId);
         }
-        if (stockLotsId) {
-            getStockLotsById(stockLotsId);
-        }
-    }, [stockLotsId]);
+    }, [selectedOfferId]);
+
+    const handleOfferSelect = (offer: any) => {
+        setSelectedOfferId(offer?.id);
+        setSelectedOfferName(offer?.trade_type?.name || "");
+    };
 
     return (
-        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: 8 }}>
-            <SEO
-                title="Trade Offers - Tradexpert"
-                description="Explore the latest trade offers and stock lots on Tradexpert."
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                minHeight: "100vh",
+                pb: { xs: 6, md: 10 },
+            }}
+        >
+            <PageMainLayout
+                title="Trade Offer"
+                image="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                slug="trade_offer"
+                country={true}
+                activeCountry={activeCountry}
+                setActiveCountry={setActiveCountry}
             />
-
-            <Box
-                sx={{
-                    width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
-                    overflow: "hidden",
-                    position: "relative",
-                }}
-            >
-                <Box
-                    component="img"
-                    src="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                    alt="Supplier Banner"
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        bgcolor: "rgba(0,0,0,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        px: 2,
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: { xs: "28px", sm: "38px", md: "48px" },
-                            }}
-                        >
-                            Trade Offer
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
 
             <Box
                 sx={{
                     maxWidth: "1400px !important",
                     mx: "auto",
-                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
                     position: "relative",
                     zIndex: 2,
@@ -148,37 +129,50 @@ export default function Tradeoffer() {
                     }}
                 >
                     <Grid container spacing={2} justifyContent="center">
-                        {loading && stockLots.length === 0 ? (
+                        {offerLoading ? (
                             Array.from(new Array(4)).map((_, i) => (
                                 <Grid key={i}>
-                                    <Skeleton variant="rectangular" width={120} height={36} sx={{ borderRadius: 1 }} />
+                                    <Skeleton
+                                        variant="rectangular"
+                                        width={120}
+                                        height={36}
+                                        sx={{ borderRadius: 1 }}
+                                    />
                                 </Grid>
                             ))
                         ) : stockLots.length > 0 ? (
-                            stockLots.map((text, i) => (
-                                <Grid key={i}>
-                                    <Button
-                                        variant={selectedOffer === text?.trade_type?.name ? "contained" : "outlined"}
-                                        onClick={() => {
-                                            setSelectedOffer(text?.trade_type?.name);
-                                            setStockLotsId(text?.id)
-                                        }}
-                                        sx={{
-                                            borderColor: "black",
-                                            color: selectedOffer === text?.trade_type?.name ? "white" : "black",
-                                            bgcolor: selectedOffer === text?.trade_type?.name ? "#5a3e2b" : "transparent",
-                                            fontSize: "12px",
-                                            px: 2,
-                                            py: 1,
-                                        }}
-                                    >
-                                        {text?.trade_type?.name}
-                                    </Button>
-                                </Grid>
-                            ))
+                            stockLots.map((offer) => {
+                                const isActive = selectedOfferId === offer?.id;
+
+                                return (
+                                    <Grid key={offer?.id}>
+                                        <Button
+                                            variant={isActive ? "contained" : "outlined"}
+                                            onClick={() => handleOfferSelect(offer)}
+                                            sx={{
+                                                borderColor: "primary.main",
+                                                color: isActive ? "#fff" : "primary.dark",
+                                                bgcolor: isActive ? "primary.main" : "transparent",
+                                                fontSize: "12px",
+                                                px: 2,
+                                                py: 1,
+                                                fontWeight: 700,
+                                                "&:hover": {
+                                                    bgcolor: isActive
+                                                        ? "primary.dark"
+                                                        : "primary.light",
+                                                    borderColor: "primary.dark",
+                                                },
+                                            }}
+                                        >
+                                            {offer?.trade_type?.name}
+                                        </Button>
+                                    </Grid>
+                                );
+                            })
                         ) : (
                             <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
-                                <Typography variant="h6" color="textSecondary">
+                                <Typography variant="h6" color="text.secondary">
                                     No Trade Offers Found
                                 </Typography>
                             </Grid>
@@ -187,25 +181,58 @@ export default function Tradeoffer() {
                 </Paper>
             </Box>
 
-            <Container sx={{ maxWidth: "1400px !important", mx: "auto", px: { xs: 2, sm: 3, md: 4 }, mt: 5 }}>
-                {loading ? (
+            <Container
+                sx={{
+                    maxWidth: "1400px !important",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3, md: 4 },
+                    mt: 5,
+                }}
+            >
+                {detailLoading ? (
                     <Box sx={{ py: 2 }}>
                         {Array.from(new Array(2)).map((_, i) => (
-                            <Box key={i} sx={{ border: "1px solid #ccc", p: 3, bgcolor: "white", mb: 3 }}>
-                                <Skeleton variant="rectangular" width="40%" height={32} sx={{ mx: "auto", mb: 2 }} />
-                                <Skeleton variant="rectangular" width="30%" height={24} sx={{ mx: "auto", mb: 3 }} />
+                            <Box
+                                key={i}
+                                sx={{
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    p: 3,
+                                    bgcolor: "background.paper",
+                                    mb: 3,
+                                    borderRadius: 3,
+                                }}
+                            >
+                                <Skeleton
+                                    variant="rectangular"
+                                    width="40%"
+                                    height={32}
+                                    sx={{ mx: "auto", mb: 2 }}
+                                />
+                                <Skeleton
+                                    variant="rectangular"
+                                    width="30%"
+                                    height={24}
+                                    sx={{ mx: "auto", mb: 3 }}
+                                />
+
                                 <Table>
                                     <TableHead>
                                         <TableRow>
                                             {Array.from(new Array(8)).map((_, j) => (
-                                                <TableCell key={j}><Skeleton variant="text" /></TableCell>
+                                                <TableCell key={j}>
+                                                    <Skeleton variant="text" />
+                                                </TableCell>
                                             ))}
                                         </TableRow>
                                     </TableHead>
+
                                     <TableBody>
                                         <TableRow>
                                             {Array.from(new Array(8)).map((_, j) => (
-                                                <TableCell key={j}><Skeleton variant="rectangular" height={40} /></TableCell>
+                                                <TableCell key={j}>
+                                                    <Skeleton variant="rectangular" height={40} />
+                                                </TableCell>
                                             ))}
                                         </TableRow>
                                     </TableBody>
@@ -214,27 +241,40 @@ export default function Tradeoffer() {
                         ))}
                     </Box>
                 ) : stockLotsData?.data?.items?.length > 0 ? (
-                    stockLotsData?.data?.items?.map((item: any) => (
-                        <Box
+                    stockLotsData.data.items.map((item: any) => (
+                        <Paper
                             key={item.id}
+                            elevation={0}
                             sx={{
-                                border: "1px solid #ccc",
-                                p: 3,
-                                bgcolor: "white",
+                                border: "1px solid",
+                                borderColor: "divider",
+                                p: { xs: 2, md: 3 },
+                                bgcolor: "background.paper",
                                 overflowX: "auto",
-                                mb: 3
+                                mb: 3,
+                                borderRadius: 3,
+                                boxShadow: "0 10px 30px rgba(59,48,39,0.06)",
                             }}
                         >
                             <Typography
                                 variant="h5"
-                                sx={{ fontWeight: 700, textAlign: "center" }}
+                                sx={{
+                                    fontWeight: 700,
+                                    textAlign: "center",
+                                    color: "secondary.main",
+                                }}
                             >
                                 {item?.category?.name}
                             </Typography>
 
                             <Typography
                                 variant="h6"
-                                sx={{ fontWeight: 700, mb: 3, textAlign: "center" }}
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 3,
+                                    textAlign: "center",
+                                    color: "text.secondary",
+                                }}
                             >
                                 {item?.subCategory?.name}
                             </Typography>
@@ -255,37 +295,70 @@ export default function Tradeoffer() {
 
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell><img src={item?.product?.images[0]} alt={item?.product?.name} style={{ width: '50px', height: '50px' }} /></TableCell>
-                                        <TableCell>{item?.product?.name}</TableCell>
-                                        <TableCell>{item?.hsncode}</TableCell>
-                                        <TableCell>{item?.quantity}</TableCell>
-                                        <TableCell>{item?.unit_measurement}</TableCell>
-                                        <TableCell>{item?.packing_configure}</TableCell>
-                                        <TableCell>₹{item?.actual_price}</TableCell>
-                                        <TableCell>₹{item?.discounted_price}</TableCell>
+                                        <TableCell>
+                                            <Box
+                                                component="img"
+                                                src={getImageUrl(item?.product?.images?.[0])}
+                                                alt={item?.product?.name}
+                                                sx={{
+                                                    width: 56,
+                                                    height: 56,
+                                                    objectFit: "contain",
+                                                    bgcolor: "background.default",
+                                                    borderRadius: 1,
+                                                    border: "1px solid",
+                                                    borderColor: "divider",
+                                                }}
+                                            />
+                                        </TableCell>
+
+                                        <TableCell>{item?.product?.name || "-"}</TableCell>
+                                        <TableCell>{item?.hsncode || "-"}</TableCell>
+                                        <TableCell>{item?.quantity || "-"}</TableCell>
+                                        <TableCell>{item?.unit_measurement || "-"}</TableCell>
+                                        <TableCell>{item?.packing_configure || "-"}</TableCell>
+                                        <TableCell>₹{item?.actual_price || "-"}</TableCell>
+                                        <TableCell>₹{item?.discounted_price || "-"}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
-                        </Box>
+                        </Paper>
                     ))
                 ) : (
-                    <Box
+                    <Paper
+                        elevation={0}
                         sx={{
-                            border: "1px solid #ccc",
+                            border: "1px solid",
+                            borderColor: "divider",
                             p: 5,
-                            bgcolor: "white",
+                            bgcolor: "background.paper",
                             textAlign: "center",
-                            borderRadius: 1
+                            borderRadius: 3,
+                            boxShadow: "0 10px 30px rgba(59,48,39,0.06)",
                         }}
                     >
-                        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: "#333" }}>
-                            {selectedOffer ? selectedOffer : "No Trade Offer Selected"}
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontWeight: 700,
+                                mb: 2,
+                                color: "secondary.main",
+                            }}
+                        >
+                            {selectedOfferName || "No Trade Offer Selected"}
                         </Typography>
 
-                        <Typography sx={{ fontSize: "16px", color: "#666", mb: 3 }}>
-                            {stockLotsData?.tradeoffer?.description ? stockLotsData?.tradeoffer?.description : "No data found for this offer at the moment."}
+                        <Typography
+                            sx={{
+                                fontSize: "16px",
+                                color: "text.secondary",
+                                mb: 3,
+                            }}
+                        >
+                            {stockLotsData?.tradeoffer?.description ||
+                                "No data found for this offer at the moment."}
                         </Typography>
-                    </Box>
+                    </Paper>
                 )}
             </Container>
         </Box>

@@ -172,10 +172,19 @@ const getCategoryById = async (id: string) => {
     }
 }
 
+const addOfferRequest = async (body) => {
+    try {
+        const response = await serverCall.post('/offerrequest', body);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach, getCategoryById
+    getDeliveryReach, getCategoryById, addOfferRequest
 };
 
 export default CMSservice;

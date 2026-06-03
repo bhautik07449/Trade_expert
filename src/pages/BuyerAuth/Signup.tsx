@@ -173,6 +173,7 @@ export default function SignupForm() {
           maxWidth: "950px",
           mx: "auto",
           px: { xs: 2, sm: 3 },
+          pb: { xs: 6, md: 10 },
           mt: { xs: -4, md: -6 },
           position: "relative",
           zIndex: 2,

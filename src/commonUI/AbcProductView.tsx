@@ -9,19 +9,29 @@ import {
     TextField,
     Paper,
     Divider,
+    Dialog,
+    DialogContent,
+    CircularProgress,
 } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { getImageUrl } from "../utils/imageUtils";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik"
+import CMSservice from "../service/cms.service";
+import { toast } from "react-toastify";
 
 type Product = {
-    id: number
-    name: string
-    images: string[]
-    category: string
-    categoryColor: string
-    description: string
-}
+    id: number;
+    name: string;
+    images: string[];
+    category: string;
+    categoryColor: string;
+    description: string;
+    offer_type?: {
+        id: number
+        name: string
+    };
+};
 
 export default function AbcProductView({ products, visiblecard = 4, }: { products: Product[]; visiblecard?: number; }) {
     const navigate = useNavigate();
@@ -29,6 +39,7 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
     const [currentStartIndex, setCurrentStartIndex] = useState(0);
     const [visibleCards, setVisibleCards] = useState(visiblecard);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [offerNotExistOpen, setOfferNotExistOpen] = useState(false);
 
     useEffect(() => {
         const updateVisibleCards = () => {
@@ -49,7 +60,35 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
     useEffect(() => {
         setCurrentStartIndex(0);
         setSelectedProduct(null);
+        setOfferNotExistOpen(false);
     }, [products]);
+
+    const formik = useFormik({
+        initialValues: {
+            trade_offer: "",
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            type: "ABC"
+        },
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
+            try {
+                const res = await CMSservice.addOfferRequest(values)
+
+                if (res) {
+                    toast.success(res?.data?.message || "Login successful")
+                    resetForm()
+                    setOfferNotExistOpen(false);
+                }
+            } catch (error: any) {
+                toast.error(error?.response?.data?.message)
+                resetForm()
+            } finally {
+                setSubmitting(false)
+            }
+        },
+    })
 
     if (!products || products.length === 0) {
         return null;
@@ -68,7 +107,17 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
     };
 
     const handleCheckOffer = (product: Product) => {
-        setSelectedProduct(product);
+        if (product?.offer_type) {
+            setSelectedProduct(product);
+            setOfferNotExistOpen(false);
+
+            formik.setFieldValue("trade_offer", product.offer_type.id);
+        } else {
+            setSelectedProduct(null);
+            setOfferNotExistOpen(true);
+
+            formik.setFieldValue("trade_offer", "");
+        }
     };
 
     return (
@@ -253,24 +302,15 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                                 color: "secondary.main",
                                 mb: 2,
                                 textAlign: "center",
+                                pr: 4,
                             }}
                         >
-                            {selectedProduct.name}
+                            {selectedProduct?.offer_type?.name}
                         </Typography>
-
-                        <Typography
-                            sx={{
-                                color: "text.secondary",
-                                lineHeight: 1.8,
-                                textAlign: "center",
-                                mb: 4,
-                            }}
-                            dangerouslySetInnerHTML={{ __html: selectedProduct?.description }}
-
-                        />
 
                         <Box
                             component="form"
+                            onSubmit={formik.handleSubmit}
                             sx={{
                                 display: "grid",
                                 gridTemplateColumns: {
@@ -284,6 +324,12 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                                 fullWidth
                                 label="Name"
                                 size="small"
+                                name="name"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
                             />
 
                             <TextField
@@ -291,18 +337,24 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                                 label="Email"
                                 size="small"
                                 type="email"
+                                name="email"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                helperText={formik.touched.email && formik.errors.email}
                             />
 
                             <TextField
                                 fullWidth
                                 label="Phone"
                                 size="small"
-                            />
-
-                            <TextField
-                                fullWidth
-                                label="Company Name"
-                                size="small"
+                                name="phone"
+                                value={formik.values.phone}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                helperText={formik.touched.phone && formik.errors.phone}
                             />
 
                             <TextField
@@ -317,6 +369,12 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                                         sm: "1 / -1",
                                     },
                                 }}
+                                name="message"
+                                value={formik.values.message}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.message && Boolean(formik.errors.message)}
+                                helperText={formik.touched.message && formik.errors.message}
                             />
 
                             <Box
@@ -327,26 +385,110 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                                     },
                                     textAlign: "center",
                                     mt: 1,
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    gap: 2,
+                                    flexWrap: "wrap",
                                 }}
                             >
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     color="primary"
                                     size="large"
+                                    onClick={() => setSelectedProduct(null)}
                                     sx={{
-                                        px: 6,
+                                        px: 5,
                                         borderRadius: 2,
                                         textTransform: "none",
                                         fontWeight: 700,
                                     }}
                                 >
-                                    Submit
+                                    Cancel
+                                </Button>
+
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    disabled={formik.isSubmitting}
+                                    startIcon={
+                                        formik.isSubmitting ? (
+                                            <CircularProgress size={20} color="inherit" />
+                                        ) : null
+                                    }
+                                    sx={{
+                                        px: 5,
+                                        borderRadius: 2,
+                                        textTransform: "none",
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    {formik.isSubmitting ? "Send in..." : "Submit"}
                                 </Button>
                             </Box>
                         </Box>
                     </Box>
                 </Paper>
             )}
+
+            <Dialog
+                open={offerNotExistOpen}
+                onClose={() => setOfferNotExistOpen(false)}
+                maxWidth="xs"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        position: "relative",
+                    },
+                }}
+            >
+                <IconButton
+                    onClick={() => setOfferNotExistOpen(false)}
+                    sx={{
+                        position: "absolute",
+                        width: 32,
+                        height: 32,
+                        top: 10,
+                        right: 10,
+                        zIndex: 2,
+                        bgcolor: "background.default",
+                        color: "text.secondary",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        fontSize: 16,
+                        "&:hover": {
+                            bgcolor: "primary.light",
+                            color: "primary.dark",
+                        },
+                    }}
+                >
+                    ✕
+                </IconButton>
+
+                <DialogContent sx={{ p: 4, textAlign: "center" }}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 800,
+                            color: "secondary.main",
+                            mb: 1,
+                            pr: 3,
+                        }}
+                    >
+                        Offer Not Available
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            color: "text.secondary",
+                            lineHeight: 1.7,
+                            mb: 3,
+                        }}
+                    >
+                        This product offer does not exist.
+                    </Typography>
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }
