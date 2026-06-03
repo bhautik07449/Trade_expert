@@ -16,7 +16,12 @@ import {
     Stack,
     Divider,
     Chip,
+    InputAdornment,
+    IconButton,
 } from "@mui/material"
+import Visibility from "@mui/icons-material/Visibility"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import LockIcon from "@mui/icons-material/Lock"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import BusinessIcon from "@mui/icons-material/Business"
 import EmailIcon from "@mui/icons-material/Email"
@@ -32,6 +37,8 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 
 export default function SuppliersRegister() {
+    const [showPassword, setShowPassword] = useState(false)
+
     const [searchParams] = useSearchParams();
     const country = searchParams.get("country");
 
@@ -50,20 +57,21 @@ export default function SuppliersRegister() {
         initialValues: {
             firstName: "",
             lastName: "",
-            firmName: "",
             email: "",
+            phone: "",
+            company_name: "",
             address: "",
             city: "",
             state: "",
-            website: "",
-            phone: "",
-            service: "",
             country: country,
+            website: "",
+            service_type: "",
+            password: "",
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required("First name is required"),
             lastName: Yup.string().required("Last name is required"),
-            firmName: Yup.string().required("Firm name is required"),
+            company_name: Yup.string().required("Company name is required"),
             email: Yup.string()
                 .email("Invalid email format")
                 .required("Email is required"),
@@ -73,7 +81,10 @@ export default function SuppliersRegister() {
             phone: Yup.string()
                 .matches(/^[0-9]{10}$/, "Enter valid 10 digit number")
                 .required("Phone is required"),
-            service: Yup.string().required("Please select a service"),
+            password: Yup.string()
+                .min(6, "Password must be at least 6 characters")
+                .required("Password is required"),
+            service_type: Yup.string().required("Please select a service"),
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -297,33 +308,6 @@ export default function SuppliersRegister() {
                                         />
                                     </Grid>
 
-                                    <Grid size={{ xs: 12 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Firm Name"
-                                            name="firmName"
-                                            size="small"
-                                            value={formik.values.firmName}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            error={
-                                                formik.touched.firmName &&
-                                                Boolean(formik.errors.firmName)
-                                            }
-                                            helperText={
-                                                formik.touched.firmName && formik.errors.firmName
-                                            }
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <BusinessIcon
-                                                        fontSize="small"
-                                                        sx={{ mr: 1, color: "text.secondary" }}
-                                                    />
-                                                ),
-                                            }}
-                                        />
-                                    </Grid>
-
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                         <TextField
                                             fullWidth
@@ -367,6 +351,68 @@ export default function SuppliersRegister() {
                                                         fontSize="small"
                                                         sx={{ mr: 1, color: "text.secondary" }}
                                                     />
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <TextField
+                                            fullWidth
+                                            label="Company Name"
+                                            name="company_name"
+                                            size="small"
+                                            value={formik.values.company_name}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched.company_name &&
+                                                Boolean(formik.errors.company_name)
+                                            }
+                                            helperText={
+                                                formik.touched.company_name && formik.errors.company_name
+                                            }
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <BusinessIcon
+                                                        fontSize="small"
+                                                        sx={{ mr: 1, color: "text.secondary" }}
+                                                    />
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <TextField
+                                            label="Password"
+                                            name="password"
+                                            type={showPassword ? "text" : "password"}
+                                            fullWidth
+                                            size="small"
+                                            value={formik.values.password}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched.password && Boolean(formik.errors.password)
+                                            }
+                                            helperText={formik.touched.password && formik.errors.password}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <LockIcon fontSize="small" />
+                                                    </InputAdornment>
+                                                ),
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
                                                 ),
                                             }}
                                         />
@@ -435,7 +481,7 @@ export default function SuppliersRegister() {
                                         />
                                     </Grid>
 
-                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Grid size={{ xs: 12 }}>
                                         <TextField
                                             fullWidth
                                             label="Website"
@@ -455,30 +501,31 @@ export default function SuppliersRegister() {
                                         />
                                     </Grid>
 
-                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Grid size={{ xs: 12 }}>
                                         <TextField
                                             select
                                             fullWidth
-                                            label="Select Service"
-                                            name="service"
+                                            label="Select Service Type"
+                                            name="service_type"
                                             size="small"
-                                            value={formik.values.service}
+                                            value={formik.values.service_type}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             error={
-                                                formik.touched.service &&
-                                                Boolean(formik.errors.service)
+                                                formik.touched.service_type &&
+                                                Boolean(formik.errors.service_type)
                                             }
                                             helperText={
-                                                formik.touched.service && formik.errors.service
+                                                formik.touched.service_type && formik.errors.service_type
                                             }
                                         >
                                             <MenuItem value="">Select Service</MenuItem>
-                                            <MenuItem value="Indenting">Indenting</MenuItem>
-                                            <MenuItem value="On-behalf">On-behalf</MenuItem>
-                                            <MenuItem value="Market-Development">
-                                                Market Development
-                                            </MenuItem>
+                                            <MenuItem value="Sole Single Commodity">Sole Single Commodity</MenuItem>
+                                            <MenuItem value="Sole Multiple Commodity">Sole Multiple Commodity</MenuItem>
+                                            <MenuItem value="Consolidator Single Commodity">Consolidator Single Commodity</MenuItem>
+                                            <MenuItem value="Consolidator Multiple Commodity">Consolidator Multiple Commodity</MenuItem>
+                                            <MenuItem value="Composite Single Commodity">Composite Single Commodity</MenuItem>
+                                            <MenuItem value="Composite Multiple Commodity">Composite Multiple Commodity</MenuItem>
                                         </TextField>
                                     </Grid>
 
