@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import Homeservice from "../../service/home.service";
 import { getImageUrl } from "../../utils/imageUtils";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { fetchFlatPageBySlug } from "../../store/slice/pageSlice";
+import serverCall from "../../serverCall";
 
 interface Client {
     id: number
@@ -31,20 +29,18 @@ export default function AboutTestimonial() {
     const [loading, setLoading] = useState(true)
     const maxSteps = testimonials.length;
 
-    const dispatch = useDispatch<AppDispatch>();
+    const [aboutContent, setAboutContent] = useState<any>(null);
 
-    const { pageDetail } = useSelector((state: RootState) => state.page);
-
-    useEffect(() => {
-        dispatch(fetchFlatPageBySlug("about_us"));
-    }, [dispatch]);
-
-    const getTestimonials = async () => {
+    const getTestimonialsAndAbout = async () => {
         setLoading(true)
         try {
             const res = await Homeservice.getTestimonial()
             if (res) {
                 setTestimonials(res?.data?.data)
+            }
+            const resAbout = await serverCall.get("/pages/slug/about_us");
+            if (resAbout) {
+                setAboutContent(resAbout?.data?.data);
             }
         } catch (error) {
             console.log("error", error);
@@ -54,7 +50,7 @@ export default function AboutTestimonial() {
     }
 
     useEffect(() => {
-        getTestimonials()
+        getTestimonialsAndAbout()
     }, [])
 
     useEffect(() => {
@@ -122,7 +118,7 @@ export default function AboutTestimonial() {
                                 textAlign: { xs: "center", md: "left" },
                             }}
                             dangerouslySetInnerHTML={{
-                                __html: pageDetail?.content || null,
+                                __html: aboutContent?.content || null,
                             }}
                         />
                     )}
