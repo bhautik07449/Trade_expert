@@ -61,6 +61,22 @@ export default function Router(): JSX.Element {
     return children;
   }
 
+  function SupplierPrivateRoute({ children }: Props) {
+    const buyer = localStorage.getItem('supplier');
+    if (buyer !== 'true') {
+      return <Navigate to="/suppliers/login" replace />;
+    }
+    return children;
+  }
+
+  function SupplierPublicRoute({ children }: Props) {
+    const buyer = localStorage.getItem('supplier');
+    if (buyer === 'true') {
+      return <Navigate to="/supplier_dashboard" replace />;
+    }
+    return children;
+  }
+
   return (
     <Suspense fallback={<div className="loading">Loading…</div>}>
       <Routes>
@@ -89,7 +105,12 @@ export default function Router(): JSX.Element {
         <Route path="/pages/career" element={<Career />} />
         <Route path="/pages/faq" element={<Faq />} />
         <Route path="/suppliers/register" element={<SuppliersRegister />} />
-        <Route path="/suppliers/login" element={<SuppliersLogin />} />
+        <Route path="/suppliers/login" element={
+          <SupplierPublicRoute>
+            <SuppliersLogin />
+          </SupplierPublicRoute>
+        }
+        />
         <Route
           path="/buyer-dashboard"
           element={
@@ -98,7 +119,12 @@ export default function Router(): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path="/public_dashboard" element={<PublicDashboard />} />
+        <Route path="/public_dashboard" element={
+          <SupplierPrivateRoute>
+            <PublicDashboard />
+          </SupplierPrivateRoute>
+        }
+        />
         <Route path="/supplier_dashboard" element={<PublicDashboard />} />
         <Route path="/credit-account" element={<CreditAccount />} />
         <Route path="/trade-offers" element={<Tradeoffer />} />

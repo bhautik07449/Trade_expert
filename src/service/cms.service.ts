@@ -91,15 +91,6 @@ const buyerDashboard = async () => {
     }
 }
 
-const addSuppliers = async (body) => {
-    try {
-        const response = serverCall.post('/suppliers', body)
-        return response
-    } catch (error) {
-        throw error
-    }
-}
-
 const getCertificate = async () => {
     try {
         const response = await serverCall.get('/certificationslider')
@@ -183,7 +174,7 @@ const getCategoryById = async (id: string) => {
 
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
-    creditAccount, addSuppliers, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
+    creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
     getDeliveryReach, getCategoryById
 };
 

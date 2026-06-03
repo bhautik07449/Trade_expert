@@ -31,10 +31,10 @@ import LanguageIcon from "@mui/icons-material/Language"
 import { useState } from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
+import Supplierservice from "../../service/supplier.service"
 
 export default function SuppliersRegister() {
     const [showPassword, setShowPassword] = useState(false)
@@ -88,7 +88,7 @@ export default function SuppliersRegister() {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                const res = await CMSservice.addSuppliers(values)
+                const res = await Supplierservice.suppliersRegister(values)
 
                 if (res) {
                     toast.success(
@@ -553,6 +553,31 @@ export default function SuppliersRegister() {
                                         >
                                             {formik.isSubmitting ? "Signing up..." : "Sign Up"}
                                         </Button>
+
+                                        <Divider sx={{ my: 3 }} />
+
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                flexWrap: "wrap",
+                                                gap: 1,
+                                                textAlign: "center",
+                                            }}
+                                        >
+                                            <Typography variant="body2" color="text.secondary">
+                                                Already have an account?
+                                            </Typography>
+
+                                            <Button
+                                                size="small"
+                                                onClick={() => navigate('/suppliers/login')}
+                                                sx={{ textTransform: "none", fontWeight: 600 }}
+                                            >
+                                                Sign in
+                                            </Button>
+                                        </Box>
                                     </Grid>
                                 </Grid>
                             </Box>
