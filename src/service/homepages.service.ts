@@ -72,9 +72,9 @@ const getImageSliderByCategory = async (category: string) => {
     }
 }
 
-const getSpotMarketRateByCategory = async (category: string) => {
+const getSpotMarketRateByCategory = async (category?: string, subCategory?: string) => {
     try {
-        const response = serverCall.get(`/dmr/market-data/category?category=${category}`)
+        const response = serverCall.get('/dmr/market-data/category', { params: category || subCategory ? { category: category, subCategory: subCategory } : {} })
         return response
     } catch (error) {
         throw error

@@ -1,4 +1,14 @@
-import { Box, Typography, Grid, Skeleton, Paper, Tabs, Tab } from "@mui/material";
+import {
+    Box,
+    Typography,
+    Grid,
+    Skeleton,
+    Paper,
+    Tabs,
+    Tab,
+    Stack,
+    Divider,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
@@ -26,6 +36,7 @@ export default function QualityPolicies() {
     const [list, setList] = useState<QualityPolicyGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState("all");
+    const [activeCountry, setActiveCountry] = useState("");
 
     const getList = async () => {
         setLoading(true);
@@ -47,10 +58,15 @@ export default function QualityPolicies() {
         getList();
     }, []);
 
+    const filteredByCountryList = useMemo(() => {
+        if (!activeCountry) return list;
+        return list.filter((item) => item?.country === activeCountry);
+    }, [list, activeCountry]);
+
     const categoryTabs = useMemo(() => {
         return Array.from(
             new Map(
-                list
+                filteredByCountryList
                     .filter((item) => item?.category?.name)
                     .map((item) => [
                         item.category.name,
@@ -61,27 +77,41 @@ export default function QualityPolicies() {
                     ])
             ).values()
         );
-    }, [list]);
+    }, [filteredByCountryList]);
 
     const filteredList = useMemo(() => {
         if (activeCategory === "all") {
-            return list;
+            return filteredByCountryList;
         }
 
-        return list.filter(
-            (item) => item?.category?.name === activeCategory
-        );
-    }, [list, activeCategory]);
+        return filteredByCountryList.filter((item) => item?.category?.name === activeCategory);
+    }, [filteredByCountryList, activeCategory]);
+
+    useEffect(() => {
+        setActiveCategory("all");
+    }, [activeCountry]);
 
     return (
-        <Box sx={{ bgcolor: "white", minHeight: "100vh", pb: { xs: 6, md: 10 } }}>
-            <PageMainLayout title="Quality Policies" slug="quality_policies" image="https://sourceseas.itcoders.in/img/front-end/quality.jpg" activeCountry="" setActiveCountry={() => { }} />
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                minHeight: "100vh",
+                pb: { xs: 6, md: 10 },
+            }}
+        >
+            <PageMainLayout
+                title="Quality Policies"
+                slug="quality_policies"
+                image="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
+                country={true}
+                activeCountry={activeCountry}
+                setActiveCountry={setActiveCountry}
+            />
 
             <Box
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
                     position: "relative",
                     zIndex: 2,
@@ -91,8 +121,13 @@ export default function QualityPolicies() {
                     <Paper
                         elevation={0}
                         sx={{
-                            mb: 5,
+                            mb: { xs: 4, md: 6 },
                             p: 1,
+                            borderRadius: 3,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 12px 30px rgba(59,48,39,0.06)",
                         }}
                     >
                         <Tabs
@@ -101,34 +136,48 @@ export default function QualityPolicies() {
                             variant="scrollable"
                             scrollButtons="auto"
                             allowScrollButtonsMobile
+                            TabIndicatorProps={{ sx: { display: "none" } }}
                             sx={{
                                 minHeight: 52,
-                                "& .MuiTabs-indicator": {
-                                    display: "none",
+
+                                "& .MuiTabs-flexContainer": {
+                                    gap: 1,
+                                    justifyContent: {
+                                        xs: "flex-start",
+                                        md: "center",
+                                    },
                                 },
+
                                 "& .MuiTabs-scrollButtons": {
                                     color: "secondary.main",
                                 },
+
                                 "& .MuiTab-root": {
                                     minHeight: 44,
-                                    mx: 0.5,
-                                    px: 3,
+                                    minWidth: "auto",
+                                    px: { xs: 2, sm: 3 },
+                                    mx: 0.25,
                                     borderRadius: 2,
                                     textTransform: "none",
-                                    fontWeight: 700,
+                                    fontWeight: 800,
                                     color: "text.secondary",
                                     border: "1px solid",
                                     borderColor: "divider",
+                                    bgcolor: "background.default",
                                     transition: "0.25s ease",
                                 },
+
                                 "& .MuiTab-root:hover": {
                                     bgcolor: "primary.light",
-                                    color: "secondary.dark",
+                                    color: "primary.dark",
+                                    borderColor: "primary.main",
                                 },
+
                                 "& .Mui-selected": {
                                     bgcolor: "primary.main",
                                     color: "#fff !important",
                                     borderColor: "primary.main",
+                                    boxShadow: "0 8px 18px rgba(59,48,39,0.14)",
                                 },
                             }}
                         >
@@ -136,7 +185,7 @@ export default function QualityPolicies() {
 
                             {categoryTabs.map((category) => (
                                 <Tab
-                                    key={category.id}
+                                    key={category.id || category.name}
                                     label={category.name}
                                     value={category.name}
                                 />
@@ -146,109 +195,240 @@ export default function QualityPolicies() {
                 )}
 
                 {loading ? (
-                    Array.from(new Array(3)).map((_, i) => (
-                        <Box key={i} sx={{ mb: 8 }}>
-                            <Skeleton variant="rectangular" height={50} sx={{ mb: 6 }} />
-                            <Grid container spacing={4} alignItems="center">
-                                <Grid size={{ xs: 12, md: 5 }}>
-                                    <Skeleton variant="rectangular" height={150} width={150} sx={{ mx: "auto", borderRadius: "50%" }} />
-                                </Grid>
-                                <Grid size={{ xs: 12, md: 7 }}>
-                                    <Skeleton variant="text" height={40} width="60%" sx={{ mb: 2 }} />
-                                    <Skeleton variant="text" height={20} />
-                                    <Skeleton variant="text" height={20} />
-                                    <Skeleton variant="text" height={20} width="80%" />
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    ))
-                ) : filteredList.length > 0 ? (
-                    filteredList.map((group, groupIndex) => (
-                        <Box key={groupIndex} sx={{ mb: 8 }}>
-                            <Box
+                    <Stack spacing={4}>
+                        {Array.from(new Array(3)).map((_, i) => (
+                            <Paper
+                                key={i}
+                                elevation={0}
                                 sx={{
-                                    border: "2px solid #3E3126",
-                                    textAlign: "center",
-                                    py: 1.5,
-                                    mb: 6,
-                                    fontWeight: 600,
+                                    p: { xs: 2.5, md: 4 },
+                                    borderRadius: 4,
+                                    bgcolor: "background.paper",
+                                    border: "1px solid",
+                                    borderColor: "divider",
                                 }}
                             >
-                                {group?.category?.name} - {group?.country}
-                            </Box>
+                                <Skeleton
+                                    variant="rounded"
+                                    height={42}
+                                    width="35%"
+                                    sx={{ mx: "auto", mb: 4, borderRadius: 2 }}
+                                />
 
-                            {group.data.map((item, index) => (
-                                <Paper
-                                    key={item.id || index}
-                                    elevation={0}
+                                <Grid container spacing={4} alignItems="center">
+                                    <Grid size={{ xs: 12, md: 4 }}>
+                                        <Skeleton
+                                            variant="rounded"
+                                            height={170}
+                                            width={170}
+                                            sx={{ mx: "auto", borderRadius: 4 }}
+                                        />
+                                    </Grid>
+
+                                    <Grid size={{ xs: 12, md: 8 }}>
+                                        <Skeleton
+                                            variant="text"
+                                            height={42}
+                                            width="55%"
+                                            sx={{ mb: 2 }}
+                                        />
+                                        <Skeleton variant="text" height={22} />
+                                        <Skeleton variant="text" height={22} />
+                                        <Skeleton variant="text" height={22} width="80%" />
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        ))}
+                    </Stack>
+                ) : filteredList.length > 0 ? (
+                    <Stack spacing={{ xs: 4, md: 6 }}>
+                        {filteredList.map((group, groupIndex) => (
+                            <Paper
+                                key={groupIndex}
+                                elevation={0}
+                                sx={{
+                                    p: { xs: 2.5, sm: 3, md: 4 },
+                                    borderRadius: 4,
+                                    bgcolor: "background.paper",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    boxShadow: "0 18px 45px rgba(59,48,39,0.08)",
+                                }}
+                            >
+                                <Box
                                     sx={{
-                                        mb: 4,
+                                        textAlign: "center",
+                                        mb: { xs: 3, md: 4 },
                                     }}
                                 >
-                                    <Grid
-                                        container
-                                        spacing={4}
-                                        alignItems="center"
+                                    <Typography
+                                        variant="overline"
+                                        sx={{
+                                            color: "primary.main",
+                                            fontWeight: 900,
+                                            letterSpacing: 1.5,
+                                        }}
                                     >
-                                        <Grid size={{ xs: 12, md: 5 }}>
-                                            <Box
-                                                component="img"
-                                                src={getImageUrl(item?.logo)}
-                                                alt={item?.name}
-                                                sx={{
-                                                    width: "100%",
-                                                    maxWidth: "200px",
-                                                    mx: "auto",
-                                                    display: "block",
-                                                }}
-                                            />
-                                        </Grid>
+                                        {group?.country}
+                                    </Typography>
 
-                                        <Grid size={{ xs: 12, md: 7 }}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{
-                                                    color: "secondary.main",
-                                                    mb: 2,
-                                                    fontWeight: 700,
-                                                }}
-                                            >
-                                                {item?.name}
-                                            </Typography>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            fontWeight: 900,
+                                            color: "secondary.main",
+                                            textTransform: "uppercase",
+                                            letterSpacing: 1,
+                                            mt: 0.5,
+                                        }}
+                                    >
+                                        {group?.category?.name}
+                                    </Typography>
 
-                                            <Typography
+                                    <Box
+                                        sx={{
+                                            width: 90,
+                                            height: 3,
+                                            bgcolor: "primary.main",
+                                            mx: "auto",
+                                            mt: 1.5,
+                                            borderRadius: 99,
+                                        }}
+                                    />
+                                </Box>
+
+                                <Stack spacing={3}>
+                                    {group.data.map((item, index) => (
+                                        <Box key={item.id || index}>
+                                            <Paper
+                                                elevation={0}
                                                 sx={{
-                                                    color: "text.secondary",
-                                                    fontSize: {
-                                                        xs: "14px",
-                                                        md: "16px",
+                                                    p: { xs: 2.5, md: 3 },
+                                                    borderRadius: 3,
+                                                    bgcolor: "background.default",
+                                                    border: "1px solid",
+                                                    borderColor: "divider",
+                                                    transition: "all 0.3s ease",
+
+                                                    "&:hover": {
+                                                        bgcolor: "primary.light",
+                                                        borderColor: "primary.main",
+                                                        transform: "translateY(-3px)",
+                                                        boxShadow:
+                                                            "0 12px 30px rgba(59,48,39,0.10)",
                                                     },
-                                                    lineHeight: 1.8,
                                                 }}
                                             >
-                                                {item?.description}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Paper>
-                            ))}
-                        </Box>
-                    ))
+                                                <Grid
+                                                    container
+                                                    spacing={{ xs: 3, md: 4 }}
+                                                    alignItems="center"
+                                                >
+                                                    <Grid size={{ xs: 12, md: 4 }}>
+                                                        <Box
+                                                            sx={{
+                                                                width: {
+                                                                    xs: 150,
+                                                                    sm: 170,
+                                                                    md: 190,
+                                                                },
+                                                                height: {
+                                                                    xs: 150,
+                                                                    sm: 170,
+                                                                    md: 190,
+                                                                },
+                                                                mx: "auto",
+                                                                borderRadius: 4,
+                                                                bgcolor: "background.paper",
+                                                                border: "1px solid",
+                                                                borderColor: "divider",
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                justifyContent: "center",
+                                                                p: 2,
+                                                            }}
+                                                        >
+                                                            <Box
+                                                                component="img"
+                                                                src={getImageUrl(item?.logo)}
+                                                                alt={item?.name}
+                                                                sx={{
+                                                                    maxWidth: "100%",
+                                                                    maxHeight: "100%",
+                                                                    objectFit: "contain",
+                                                                }}
+                                                            />
+                                                        </Box>
+                                                    </Grid>
+
+                                                    <Grid size={{ xs: 12, md: 8 }}>
+                                                        <Typography
+                                                            variant="h5"
+                                                            sx={{
+                                                                color: "primary.dark",
+                                                                mb: 1.5,
+                                                                fontWeight: 900,
+                                                                textAlign: {
+                                                                    xs: "center",
+                                                                    md: "left",
+                                                                },
+                                                            }}
+                                                        >
+                                                            {item?.name}
+                                                        </Typography>
+
+                                                        <Typography
+                                                            component="div"
+                                                            sx={{
+                                                                color: "text.secondary",
+                                                                fontSize: {
+                                                                    xs: "14px",
+                                                                    md: "16px",
+                                                                },
+                                                                lineHeight: 1.85,
+                                                                textAlign: {
+                                                                    xs: "center",
+                                                                    md: "left",
+                                                                },
+
+                                                                "& p": {
+                                                                    m: 0,
+                                                                },
+                                                            }}
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: item?.description || "",
+                                                            }}
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            </Paper>
+
+                                            {index !== group.data.length - 1 && (
+                                                <Divider sx={{ my: 3, borderColor: "divider" }} />
+                                            )}
+                                        </Box>
+                                    ))}
+                                </Stack>
+                            </Paper>
+                        ))}
+                    </Stack>
                 ) : (
                     <Paper
                         elevation={0}
                         sx={{
-                            p: 4,
+                            p: 5,
                             textAlign: "center",
-                            border: "1px solid",
+                            border: "1px dashed",
                             borderColor: "divider",
-                            borderRadius: 3,
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
                         }}
                     >
                         <Typography
+                            variant="h6"
                             sx={{
                                 color: "text.secondary",
-                                fontWeight: 600,
+                                fontWeight: 700,
                             }}
                         >
                             No quality policies found.

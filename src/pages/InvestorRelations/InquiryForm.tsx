@@ -20,11 +20,13 @@ type Product = {
 type InquiryFormProps = {
     activeCountry: string;
     selectedProduct: Product | null;
+    selectedService?: any;
 };
 
 export default function InquiryForm({
     activeCountry,
     selectedProduct,
+    selectedService,
 }: InquiryFormProps) {
     
     const formik = useFormik({
@@ -34,6 +36,7 @@ export default function InquiryForm({
             email: "",
             country: activeCountry || "",
             product: selectedProduct?.id || "",
+            service: selectedService?.id || "",
             message: "",
         },
         validationSchema: Yup.object({
@@ -43,6 +46,7 @@ export default function InquiryForm({
                 .required("Email is required"),
             country: Yup.string().required("Country is required"),
             product: Yup.mixed().required("Product is required"),
+            service: Yup.mixed().required("Service is required"),
             message: Yup.string().required("Message is required"),
         }),
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -51,6 +55,7 @@ export default function InquiryForm({
                     ...values,
                     country: activeCountry,
                     product: selectedProduct?.id,
+                    service: selectedService?.id,
                 };
 
                 const res = await HomePageservice.inquiryIR(payload);
@@ -64,6 +69,7 @@ export default function InquiryForm({
                             email: "",
                             country: activeCountry || "",
                             product: selectedProduct?.id || "",
+                            service: selectedService?.id || "",
                             message: "",
                         },
                     });
@@ -176,7 +182,27 @@ export default function InquiryForm({
                                 }
                                 helperText={
                                     formik.touched.product &&
-                                    formik.errors.product
+                                    formik.errors.product as string
+                                }
+                            />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <TextField
+                                fullWidth
+                                label="Selected Service"
+                                name="service"
+                                value={selectedService?.name || ""}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                error={
+                                    formik.touched.service &&
+                                    Boolean(formik.errors.service)
+                                }
+                                helperText={
+                                    formik.touched.service &&
+                                    formik.errors.service as string
                                 }
                             />
                         </Grid>

@@ -77,7 +77,7 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                 const res = await CMSservice.addOfferRequest(values)
 
                 if (res) {
-                    toast.success(res?.data?.message || "Login successful")
+                    toast.success(res?.data?.message || "Offer Send successful")
                     resetForm()
                     setOfferNotExistOpen(false);
                 }

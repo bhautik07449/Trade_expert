@@ -1,6 +1,8 @@
 import {
     Box,
-    Divider
+    Divider,
+    Tab,
+    Tabs
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +16,12 @@ import PageMainLayout from "../../commonUI/PageMainLayout";
 export default function InvestorRelations() {
     const dispatch = useDispatch<AppDispatch>();
 
+    const [activeTab, setActiveTab] = useState('product');
     const [activeCountry, setActiveCountry] = useState<string>("");
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [activeSubCategory, setActiveSubCategory] = useState<string>("");
     const [activeProduct, setActiveProduct] = useState<string>("");
+    const [selectedService, setSelectedService] = useState<any>(null);
 
     const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categories
@@ -83,14 +87,14 @@ export default function InvestorRelations() {
         if (subcategoryList.length > 0) {
             setActiveSubCategory(String(subcategoryList[0].id));
         }
-    }, [activeCategory, subcategoryList.length]);
+    }, [activeCategory, subcategoryList]);
 
     useEffect(() => {
         setActiveProduct("");
         if (productList.length > 0) {
             setActiveProduct(String(productList[0].id));
         }
-    }, [activeSubCategory, productList.length]);
+    }, [activeSubCategory, productList]);
 
     return (
         <Box
@@ -106,36 +110,61 @@ export default function InvestorRelations() {
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    mt: { xs: -5, md: -7 },
                     px: { xs: 2, sm: 3, md: 4 },
                     position: "relative",
                     zIndex: 2,
                 }}
             >
-                <Divider sx={{ my: 4 }} />
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Tabs
+                        value={activeTab}
+                        onChange={(_, newValue) => setActiveTab(newValue)}
+                        centered
+                    >
+                        <Tab label="Product" value="product" />
+                        <Tab label="Project" value="project" />
+                    </Tabs>
+                </Box>
 
-                <ProductSelection
-                    activeCountry={activeCountry}
-                    categoriesLoading={categoriesLoading}
-                    categoryList={categoryList}
-                    activeCategory={activeCategory}
-                    setActiveCategory={setActiveCategory}
-                    subcategoryList={subcategoryList}
-                    activeSubCategory={activeSubCategory}
-                    setActiveSubCategory={setActiveSubCategory}
-                    productList={productList}
-                    activeProduct={activeProduct}
-                    setActiveProduct={setActiveProduct}
-                    selectedProduct={selectedProduct}
-                />
+                {activeTab === 'product' && (
+                    <>
+                        <Divider sx={{ my: 4 }} />
 
-                <Divider sx={{ my: 5 }} />
+                        <ProductSelection
+                            activeCountry={activeCountry}
+                            categoriesLoading={categoriesLoading}
+                            categoryList={categoryList}
+                            activeCategory={activeCategory}
+                            setActiveCategory={setActiveCategory}
+                            subcategoryList={subcategoryList}
+                            activeSubCategory={activeSubCategory}
+                            setActiveSubCategory={setActiveSubCategory}
+                            productList={productList}
+                            activeProduct={activeProduct}
+                            setActiveProduct={setActiveProduct}
+                            selectedProduct={selectedProduct}
+                        />
 
-                <FinancialService activeCountry={activeCountry} />
+                        <Divider sx={{ my: 5 }} />
 
-                <Divider sx={{ my: 5 }} />
+                        <FinancialService activeCountry={activeCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
 
-                <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} />
+                        <Divider sx={{ my: 5 }} />
+
+                        <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedService={selectedService} />
+                    </>
+                )}
+
+                {activeTab === 'project' && (
+                    <Box>
+                        Project selection
+                    </Box>
+                )}
             </Box>
         </Box>
     );

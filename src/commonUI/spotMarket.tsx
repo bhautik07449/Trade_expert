@@ -10,9 +10,12 @@ import {
     Box,
     Skeleton,
     Typography,
+    Tabs,
+    Tab,
 } from "@mui/material"
 import LabelTitle from "./labelTitle"
 import HomePageservice from "../service/homepages.service"
+import CMSservice from "../service/cms.service"
 
 type ColumnType = {
     key: string
@@ -83,6 +86,8 @@ export default function SpotMarketTable({ category }: any) {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isAutoScrolling, setIsAutoScrolling] = useState(true)
     const [loading, setLoading] = useState(true)
+    const [activeSubcategory, setActiveSubCategory] = useState("")
+    const [subcategories, setSubcategories] = useState<any[]>([])
 
     const visibleColumns = 5
     const columnWidth = 200
@@ -110,9 +115,10 @@ export default function SpotMarketTable({ category }: any) {
     const handleMouseEnter = () => setIsAutoScrolling(false)
     const handleMouseLeave = () => setIsAutoScrolling(true)
 
-    const getData = async (category: string) => {
+    const getData = async (category: string, subcategory: string) => {
+        setLoading(true)
         try {
-            const res = await HomePageservice.getSpotMarketRateByCategory(category)
+            const res = await HomePageservice.getSpotMarketRateByCategory(category, subcategory)
             const apiData = res?.data?.data || []
 
             const formatted = transformMarketData(apiData)
@@ -124,15 +130,138 @@ export default function SpotMarketTable({ category }: any) {
         }
     }
 
+    const getCategoryDetails = async (id: string) => {
+        try {
+            const res = await CMSservice.getCategoryById(id)
+            const children = res?.data?.children || []
+            setSubcategories(children)
+            if (children.length > 0) {
+                setActiveSubCategory(children[0]?.id)
+            } else {
+                setActiveSubCategory("")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         if (category) {
-            getData(category)
+            getCategoryDetails(category)
         }
     }, [category])
 
+    useEffect(() => {
+        if (category) {
+            getData(category, activeSubcategory)
+        }
+    }, [category, activeSubcategory])
+
     return (
-        <Box sx={{ width: "100%", py: { xs: 6, md: 10 }, boxSizing: "border-box", bgcolor: "background.default" }}>
+        <Box sx={{ width: "100%", pb: { xs: 6, md: 10 }, boxSizing: "border-box", bgcolor: "background.default" }}>
             <LabelTitle title="Spot Market" label="Rate" tagLine="Get real-time updates on the latest spot market rates and trends." />
+
+            <Paper
+                elevation={0}
+                sx={{
+                    mt: 3,
+                    mb: 0,
+                    p: 1,
+                    bgcolor: "transparent",
+                    boxShadow: "none",
+                    width: "100%",
+                    overflow: "hidden",
+                }}
+            >
+                <Box
+                    sx={{
+                        width: "100%",
+                        overflowX: "auto",
+                        overflowY: "hidden",
+                        WebkitOverflowScrolling: "touch",
+                        scrollbarWidth: "none",
+                        "&::-webkit-scrollbar": {
+                            display: "none",
+                        },
+                    }}
+                >
+                    <Tabs
+                        value={activeSubcategory || false}
+                        onChange={(_, value: string) => setActiveSubCategory(value)}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        allowScrollButtonsMobile
+                        aria-label="subcategory tabs"
+                        sx={{
+                            minHeight: 52,
+
+                            "& .MuiTabs-scroller": {
+                                overflowX: "auto !important",
+                                overflowY: "hidden",
+                                scrollBehavior: "smooth",
+                                scrollbarWidth: "none",
+                                "&::-webkit-scrollbar": {
+                                    display: "none",
+                                },
+                            },
+
+                            "& .MuiTabs-indicator": {
+                                display: "none",
+                            },
+
+                            "& .MuiTabs-flexContainer": {
+                                gap: 1,
+                                justifyContent: {
+                                    xs: "flex-start",
+                                    md: "center",
+                                },
+                                flexWrap: "nowrap",
+                            },
+
+                            "& .MuiTabs-scrollButtons": {
+                                color: "secondary.main",
+                                width: 34,
+                                "&.Mui-disabled": {
+                                    opacity: 0.25,
+                                },
+                            },
+
+                            "& .MuiTab-root": {
+                                minHeight: 44,
+                                minWidth: "auto",
+                                px: { xs: 2.2, sm: 3 },
+                                borderRadius: 2,
+                                textTransform: "none",
+                                fontWeight: 700,
+                                color: "text.secondary",
+                                border: "1px solid",
+                                borderColor: "divider",
+                                whiteSpace: "nowrap",
+                                flexShrink: 0,
+                            },
+
+                            "& .MuiTab-root:hover": {
+                                bgcolor: "primary.light",
+                                color: "secondary.dark",
+                            },
+
+                            "& .Mui-selected": {
+                                bgcolor: "primary.main",
+                                color: "#fff !important",
+                                borderColor: "primary.main",
+                            },
+                        }}
+                    >
+                        {subcategories?.map((item) => (
+                            <Tab
+                                key={item?.id || item?.name}
+                                label={item?.name}
+                                value={item?.id}
+                            />
+                        ))}
+                    </Tabs>
+                </Box>
+            </Paper>
 
             <Box
                 sx={{

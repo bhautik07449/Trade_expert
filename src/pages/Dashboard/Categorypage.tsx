@@ -16,7 +16,8 @@ import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 
 type Category = {
-    name?: string
+    name?: string;
+    subcategories?: any[];
 }
 
 export default function CategoryPage() {

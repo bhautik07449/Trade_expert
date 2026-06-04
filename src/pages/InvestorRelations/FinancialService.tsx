@@ -1,13 +1,13 @@
 import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
 import HomePageservice from "../../service/homepages.service";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function FinancialService({ activeCountry }: any) {
+export default function FinancialService({ activeCountry, selectedService, setSelectedService }: any) {
     const [services, setServices] = useState<any[]>([]);
     const [serviceLoading, setServiceLoading] = useState<boolean>(false);
 
-    const getServiceData = async () => {
+    const getServiceData = useCallback(async () => {
         try {
             setServiceLoading(true);
             setServices([]);
@@ -19,8 +19,14 @@ export default function FinancialService({ activeCountry }: any) {
                 : [];
 
             setServices(serviceList);
+            if (serviceList.length > 0) {
+                setSelectedService(serviceList[0]);
+            } else {
+                setSelectedService(null);
+            }
         } catch (error: any) {
             setServices([]);
+            setSelectedService(null);
 
             toast.error(
                 error?.response?.data?.message ||
@@ -30,7 +36,7 @@ export default function FinancialService({ activeCountry }: any) {
         } finally {
             setServiceLoading(false);
         }
-    };
+    }, [setSelectedService]);
 
     useEffect(() => {
         if (activeCountry) {
@@ -38,7 +44,7 @@ export default function FinancialService({ activeCountry }: any) {
         } else {
             setServices([]);
         }
-    }, [activeCountry]);
+    }, [activeCountry, getServiceData, setSelectedService]);
 
     return (
         <Box sx={{ mb: 5 }}>
@@ -59,7 +65,7 @@ export default function FinancialService({ activeCountry }: any) {
                     [1, 2, 3, 4].map((item) => (
                         <Grid
                             key={item}
-                            size={{ xs: 12, sm: 6, md: 3 }}
+                            size={{ xs: 6, sm: 6, md: 3 }}
                         >
                             <Skeleton
                                 variant="rounded"
@@ -72,22 +78,24 @@ export default function FinancialService({ activeCountry }: any) {
                     services.map((service, index) => (
                         <Grid
                             key={service?.id || index}
-                            size={{ xs: 12, sm: 6, md: 3 }}
+                            size={{ xs: 6, sm: 6, md: 3 }}
                         >
                             <Paper
                                 elevation={0}
+                                onClick={() => setSelectedService(service)}
                                 sx={{
                                     p: 2,
                                     textAlign: "center",
                                     border: "1px solid",
-                                    borderColor: "divider",
+                                    borderColor: selectedService?.id === service?.id ? "primary.main" : "divider",
                                     borderRadius: 2,
-                                    bgcolor: "background.default",
+                                    bgcolor: selectedService?.id === service?.id ? "primary.light" : "background.default",
+                                    cursor: "pointer",
                                 }}
                             >
                                 <Typography
                                     sx={{
-                                        color: "secondary.main",
+                                        color: selectedService?.id === service?.id ? "primary.dark" : "secondary.main",
                                         fontWeight: 700,
                                     }}
                                 >
