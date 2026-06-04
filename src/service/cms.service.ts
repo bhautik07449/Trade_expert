@@ -181,10 +181,19 @@ const addOfferRequest = async (body) => {
     }
 }
 
+const getProject = async (country?: string, category?: string) => {
+    try {
+        const response = await serverCall.get('/ir_project', { params: country || category ? { country: country, category: category } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach, getCategoryById, addOfferRequest
+    getDeliveryReach, getCategoryById, addOfferRequest, getProject
 };
 
 export default CMSservice;

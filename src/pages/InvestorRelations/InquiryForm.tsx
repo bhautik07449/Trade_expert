@@ -20,15 +20,19 @@ type Product = {
 type InquiryFormProps = {
     activeCountry: string;
     selectedProduct: Product | null;
+    selectedProject?: any;
     selectedService?: any;
+    activeTab?: string;
 };
 
 export default function InquiryForm({
     activeCountry,
     selectedProduct,
+    selectedProject,
     selectedService,
+    activeTab
 }: InquiryFormProps) {
-    
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -36,6 +40,7 @@ export default function InquiryForm({
             email: "",
             country: activeCountry || "",
             product: selectedProduct?.id || "",
+            project: selectedProject?.id || "",
             service: selectedService?.id || "",
             message: "",
         },
@@ -45,7 +50,6 @@ export default function InquiryForm({
                 .email("Invalid email format")
                 .required("Email is required"),
             country: Yup.string().required("Country is required"),
-            product: Yup.mixed().required("Product is required"),
             service: Yup.mixed().required("Service is required"),
             message: Yup.string().required("Message is required"),
         }),
@@ -54,7 +58,8 @@ export default function InquiryForm({
                 const payload = {
                     ...values,
                     country: activeCountry,
-                    product: selectedProduct?.id,
+                    product: activeTab === 'project' ? undefined : selectedProduct?.id,
+                    project: activeTab === 'project' ? selectedProject?.id : undefined,
                     service: selectedService?.id,
                 };
 
@@ -62,17 +67,7 @@ export default function InquiryForm({
 
                 if (res) {
                     toast.success(res?.data?.message || "Inquiry sent successfully");
-
-                    resetForm({
-                        values: {
-                            name: "",
-                            email: "",
-                            country: activeCountry || "",
-                            product: selectedProduct?.id || "",
-                            service: selectedService?.id || "",
-                            message: "",
-                        },
-                    });
+                    resetForm();
                 }
             } catch (error: any) {
                 toast.error(
@@ -168,23 +163,45 @@ export default function InquiryForm({
                         </Grid>
 
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Selected Product"
-                                name="product"
-                                value={selectedProduct?.name || ""}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                error={
-                                    formik.touched.product &&
-                                    Boolean(formik.errors.product)
-                                }
-                                helperText={
-                                    formik.touched.product &&
-                                    formik.errors.product as string
-                                }
-                            />
+                            {activeTab === 'product' && (
+                                <TextField
+                                    fullWidth
+                                    label="Selected Product"
+                                    name="product"
+                                    value={selectedProduct?.name || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    error={
+                                        formik.touched.product &&
+                                        Boolean(formik.errors.product)
+                                    }
+                                    helperText={
+                                        formik.touched.product &&
+                                        formik.errors.product as string
+                                    }
+                                />
+                            )}
+
+                            {activeTab === 'project' && (
+                                <TextField
+                                    fullWidth
+                                    label="Selected Project"
+                                    name="project"
+                                    value={selectedProject?.title || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    error={
+                                        formik.touched.project &&
+                                        Boolean(formik.errors.project)
+                                    }
+                                    helperText={
+                                        formik.touched.project &&
+                                        formik.errors.project as string
+                                    }
+                                />
+                            )}
                         </Grid>
 
                         <Grid size={{ xs: 12, sm: 6 }}>

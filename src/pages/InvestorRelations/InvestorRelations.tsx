@@ -12,6 +12,7 @@ import InquiryForm from "./InquiryForm";
 import FinancialService from "./FinancialService";
 import ProductSelection from "./ProductSelection";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import ProjectSelection from "./ProjectSelection";
 
 export default function InvestorRelations() {
     const dispatch = useDispatch<AppDispatch>();
@@ -21,6 +22,7 @@ export default function InvestorRelations() {
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [activeSubCategory, setActiveSubCategory] = useState<string>("");
     const [activeProduct, setActiveProduct] = useState<string>("");
+    const [selectedProject, setSelectedProject] = useState<any>(null);
     const [selectedService, setSelectedService] = useState<any>(null);
 
     const { categories, loading: categoriesLoading } = useSelector(
@@ -131,41 +133,37 @@ export default function InvestorRelations() {
                     </Tabs>
                 </Box>
 
+                <Divider sx={{ my: 4 }} />
+
                 {activeTab === 'product' && (
-                    <>
-                        <Divider sx={{ my: 4 }} />
-
-                        <ProductSelection
-                            activeCountry={activeCountry}
-                            categoriesLoading={categoriesLoading}
-                            categoryList={categoryList}
-                            activeCategory={activeCategory}
-                            setActiveCategory={setActiveCategory}
-                            subcategoryList={subcategoryList}
-                            activeSubCategory={activeSubCategory}
-                            setActiveSubCategory={setActiveSubCategory}
-                            productList={productList}
-                            activeProduct={activeProduct}
-                            setActiveProduct={setActiveProduct}
-                            selectedProduct={selectedProduct}
-                        />
-
-                        <Divider sx={{ my: 5 }} />
-
-                        <FinancialService activeCountry={activeCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
-
-                        <Divider sx={{ my: 5 }} />
-
-                        <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedService={selectedService} />
-                    </>
+                    <ProductSelection
+                        activeCountry={activeCountry}
+                        categoriesLoading={categoriesLoading}
+                        categoryList={categoryList}
+                        activeCategory={activeCategory}
+                        setActiveCategory={setActiveCategory}
+                        subcategoryList={subcategoryList}
+                        activeSubCategory={activeSubCategory}
+                        setActiveSubCategory={setActiveSubCategory}
+                        productList={productList}
+                        activeProduct={activeProduct}
+                        setActiveProduct={setActiveProduct}
+                        selectedProduct={selectedProduct}
+                    />
                 )}
 
                 {activeTab === 'project' && (
-                    <Box>
-                        Project selection
-                    </Box>
+                    <ProjectSelection activeCountry={activeCountry} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
                 )}
+
+                <Divider sx={{ my: 5 }} />
+
+                <FinancialService activeCountry={activeCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
+
+                <Divider sx={{ my: 5 }} />
+
+                <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
             </Box>
-        </Box>
+        </Box >
     );
 }
