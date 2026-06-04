@@ -1,9 +1,5 @@
 import React, { useLayoutEffect, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import PersonnelRegister from '../pages/PersonnelRegister/PersonnelRegister';
-import NewsAndEvents from '../pages/NewsAndEvents/NewsAndEvents';
-import InvestorRelations from '../pages/InvestorRelations/InvestorRelations';
-import PublicDashboard from '../pages/BuyerDashboard/PublicDashboard';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -12,6 +8,7 @@ const CategoryPage = React.lazy(() => import('../pages/Dashboard/Categorypage'))
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound').then(m => ({ default: m.PageNotFound })));
 const SignupForm = React.lazy(() => import('../pages/BuyerAuth/Signup'));
 const LoginForm = React.lazy(() => import('../pages/BuyerAuth/Login'));
+const ForgotPassword = React.lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
 const ProductPage = React.lazy(() => import('../pages/ProductDetail/ProductDetail'));
 const AboutUs = React.lazy(() => import('../pages/About/AboutUs'));
 const QualityPolicies = React.lazy(() => import('../pages/QualityPolicies/QualityPolicies'));
@@ -31,6 +28,10 @@ const Faq = React.lazy(() => import('../pages/Resource/Faq'));
 const Abc = React.lazy(() => import('../pages/Abc/Abc'));
 const Tradeoffer = React.lazy(() => import('../pages/TradeOffer/Tradeoffer'));
 const MarketDevelopment = React.lazy(() => import('../pages/MarketDevelopment/MarketDevelopment'));
+const NewsAndEvents = React.lazy(() => import('../pages/NewsAndEvents/NewsAndEvents'));
+const InvestorRelations = React.lazy(() => import('../pages/InvestorRelations/InvestorRelations'));
+const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
+const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister')) 
 
 type Props = {
   children: JSX.Element;
@@ -92,6 +93,7 @@ export default function Router(): JSX.Element {
           }
         />
         <Route path="/sign-up" element={<SignupForm />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/about_us" element={<AboutUs />} />
         <Route path="/product-list/:slug" element={<ProductList />} />
         <Route path="/product-details/:id" element={<ProductPage />} />

@@ -19,8 +19,17 @@ const supplierLogin = async (body) => {
     }
 }
 
+const forgotPassword = async (body) => {
+    try {
+        const response = await serverCall.post('/suppliers/forgot-password', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const Supplierservice = {
-    suppliersRegister, supplierLogin
+    suppliersRegister, supplierLogin, forgotPassword
 };
 
 export default Supplierservice;

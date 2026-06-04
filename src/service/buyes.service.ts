@@ -28,8 +28,17 @@ const getProfile = async (id) => {
     }
 }
 
+const forgotPassword = async (body) => {
+    try {
+        const response = await serverCall.post('/buyers/forgot-password', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const Buyerservice = {
-    buyerRegister, buyerLogin, getProfile
+    buyerRegister, buyerLogin, getProfile, forgotPassword
 };
 
 export default Buyerservice;

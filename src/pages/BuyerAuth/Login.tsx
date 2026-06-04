@@ -335,7 +335,7 @@ export default function LoginForm() {
                 >
                   <Button
                     size="small"
-                    onClick={() => navigate("/forgot-password")}
+                    onClick={() => navigate("/forgot-password", { state: { role: 'buyer' } })}
                     sx={{
                       textTransform: "none",
                       fontWeight: 600,

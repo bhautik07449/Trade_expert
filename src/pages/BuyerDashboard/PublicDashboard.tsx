@@ -34,6 +34,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import LabelTitle from "../../commonUI/labelTitle"
 import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 function TabPanel(props: any) {
     const { children, value, index, ...other } = props
@@ -49,6 +50,7 @@ export default function PublicDashboard() {
     const [dashboard, setDashboard] = React.useState<any>()
     const [loading, setLoading] = React.useState(true)
     const [tabValue, setTabValue] = React.useState(0)
+    const navigate = useNavigate()
 
     const getData = async () => {
         setLoading(true)
@@ -119,6 +121,11 @@ export default function PublicDashboard() {
         },
     ]
 
+    const handleLogout = () => {
+        localStorage.clear()
+        navigate('/')
+    }
+
     return (
         <Box
             sx={{
@@ -171,6 +178,7 @@ export default function PublicDashboard() {
                             color="error"
                             size="small"
                             startIcon={<LogoutIcon />}
+                            onClick={() => handleLogout()}
                         >
                             Logout
                         </Button>

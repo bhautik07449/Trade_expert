@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import React, { useState, useEffect, useRef } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -67,6 +67,7 @@ export default function Header() {
     const [menuStack, setMenuStack] = useState<any[]>([]);
 
     const navigate = useNavigate();
+    const location = useLocation();
     const navRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch<AppDispatch>();
     const logoSrc = "/logo.jpg";
@@ -83,9 +84,14 @@ export default function Header() {
 
         if (token && buyer === "true") {
             setIsLoggedIn(true);
-            setId(token);
+            // Remove quotes if the token was stored with JSON.stringify
+            setId(token.replace(/^"|"$/g, ''));
+        } else {
+            setIsLoggedIn(false);
+            setId(undefined);
+            setProfile(undefined);
         }
-    }, []);
+    }, [location.pathname]);
 
     useEffect(() => {
         dispatch(fetchFlatPage());

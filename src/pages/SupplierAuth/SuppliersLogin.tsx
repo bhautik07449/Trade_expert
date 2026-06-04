@@ -306,7 +306,7 @@ export default function SuppliersLogin() {
                                 >
                                     <Button
                                         size="small"
-                                        onClick={() => navigate("/forgot-password")}
+                                        onClick={() => navigate("/forgot-password", { state: { role: 'supplier' } })}
                                         sx={{
                                             textTransform: "none",
                                             fontWeight: 600,
