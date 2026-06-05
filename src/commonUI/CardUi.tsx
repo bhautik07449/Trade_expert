@@ -159,7 +159,7 @@ export default function CardUi({
                                     >
                                         <Box
                                             component="img"
-                                            src={getImageUrl(product?.images[0])}
+                                            src={getImageUrl(product?.images?.[0])}
                                             alt={product?.name}
                                             sx={{ width: "100%", height: 220, objectFit: "contain", bgcolor: "#f5f5f5" }}
                                         />

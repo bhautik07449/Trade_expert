@@ -1,8 +1,11 @@
 import {
     Box,
     Divider,
+    Grid,
+    Paper,
     Tab,
-    Tabs
+    Tabs,
+    Typography
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -162,7 +165,48 @@ export default function InvestorRelations() {
 
                 <Divider sx={{ my: 5 }} />
 
-                <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
+                <Grid container spacing={3}>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        {selectedService && (
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: { xs: 2, md: 3 },
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    borderRadius: 3,
+                                    bgcolor: "background.default",
+                                    height: "100%",
+                                }}
+                            >
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        color: "secondary.main",
+                                        fontWeight: 700,
+                                        mb: 2,
+                                    }}
+                                >
+                                    {selectedService?.name} Details
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        color: "text.secondary",
+                                        lineHeight: 1.8,
+                                    }}
+                                    dangerouslySetInnerHTML={{
+                                        __html:
+                                            selectedService?.description ||
+                                            "No description available.",
+                                    }}
+                                />
+                            </Paper>
+                        )}
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
+                    </Grid>
+                </Grid>
             </Box>
         </Box >
     );

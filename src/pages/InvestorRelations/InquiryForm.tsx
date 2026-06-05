@@ -82,18 +82,6 @@ export default function InquiryForm({
 
     return (
         <Box>
-            <Typography
-                variant="h5"
-                sx={{
-                    color: "secondary.main",
-                    fontWeight: 700,
-                    textAlign: "center",
-                    mb: 3,
-                }}
-            >
-                Inquiry Form
-            </Typography>
-
             <Paper
                 elevation={0}
                 sx={{
@@ -106,6 +94,18 @@ export default function InquiryForm({
                     bgcolor: "background.default",
                 }}
             >
+                <Typography
+                    variant="h5"
+                    sx={{
+                        color: "secondary.main",
+                        fontWeight: 700,
+                        textAlign: "center",
+                        mb: 3,
+                    }}
+                >
+                    Inquiry Form
+                </Typography>
+
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6 }}>

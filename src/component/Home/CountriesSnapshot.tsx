@@ -7,20 +7,42 @@ import {
     Stack,
     Typography,
     useTheme,
+    Skeleton
 } from "@mui/material";
 import LabelTitle from "../../commonUI/labelTitle";
 import CountryTab from "../../commonUI/CountryTab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HomePageservice from "../../service/homepages.service";
 
 export default function CountriesSnapshot() {
     const navigate = useNavigate()
     const [activeCountry, setActiveCountry] = useState("India")
+    const [activeCategories, setActiveCategories] = useState([])
+    const [loading, setLoading] = useState(true)
     const theme = useTheme();
 
-    const economicItems = ["18", "20", "115", "35"];
+    const getCategory = async (country: string) => {
+        try {
+            setLoading(true)
+            const res = await HomePageservice.getCategoriesByCountry(country)
 
-    const activeCategories = ["Food", "Food", "Food", "Food", "Food", "Food", "Food", "Food", "Food"];
+            if (res) {
+                setActiveCategories(res?.data || [])
+            }
+        } catch (error: any) {
+            console.log(error?.response?.data?.message)
+            setActiveCategories([])
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getCategory(activeCountry)
+    }, [activeCountry])
+
+    const economicItems = ["18", "20", "115", "35"];
 
     return (
         <Box
@@ -136,22 +158,55 @@ export default function CountriesSnapshot() {
                                     gap: 1.5
                                 }}
                             >
-                                {activeCategories.map((item) => (
-                                    <Box
-                                        key={item}
-                                        sx={{
-                                            height: 38,
-                                            borderRadius: 1,
-                                            border: `1px solid ${theme.palette.divider}`,
-                                            bgcolor: "background.default",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
-                                        {item}
+                                {loading ? (
+                                    Array.from({ length: 9 }).map((_, index) => (
+                                        <Skeleton key={index} variant="rounded" height={38} animation="wave" />
+                                    ))
+                                ) : activeCategories?.length > 0 ? (
+                                    <>
+                                        {activeCategories.slice(0, activeCategories.length > 9 ? 8 : 9).map((item: any, index: number) => (
+                                            <Box
+                                                key={item?.id || index}
+                                                sx={{
+                                                    height: 38,
+                                                    borderRadius: 1,
+                                                    border: `1px solid ${theme.palette.divider}`,
+                                                    bgcolor: "background.default",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    px: 1,
+                                                }}
+                                            >
+                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                                    {item?.name}
+                                                </Typography>
+                                            </Box>
+                                        ))}
+                                        {activeCategories.length > 9 && (
+                                            <Box
+                                                sx={{
+                                                    height: 38,
+                                                    borderRadius: 1,
+                                                    border: `1px solid ${theme.palette.divider}`,
+                                                    bgcolor: "background.default",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    px: 1,
+                                                }}
+                                            >
+                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 600 }}>
+                                                    +{activeCategories.length - 8} more
+                                                </Typography>
+                                            </Box>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Box sx={{ gridColumn: "span 3", textAlign: "center", color: "text.secondary", py: 2 }}>
+                                        <Typography variant="body2">No categories found.</Typography>
                                     </Box>
-                                ))}
+                                )}
                             </Box>
                         </CardContent>
                     </Card>
@@ -181,7 +236,7 @@ export default function CountriesSnapshot() {
                                             borderColor: "primary.main",
                                             color: "primary.dark",
                                         }}
-                                        onClick={() => navigate("/buyer-dashboard")}
+                                        onClick={() => navigate("/trade-offers")}
                                     >
                                         Go to Offer
                                     </Button>
@@ -205,7 +260,7 @@ export default function CountriesSnapshot() {
                                             borderColor: "primary.main",
                                             color: "primary.dark",
                                         }}
-                                        onClick={() => navigate(`/abc?country=${activeCountry}`)}
+                                        onClick={() => navigate("/abc")}
                                     >
                                         Go to ABC
                                     </Button>

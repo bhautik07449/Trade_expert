@@ -50,7 +50,7 @@ type FormValues = {
     subCategory: string
     product: string
     budget: string
-    budgetRange: number
+    budget_range: number
     stages: {
         [stageName: string]: {
             [fieldLabel: string]: string
@@ -101,22 +101,13 @@ export default function MarketDevelopment() {
             subCategory: "",
             product: "",
             budget: "",
-            budgetRange: 40,
+            budget_range: 40,
             stages: {},
         },
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-                const payload = {
-                    country: values.country,
-                    category_id: values.category,
-                    sub_category_id: values.subCategory,
-                    product_id: values.product,
-                    budget: values.budget,
-                    budget_range: values.budgetRange,
-                    stages: values.stages,
-                }
 
-                const response = await MarketDevelopmentService.addMarketDevelopment(payload)
+                const response = await MarketDevelopmentService.addMarketDevelopment(values)
 
                 if (response) {
                     resetForm()
@@ -647,15 +638,15 @@ export default function MarketDevelopment() {
 
                                 <Grid size={{ xs: 12, md: 4 }}>
                                     <Slider
-                                        name="budgetRange"
-                                        value={formik.values.budgetRange}
+                                        name="budget_range"
+                                        value={formik.values.budget_range}
                                         valueLabelDisplay="auto"
                                         step={10}
                                         marks
                                         min={0}
                                         max={100}
                                         onChange={(_, value) => {
-                                            formik.setFieldValue("budgetRange", value)
+                                            formik.setFieldValue("budget_range", value)
                                         }}
                                         sx={{
                                             color: "#F4A62A",

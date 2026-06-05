@@ -153,11 +153,20 @@ const inquiryIR = async (value: any) => {
     }
 }
 
+const getUpcomingCollaboration = async () => {
+    try {
+        const response = serverCall.get('/upcoming_collaboration')
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const HomePageservice = {
     getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
     getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
     getCategoriesByCountry, getProductsByCategory, getContentOverViewByCategory, getMembership, getAffiliation,
-    getProduct, getServices, inquiryIR
+    getProduct, getServices, inquiryIR, getUpcomingCollaboration
 };
 
 export default HomePageservice;
