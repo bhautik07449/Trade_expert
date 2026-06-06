@@ -1,6 +1,5 @@
-import React, { useLayoutEffect, Suspense } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import PulicPrivateAuthLogin from '../pages/PulicPrivateAuth/PulicPrivateAuthLogin';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -33,6 +32,7 @@ const NewsAndEvents = React.lazy(() => import('../pages/NewsAndEvents/NewsAndEve
 const InvestorRelations = React.lazy(() => import('../pages/InvestorRelations/InvestorRelations'));
 const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
 const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister'))
+const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth/PulicPrivateAuthLogin'))
 
 type Props = {
   children: JSX.Element;

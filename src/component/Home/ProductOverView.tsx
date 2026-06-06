@@ -1,7 +1,7 @@
 import { Box, Tabs, Tab } from "@mui/material"
 import CardUi from "../../commonUI/CardUi"
 import Title from "../../commonUI/labelTitle"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useCallback } from "react"
 import HomePageservice from "../../service/homepages.service"
 import CMSservice from "../../service/cms.service"
 
@@ -55,7 +55,7 @@ export default function ProductOverView({ category }: any) {
         }
     }, [category])
 
-    const fetchProducts = async (season: string, subCategory: string, setProducts: any, setLoading: any, setShowSection: any) => {
+    const fetchProducts = useCallback(async (season: string, subCategory: string, setProducts: any, setLoading: any, setShowSection: any) => {
         setLoading(true)
         try {
             const res = await HomePageservice.getProductsByCategory(category, season, subCategory)
@@ -69,25 +69,25 @@ export default function ProductOverView({ category }: any) {
         } finally {
             setLoading(false)
         }
-    }
+    }, [category])
 
     useEffect(() => {
         if (category) {
             fetchProducts('All', activeAllSubcategory, setAllProducts, setAllLoading, setShowAllSection)
         }
-    }, [category, activeAllSubcategory])
+    }, [category, activeAllSubcategory, fetchProducts])
 
     useEffect(() => {
         if (category) {
             fetchProducts('Current', activeCurrentSubcategory, setCurrentProducts, setCurrentLoading, setShowCurrentSection)
         }
-    }, [category, activeCurrentSubcategory])
+    }, [category, activeCurrentSubcategory, fetchProducts])
 
     useEffect(() => {
         if (category) {
             fetchProducts('Upcoming', activeUpcomingSubcategory, setUpcomingProducts, setUpcomingLoading, setShowUpcomingSection)
         }
-    }, [category, activeUpcomingSubcategory])
+    }, [category, activeUpcomingSubcategory, fetchProducts])
 
     const renderSubcategoryTabs = (value: string, onChange: (val: string) => void) => {
         if (!subcategories || subcategories.length === 0) return null;
