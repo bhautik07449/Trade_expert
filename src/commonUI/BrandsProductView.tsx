@@ -295,155 +295,183 @@ export default function BrandsProductView({ products, visiblecard = 4, }: { prod
                     </IconButton>
 
                     <Divider />
-
-                    <Box sx={{ p: { xs: 2.5, sm: 4 } }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: 700,
-                                color: "secondary.main",
-                                mb: 2,
-                                textAlign: "center",
-                                pr: 4,
-                            }}
-                        >
-                            {selectedProduct?.offer_type?.name}
-                        </Typography>
-
-                        {selectedProduct?.offer_type?.description && (
+                    <Box sx={{ p: { xs: 2.5, sm: 4 }, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
+                        {/* Left Side: Offer Details */}
+                        <Box sx={{ 
+                            flex: 1, 
+                            bgcolor: "background.paper", 
+                            p: 3, 
+                            borderRadius: 3,
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.03)"
+                        }}>
                             <Typography
-                                variant="subtitle1"
+                                variant="h5"
                                 sx={{
-                                    color: "text.secondary",
-                                    mb: 2,
-                                    textAlign: "center",
-                                    pr: 4,
+                                    fontWeight: 800,
+                                    color: "secondary.main",
+                                    mb: 1.5,
                                 }}
                             >
-                                {selectedProduct.offer_type.description}
+                                {selectedProduct?.offer_type?.name}
                             </Typography>
-                        )}
 
-                        {selectedProduct?.offer_type?.items && selectedProduct.offer_type.items.length > 0 && (
-                            <CardUi products={selectedProduct.offer_type.items.map((item) => item.product).filter(Boolean)} visiblecard={2} />
-                        )}
+                            {selectedProduct?.offer_type?.description && (
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        color: "text.secondary",
+                                        mb: 3,
+                                        lineHeight: 1.6
+                                    }}
+                                >
+                                    {selectedProduct.offer_type.description}
+                                </Typography>
+                            )}
 
-                        <Box
-                            component="form"
-                            onSubmit={formik.handleSubmit}
-                            sx={{
-                                display: "grid",
-                                gridTemplateColumns: {
-                                    xs: "1fr",
-                                    sm: "1fr 1fr",
-                                },
-                                gap: 2,
-                            }}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Name"
-                                size="small"
-                                name="name"
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.name && Boolean(formik.errors.name)}
-                                helperText={formik.touched.name && formik.errors.name}
-                            />
+                            {selectedProduct?.offer_type?.items && selectedProduct.offer_type.items.length > 0 && (
+                                <Box sx={{ mt: 2 }}>
+                                    <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2, color: "text.primary" }}>
+                                        Included Products:
+                                    </Typography>
+                                    <CardUi 
+                                        products={selectedProduct.offer_type.items
+                                            .map((item: any) => item.product || item)
+                                            .filter((p: any) => p && p.name)} 
+                                        visiblecard={1} 
+                                    />
+                                </Box>
+                            )}
+                        </Box>
 
-                            <TextField
-                                fullWidth
-                                label="Email"
-                                size="small"
-                                type="email"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
-                            />
-
-                            <TextField
-                                fullWidth
-                                label="Phone"
-                                size="small"
-                                name="phone"
-                                value={formik.values.phone}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.phone && Boolean(formik.errors.phone)}
-                                helperText={formik.touched.phone && formik.errors.phone}
-                            />
-
-                            <TextField
-                                fullWidth
-                                label="Message"
-                                size="small"
-                                multiline
-                                minRows={4}
-                                sx={{
-                                    gridColumn: {
-                                        xs: "auto",
-                                        sm: "1 / -1",
-                                    },
-                                }}
-                                name="message"
-                                value={formik.values.message}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.message && Boolean(formik.errors.message)}
-                                helperText={formik.touched.message && formik.errors.message}
-                            />
-
+                        {/* Right Side: Form */}
+                        <Box sx={{ flex: 1 }}>
+                            <Typography variant="h6" fontWeight={700} mb={3} color="primary.main">
+                                Submit Request
+                            </Typography>
                             <Box
+                                component="form"
+                                onSubmit={formik.handleSubmit}
                                 sx={{
-                                    gridColumn: {
-                                        xs: "auto",
-                                        sm: "1 / -1",
+                                    display: "grid",
+                                    gridTemplateColumns: {
+                                        xs: "1fr",
+                                        sm: "1fr 1fr",
                                     },
-                                    textAlign: "center",
-                                    mt: 1,
-                                    display: "flex",
-                                    justifyContent: "center",
                                     gap: 2,
-                                    flexWrap: "wrap",
                                 }}
                             >
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    size="large"
-                                    onClick={() => setSelectedProduct(null)}
-                                    sx={{
-                                        px: 5,
-                                        borderRadius: 2,
-                                        textTransform: "none",
-                                        fontWeight: 700,
-                                    }}
-                                >
-                                    Cancel
-                                </Button>
+                                <TextField
+                                    fullWidth
+                                    label="Name"
+                                    size="small"
+                                    name="name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                />
 
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    disabled={formik.isSubmitting}
-                                    startIcon={
-                                        formik.isSubmitting ? (
-                                            <CircularProgress size={20} color="inherit" />
-                                        ) : null
-                                    }
+                                <TextField
+                                    fullWidth
+                                    label="Email"
+                                    size="small"
+                                    type="email"
+                                    name="email"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    label="Phone"
+                                    size="small"
+                                    name="phone"
+                                    value={formik.values.phone}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                    helperText={formik.touched.phone && formik.errors.phone}
                                     sx={{
-                                        px: 5,
-                                        borderRadius: 2,
-                                        textTransform: "none",
-                                        fontWeight: 700,
+                                        gridColumn: {
+                                            xs: "auto",
+                                            sm: "1 / -1",
+                                        },
+                                    }}
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    label="Message"
+                                    size="small"
+                                    multiline
+                                    minRows={4}
+                                    sx={{
+                                        gridColumn: {
+                                            xs: "auto",
+                                            sm: "1 / -1",
+                                        },
+                                    }}
+                                    name="message"
+                                    value={formik.values.message}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.message && Boolean(formik.errors.message)}
+                                    helperText={formik.touched.message && formik.errors.message}
+                                />
+
+                                <Box
+                                    sx={{
+                                        gridColumn: {
+                                            xs: "auto",
+                                            sm: "1 / -1",
+                                        },
+                                        mt: 2,
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                        gap: 2,
+                                        flexWrap: "wrap",
                                     }}
                                 >
-                                    {formik.isSubmitting ? "Send in..." : "Submit"}
-                                </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        size="large"
+                                        onClick={() => setSelectedProduct(null)}
+                                        sx={{
+                                            px: 4,
+                                            borderRadius: 2,
+                                            textTransform: "none",
+                                            fontWeight: 700,
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        disabled={formik.isSubmitting}
+                                        startIcon={
+                                            formik.isSubmitting ? (
+                                                <CircularProgress size={20} color="inherit" />
+                                            ) : null
+                                        }
+                                        sx={{
+                                            px: 4,
+                                            borderRadius: 2,
+                                            textTransform: "none",
+                                            fontWeight: 700,
+                                        }}
+                                    >
+                                        {formik.isSubmitting ? "Sending..." : "Submit"}
+                                    </Button>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
