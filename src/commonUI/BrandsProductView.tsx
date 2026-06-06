@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import CMSservice from "../service/cms.service";
 import { useFormik } from "formik"
 import { toast } from "react-toastify";
+import CardUi from "./CardUi";
 
 type Product = {
     id: number
@@ -30,6 +31,8 @@ type Product = {
     offer_type?: {
         id: number
         name: string
+        description?: string
+        items?: any[]
     };
 }
 
@@ -306,6 +309,24 @@ export default function BrandsProductView({ products, visiblecard = 4, }: { prod
                         >
                             {selectedProduct?.offer_type?.name}
                         </Typography>
+
+                        {selectedProduct?.offer_type?.description && (
+                            <Typography
+                                variant="subtitle1"
+                                sx={{
+                                    color: "text.secondary",
+                                    mb: 2,
+                                    textAlign: "center",
+                                    pr: 4,
+                                }}
+                            >
+                                {selectedProduct.offer_type.description}
+                            </Typography>
+                        )}
+
+                        {selectedProduct?.offer_type?.items && selectedProduct.offer_type.items.length > 0 && (
+                            <CardUi products={selectedProduct.offer_type.items.map((item) => item.product).filter(Boolean)} visiblecard={2} />
+                        )}
 
                         <Box
                             component="form"

@@ -19,8 +19,11 @@ import { toast } from "react-toastify"
 import CMSservice from "../../service/cms.service"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import PageMainLayout from "../../commonUI/PageMainLayout"
+import { useNavigate } from "react-router-dom"
 
 export default function Career() {
+    const navigate = useNavigate()
+
     const [activeCountry, setActiveCountry] = useState("")
     const [showPassword, setShowPassword] = useState(false)
 
@@ -75,7 +78,7 @@ export default function Career() {
                 sx={{
                     maxWidth: "1400px",
                     mx: "auto",
-                    px: { xs: 2, sm: 3 }, 
+                    px: { xs: 2, sm: 3 },
                     position: "relative",
                     zIndex: 2,
                 }}
@@ -603,6 +606,31 @@ export default function Career() {
                                 </Box>
                             </Grid>
                         </Grid>
+
+                        <Divider sx={{ my: 3 }} />
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                flexWrap: "wrap",
+                                gap: 1,
+                                textAlign: "center",
+                            }}
+                        >
+                            <Typography variant="body2" color="text.secondary">
+                                Already have an account?
+                            </Typography>
+
+                            <Button
+                                size="small"
+                                onClick={() => navigate('/public_private_login')}
+                                sx={{ textTransform: "none", fontWeight: 600 }}
+                            >
+                                Sign in
+                            </Button>
+                        </Box>
                     </form>
                 </Paper>
             </Box>

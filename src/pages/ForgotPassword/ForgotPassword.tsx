@@ -18,6 +18,7 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import Buyerservice from "../../service/buyes.service"
 import Supplierservice from "../../service/supplier.service"
+import CMSservice from "../../service/cms.service"
 import { toast } from "react-toastify"
 
 export default function ForgotPassword() {
@@ -48,6 +49,8 @@ export default function ForgotPassword() {
         let res
         if (role === "supplier") {
           res = await Supplierservice.forgotPassword(values)
+        } else if (role === "career") {
+          res = await CMSservice.forgotPassword(values)
         } else {
           res = await Buyerservice.forgotPassword(values)
         }
@@ -55,7 +58,13 @@ export default function ForgotPassword() {
         if (res) {
           toast.success(res?.data?.message || "Password has been successfully reset")
           resetForm()
-          navigate(role === "supplier" ? "/suppliers/login" : "/login")
+          if (role === "supplier") {
+            navigate("/suppliers/login")
+          } else if (role === "career") {
+            navigate("/public_private_login")
+          } else {
+            navigate("/login")
+          }
         }
       } catch (error: any) {
         toast.error(error?.response?.data?.message || "Failed to reset password")
@@ -99,7 +108,7 @@ export default function ForgotPassword() {
             textAlign: "center"
           }}
         >
-          {role === "supplier" ? "Supplier Portal" : "Buyer Portal"}
+          {role === "supplier" ? "Supplier Portal" : role === "career" ? "Public / Private Personnel" : "Buyer Portal"}
         </Typography>
 
         <Typography
@@ -215,7 +224,7 @@ export default function ForgotPassword() {
 
           <Box sx={{ mt: 3, textAlign: "center" }}>
             <Button
-              onClick={() => navigate(role === "supplier" ? "/suppliers/login" : "/login")}
+              onClick={() => navigate(role === "supplier" ? "/suppliers/login" : role === "career" ? "/public_private_login" : "/login")}
               sx={{ textTransform: "none", fontWeight: 600 }}
             >
               Back to Login

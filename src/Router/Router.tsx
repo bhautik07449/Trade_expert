@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import PulicPrivateAuthLogin from '../pages/PulicPrivateAuth/PulicPrivateAuthLogin';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -31,7 +32,7 @@ const MarketDevelopment = React.lazy(() => import('../pages/MarketDevelopment/Ma
 const NewsAndEvents = React.lazy(() => import('../pages/NewsAndEvents/NewsAndEvents'));
 const InvestorRelations = React.lazy(() => import('../pages/InvestorRelations/InvestorRelations'));
 const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
-const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister')) 
+const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister'))
 
 type Props = {
   children: JSX.Element;
@@ -78,65 +79,94 @@ export default function Router(): JSX.Element {
     return children;
   }
 
+  function PPPrivateRoute({ children }: Props) {
+    const buyer = localStorage.getItem('public_private');
+    if (buyer !== 'true') {
+      return <Navigate to="/public_private_login" replace />;
+    }
+    return children;
+  }
+
+  function PPPublicRoute({ children }: Props) {
+    const buyer = localStorage.getItem('public_private');
+    if (buyer === 'true') {
+      return <Navigate to="/public_dashboard" replace />;
+    }
+    return children;
+  }
+
   return (
-    <Suspense fallback={<div className="loading">Loading…</div>}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/:country" element={<CountryPage />} />
-        <Route path="/category/:category" element={<CategoryPage />} />
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginForm />
-            </PublicRoute>
-          }
-        />
-        <Route path="/sign-up" element={<SignupForm />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/about_us" element={<AboutUs />} />
-        <Route path="/product-list/:slug" element={<ProductList />} />
-        <Route path="/product-details/:id" element={<ProductPage />} />
-        <Route path="/pages/quality_policies" element={<QualityPolicies />} />
-        <Route path="/pages/brands" element={<Brand />} />
-        <Route path="/how-to-pay" element={<HowToPay />} />
-        <Route path="/get-in-touch" element={<GetInTouch />} />
-        <Route path="/pages/:slug" element={<Resource />} />
-        <Route path="/pages/gallery" element={<Gallery />} />
-        <Route path="/pages/csr" element={<CSR />} />
-        <Route path="/pages/career" element={<Career />} />
-        <Route path="/pages/faq" element={<Faq />} />
-        <Route path="/suppliers/register" element={<SuppliersRegister />} />
-        <Route path="/suppliers/login" element={
-          <SupplierPublicRoute>
-            <SuppliersLogin />
-          </SupplierPublicRoute>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/:country" element={<CountryPage />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <LoginForm />
+          </PublicRoute>
         }
-        />
-        <Route
-          path="/buyer-dashboard"
-          element={
-            <PrivateRoute>
-              <BuyerDashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/public_dashboard" element={
+      />
+      <Route path="/sign-up" element={<SignupForm />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/about_us" element={<AboutUs />} />
+      <Route path="/product-list/:slug" element={<ProductList />} />
+      <Route path="/product-details/:id" element={<ProductPage />} />
+      <Route path="/pages/quality_policies" element={<QualityPolicies />} />
+      <Route path="/pages/brands" element={<Brand />} />
+      <Route path="/how-to-pay" element={<HowToPay />} />
+      <Route path="/get-in-touch" element={<GetInTouch />} />
+      <Route path="/pages/:slug" element={<Resource />} />
+      <Route path="/pages/gallery" element={<Gallery />} />
+      <Route path="/pages/csr" element={<CSR />} />
+      <Route path="/pages/career" element={<Career />} />
+      <Route
+        path="/public_private_login"
+        element={
+          <PPPublicRoute>
+            <PulicPrivateAuthLogin />
+          </PPPublicRoute>
+        }
+      />
+      <Route path="/pages/faq" element={<Faq />} />
+      <Route path="/suppliers/register" element={<SuppliersRegister />} />
+      <Route path="/suppliers/login" element={
+        <SupplierPublicRoute>
+          <SuppliersLogin />
+        </SupplierPublicRoute>
+      }
+      />
+      <Route
+        path="/buyer-dashboard"
+        element={
+          <PrivateRoute>
+            <BuyerDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/public_dashboard" element={
+        <PPPrivateRoute>
+          <PublicDashboard />
+        </PPPrivateRoute>
+      }
+      />
+      <Route
+        path="/supplier_dashboard"
+        element={
           <SupplierPrivateRoute>
             <PublicDashboard />
           </SupplierPrivateRoute>
         }
-        />
-        <Route path="/supplier_dashboard" element={<PublicDashboard />} />
-        <Route path="/credit-account" element={<CreditAccount />} />
-        <Route path="/trade-offers" element={<Tradeoffer />} />
-        <Route path="/abc" element={<Abc />} />
-        <Route path="/market-development" element={<MarketDevelopment />} />
-        <Route path="/news_and_events" element={<NewsAndEvents />} />
-        <Route path="/investor_relations" element={<InvestorRelations />} />
-        <Route path="/personnel/register" element={<PersonnelRegister />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </Suspense>
+      />
+      <Route path="/credit-account" element={<CreditAccount />} />
+      <Route path="/trade-offers" element={<Tradeoffer />} />
+      <Route path="/abc" element={<Abc />} />
+      <Route path="/market-development" element={<MarketDevelopment />} />
+      <Route path="/news_and_events" element={<NewsAndEvents />} />
+      <Route path="/investor_relations" element={<InvestorRelations />} />
+      <Route path="/personnel/register" element={<PersonnelRegister />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 }

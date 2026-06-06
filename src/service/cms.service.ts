@@ -190,10 +190,28 @@ const getProject = async (country?: string, category?: string) => {
     }
 }
 
+const PublicPrivateLogin = async (body) => {
+    try {
+        const response = await serverCall.post('/career/login', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const forgotPassword = async (body) => {
+    try {
+        const response = await serverCall.post('/career/forgot-password', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach, getCategoryById, addOfferRequest, getProject
+    getDeliveryReach, getCategoryById, addOfferRequest, getProject, PublicPrivateLogin, forgotPassword
 };
 
 export default CMSservice;

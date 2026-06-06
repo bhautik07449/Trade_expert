@@ -90,9 +90,13 @@ const getCategoriesByCountry = async (country: string) => {
     }
 }
 
-const getProductsByCategory = async (category: string, season: string) => {
+const getProductsByCategory = async (category: string, season: string, subCategory?: string) => {
     try {
-        const response = serverCall.get(`/products?category=${category}&season=${season}`)
+        let url = `/products?category=${category}&season=${season}`;
+        if (subCategory && subCategory !== 'All') {
+             url += `&subcategory=${subCategory}`;
+        }
+        const response = serverCall.get(url)
         return response
     } catch (error) {
         throw error
