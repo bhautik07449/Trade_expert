@@ -258,11 +258,60 @@ export default function Header() {
             <HideOnScroll>
                 <AppBar position="sticky" sx={{ bgcolor: "secondary.main", color: "white" }}>
                     <Toolbar
+                        variant="dense"
                         sx={{
                             display: { xs: "none", sm: "flex" },
                             justifyContent: "space-between",
+                            minHeight: "40px",
                         }}
                     >
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: "14px",
+                            }}
+                        >
+                            Welcome to Sourceseas - Best Exporter
+                        </Typography>
+
+                        <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 4, alignItems: "center" }}>
+                            <Typography
+                                sx={{
+                                    fontSize: "14px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <LocalPhoneIcon sx={{ fontSize: 18, mr: 0.5 }} />
+                                +91 87653 37336
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "14px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <AccessTimeIcon sx={{ fontSize: 18, mr: 0.5 }} />
+                                Mon-Fri: 9:00am - 8:00pm
+                            </Typography>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+            </HideOnScroll>
+
+            <Box sx={{ position: "sticky", top: 0, zIndex: 1100, width: "100%", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
+                <AppBar
+                    position="static"
+                    sx={{
+                        bgcolor: "white",
+                        color: "black",
+                        borderBottom: "1px solid #ddd",
+                    }}
+                >
+                    <Toolbar sx={{ display: "flex", justifyContent: "space-between", py: 1 }}>
                         <Link
                             component={RouterLink}
                             to="/"
@@ -279,66 +328,14 @@ export default function Header() {
                             />
                         </Link>
 
-                        <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 4, alignItems: "center" }}>
-                            <Typography
-                                sx={{
-                                    fontSize: "14px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <LocalPhoneIcon sx={{ fontSize: 20, mr: 0.5 }} />
-                                +91 87653 37336
-                            </Typography>
-
-                            <Typography
-                                sx={{
-                                    fontSize: "14px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <AccessTimeIcon sx={{ fontSize: 20, mr: 0.5 }} />
-                                Mon-Fri: 9:00am - 8:00pm
-                            </Typography>
-                        </Box>
-                    </Toolbar>
-                </AppBar>
-            </HideOnScroll>
-
-            <Box sx={{ position: "sticky", top: 0, zIndex: 1100, width: "100%" }}>
-                <AppBar
-                    position="static"
-                    sx={{
-                        bgcolor: "white",
-                        color: "black",
-                        borderBottom: "1px solid #ddd",
-                    }}
-                >
-                    <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: 600,
-                                fontSize: {
-                                    xs: "14px",
-                                    sm: "18px",
-                                    md: "20px",
-                                    lg: "22px",
-                                },
-                            }}
-                        >
-                            Welcome to Sourceseas - Best Exporter
-                        </Typography>
-
                         <Box
                             sx={{
-                                display: { xs: "none", sm: "flex" },
+                                display: { xs: "none", md: "flex" },
                                 alignItems: "center",
                                 gap: 2,
                             }}
                         >
-                            <FormControl size="small" sx={{ minWidth: { xs: 90, sm: 120 } }}>
+                            <FormControl size="small" sx={{ minWidth: 120 }}>
                                 <Select
                                     value={selectedCountry || ""}
                                     onChange={(e) => {
@@ -353,9 +350,9 @@ export default function Header() {
                                     }}
                                     displayEmpty
                                     sx={{
-                                        height: { xs: 30, sm: 36 },
+                                        height: 36,
                                         bgcolor: "white",
-                                        fontSize: { xs: "12px", sm: "14px" },
+                                        fontSize: "14px",
                                         fontWeight: 500
                                     }}
                                 >
@@ -414,6 +411,8 @@ export default function Header() {
                                             display: "flex",
                                             alignItems: "center",
                                             gap: 0.5,
+                                            fontSize: "14px",
+                                            fontWeight: 500
                                         }}
                                         onClick={() => navigate("/buyer-dashboard")}
                                     >
@@ -427,6 +426,8 @@ export default function Header() {
                                             display: "flex",
                                             alignItems: "center",
                                             gap: 0.5,
+                                            fontSize: "14px",
+                                            fontWeight: 500
                                         }}
                                         onClick={handleLogout}
                                     >
@@ -447,12 +448,43 @@ export default function Header() {
                             </Button>
                         </Box>
 
-                        <IconButton
-                            onClick={toggleDrawer(true)}
-                            sx={{ display: { xs: "flex", md: "none" }, p: { xs: 0.5, sm: 1 } }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
+                        <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center", gap: 1 }}>
+                            <FormControl size="small" sx={{ minWidth: 90 }}>
+                                <Select
+                                    value={selectedCountry || ""}
+                                    onChange={(e) => {
+                                        const newCountry = e.target.value as string;
+                                        dispatch(setSelectedCountry(newCountry));
+                                        const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
+                                        if (location.pathname === `/country/${oldCountryEncoded}` || location.pathname === `/country/${selectedCountry}`) {
+                                            navigate(`/country/${encodeURIComponent(newCountry)}`);
+                                        } else if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
+                                            navigate(`/${encodeURIComponent(newCountry)}`);
+                                        }
+                                    }}
+                                    displayEmpty
+                                    sx={{
+                                        height: 30,
+                                        bgcolor: "white",
+                                        fontSize: "12px",
+                                        fontWeight: 500
+                                    }}
+                                >
+                                    {countries.map((c) => (
+                                        <MenuItem key={c} value={c}>
+                                            {c}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+                            <IconButton
+                                onClick={toggleDrawer(true)}
+                                sx={{ p: 0.5 }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Box>
                     </Toolbar>
                 </AppBar>
 
