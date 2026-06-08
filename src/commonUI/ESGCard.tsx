@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { getImageUrl } from "../utils/imageUtils";
+import NoDataFound from "./NoDataFound";
 
 type Product = {
     id: number
@@ -100,28 +101,7 @@ export default function ESGCard({ products, visiblecard = 4, isLoading = false }
     }
 
     if (!products || products.length === 0) {
-        return (
-            <Box
-                sx={{
-                    width: "100%",
-                    maxWidth: "1400px",
-                    mx: "auto",
-                    boxSizing: "border-box",
-                    mt: 4,
-                    py: 8,
-                    textAlign: "center",
-                    bgcolor: "background.paper",
-                    borderRadius: 3,
-                    boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-                    border: "1px solid",
-                    borderColor: "divider",
-                }}
-            >
-                <Typography variant="h6" color="text.secondary">
-                    No data available for this country/category.
-                </Typography>
-            </Box>
-        );
+        return <NoDataFound message="No data available for this country/category." />;
     }
 
     const handleNext = () => {

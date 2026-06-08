@@ -1,4 +1,5 @@
 import { Box, Chip, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Skeleton, Typography } from "@mui/material";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 type Category = {
     id: number;
@@ -204,17 +205,15 @@ export default function ProductSelection({
                                 </Box>
                             ))
                         ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    textAlign: "center",
-                                    p: 3,
-                                }}
-                            >
-                                {activeCountry
-                                    ? "No products found."
-                                    : "Select a country to view products."}
-                            </Typography>
+                            <Box sx={{ py: 3 }}>
+                                <NoDataFound
+                                    message={
+                                        activeCountry
+                                            ? "No products found."
+                                            : "Select a country to view products."
+                                    }
+                                />
+                            </Box>
                         )}
                     </Paper>
                 </Grid>
@@ -301,15 +300,9 @@ export default function ProductSelection({
                                 </Grid>
                             </Grid>
                         ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    textAlign: "center",
-                                    py: 8,
-                                }}
-                            >
-                                Select a product to view details.
-                            </Typography>
+                            <Box sx={{ py: 8 }}>
+                                <NoDataFound message="Select a product to view details." />
+                            </Box>
                         )}
                     </Paper>
                 </Grid>

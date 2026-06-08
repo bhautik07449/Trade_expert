@@ -2,6 +2,7 @@ import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
 import HomePageservice from "../../service/homepages.service";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function FinancialService({ activeCountry, selectedService, setSelectedService }: any) {
     const [services, setServices] = useState<any[]>([]);
@@ -106,17 +107,15 @@ export default function FinancialService({ activeCountry, selectedService, setSe
                     ))
                 ) : (
                     <Grid size={{ xs: 12 }}>
-                        <Typography
-                            sx={{
-                                textAlign: "center",
-                                color: "text.secondary",
-                                py: 2,
-                            }}
-                        >
-                            {activeCountry
-                                ? "No services found."
-                                : "Please select a country to view services."}
-                        </Typography>
+                        <Box sx={{ py: 2 }}>
+                            <NoDataFound
+                                message={
+                                    activeCountry
+                                        ? "No services found."
+                                        : "Please select a country to view services."
+                                }
+                            />
+                        </Box>
                     </Grid>
                 )}
             </Grid>

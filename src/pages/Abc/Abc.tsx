@@ -5,6 +5,7 @@ import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import AbcProductView from "../../commonUI/AbcProductView";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Abc() {
     const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
@@ -149,34 +150,15 @@ export default function Abc() {
                                     ))}
                                 </Tabs>
 
-                                {selectedItem?.product_data?.length > 0 ? (
-                                    <AbcProductView
-                                        products={selectedItem.product_data}
-                                    />
-                                ) : (
-                                    <Box
-                                        sx={{
-                                            textAlign: "center",
-                                            py: 5,
-                                            bgcolor: "background.paper",
-                                            borderRadius: 3,
-                                            border: "1px dashed",
-                                            borderColor: "divider",
-                                        }}
-                                    >
-                                        <Typography variant="h6" color="text.secondary">
-                                            No products found in this category
-                                        </Typography>
-                                    </Box>
-                                )}
+                                <AbcProductView
+                                    products={selectedItem?.product_data || []}
+                                />
                             </Box>
                         );
                     })
                 ) : (
-                    <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
-                        <Typography variant="h6" color="textSecondary">
-                            No Abc data Found
-                        </Typography>
+                    <Grid size={{ xs: 12 }}>
+                        <NoDataFound message="No Abc data Found" />
                     </Grid>
                 )}
             </Box>

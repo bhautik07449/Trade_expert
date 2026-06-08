@@ -16,6 +16,7 @@ import {
 import LabelTitle from "./labelTitle"
 import HomePageservice from "../service/homepages.service"
 import CMSservice from "../service/cms.service"
+import NoDataFound from "./NoDataFound"
 
 type ColumnType = {
     key: string
@@ -318,15 +319,11 @@ export default function SpotMarketTable({ category }: any) {
                     dataColumns?.length === 0 ? (
                         <Box
                             sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
+                                width: "100%",
                                 py: 6,
                             }}
                         >
-                            <Typography variant="body1" color="text.secondary">
-                                No spot market data is available for this category.
-                            </Typography>
+                            <NoDataFound message="No spot market data is available for this category." />
                         </Box>
                     ) : (
                         <TableContainer

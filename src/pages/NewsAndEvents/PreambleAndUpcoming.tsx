@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import LabelTitle from "../../commonUI/labelTitle";
 import HomePageservice from "../../service/homepages.service";
 import NewsandeventService from "../../service/newsandevent.service";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 type Category = {
     id: string;
@@ -274,15 +275,7 @@ export default function PreambleAndUpcoming({ country }: { country: string }) {
             </Grid>
 
             {!preambleLoading && activeCategory && filteredPreamble.length === 0 && (
-                <Typography
-                    sx={{
-                        textAlign: "center",
-                        color: "text.secondary",
-                        mt: 3,
-                    }}
-                >
-                    No policy updates found for this category.
-                </Typography>
+                <NoDataFound message="No policy updates found for this category." />
             )}
         </Box>
     );

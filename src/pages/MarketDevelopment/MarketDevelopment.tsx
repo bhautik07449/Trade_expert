@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCategories } from "../../store/slice/categoriesSlice"
 import { useFormik } from "formik"
 import { toast } from "react-toastify"
+import NoDataFound from "../../commonUI/NoDataFound"
 
 type ProcessStep = {
     label?: string
@@ -605,9 +606,9 @@ export default function MarketDevelopment() {
                                         ) : null
                                     })
                                 ) : (
-                                    <Typography sx={{ textAlign: "center", color: "text.secondary" }}>
-                                        No fields found for this stage.
-                                    </Typography>
+                                    <Box sx={{ width: "100%", py: 3 }}>
+                                        <NoDataFound message="No fields found for this stage." />
+                                    </Box>
                                 )}
                             </Stack>
                         </Paper>

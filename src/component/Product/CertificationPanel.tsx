@@ -13,6 +13,7 @@ import {
   TableCell,
 } from "@mui/material";
 import { getImageUrl } from "../../utils/imageUtils";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function CertificationPanel({ product }: any) {
   const [tab, setTab] = React.useState(0);
@@ -117,9 +118,9 @@ export default function CertificationPanel({ product }: any) {
                 }}
               />
             ) : (
-              <Typography variant="body2" color="text.secondary">
-                No certification available.
-              </Typography>
+              <Box sx={{ py: 4 }}>
+                <NoDataFound message="No certification available." />
+              </Box>
             )}
           </Box>
         )}
@@ -139,9 +140,9 @@ export default function CertificationPanel({ product }: any) {
                 }}
               />
             ) : (
-              <Typography variant="body2" color="text.secondary">
-                {product?.seasonalChart || "No seasonal chart available."}
-              </Typography>
+              <Box sx={{ py: 4 }}>
+                <NoDataFound message={product?.seasonalChart || "No seasonal chart available."} />
+              </Box>
             )}
           </Box>
         )}
@@ -221,9 +222,7 @@ export default function CertificationPanel({ product }: any) {
                   textAlign: "center",
                 }}
               >
-                <Typography variant="body2" color="text.secondary">
-                  No specification available.
-                </Typography>
+                <NoDataFound message="No specification available." />
               </Box>
             )}
           </Box>

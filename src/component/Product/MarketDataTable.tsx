@@ -15,6 +15,7 @@ import {
     Tooltip,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 interface MarketDetail {
     id: number;
@@ -41,7 +42,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
     const theme = useTheme();
     const [isExpanded, setIsExpanded] = useState(false);
 
-    if (!dmrs || dmrs.length === 0) return null;
+    if (!dmrs || dmrs.length === 0) return <NoDataFound message="No Market Data Available" />;
 
     // Flatten all market details into a single array
     const allMarketData = dmrs.flatMap((dmr) =>
@@ -51,7 +52,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
         }))
     );
 
-    if (allMarketData.length === 0) return null;
+    if (allMarketData.length === 0) return <NoDataFound message="No Market Data Available" />;
 
     const displayedData = isExpanded ? allMarketData : allMarketData.slice(0, 1);
 

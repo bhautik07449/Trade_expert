@@ -12,6 +12,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp"
 import PublicIcon from "@mui/icons-material/Public"
 import BarChartIcon from "@mui/icons-material/BarChart"
 import InsightsIcon from "@mui/icons-material/Insights"
+import NoDataFound from "../../commonUI/NoDataFound"
 
 export default function Analytical({
     analyticsData,
@@ -339,18 +340,8 @@ export default function Analytical({
                             boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
                         }}
                     >
-                        <BarChartIcon
-                            sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
-                        >
-                            No analytical data available
-                        </Typography>
-
-                        <Typography variant="body2" color="text.secondary">
+                        <NoDataFound message="No analytical data available" />
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                             Statistics and insights for this country will appear here once available.
                         </Typography>
                     </Paper>

@@ -13,6 +13,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom"
 import Title from "./labelTitle"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import { getImageUrl } from "../utils/imageUtils"
+import NoDataFound from "./NoDataFound"
 
 type Product = {
     id: number
@@ -139,6 +140,10 @@ export default function CardUi({
                                 </Card>
                             </Box>
                         ))
+                    ) : products?.length === 0 ? (
+                        <Box sx={{ width: "100%", py: 4 }}>
+                            <NoDataFound message={`No products found`} />
+                        </Box>
                     ) : (
                         products?.map((product) => (
                             <Box

@@ -5,6 +5,7 @@ import SwipeableViews from "react-swipeable-views";
 import Homeservice from "../../service/home.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import serverCall from "../../serverCall";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 interface Client {
     id: number
@@ -108,7 +109,7 @@ export default function AboutTestimonial() {
                                 <Skeleton key={i} variant="text" height={20} sx={{ mb: 1 }} />
                             ))}
                         </>
-                    ) : (
+                    ) : aboutContent?.content ? (
                         <Typography
                             sx={{
                                 mb: 2,
@@ -121,6 +122,8 @@ export default function AboutTestimonial() {
                                 __html: aboutContent?.content || null,
                             }}
                         />
+                    ) : (
+                        <NoDataFound message="No About Content Found" />
                     )}
                 </Box>
 
@@ -157,7 +160,7 @@ export default function AboutTestimonial() {
                                 <Skeleton variant="text" width="60%" sx={{ mx: "auto" }} />
                             </Paper>
                         </Box>
-                    ) : (
+                    ) : testimonials.length > 0 ? (
                         <Box sx={{ overflow: "hidden", width: "100%" }}>
                             <SwipeableViews
                                 index={activeStep}
@@ -255,6 +258,8 @@ export default function AboutTestimonial() {
                                 }}
                             />
                         </Box>
+                    ) : (
+                        <NoDataFound message="No Testimonials Found" />
                     )}
                 </Box>
             </Box>

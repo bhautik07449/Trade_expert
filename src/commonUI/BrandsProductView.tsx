@@ -20,6 +20,7 @@ import CMSservice from "../service/cms.service";
 import { useFormik } from "formik"
 import { toast } from "react-toastify";
 import CardUi from "./CardUi";
+import NoDataFound from "./NoDataFound";
 
 type Product = {
     id: number
@@ -93,7 +94,7 @@ export default function BrandsProductView({ products, visiblecard = 4, }: { prod
     })
 
     if (!products || products.length === 0) {
-        return null;
+        return <NoDataFound message="No Brands Found" />;
     }
 
     const handleNext = () => {

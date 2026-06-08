@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { getImageUrl } from "../utils/imageUtils";
 import { useState } from "react";
 import LabelTitle from "./labelTitle";
+import NoDataFound from "./NoDataFound";
 
 type CardSlider = {
     cardImages: Images[];
@@ -282,9 +283,7 @@ export default function CardImageSlider({
                             px: 2,
                         }}
                     >
-                        <Typography color="text.secondary" sx={{ fontSize: 14 }}>
-                            No images available.
-                        </Typography>
+                        <NoDataFound message="No images available." />
                     </Box>
                 )}
             </Box>

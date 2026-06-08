@@ -18,6 +18,7 @@ import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import { getImageUrl } from "../../utils/imageUtils";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Tradeoffer() {
     const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
@@ -171,10 +172,8 @@ export default function Tradeoffer() {
                                 );
                             })
                         ) : (
-                            <Grid size={{ xs: 12 }} sx={{ textAlign: "center", py: 2 }}>
-                                <Typography variant="h6" color="text.secondary">
-                                    No Trade Offers Found
-                                </Typography>
+                            <Grid size={{ xs: 12 }}>
+                                <NoDataFound message="No Trade Offers Found" />
                             </Grid>
                         )}
                     </Grid>

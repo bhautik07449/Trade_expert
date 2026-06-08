@@ -45,6 +45,7 @@ import QuotationDialog from "../component/Dialog/quote-dialog";
 import { fetchFlatCategories } from "../store/slice/categoriesSlice";
 import HomePageservice from "../service/homepages.service";
 import { setSelectedCountry } from "../store/slice/countrySlice";
+import NoDataFound from "../commonUI/NoDataFound";
 
 interface Props {
     firstName?: string;
@@ -1023,15 +1024,9 @@ function CountriesMegaMenu({
                             </ListItem>
                         ))
                     ) : (
-                        <Typography
-                            sx={{
-                                p: 2,
-                                color: "text.disabled",
-                                fontSize: "0.9rem",
-                            }}
-                        >
-                            No categories found
-                        </Typography>
+                        <Box sx={{ p: 2 }}>
+                            <NoDataFound message="No categories found" />
+                        </Box>
                     )}
                 </List>
             </Box>

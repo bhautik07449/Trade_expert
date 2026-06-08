@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import HomePageservice from "../service/homepages.service";
 import LabelTitle from "../commonUI/labelTitle";
+import NoDataFound from "../commonUI/NoDataFound";
 
 export default function Eventsection({ country }: any) {
     const [eventsData, setEventsData] = useState<any[]>([]);
@@ -208,15 +209,7 @@ export default function Eventsection({ country }: any) {
                 </Box>
 
                 {!loading && country && eventsData.length === 0 && (
-                    <Typography
-                        sx={{
-                            textAlign: "center",
-                            color: "text.secondary",
-                            mt: 3,
-                        }}
-                    >
-                        No Events found for this country.
-                    </Typography>
+                    <NoDataFound message="No Events found for this country." />
                 )}
             </Box>
         </Box>

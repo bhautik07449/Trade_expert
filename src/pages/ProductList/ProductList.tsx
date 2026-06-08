@@ -5,6 +5,7 @@ import Homeservice from "../../service/home.service"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 import SEO from "../../component/SEO"
+import NoDataFound from "../../commonUI/NoDataFound"
 
 export default function ProductList() {
     const { slug } = useParams();
@@ -46,9 +47,7 @@ export default function ProductList() {
                     />
                     : (
                         <Box sx={{ maxWidth: "600px", mx: "auto", mt: 6, p: 4, textAlign: "center", bgcolor: "white", borderRadius: 3, boxShadow: "0 4px 20px rgba(0,0,0,0.05)", border: "1px solid #f0f0f0" }}>
-                            <Typography variant="h6" color="text.secondary" fontWeight={600}>
-                                No products found for this category
-                            </Typography>
+                            <NoDataFound message="No products found for this category" />
                             <Typography variant="body2" color="text.disabled" sx={{ mt: 1 }}>
                                 Please check back later or browse other available categories from the menu.
                             </Typography>

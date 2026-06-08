@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import LabelTitle from "../../commonUI/labelTitle";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Faq() {
     const [faqs, setFaqs] = useState<any[]>([]);
@@ -247,25 +248,8 @@ export default function Faq() {
                             })}
                         </Stack>
                     ) : (
-                        <Box
-                            sx={{
-                                textAlign: "center",
-                                py: 6,
-                                border: "1px dashed",
-                                borderColor: "divider",
-                                borderRadius: 3,
-                                bgcolor: "background.default",
-                            }}
-                        >
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    color: "text.secondary",
-                                    fontWeight: 700,
-                                }}
-                            >
-                                No FAQs found.
-                            </Typography>
+                        <Box sx={{ width: "100%", py: 6 }}>
+                            <NoDataFound message="No FAQs found." />
                         </Box>
                     )}
                 </Paper>

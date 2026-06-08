@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomePageservice from "../../service/homepages.service";
 import { useSelector } from "react-redux";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function CountriesSnapshot() {
     const navigate = useNavigate()
@@ -201,8 +202,8 @@ export default function CountriesSnapshot() {
                                         )}
                                     </>
                                 ) : (
-                                    <Box sx={{ gridColumn: "span 3", textAlign: "center", color: "text.secondary", py: 2 }}>
-                                        <Typography variant="body2">No categories found.</Typography>
+                                    <Box sx={{ gridColumn: "span 3", py: 2 }}>
+                                        <NoDataFound message="No categories found." />
                                     </Box>
                                 )}
                             </Box>

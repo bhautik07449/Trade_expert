@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import CMSservice from "../../service/cms.service";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 type ProjectSelectionProps = {
     activeCountry: string;
@@ -87,9 +88,7 @@ export default function ProjectSelection({ activeCountry, selectedProject, setSe
                     <CircularProgress />
                 </Box>
             ) : projects.length === 0 ? (
-                <Typography sx={{ textAlign: "center", color: "text.secondary", py: 5 }}>
-                    Project not exist for this location
-                </Typography>
+                <NoDataFound message="Project does not exist for this location" />
             ) : (
                 <>
                     <Box

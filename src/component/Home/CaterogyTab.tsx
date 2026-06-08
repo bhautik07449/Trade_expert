@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom"
 import LabelTitle from "../../commonUI/labelTitle"
 import HomePageservice from "../../service/homepages.service"
 import { useSelector } from "react-redux"
+import NoDataFound from "../../commonUI/NoDataFound"
 
 export default function CategoryTab() {
     const navigate = useNavigate()
@@ -379,18 +380,8 @@ export default function CategoryTab() {
                             boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
                         }}
                     >
-                        <Inventory2OutlinedIcon
-                            sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
-                        >
-                            No categories available
-                        </Typography>
-
-                        <Typography variant="body2" color="text.secondary">
+                        <NoDataFound message="No categories available" />
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                             Categories for this country will appear here once available.
                         </Typography>
                     </Paper>

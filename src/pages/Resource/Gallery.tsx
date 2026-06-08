@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Gallery() {
     const [gallery, setGallery] = useState<any[]>([]);
@@ -117,9 +118,7 @@ export default function Gallery() {
                         })}
 
                         {gallery.length === 0 && (
-                            <Typography textAlign="center" sx={{ mt: 5 }}>
-                                No gallery data available
-                            </Typography>
+                            <NoDataFound message="No gallery data available" />
                         )}
                     </>
                 )}

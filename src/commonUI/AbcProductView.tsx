@@ -20,6 +20,7 @@ import { useFormik } from "formik"
 import CMSservice from "../service/cms.service";
 import { toast } from "react-toastify";
 import CardUi from "./CardUi";
+import NoDataFound from "./NoDataFound";
 
 type Product = {
     id: number;
@@ -94,7 +95,7 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
     })
 
     if (!products || products.length === 0) {
-        return null;
+        return <NoDataFound message="No Products Found" />;
     }
 
     const handleNext = () => {

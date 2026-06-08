@@ -7,6 +7,7 @@ import { getImageUrl } from "../../utils/imageUtils";
 import SubCategoryTab from "../../commonUI/SubCategoryTab";
 import BrandsProductView from "../../commonUI/BrandsProductView";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 interface BrandItem {
     id?: number;
@@ -321,15 +322,8 @@ export default function Brand() {
                             );
                         })
                     ) : (
-                        <Box sx={{ textAlign: "center", py: 5 }}>
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontWeight: 600,
-                                }}
-                            >
-                                No brands found.
-                            </Typography>
+                        <Box sx={{ width: "100%", py: 5 }}>
+                            <NoDataFound message="No brands found." />
                         </Box>
                     )}
                 </Box>

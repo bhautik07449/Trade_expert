@@ -11,6 +11,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRef } from "react";
 import LabelTitle from "../../commonUI/labelTitle";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 type MultilingualTile = {
     image: string;
@@ -215,15 +216,7 @@ export default function Multilingual({
                 )}
 
                 {!loading && multilingualTiles.length === 0 && (
-                    <Typography
-                        sx={{
-                            textAlign: "center",
-                            color: "text.secondary",
-                            mt: 3,
-                        }}
-                    >
-                        No Multilingual Title found for this country.
-                    </Typography>
+                    <NoDataFound message="No Multilingual Title found for this country." />
                 )}
             </Box>
         </Box>

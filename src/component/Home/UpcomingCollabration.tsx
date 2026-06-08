@@ -12,6 +12,7 @@ import { getImageUrl } from "../../utils/imageUtils";
 import HomePageservice from "../../service/homepages.service";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 type UpcomingCollaboration = {
     image: string,
@@ -203,8 +204,8 @@ export default function UpcomingCollabration({ visiblecard = 4 }: { visiblecard?
                                 </Box>
                             ))
                         ) : (
-                            <Box sx={{ width: "100%", textAlign: "center", py: 4, color: "text.secondary" }}>
-                                No upcoming collaborations at the moment.
+                            <Box sx={{ width: "100%", py: 4 }}>
+                                <NoDataFound message="No upcoming collaborations at the moment." />
                             </Box>
                         )}
                     </Box>

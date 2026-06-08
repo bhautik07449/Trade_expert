@@ -9,6 +9,7 @@ import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
 import { useSelector } from "react-redux";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Events() {
     const [eventsData, setEventsData] = useState<any[]>([]);
@@ -182,25 +183,7 @@ export default function Events() {
 
                             {eventsData?.length === 0 && (
                                 <Grid size={{ xs: 12 }}>
-                                    <Box
-                                        sx={{
-                                            minHeight: 180,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            width: "100%",
-                                        }}
-                                    >
-                                        <Typography
-                                            sx={{
-                                                color: "text.secondary",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            No Events found for this {activeCountry}.
-                                        </Typography>
-                                    </Box>
+                                    <NoDataFound message={`No Events found for ${activeCountry}.`} />
                                 </Grid>
                             )}
                         </Grid>

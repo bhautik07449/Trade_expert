@@ -4,6 +4,7 @@ import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
 import { useSelector } from "react-redux";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function TradeHistory() {
     const [tradeHistory, setTradeHistory] = useState<any[]>([]);
@@ -209,18 +210,8 @@ export default function TradeHistory() {
                         boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
                     }}
                 >
-                    <HistoryIcon
-                        sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
-                    />
-
-                    <Typography
-                        variant="h6"
-                        sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
-                    >
-                        No trade history available
-                    </Typography>
-
-                    <Typography variant="body2" color="text.secondary">
+                    <NoDataFound message="No trade history available" />
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                         Trade history for this country will appear here once available.
                     </Typography>
                 </Paper>

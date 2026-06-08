@@ -15,6 +15,7 @@ import CMSservice from "../../service/cms.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import NoDataFound from "../../commonUI/NoDataFound";
 
 interface QualityPolicyItem {
     id?: number;
@@ -413,27 +414,9 @@ export default function QualityPolicies() {
                         ))}
                     </Stack>
                 ) : (
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            p: 5,
-                            textAlign: "center",
-                            border: "1px dashed",
-                            borderColor: "divider",
-                            borderRadius: 4,
-                            bgcolor: "background.paper",
-                        }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: "text.secondary",
-                                fontWeight: 700,
-                            }}
-                        >
-                            No quality policies found.
-                        </Typography>
-                    </Paper>
+                    <Box sx={{ width: "100%", py: 5 }}>
+                        <NoDataFound message="No quality policies found." />
+                    </Box>
                 )}
             </Box>
         </Box>

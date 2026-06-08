@@ -6,6 +6,7 @@ import { fetchFlatPageBySlug } from "../store/slice/pageSlice";
 import SEO from "../component/SEO";
 import PageContentSkeleton from "../component/PageContentSkeleton";
 import CountryTab from "./CountryTab";
+import NoDataFound from "./NoDataFound";
 
 export default function PageMainLayout({ image, title, slug, country = false, activeCountry, setActiveCountry }: { image?: string, title?: string, slug: string, country?: boolean, activeCountry: string, setActiveCountry: (country: string) => void }) {
     const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +16,12 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
     useEffect(() => {
         dispatch(fetchFlatPageBySlug(slug));
     }, [dispatch, slug]);
+
+    const decodeHTML = (html: string) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
     return (
         <Box sx={{ backgroundColor: "background.default", mb: { xs: 8, sm: 8, md: 12 } }}>
@@ -67,7 +74,7 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
                                 fontSize: { xs: "28px", sm: "38px", md: "48px" },
                             }}
                         >
-                            {title}
+                            {title || pageDetail?.page_title || ""}
                         </Typography>
                     </Box>
                 </Box>
@@ -95,23 +102,24 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
                         boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
                     }}
                 >
-                    {(loading || pageDetail?.content) && (
-                        loading ? (
-                            <PageContentSkeleton />
-                        ) : (
-                            <Typography
-                                sx={{
-                                    color: "text.secondary",
-                                    fontSize: { xs: "14px", sm: "16px" },
-                                    lineHeight: 1.8,
-                                    textAlign: "justify",
-                                }}
-                                dangerouslySetInnerHTML={{
-                                    __html: pageDetail?.content || "",
-                                }}
-                            />
-                        )
-
+                    {loading ? (
+                        <PageContentSkeleton />
+                    ) : pageDetail?.content ? (
+                        <Typography
+                            sx={{
+                                color: "text.secondary",
+                                fontSize: { xs: "14px", sm: "16px" },
+                                lineHeight: 1.8,
+                                textAlign: "justify",
+                            }}
+                            dangerouslySetInnerHTML={{
+                                __html: decodeHTML(pageDetail?.content || ""),
+                            }}
+                        />
+                    ) : (
+                        <Box sx={{ py: 5 }}>
+                            <NoDataFound message="No content found" />
+                        </Box>
                     )}
                 </Paper>
             </Box>

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
 import LabelTitle from "../../commonUI/labelTitle"
 import { useSelector } from "react-redux"
+import NoDataFound from "../../commonUI/NoDataFound"
 
 export default function ProductListByCountry() {
     const [allProducts, setAllProducts] = useState<any[]>([])
@@ -224,10 +225,8 @@ export default function ProductListByCountry() {
                                     loading={loading}
                                 />
                             ) : (
-                                <Box sx={{ py: 4, textAlign: "center" }}>
-                                    <Typography variant="body2" color="text.secondary">
-                                        No category products available.
-                                    </Typography>
+                                <Box sx={{ py: 4 }}>
+                                    <NoDataFound message="No category products available." />
                                 </Box>
                             )}
                         </Box>
@@ -249,18 +248,8 @@ export default function ProductListByCountry() {
                         boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
                     }}
                 >
-                    <Inventory2OutlinedIcon
-                        sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
-                    />
-
-                    <Typography
-                        variant="h6"
-                        sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
-                    >
-                        No products available
-                    </Typography>
-
-                    <Typography variant="body2" color="text.secondary">
+                    <NoDataFound message="No products available" />
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                         Products for this country will appear here once available.
                     </Typography>
                 </Paper>
