@@ -305,295 +305,297 @@ export default function Header() {
                 </AppBar>
             </HideOnScroll>
 
-            <AppBar
-                position="sticky"
-                sx={{
-                    bgcolor: "white",
-                    color: "black",
-                    borderBottom: "1px solid #ddd",
-                }}
-            >
-                <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 600,
-                            fontSize: {
-                                xs: "14px",
-                                sm: "18px",
-                                md: "20px",
-                                lg: "22px",
-                            },
-                        }}
-                    >
-                        Welcome to Sourceseas - Best Exporter
-                    </Typography>
-
-                    <Box
-                        sx={{
-                            display: { xs: "none", sm: "flex" },
-                            alignItems: "center",
-                            gap: 2,
-                        }}
-                    >
-                        <FormControl size="small" sx={{ minWidth: 120 }}>
-                            <Select
-                                value={selectedCountry || ""}
-                                onChange={(e) => {
-                                    const newCountry = e.target.value;
-                                    dispatch(setSelectedCountry(newCountry));
-                                    const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
-                                    if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
-                                        navigate(`/${encodeURIComponent(newCountry)}`);
-                                    }
-                                }}
-                                displayEmpty
-                                sx={{
-                                    height: 36,
-                                    bgcolor: "white",
-                                    fontSize: "14px",
-                                    fontWeight: 500
-                                }}
-                            >
-                                {countries.map((c) => (
-                                    <MenuItem key={c} value={c}>
-                                        {c}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        {!isLoggedIn ? (
-                            <>
-                                <Typography variant="body2">
-                                    <Link
-                                        component={RouterLink}
-                                        to="/login"
-                                        underline="none"
-                                        sx={{
-                                            color: "text.primary",
-                                            "&:hover": { color: "primary.main" },
-                                            fontWeight: 500,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 0.5,
-                                        }}
-                                    >
-                                        <AccountCircleIcon sx={{ fontSize: 20 }} />
-                                        Login
-                                    </Link>
-                                </Typography>
-
-                                <Typography variant="body2">
-                                    <Link
-                                        component={RouterLink}
-                                        to="/sign-up"
-                                        underline="none"
-                                        sx={{
-                                            color: "text.primary",
-                                            "&:hover": { color: "primary.main" },
-                                            fontWeight: 500,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 0.5,
-                                        }}
-                                    >
-                                        <LoginIcon sx={{ fontSize: 20 }} />
-                                        Register
-                                    </Link>
-                                </Typography>
-                            </>
-                        ) : (
-                            <>
-                                <Typography
-                                    sx={{
-                                        cursor: "pointer",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 0.5,
-                                    }}
-                                    onClick={() => navigate("/buyer-dashboard")}
-                                >
-                                    <AccountCircleIcon sx={{ fontSize: 20 }} />
-                                    {profile?.firstName + " " + profile?.lastName}
-                                </Typography>
-
-                                <Typography
-                                    sx={{
-                                        cursor: "pointer",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 0.5,
-                                    }}
-                                    onClick={handleLogout}
-                                >
-                                    <LoginIcon sx={{ fontSize: 20 }} />
-                                    Logout
-                                </Typography>
-                            </>
-                        )}
-
-                        <Button
-                            variant="contained"
-                            color="success"
-                            size="small"
-                            sx={{ px: 3, fontWeight: 600 }}
-                            onClick={() => setOpenRFQ(true)}
-                        >
-                            Request for Quote
-                        </Button>
-                    </Box>
-
-                    <IconButton
-                        onClick={toggleDrawer(true)}
-                        sx={{ display: { xs: "flex", md: "none" } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-
-            <AppBar
-                position="sticky"
-                sx={{
-                    bgcolor: "secondary.dark",
-                    display: { xs: "none", md: "flex" },
-                }}
-            >
-                <Toolbar
-                    ref={navRef}
+            <Box sx={{ position: "sticky", top: 0, zIndex: 1100, width: "100%" }}>
+                <AppBar
+                    position="static"
                     sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: 4,
-                        position: "relative",
+                        bgcolor: "white",
+                        color: "black",
+                        borderBottom: "1px solid #ddd",
                     }}
                 >
-                    {navItems.map((item) => (
-                        <Box
-                            key={item.label}
+                    <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+                        <Typography
+                            variant="h6"
                             sx={{
-                                position: item.label === "Countries & Categories" ? "static" : "relative",
-                                pb: 2,
-                                mb: -2,
-                                display: "flex",
-                                alignItems: "center",
+                                fontWeight: 600,
+                                fontSize: {
+                                    xs: "14px",
+                                    sm: "18px",
+                                    md: "20px",
+                                    lg: "22px",
+                                },
                             }}
-                            onMouseEnter={() => handleMouseEnter(item.label)}
-                            onMouseLeave={handleMouseLeave}
                         >
-                            <Typography
-                                onClick={() => item.path && navigate(item.path)}
-                                sx={{
-                                    cursor: item.path ? "pointer" : "default",
-                                    px: 2,
-                                    py: 1,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 0.5,
-                                    fontSize: { xs: "0.95rem", md: "1.1rem" },
-                                    color: "white",
-                                    fontWeight: 500,
-                                    "&:hover": { color: "primary.light" },
-                                }}
-                            >
-                                {item.label}
+                            Welcome to Sourceseas - Best Exporter
+                        </Typography>
 
-                                {item.subItems && (
-                                    <KeyboardArrowUpIcon
-                                        sx={{
-                                            fontSize: 20,
-                                            ml: 0.5,
-                                            transform:
-                                                openSubmenu === item.label
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                            transition: "0.3s",
-                                        }}
-                                    />
-                                )}
-                            </Typography>
-
-                            {item.subItems && openSubmenu === item.label && (
-                                <Paper
-                                    elevation={16}
+                        <Box
+                            sx={{
+                                display: { xs: "none", sm: "flex" },
+                                alignItems: "center",
+                                gap: 2,
+                            }}
+                        >
+                            <FormControl size="small" sx={{ minWidth: 120 }}>
+                                <Select
+                                    value={selectedCountry || ""}
+                                    onChange={(e) => {
+                                        const newCountry = e.target.value;
+                                        dispatch(setSelectedCountry(newCountry));
+                                        const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
+                                        if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
+                                            navigate(`/${encodeURIComponent(newCountry)}`);
+                                        }
+                                    }}
+                                    displayEmpty
                                     sx={{
-                                        position: "absolute",
-                                        top: "100%",
-                                        left: item.label === "Countries & Categories" ? "50%" : 0,
-                                        transform:
-                                            item.label === "Countries & Categories"
-                                                ? "translateX(-50%)"
-                                                : "none",
-                                        width: item.label === "Countries & Categories" ? "1100px" : "auto",
-                                        maxWidth: "98vw",
-                                        zIndex: 999,
-                                        overflow: "hidden",
-                                        border: "1px solid rgba(0,0,0,0.08)",
-                                        backgroundColor: "white",
-                                        boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
-                                        "&::after": {
-                                            content: '""',
-                                            position: "absolute",
-                                            top: -20,
-                                            left: 0,
-                                            right: 0,
-                                            height: 20,
-                                            zIndex: -1,
-                                        },
-                                        "&::before":
-                                            item.label === "Countries & Categories"
-                                                ? {
-                                                    content: '""',
-                                                    position: "absolute",
-                                                    top: -10,
-                                                    left: "50%",
-                                                    transform: "translateX(-50%)",
-                                                    borderLeft: "10px solid transparent",
-                                                    borderRight: "10px solid transparent",
-                                                    borderBottom: "10px solid white",
-                                                }
-                                                : {},
+                                        height: 36,
+                                        bgcolor: "white",
+                                        fontSize: "14px",
+                                        fontWeight: 500
                                     }}
                                 >
-                                    {item.label === "Countries & Categories" ? (
-                                        categoriesLoading ? (
-                                            <Box
-                                                sx={{
-                                                    p: 4,
-                                                    display: "grid",
-                                                    gridTemplateColumns: "repeat(4, 1fr)",
-                                                    gap: 4,
-                                                }}
-                                            >
-                                                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                                                    <Box key={i}>
-                                                        <Skeleton
-                                                            variant="text"
-                                                            width="60%"
-                                                            height={30}
-                                                        />
-                                                        <Skeleton variant="text" width="80%" />
-                                                        <Skeleton variant="text" width="70%" />
-                                                        <Skeleton variant="text" width="75%" />
-                                                    </Box>
-                                                ))}
-                                            </Box>
-                                        ) : (
-                                            <CountriesMegaMenu
-                                                items={item.subItems}
-                                                navigate={navigate}
-                                                onClose={() => setOpenSubmenu(null)}
-                                            />
-                                        )
-                                    ) : (
-                                        <NestedMenu items={item.subItems} navigate={navigate} />
-                                    )}
-                                </Paper>
+                                    {countries.map((c) => (
+                                        <MenuItem key={c} value={c}>
+                                            {c}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            {!isLoggedIn ? (
+                                <>
+                                    <Typography variant="body2">
+                                        <Link
+                                            component={RouterLink}
+                                            to="/login"
+                                            underline="none"
+                                            sx={{
+                                                color: "text.primary",
+                                                "&:hover": { color: "primary.main" },
+                                                fontWeight: 500,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            <AccountCircleIcon sx={{ fontSize: 20 }} />
+                                            Login
+                                        </Link>
+                                    </Typography>
+
+                                    <Typography variant="body2">
+                                        <Link
+                                            component={RouterLink}
+                                            to="/sign-up"
+                                            underline="none"
+                                            sx={{
+                                                color: "text.primary",
+                                                "&:hover": { color: "primary.main" },
+                                                fontWeight: 500,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            <LoginIcon sx={{ fontSize: 20 }} />
+                                            Register
+                                        </Link>
+                                    </Typography>
+                                </>
+                            ) : (
+                                <>
+                                    <Typography
+                                        sx={{
+                                            cursor: "pointer",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 0.5,
+                                        }}
+                                        onClick={() => navigate("/buyer-dashboard")}
+                                    >
+                                        <AccountCircleIcon sx={{ fontSize: 20 }} />
+                                        {profile?.firstName + " " + profile?.lastName}
+                                    </Typography>
+
+                                    <Typography
+                                        sx={{
+                                            cursor: "pointer",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 0.5,
+                                        }}
+                                        onClick={handleLogout}
+                                    >
+                                        <LoginIcon sx={{ fontSize: 20 }} />
+                                        Logout
+                                    </Typography>
+                                </>
                             )}
+
+                            <Button
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                sx={{ px: 3, fontWeight: 600 }}
+                                onClick={() => setOpenRFQ(true)}
+                            >
+                                Request for Quote
+                            </Button>
                         </Box>
-                    ))}
-                </Toolbar>
-            </AppBar>
+
+                        <IconButton
+                            onClick={toggleDrawer(true)}
+                            sx={{ display: { xs: "flex", md: "none" } }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+
+                <AppBar
+                    position="static"
+                    sx={{
+                        bgcolor: "secondary.dark",
+                        display: { xs: "none", md: "flex" },
+                    }}
+                >
+                    <Toolbar
+                        ref={navRef}
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 4,
+                            position: "relative",
+                        }}
+                    >
+                        {navItems.map((item) => (
+                            <Box
+                                key={item.label}
+                                sx={{
+                                    position: item.label === "Countries & Categories" ? "static" : "relative",
+                                    pb: 2,
+                                    mb: -2,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                                onMouseEnter={() => handleMouseEnter(item.label)}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <Typography
+                                    onClick={() => item.path && navigate(item.path)}
+                                    sx={{
+                                        cursor: item.path ? "pointer" : "default",
+                                        px: 2,
+                                        py: 1,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.5,
+                                        fontSize: { xs: "0.95rem", md: "1.1rem" },
+                                        color: "white",
+                                        fontWeight: 500,
+                                        "&:hover": { color: "primary.light" },
+                                    }}
+                                >
+                                    {item.label}
+
+                                    {item.subItems && (
+                                        <KeyboardArrowUpIcon
+                                            sx={{
+                                                fontSize: 20,
+                                                ml: 0.5,
+                                                transform:
+                                                    openSubmenu === item.label
+                                                        ? "rotate(0deg)"
+                                                        : "rotate(180deg)",
+                                                transition: "0.3s",
+                                            }}
+                                        />
+                                    )}
+                                </Typography>
+
+                                {item.subItems && openSubmenu === item.label && (
+                                    <Paper
+                                        elevation={16}
+                                        sx={{
+                                            position: "absolute",
+                                            top: "100%",
+                                            left: item.label === "Countries & Categories" ? "50%" : 0,
+                                            transform:
+                                                item.label === "Countries & Categories"
+                                                    ? "translateX(-50%)"
+                                                    : "none",
+                                            width: item.label === "Countries & Categories" ? "1100px" : "auto",
+                                            maxWidth: "98vw",
+                                            zIndex: 999,
+                                            overflow: "hidden",
+                                            border: "1px solid rgba(0,0,0,0.08)",
+                                            backgroundColor: "white",
+                                            boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
+                                            "&::after": {
+                                                content: '""',
+                                                position: "absolute",
+                                                top: -20,
+                                                left: 0,
+                                                right: 0,
+                                                height: 20,
+                                                zIndex: -1,
+                                            },
+                                            "&::before":
+                                                item.label === "Countries & Categories"
+                                                    ? {
+                                                        content: '""',
+                                                        position: "absolute",
+                                                        top: -10,
+                                                        left: "50%",
+                                                        transform: "translateX(-50%)",
+                                                        borderLeft: "10px solid transparent",
+                                                        borderRight: "10px solid transparent",
+                                                        borderBottom: "10px solid white",
+                                                    }
+                                                    : {},
+                                        }}
+                                    >
+                                        {item.label === "Countries & Categories" ? (
+                                            categoriesLoading ? (
+                                                <Box
+                                                    sx={{
+                                                        p: 4,
+                                                        display: "grid",
+                                                        gridTemplateColumns: "repeat(4, 1fr)",
+                                                        gap: 4,
+                                                    }}
+                                                >
+                                                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                                        <Box key={i}>
+                                                            <Skeleton
+                                                                variant="text"
+                                                                width="60%"
+                                                                height={30}
+                                                            />
+                                                            <Skeleton variant="text" width="80%" />
+                                                            <Skeleton variant="text" width="70%" />
+                                                            <Skeleton variant="text" width="75%" />
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            ) : (
+                                                <CountriesMegaMenu
+                                                    items={item.subItems}
+                                                    navigate={navigate}
+                                                    onClose={() => setOpenSubmenu(null)}
+                                                />
+                                            )
+                                        ) : (
+                                            <NestedMenu items={item.subItems} navigate={navigate} />
+                                        )}
+                                    </Paper>
+                                )}
+                            </Box>
+                        ))}
+                    </Toolbar>
+                </AppBar>
+            </Box>
 
             <Drawer
                 anchor="left"
