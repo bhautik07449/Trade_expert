@@ -48,9 +48,7 @@ export default function SignupForm() {
   const [showPassword, setShowPassword] = React.useState(false)
   const [flipExit, setFlipExit] = React.useState(false)
 
-  const selectedCountry = useSelector(
-    (state: RootState) => state.country.selectedCountry
-  );
+  const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
   const validationSchema = Yup.object({
     gender: Yup.string().required("Required"),
@@ -510,7 +508,7 @@ export default function SignupForm() {
         </Paper>
       </Box>
 
-      <AbcTradeoffer country={selectedCountry} />
+      <AbcTradeoffer />
 
       <UpcommingFeatures />
     </Box>

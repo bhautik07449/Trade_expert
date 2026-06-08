@@ -111,7 +111,7 @@ export default function Header() {
                 setCountries(fetchedCountries);
 
                 if (fetchedCountries.length > 0 && !selectedCountry) {
-                    dispatch(setSelectedCountry(fetchedCountries[0]));
+                    dispatch(setSelectedCountry("India"));
                 }
             } catch (error: any) {
                 console.log("Presences data not fetch");
@@ -187,7 +187,7 @@ export default function Header() {
             icon: <HomeIcon fontSize="small" />,
         },
         {
-            label: "Countries & Categories",
+            label: "Sectors",
             icon: <CategoryIcon fontSize="small" />,
             subItems:
                 categories?.map((country: any) => ({
@@ -337,22 +337,24 @@ export default function Header() {
                                 gap: 2,
                             }}
                         >
-                            <FormControl size="small" sx={{ minWidth: 120 }}>
+                            <FormControl size="small" sx={{ minWidth: { xs: 90, sm: 120 } }}>
                                 <Select
                                     value={selectedCountry || ""}
                                     onChange={(e) => {
-                                        const newCountry = e.target.value;
+                                        const newCountry = e.target.value as string;
                                         dispatch(setSelectedCountry(newCountry));
                                         const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
-                                        if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
+                                        if (location.pathname === `/country/${oldCountryEncoded}` || location.pathname === `/country/${selectedCountry}`) {
+                                            navigate(`/country/${encodeURIComponent(newCountry)}`);
+                                        } else if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
                                             navigate(`/${encodeURIComponent(newCountry)}`);
                                         }
                                     }}
                                     displayEmpty
                                     sx={{
-                                        height: 36,
+                                        height: { xs: 30, sm: 36 },
                                         bgcolor: "white",
-                                        fontSize: "14px",
+                                        fontSize: { xs: "12px", sm: "14px" },
                                         fontWeight: 500
                                     }}
                                 >
@@ -446,7 +448,7 @@ export default function Header() {
 
                         <IconButton
                             onClick={toggleDrawer(true)}
-                            sx={{ display: { xs: "flex", md: "none" } }}
+                            sx={{ display: { xs: "flex", md: "none" }, p: { xs: 0.5, sm: 1 } }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -473,7 +475,7 @@ export default function Header() {
                             <Box
                                 key={item.label}
                                 sx={{
-                                    position: item.label === "Countries & Categories" ? "static" : "relative",
+                                    position: item.label === "Sectors" ? "static" : "relative",
                                     pb: 2,
                                     mb: -2,
                                     display: "flex",
@@ -520,12 +522,12 @@ export default function Header() {
                                         sx={{
                                             position: "absolute",
                                             top: "100%",
-                                            left: item.label === "Countries & Categories" ? "50%" : 0,
+                                            left: item.label === "Sectors" ? "50%" : 0,
                                             transform:
-                                                item.label === "Countries & Categories"
+                                                item.label === "Sectors"
                                                     ? "translateX(-50%)"
                                                     : "none",
-                                            width: item.label === "Countries & Categories" ? "1100px" : "auto",
+                                            width: item.label === "Sectors" ? "1100px" : "auto",
                                             maxWidth: "98vw",
                                             zIndex: 999,
                                             overflow: "hidden",
@@ -542,7 +544,7 @@ export default function Header() {
                                                 zIndex: -1,
                                             },
                                             "&::before":
-                                                item.label === "Countries & Categories"
+                                                item.label === "Sectors"
                                                     ? {
                                                         content: '""',
                                                         position: "absolute",
@@ -556,7 +558,7 @@ export default function Header() {
                                                     : {},
                                         }}
                                     >
-                                        {item.label === "Countries & Categories" ? (
+                                        {item.label === "Sectors" ? (
                                             categoriesLoading ? (
                                                 <Box
                                                     sx={{
@@ -639,7 +641,7 @@ export default function Header() {
                         )}
 
                         {menuStack.length > 0 &&
-                            menuStack[menuStack.length - 1].label === "Countries & Categories" &&
+                            menuStack[menuStack.length - 1].label === "Sectors" &&
                             categoriesLoading ? (
                             <Box sx={{ px: 2 }}>
                                 <Skeleton variant="text" height={50} />

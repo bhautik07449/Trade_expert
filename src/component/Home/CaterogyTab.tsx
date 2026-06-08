@@ -13,14 +13,17 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import LabelTitle from "../../commonUI/labelTitle"
 import HomePageservice from "../../service/homepages.service"
+import { useSelector } from "react-redux"
 
-export default function CategoryTab({ country }: any) {
+export default function CategoryTab() {
     const navigate = useNavigate()
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const [categories, setCategories] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
     const getCategories = async (country: string) => {
+        setCategories([])
         try {
             setLoading(true)
             const res = await HomePageservice.getCategoriesByCountry(country)
@@ -36,10 +39,10 @@ export default function CategoryTab({ country }: any) {
     }
 
     useEffect(() => {
-        if (country) {
-            getCategories(country)
+        if (selectedCountry) {
+            getCategories(selectedCountry)
         }
-    }, [country])
+    }, [selectedCountry])
 
     const handleCategoryClick = (slug: string) => {
         navigate(`/category/${slug}`)
@@ -93,7 +96,7 @@ export default function CategoryTab({ country }: any) {
                     zIndex: 1,
                 }}
             >
-                <LabelTitle title="Active" label="Categories" tagLine={`Explore the most sought-after product categories in ${country ? country : "the world"}, and discover the key sectors driving trade and economic growth in your selected region.`} />
+                <LabelTitle title="Active" label="Categories" tagLine={`Explore the most sought-after product categories in ${selectedCountry ? selectedCountry : "the world"}, and discover the key sectors driving trade and economic growth in your selected region.`} />
 
                 <Typography
                     variant="body1"

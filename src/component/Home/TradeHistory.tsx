@@ -1,13 +1,17 @@
-import { Box, Chip, Grid, Skeleton, Typography } from "@mui/material";
+import { Box, Chip, Grid, Skeleton, Typography, Paper } from "@mui/material";
+import HistoryIcon from "@mui/icons-material/History";
 import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
+import { useSelector } from "react-redux";
 
-export default function TradeHistory({ country }: any) {
+export default function TradeHistory() {
     const [tradeHistory, setTradeHistory] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const getTradeHistory = async (country: string) => {
+        setTradeHistory([]);
         try {
             setLoading(true);
             const res = await HomePageservice.getTradeHistoryByCountry(country);
@@ -23,12 +27,10 @@ export default function TradeHistory({ country }: any) {
     };
 
     useEffect(() => {
-        if (country) {
-            getTradeHistory(country);
+        if (selectedCountry) {
+            getTradeHistory(selectedCountry);
         }
-    }, [country]);
-
-    if (!loading && tradeHistory.length === 0) return null;
+    }, [selectedCountry]);
 
     return (
         <Box
@@ -40,7 +42,7 @@ export default function TradeHistory({ country }: any) {
                 mb: 4,
             }}
         >
-            <LabelTitle title="Trade" label="Important" tagLine={`Explore the historical trade trends and patterns in ${country ? country : "Global"} to understand market dynamics and identify potential opportunities for growth.`} />
+            <LabelTitle title="Trade" label="Important" tagLine={`Explore the historical trade trends and patterns in ${selectedCountry ? selectedCountry : "Global"} to understand market dynamics and identify potential opportunities for growth.`} />
 
             {loading ? (
                 <Grid container spacing={3}>
@@ -56,7 +58,7 @@ export default function TradeHistory({ country }: any) {
                         </Grid>
                     ))}
                 </Grid>
-            ) : (
+            ) : tradeHistory && tradeHistory.length > 0 ? (
                 <Grid container spacing={3}>
                     {tradeHistory.map((item, index) => (
                         <Grid size={{ xs: 12, sm: 6 }} key={item?.id || index}>
@@ -191,6 +193,37 @@ export default function TradeHistory({ country }: any) {
                         </Grid>
                     ))}
                 </Grid>
+            ) : (
+                <Paper
+                    elevation={0}
+                    sx={{
+                        maxWidth: 520,
+                        mx: "auto",
+                        py: 6,
+                        px: 3,
+                        textAlign: "center",
+                        borderRadius: 4,
+                        border: "1px dashed",
+                        borderColor: "divider",
+                        bgcolor: "background.paper",
+                        boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
+                    }}
+                >
+                    <HistoryIcon
+                        sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
+                    />
+
+                    <Typography
+                        variant="h6"
+                        sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
+                    >
+                        No trade history available
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                        Trade history for this country will appear here once available.
+                    </Typography>
+                </Paper>
             )}
         </Box>
     );

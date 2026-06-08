@@ -5,7 +5,7 @@ interface CountryState {
 }
 
 const initialState: CountryState = {
-    selectedCountry: null,
+    selectedCountry: localStorage.getItem("selectedCountry") || null,
 };
 
 const countrySlice = createSlice({
@@ -14,9 +14,15 @@ const countrySlice = createSlice({
     reducers: {
         setSelectedCountry: (state, action: PayloadAction<string>) => {
             state.selectedCountry = action.payload;
+            if (action.payload) {
+                localStorage.setItem("selectedCountry", action.payload);
+            } else {
+                localStorage.removeItem("selectedCountry");
+            }
         },
         clearSelectedCountry: (state) => {
             state.selectedCountry = null;
+            localStorage.removeItem("selectedCountry");
         },
     },
 });

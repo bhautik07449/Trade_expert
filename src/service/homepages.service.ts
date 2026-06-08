@@ -157,9 +157,9 @@ const inquiryIR = async (value: any) => {
     }
 }
 
-const getUpcomingCollaboration = async () => {
+const getUpcomingCollaboration = async (country?: string) => {
     try {
-        const response = serverCall.get('/upcoming_collaboration')
+        const response = serverCall.get('/upcoming_collaboration', { params: country ? { country: country } : {} })
         return response
     } catch (error) {
         throw error

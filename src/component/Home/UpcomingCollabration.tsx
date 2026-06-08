@@ -11,6 +11,7 @@ import LabelTitle from "../../commonUI/labelTitle";
 import { getImageUrl } from "../../utils/imageUtils";
 import HomePageservice from "../../service/homepages.service";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 type UpcomingCollaboration = {
     image: string,
@@ -19,16 +20,17 @@ type UpcomingCollaboration = {
 
 export default function UpcomingCollabration({ visiblecard = 4 }: { visiblecard?: number }) {
     const theme = useTheme();
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
 
     const [data, setData] = useState<UpcomingCollaboration[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [visibleCards, setVisibleCards] = useState(visiblecard)
 
-    const getUpcomingCollaboration = async () => {
+    const getUpcomingCollaboration = async (country?:string) => {
         try {
             setLoading(true)
-            const res = await HomePageservice.getUpcomingCollaboration()
+            const res = await HomePageservice.getUpcomingCollaboration(country)
             if (res) {
                 setData(res?.data?.data || [])
             }
@@ -40,8 +42,8 @@ export default function UpcomingCollabration({ visiblecard = 4 }: { visiblecard?
     }
 
     useEffect(() => {
-        getUpcomingCollaboration()
-    }, [])
+        getUpcomingCollaboration(activeCountry)
+    }, [activeCountry])
 
     useEffect(() => {
         const updateVisibleCards = () => {

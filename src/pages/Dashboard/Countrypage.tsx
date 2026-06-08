@@ -1,5 +1,4 @@
 import { Box } from "@mui/material"
-import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { setSelectedCountry } from "../../store/slice/countrySlice"
 import CategoryTab from "../../component/Home/CaterogyTab"
@@ -16,25 +15,24 @@ export default function CountryPage() {
     const [analyticsData, setAnalyticsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const { country } = useParams()
     const dispatch = useDispatch();
-    const globalCountry = useSelector((state: any) => state.country.selectedCountry);
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     useEffect(() => {
-        const decoded = country ? decodeURIComponent(country) : "";
-        if (decoded && decoded !== globalCountry) {
+        const decoded = selectedCountry ? decodeURIComponent(selectedCountry) : "";
+        if (decoded && decoded !== selectedCountry) {
             dispatch(setSelectedCountry(decoded));
         }
-    }, [country, dispatch]);
-
-    const displayCountry = country ? decodeURIComponent(country) : "Global";
+    }, [selectedCountry, dispatch]);
 
     const getAnalyticalData = async (country: string) => {
+        setLoading(true);
+        setAnalyticsData([]);
         try {
             const response = await HomePageservice.getAnalyticalByCountry(country);
             setLoading(false)
             if (response) {
-                setAnalyticsData(response?.data?.data);
+                setAnalyticsData(response?.data?.data || []);
             }
         } catch (error: any) {
             setLoading(false)
@@ -43,14 +41,14 @@ export default function CountryPage() {
     }
 
     useEffect(() => {
-        if (country) {
-            getAnalyticalData(country);
+        if (selectedCountry) {
+            getAnalyticalData(selectedCountry);
         }
-    }, [country]);
+    }, [selectedCountry]);
 
     return (
         <Box component="main">
-            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/quality.jpg" title={`Trade Opportunities in ${displayCountry}`} slug="country" activeCountry={displayCountry} setActiveCountry={() => { }} />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/quality.jpg" title={`Trade Opportunities in ${selectedCountry}`} slug="country" activeCountry={selectedCountry} setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -60,11 +58,11 @@ export default function CountryPage() {
                 }}
             >
                 <Box component="section">
-                    <CategoryTab country={country} />
+                    <CategoryTab />
                 </Box>
 
                 <Box component="section">
-                    <ProductListByCountry country={displayCountry} />
+                    <ProductListByCountry />
                 </Box>
 
                 <Box component="section">
@@ -72,15 +70,15 @@ export default function CountryPage() {
                 </Box>
 
                 <Box component="section">
-                    <TradeHistory country={country} />
+                    <TradeHistory />
                 </Box>
 
                 <Box component="section">
-                    <AbcTradeoffer country={country} />
+                    <AbcTradeoffer />
                 </Box>
 
                 <Box component="section">
-                    <SupplierTab country={country} />
+                    <SupplierTab country={selectedCountry} />
                 </Box>
             </Box>
         </Box>

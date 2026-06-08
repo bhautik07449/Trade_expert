@@ -2,7 +2,7 @@ import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/materia
 import LabelTitle from "../commonUI/labelTitle";
 import { useNavigate } from "react-router-dom";
 
-export default function AbcTradeoffer({ country }: any) {
+export default function AbcTradeoffer() {
     const navigate = useNavigate();
     const theme = useTheme();
 

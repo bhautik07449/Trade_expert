@@ -124,7 +124,7 @@ export default function Analytical({
                             </Grid>
                         ))}
                     </Grid>
-                ) : (
+                ) : analyticsData && analyticsData.length > 0 ? (
                     <Grid container spacing={3} justifyContent="center">
                         {analyticsData?.map((stat, index) => {
                             const Icon = icons[index % icons.length]
@@ -323,6 +323,37 @@ export default function Analytical({
                             )
                         })}
                     </Grid>
+                ) : (
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            maxWidth: 520,
+                            mx: "auto",
+                            py: 6,
+                            px: 3,
+                            textAlign: "center",
+                            borderRadius: 4,
+                            border: "1px dashed",
+                            borderColor: "divider",
+                            bgcolor: "background.paper",
+                            boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
+                        }}
+                    >
+                        <BarChartIcon
+                            sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
+                        />
+
+                        <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
+                        >
+                            No analytical data available
+                        </Typography>
+
+                        <Typography variant="body2" color="text.secondary">
+                            Statistics and insights for this country will appear here once available.
+                        </Typography>
+                    </Paper>
                 )}
             </Box>
         </Box>

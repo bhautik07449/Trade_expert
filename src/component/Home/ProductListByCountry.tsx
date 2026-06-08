@@ -5,19 +5,24 @@ import {
     Tab,
     Skeleton,
     Stack,
+    Paper,
 } from "@mui/material"
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined"
 import CardUi from "../../commonUI/CardUi"
 import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
 import LabelTitle from "../../commonUI/labelTitle"
+import { useSelector } from "react-redux"
 
-export default function ProductListByCountry({ country }: { country?: string }) {
+export default function ProductListByCountry() {
     const [allProducts, setAllProducts] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [activeCategory, setActiveCategory] = useState<Record<number, number>>({})
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const getProducts = async (country: string) => {
         setLoading(true)
+        setAllProducts([])
 
         try {
             const resAll = await Homeservice.getProductBygroup(country)
@@ -41,10 +46,10 @@ export default function ProductListByCountry({ country }: { country?: string }) 
     }
 
     useEffect(() => {
-        if (country) {
-            getProducts(country)
+        if (selectedCountry) {
+            getProducts(selectedCountry)
         }
-    }, [country])
+    }, [selectedCountry])
 
     const handleTabChange = (groupIndex: number, categoryIndex: number) => {
         setActiveCategory((prev) => ({
@@ -61,7 +66,7 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                 mx: "auto",
             }}
         >
-            <LabelTitle title="Product List" label="By Country" tagLine={`Explore the diverse range of products available in ${country}, showcasing the unique offerings and trade opportunities within the country.`} />
+            <LabelTitle title="Product List" label="By Country" tagLine={`Explore the diverse range of products available in ${selectedCountry}, showcasing the unique offerings and trade opportunities within the country.`} />
 
             <Typography
                 variant="body1"
@@ -229,7 +234,25 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                     )
                 })
             ) : (
-                <Box sx={{ py: 6, textAlign: "center" }}>
+                <Paper
+                    elevation={0}
+                    sx={{
+                        maxWidth: 520,
+                        mx: "auto",
+                        py: 6,
+                        px: 3,
+                        textAlign: "center",
+                        borderRadius: 4,
+                        border: "1px dashed",
+                        borderColor: "divider",
+                        bgcolor: "background.paper",
+                        boxShadow: "0 10px 30px rgba(59, 48, 39, 0.05)",
+                    }}
+                >
+                    <Inventory2OutlinedIcon
+                        sx={{ fontSize: 46, color: "primary.main", mb: 1.5 }}
+                    />
+
                     <Typography
                         variant="h6"
                         sx={{ fontWeight: 800, color: "text.primary", mb: 0.5 }}
@@ -238,9 +261,9 @@ export default function ProductListByCountry({ country }: { country?: string }) 
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                        No products are available for this country.
+                        Products for this country will appear here once available.
                     </Typography>
-                </Box>
+                </Paper>
             )}
         </Box>
     )
