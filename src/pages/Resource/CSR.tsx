@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import PageMainLayout from "../../commonUI/PageMainLayout";
@@ -16,8 +15,7 @@ type ESGData = {
 };
 
 export default function CSR() {
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [esgData, setEsgData] = useState<ESGData | null>(null);
     const [activeCategory, setActiveCategory] = useState("");
 
@@ -33,8 +31,8 @@ export default function CSR() {
     };
 
     useEffect(() => {
-        getESGData(activeCountry, activeCategory);
-    }, [activeCountry, activeCategory]);
+        getESGData(selectedCountry, activeCategory);
+    }, [selectedCountry, activeCategory]);
 
     return (
         <Box
@@ -44,7 +42,7 @@ export default function CSR() {
                 pb: { xs: 6, md: 10 },
             }}
         >
-            <PageMainLayout title="Environmental Social Governance" slug="csr" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout title="Environmental Social Governance" slug="csr" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -109,7 +107,7 @@ export default function CSR() {
                     ))}
                 </Box>
 
-                <CategoryTabview country={activeCountry} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+                <CategoryTabview country={selectedCountry} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
 
                 <Box sx={{ mb: { xs: 3, sm: 5, md: 6 } }}>
                     <LabelTitle title="Environmental" label="Initiatives" />

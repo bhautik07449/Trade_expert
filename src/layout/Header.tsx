@@ -118,6 +118,7 @@ export default function Header() {
             }
         };
         getPresencesData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     const handleMouseEnter = (label: string) => {

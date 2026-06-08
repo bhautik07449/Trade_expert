@@ -2,7 +2,7 @@ import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/materia
 import { useNavigate } from "react-router-dom";
 import LabelTitle from "../commonUI/labelTitle";
 
-export default function SupplierTab({ country }: any) {
+export default function SupplierTab() {
     const navigate = useNavigate();
     const theme = useTheme();
 
@@ -11,13 +11,13 @@ export default function SupplierTab({ country }: any) {
             label: "Join as",
             value: "Supplier",
             button: "Register",
-            link: `/suppliers/register?country=${country}`,
+            link: "/suppliers/register",
         },
         {
             label: "Join as public or",
             value: "private personnel",
             button: "Register",
-            link: `/pages/career`,
+            link: "/pages/career",
         },
         {
             label: "Join as",

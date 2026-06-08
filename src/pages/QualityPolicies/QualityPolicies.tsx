@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import {
     Box,
     Typography,
@@ -38,8 +37,7 @@ export default function QualityPolicies() {
     const [list, setList] = useState<QualityPolicyGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState("all");
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const getList = async () => {
         setLoading(true);
@@ -62,9 +60,9 @@ export default function QualityPolicies() {
     }, []);
 
     const filteredByCountryList = useMemo(() => {
-        if (!activeCountry) return list;
-        return list.filter((item) => item?.country === activeCountry);
-    }, [list, activeCountry]);
+        if (!selectedCountry) return list;
+        return list.filter((item) => item?.country === selectedCountry);
+    }, [list, selectedCountry]);
 
     const categoryTabs = useMemo(() => {
         return Array.from(
@@ -92,7 +90,7 @@ export default function QualityPolicies() {
 
     useEffect(() => {
         setActiveCategory("all");
-    }, [activeCountry]);
+    }, [selectedCountry]);
 
     return (
         <Box
@@ -106,9 +104,8 @@ export default function QualityPolicies() {
                 title="Quality Policies"
                 slug="quality_policies"
                 image="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
-                country={true}
-                activeCountry={activeCountry}
-                setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))}
+                activeCountry=""
+                setActiveCountry={() => { }}
             />
 
             <Box

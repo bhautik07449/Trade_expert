@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import { Box, Typography, Skeleton, Grid, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
@@ -8,8 +7,7 @@ import PageMainLayout from "../../commonUI/PageMainLayout";
 import AbcProductView from "../../commonUI/AbcProductView";
 
 export default function Abc() {
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [activeCategory, setActiveCategory] = useState<Record<number, number>>({})
 
     const [list, setList] = useState<any>([])
@@ -31,13 +29,13 @@ export default function Abc() {
 
     useEffect(() => {
         setActiveCategory({});
-    }, [activeCountry]);
+    }, [selectedCountry]);
 
     useEffect(() => {
-        if (activeCountry) {
-            getList(activeCountry)
+        if (selectedCountry) {
+            getList(selectedCountry)
         }
-    }, [activeCountry])
+    }, [selectedCountry])
 
     const handleTabChange = (groupIndex: number, categoryIndex: number) => {
         setActiveCategory((prev) => ({
@@ -48,7 +46,7 @@ export default function Abc() {
 
     return (
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{

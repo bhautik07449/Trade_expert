@@ -10,12 +10,10 @@ import Eventsection from "../../component/Eventsection";
 import NewsandeventService from "../../service/newsandevent.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
-import { useSelector, useDispatch } from "react-redux";
-import { setSelectedCountry } from "../../store/slice/countrySlice";
+import { useSelector } from "react-redux";
 
 export default function NewsAndEvents() {
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [multilingual, setMultilingual] = useState([]);
     const [multilingualLoading, setMultilingualLoading] = useState(false);
 
@@ -38,8 +36,8 @@ export default function NewsAndEvents() {
     };
 
     useEffect(() => {
-        getMultilingual(activeCountry);
-    }, [activeCountry]);
+        getMultilingual(selectedCountry);
+    }, [selectedCountry]);
 
     return (
         <Box
@@ -48,7 +46,7 @@ export default function NewsAndEvents() {
                 minHeight: "100vh",
             }}
         >
-            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" activeCountry="" setActiveCountry={() => {}} />
 
             <Box
                 sx={{
@@ -66,7 +64,7 @@ export default function NewsAndEvents() {
                             mb: 1,
                         }}
                     >
-                        {activeCountry}
+                        {selectedCountry}
                     </Typography>
 
                     <Divider
@@ -84,11 +82,11 @@ export default function NewsAndEvents() {
                 </Box>
 
                 <Box component="section">
-                    <PreambleAndUpcoming country={activeCountry} />
+                    <PreambleAndUpcoming country={selectedCountry} />
                 </Box>
             </Box>
 
-            <Eventsection country={activeCountry} />
+            <Eventsection country={selectedCountry} />
         </Box>
     );
 }

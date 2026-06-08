@@ -28,19 +28,18 @@ import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import LanguageIcon from "@mui/icons-material/Language"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { toast } from "react-toastify"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 import Supplierservice from "../../service/supplier.service"
+import { useSelector } from "react-redux"
 
 export default function SuppliersRegister() {
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [showPassword, setShowPassword] = useState(false)
-
-    const [searchParams] = useSearchParams();
-    const country = searchParams.get("country");
 
     const [value, setValue] = useState(0)
     const navigate = useNavigate()
@@ -63,7 +62,7 @@ export default function SuppliersRegister() {
             address: "",
             city: "",
             state: "",
-            country: country,
+            country: selectedCountry || "",
             website: "",
             service_type: "",
             password: "",
@@ -101,6 +100,13 @@ export default function SuppliersRegister() {
             }
         },
     })
+
+    useEffect(() => {
+        if (selectedCountry) {
+            formik.setFieldValue("country", selectedCountry);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedCountry]);
 
     const tabData = [
         [
@@ -448,6 +454,19 @@ export default function SuppliersRegister() {
                                                     />
                                                 ),
                                             }}
+                                        />
+                                    </Grid>
+
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <TextField
+                                            fullWidth
+                                            disabled
+                                            label="country"
+                                            name="country"
+                                            size="small"
+                                            value={formik.values.country}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
                                         />
                                     </Grid>
 

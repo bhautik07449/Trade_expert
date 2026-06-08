@@ -22,17 +22,11 @@ import { useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { toast } from "react-toastify"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store"
 import Supplierservice from "../../service/supplier.service"
 
 export default function SuppliersLogin() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = React.useState(false)
-
-    const selectedCountry = useSelector(
-        (state: RootState) => state.country.selectedCountry
-    );
 
     const validationSchema = Yup.object({
         email: Yup.string()
@@ -70,7 +64,7 @@ export default function SuppliersLogin() {
 
     function goToSignup() {
         setTimeout(() => {
-            navigate(`/suppliers/register?country=${selectedCountry}`)
+            navigate("/suppliers/register")
         }, 250)
     }
 

@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import {
     Box,
@@ -21,8 +20,7 @@ import PageMainLayout from "../../commonUI/PageMainLayout";
 import { getImageUrl } from "../../utils/imageUtils";
 
 export default function Tradeoffer() {
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const [stockLots, setStockLots] = useState<any[]>([]);
     const [selectedOfferId, setSelectedOfferId] = useState<number | string>("");
@@ -77,10 +75,10 @@ export default function Tradeoffer() {
     };
 
     useEffect(() => {
-        if (activeCountry) {
-            getTradeOffer(activeCountry);
+        if (selectedCountry) {
+            getTradeOffer(selectedCountry);
         }
-    }, [activeCountry]);
+    }, [selectedCountry]);
 
     useEffect(() => {
         if (selectedOfferId) {
@@ -105,9 +103,8 @@ export default function Tradeoffer() {
                 title="Trade Offer"
                 image="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
                 slug="trade_offer"
-                country={true}
-                activeCountry={activeCountry}
-                setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))}
+                activeCountry=""
+                setActiveCountry={() => { }}
             />
 
             <Box

@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import { Box, Typography, Skeleton, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -52,8 +51,7 @@ interface BrandCountryGroup {
 export default function Brand() {
     const [list, setList] = useState<BrandCountryGroup[]>([]);
     const [loading, setLoading] = useState(true);
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const [activeSubCategory, setActiveSubCategory] = useState<
         Record<string, string>
@@ -77,8 +75,8 @@ export default function Brand() {
     };
 
     useEffect(() => {
-        getList(activeCountry);
-    }, [activeCountry]);
+        getList(selectedCountry);
+    }, [selectedCountry]);
 
     const getSubCategoryKey = (country: string, categoryName: string) => {
         return `${country}-${categoryName}`;
@@ -126,7 +124,7 @@ export default function Brand() {
 
     return (
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh", pb: 10 }}>
-            <PageMainLayout title="Brands" slug="brands" image="https://sourceseas.itcoders.in/img/front-end/brands.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout title="Brands" slug="brands" image="https://sourceseas.itcoders.in/img/front-end/brands.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{

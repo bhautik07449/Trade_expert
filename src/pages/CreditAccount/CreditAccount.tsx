@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
     Box,
     Typography,
@@ -58,6 +58,7 @@ const countryOptions = [
 
 export default function CreditAccount() {
     const dispatch = useDispatch<AppDispatch>();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const { pageDetail } = useSelector((state: RootState) => state.page);
 
@@ -68,7 +69,7 @@ export default function CreditAccount() {
     const formik = useFormik({
         initialValues: {
             companyName: "",
-            country: "",
+            country: selectedCountry || "",
             established: "",
             noofemployees: "",
             bankName: "",
@@ -132,6 +133,13 @@ export default function CreditAccount() {
         },
     });
 
+    useEffect(() => {
+        if (selectedCountry) {
+            formik.setFieldValue("country", selectedCountry);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedCountry]);
+
     const fieldProps = (name: keyof typeof formik.values) => ({
         fullWidth: true,
         size: "small" as "small" | "medium",
@@ -140,7 +148,7 @@ export default function CreditAccount() {
         onChange: formik.handleChange,
         onBlur: formik.handleBlur,
         error: formik.touched[name] && Boolean(formik.errors[name]),
-        helperText: formik.touched[name] && formik.errors[name],
+        helperText: formik.touched[name] ? (formik.errors[name] as string) : undefined,
     });
 
     const generateYears = () => {
@@ -250,6 +258,7 @@ export default function CreditAccount() {
 
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <Select
+                                            isDisabled={true}
                                             options={countryOptions}
                                             menuPortalTarget={document.body}
                                             styles={{

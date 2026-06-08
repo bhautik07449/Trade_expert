@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import {
     Box,
     Typography,
@@ -30,8 +29,7 @@ const tabs = [
 ];
 
 export default function GetInTouch() {
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [activeTab, setActiveTab] = useState("fill-form");
 
     const validationSchema = Yup.object({
@@ -70,7 +68,7 @@ export default function GetInTouch() {
 
             const payload = {
                 ...values,
-                country: activeCountry,
+                country: selectedCountry,
             };
 
             try {
@@ -96,7 +94,7 @@ export default function GetInTouch() {
                 pb: { xs: 6, md: 10 },
             }}
         >
-            <PageMainLayout title="Get In Touch" slug="get-in-touch" image="https://sourceseas.itcoders.in/img/front-end/faq.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout title="Get In Touch" slug="get-in-touch" image="https://sourceseas.itcoders.in/img/front-end/faq.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{

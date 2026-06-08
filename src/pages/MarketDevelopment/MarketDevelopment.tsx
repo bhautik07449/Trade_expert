@@ -62,6 +62,7 @@ export default function MarketDevelopment() {
     const [data, setData] = useState<MarketDevelopmentData | null>(null)
     const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0)
 
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const dispatch = useDispatch<AppDispatch>();
 
     const { categories } = useSelector(
@@ -96,7 +97,7 @@ export default function MarketDevelopment() {
 
     const formik = useFormik<FormValues>({
         initialValues: {
-            country: "",
+            country: selectedCountry || "",
             category: "",
             subCategory: "",
             product: "",
@@ -121,6 +122,13 @@ export default function MarketDevelopment() {
         },
     })
 
+    useEffect(() => {
+        if (selectedCountry) {
+            formik.setFieldValue("country", selectedCountry);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedCountry]);
+
     const countryOptions = useMemo(() => {
         return categories?.map((country: any) => ({
             label: country.country,
@@ -128,18 +136,18 @@ export default function MarketDevelopment() {
         })) || [];
     }, [categories]);
 
-    const selectedCountry = categories?.find(
-        (country: any) => country.country === formik.values.country
-    );
+    const selectedCountryObj = useMemo(() => {
+        return categories?.find((c: any) => c.country === formik.values.country);
+    }, [categories, formik.values.country]);
 
     const categoryOptions = useMemo(() => {
-        return selectedCountry?.categories?.map((cat: any) => ({
+        return selectedCountryObj?.categories?.map((cat: any) => ({
             label: cat.name,
             value: String(cat.id),
         })) || [];
-    }, [selectedCountry]);
+    }, [selectedCountryObj]);
 
-    const selectedCategory = selectedCountry?.categories?.find(
+    const selectedCategory = selectedCountryObj?.categories?.find(
         (cat: any) => String(cat.id) === formik.values.category
     );
 

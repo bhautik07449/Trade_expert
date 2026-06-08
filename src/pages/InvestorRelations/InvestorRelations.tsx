@@ -1,4 +1,3 @@
-import { setSelectedCountry } from '../../store/slice/countrySlice';
 import {
     Box,
     Divider,
@@ -20,9 +19,9 @@ import ProjectSelection from "./ProjectSelection";
 
 export default function InvestorRelations() {
     const dispatch = useDispatch<AppDispatch>();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const [activeTab, setActiveTab] = useState('product');
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [activeSubCategory, setActiveSubCategory] = useState<string>("");
     const [activeProduct, setActiveProduct] = useState<string>("");
@@ -39,9 +38,9 @@ export default function InvestorRelations() {
 
     const selectedCountryData = useMemo(() => {
         return categories?.find(
-            (item: any) => item.country === activeCountry
+            (item: any) => item.country === selectedCountry
         ) || null;
-    }, [categories, activeCountry]);
+    }, [categories, selectedCountry]);
 
     const categoryList = useMemo(() => {
         return selectedCountryData?.categories || [];
@@ -77,7 +76,7 @@ export default function InvestorRelations() {
         setActiveCategory("");
         setActiveSubCategory("");
         setActiveProduct("");
-    }, [activeCountry]);
+    }, [selectedCountry]);
 
     useEffect(() => {
         if (categoryList.length > 0) {
@@ -110,7 +109,7 @@ export default function InvestorRelations() {
                 pb: { xs: 6, md: 10 }
             }}
         >
-            <PageMainLayout title="Investor Relations" slug="investor_relations" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout title="Investor Relations" slug="investor_relations" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -141,7 +140,7 @@ export default function InvestorRelations() {
 
                 {activeTab === 'product' && (
                     <ProductSelection
-                        activeCountry={activeCountry}
+                        activeCountry={selectedCountry}
                         categoriesLoading={categoriesLoading}
                         categoryList={categoryList}
                         activeCategory={activeCategory}
@@ -157,12 +156,12 @@ export default function InvestorRelations() {
                 )}
 
                 {activeTab === 'project' && (
-                    <ProjectSelection activeCountry={activeCountry} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+                    <ProjectSelection activeCountry={selectedCountry} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
                 )}
 
                 <Divider sx={{ my: 5 }} />
 
-                <FinancialService activeCountry={activeCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
+                <FinancialService activeCountry={selectedCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
 
                 <Divider sx={{ my: 5 }} />
 
@@ -205,7 +204,7 @@ export default function InvestorRelations() {
                         )}
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
-                        <InquiryForm activeCountry={activeCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
+                        <InquiryForm activeCountry={selectedCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
                     </Grid>
                 </Grid>
             </Box>

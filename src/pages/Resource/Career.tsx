@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../store/slice/countrySlice';
+import { useSelector } from 'react-redux';
 import {
     Box,
     Typography,
@@ -26,8 +25,7 @@ import { useNavigate } from "react-router-dom"
 export default function Career() {
     const navigate = useNavigate()
 
-    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
-    const dispatch = useDispatch();
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [showPassword, setShowPassword] = useState(false)
 
     const formik = useFormik({
@@ -59,6 +57,7 @@ export default function Career() {
             economic_class: "",
             business_model: "",
             password: "",
+            country: selectedCountry
         },
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -75,7 +74,7 @@ export default function Career() {
 
     return (
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh", pb: { xs: 6, md: 10 }, }}>
-            <PageMainLayout title="career" slug="career" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
+            <PageMainLayout title="career" slug="career" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{

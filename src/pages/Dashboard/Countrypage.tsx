@@ -78,7 +78,7 @@ export default function CountryPage() {
                 </Box>
 
                 <Box component="section">
-                    <SupplierTab country={selectedCountry} />
+                    <SupplierTab />
                 </Box>
             </Box>
         </Box>
