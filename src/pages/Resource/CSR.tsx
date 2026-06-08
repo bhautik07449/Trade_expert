@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedCountry } from '../../store/slice/countrySlice';
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import PageMainLayout from "../../commonUI/PageMainLayout";
@@ -14,7 +16,8 @@ type ESGData = {
 };
 
 export default function CSR() {
-    const [activeCountry, setActiveCountry] = useState("India");
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
+    const dispatch = useDispatch();
     const [esgData, setEsgData] = useState<ESGData | null>(null);
     const [activeCategory, setActiveCategory] = useState("");
 
@@ -41,7 +44,7 @@ export default function CSR() {
                 pb: { xs: 6, md: 10 },
             }}
         >
-            <PageMainLayout title="Environmental Social Governance" slug="csr" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+            <PageMainLayout title="Environmental Social Governance" slug="csr" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
 
             <Box
                 sx={{

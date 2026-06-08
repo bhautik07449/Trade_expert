@@ -98,7 +98,7 @@ export default function Router(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/:country" element={<CountryPage />} />
+      <Route path="/country/:country" element={<CountryPage />} />
       <Route path="/category/:category" element={<CategoryPage />} />
       <Route
         path="/login"

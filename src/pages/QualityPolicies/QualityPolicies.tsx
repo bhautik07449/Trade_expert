@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedCountry } from '../../store/slice/countrySlice';
 import {
     Box,
     Typography,
@@ -36,7 +38,8 @@ export default function QualityPolicies() {
     const [list, setList] = useState<QualityPolicyGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState("all");
-    const [activeCountry, setActiveCountry] = useState("");
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
+    const dispatch = useDispatch();
 
     const getList = async () => {
         setLoading(true);
@@ -105,7 +108,7 @@ export default function QualityPolicies() {
                 image="https://sourceseas.itcoders.in/img/front-end/quality.jpg"
                 country={true}
                 activeCountry={activeCountry}
-                setActiveCountry={setActiveCountry}
+                setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))}
             />
 
             <Box

@@ -8,14 +8,16 @@ import {
 import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
 import HomePageservice from "../../service/homepages.service";
+import { useSelector } from "react-redux";
 
 export default function Events() {
     const [eventsData, setEventsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
 
-    const getEventsData = async () => {
+    const getEventsData = async (country?: string) => {
         try {
-            const response = await HomePageservice.getEvents();
+            const response = await HomePageservice.getEvents(country);
             setLoading(false)
             if (response) {
                 setEventsData(response?.data?.data);
@@ -27,8 +29,8 @@ export default function Events() {
     }
 
     useEffect(() => {
-        getEventsData();
-    }, []);
+        getEventsData(activeCountry);
+    }, [activeCountry]);
 
     return (
         <Box
@@ -177,6 +179,30 @@ export default function Events() {
                                     </Box>
                                 </Grid>
                             ))}
+
+                            {eventsData?.length === 0 && (
+                                <Grid size={{ xs: 12 }}>
+                                    <Box
+                                        sx={{
+                                            minHeight: 180,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            width: "100%",
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{
+                                                color: "text.secondary",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            No Events found for this {activeCountry}.
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            )}
                         </Grid>
                     )}
                 </Box>

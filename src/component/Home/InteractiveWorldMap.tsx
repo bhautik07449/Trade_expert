@@ -242,7 +242,7 @@ export default function InteractiveWorldMap() {
                                                         const countryName = geo.properties.name;
 
                                                         dispatch(setSelectedCountry(countryName));
-                                                        navigate(`/${countryName}`);
+                                                        navigate(`/country/${countryName}`);
                                                     }}
                                                     onMouseEnter={() => {
                                                         setTooltipContent(geo.properties.name);

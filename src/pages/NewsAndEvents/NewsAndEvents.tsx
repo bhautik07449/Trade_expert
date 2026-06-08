@@ -10,9 +10,12 @@ import Eventsection from "../../component/Eventsection";
 import NewsandeventService from "../../service/newsandevent.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedCountry } from "../../store/slice/countrySlice";
 
 export default function NewsAndEvents() {
-    const [activeCountry, setActiveCountry] = useState<string>("");
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
+    const dispatch = useDispatch();
     const [multilingual, setMultilingual] = useState([]);
     const [multilingualLoading, setMultilingualLoading] = useState(false);
 
@@ -45,7 +48,7 @@ export default function NewsAndEvents() {
                 minHeight: "100vh",
             }}
         >
-            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
 
             <Box
                 sx={{

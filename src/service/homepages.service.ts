@@ -1,8 +1,8 @@
 import serverCall from "../serverCall";
 
-const getAnalyticalData = async () => {
+const getAnalyticalData = async (country?: string) => {
     try {
-        const response = serverCall.get('/analytical')
+        const response = serverCall.get('/analytical', { params: country ? { country: country } : {} })
         return response
     } catch (error) {
         throw error
@@ -94,7 +94,7 @@ const getProductsByCategory = async (category: string, season: string, subCatego
     try {
         let url = `/products?category=${category}&season=${season}`;
         if (subCategory && subCategory !== 'All') {
-             url += `&subcategory=${subCategory}`;
+            url += `&subcategory=${subCategory}`;
         }
         const response = serverCall.get(url)
         return response

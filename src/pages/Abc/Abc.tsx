@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedCountry } from '../../store/slice/countrySlice';
 import { Box, Typography, Skeleton, Grid, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
 import CMSservice from "../../service/cms.service";
@@ -6,7 +8,8 @@ import PageMainLayout from "../../commonUI/PageMainLayout";
 import AbcProductView from "../../commonUI/AbcProductView";
 
 export default function Abc() {
-    const [activeCountry, setActiveCountry] = useState("");
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
+    const dispatch = useDispatch();
     const [activeCategory, setActiveCategory] = useState<Record<number, number>>({})
 
     const [list, setList] = useState<any>([])
@@ -45,7 +48,7 @@ export default function Abc() {
 
     return (
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
 
             <Box
                 sx={{

@@ -7,6 +7,7 @@ import {
 import LabelTitle from "../../commonUI/labelTitle";
 import ESGService from "../../service/esg.service";
 import ESGCard from "../../commonUI/ESGCard";
+import { useSelector } from "react-redux";
 
 type TabKey = "E" | "S" | "G";
 
@@ -19,10 +20,11 @@ type ESGData = {
 export default function ESG() {
     const [activeTab, setActiveTab] = useState<TabKey>("E");
     const [data, setData] = useState<ESGData | null>(null);
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
 
-    const getESGData = async () => {
+    const getESGData = async (country?:string) => {
         try {
-            const response = await ESGService.getESGGroup();
+            const response = await ESGService.getESGGroup(country);
 
             if (response) {
                 setData(response?.data?.data);
@@ -33,8 +35,8 @@ export default function ESG() {
     };
 
     useEffect(() => {
-        getESGData();
-    }, []);
+        getESGData(activeCountry);
+    }, [activeCountry]);
 
     const selectedProducts =
         activeTab === "E"

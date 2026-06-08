@@ -16,6 +16,9 @@ import {
     Link,
     Button,
     Skeleton,
+    Select,
+    MenuItem,
+    FormControl,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -40,6 +43,8 @@ import { AppDispatch } from "../store";
 import { fetchFlatPage } from "../store/slice/pageSlice";
 import QuotationDialog from "../component/Dialog/quote-dialog";
 import { fetchFlatCategories } from "../store/slice/categoriesSlice";
+import HomePageservice from "../service/homepages.service";
+import { setSelectedCountry } from "../store/slice/countrySlice";
 
 interface Props {
     firstName?: string;
@@ -65,6 +70,7 @@ export default function Header() {
     const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
     const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null);
     const [menuStack, setMenuStack] = useState<any[]>([]);
+    const [countries, setCountries] = useState<string[]>([]);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -73,6 +79,7 @@ export default function Header() {
     const logoSrc = "/logo.jpg";
 
     useSelector((state: any) => state.page);
+    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categories
@@ -96,6 +103,21 @@ export default function Header() {
     useEffect(() => {
         dispatch(fetchFlatPage());
         dispatch(fetchFlatCategories());
+
+        const getPresencesData = async () => {
+            try {
+                const response = await HomePageservice.getPresences();
+                const fetchedCountries = response?.data?.countries || [];
+                setCountries(fetchedCountries);
+
+                if (fetchedCountries.length > 0 && !selectedCountry) {
+                    dispatch(setSelectedCountry(fetchedCountries[0]));
+                }
+            } catch (error: any) {
+                console.log("Presences data not fetch");
+            }
+        };
+        getPresencesData();
     }, [dispatch]);
 
     const handleMouseEnter = (label: string) => {
@@ -171,7 +193,7 @@ export default function Header() {
                 categories?.map((country: any) => ({
                     label: country?.country,
                     type: "country",
-                    path: `/${country?.country}`,
+                    path: `/country/${country?.country}`,
                     subItems:
                         country?.categories?.map((category: any) => ({
                             label: category?.name,
@@ -314,6 +336,32 @@ export default function Header() {
                             gap: 2,
                         }}
                     >
+                        <FormControl size="small" sx={{ minWidth: 120 }}>
+                            <Select
+                                value={selectedCountry || ""}
+                                onChange={(e) => {
+                                    const newCountry = e.target.value;
+                                    dispatch(setSelectedCountry(newCountry));
+                                    const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
+                                    if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
+                                        navigate(`/${encodeURIComponent(newCountry)}`);
+                                    }
+                                }}
+                                displayEmpty
+                                sx={{
+                                    height: 36,
+                                    bgcolor: "white",
+                                    fontSize: "14px",
+                                    fontWeight: 500
+                                }}
+                            >
+                                {countries.map((c) => (
+                                    <MenuItem key={c} value={c}>
+                                        {c}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         {!isLoggedIn ? (
                             <>
                                 <Typography variant="body2">

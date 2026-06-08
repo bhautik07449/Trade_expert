@@ -22,16 +22,18 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
 
     const dispatch = useDispatch<AppDispatch>();
-
+    
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
     const { pageDetail } = useSelector((state: RootState) => state.page);
 
     useEffect(() => {
         dispatch(fetchFlatPageBySlug("home"));
     }, [dispatch]);
 
-    const getAnalyticalData = async () => {
+
+    const getAnalyticalData = async (country?:string) => {
         try {
-            const response = await HomePageservice.getAnalyticalData();
+            const response = await HomePageservice.getAnalyticalData(country);
             setLoading(false)
             if (response) {
                 setAnalyticsData(response?.data?.data);
@@ -43,8 +45,8 @@ export default function Home() {
     }
 
     useEffect(() => {
-        getAnalyticalData();
-    }, []);
+        getAnalyticalData(activeCountry);
+    }, [activeCountry]);
 
     return (
         <>

@@ -1,5 +1,7 @@
 import { Box } from "@mui/material"
 import { useParams } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { setSelectedCountry } from "../../store/slice/countrySlice"
 import CategoryTab from "../../component/Home/CaterogyTab"
 import Analytical from "../../component/Home/Analytical"
 import ProductListByCountry from "../../component/Home/ProductListByCountry"
@@ -15,6 +17,15 @@ export default function CountryPage() {
     const [loading, setLoading] = useState(true);
 
     const { country } = useParams()
+    const dispatch = useDispatch();
+    const globalCountry = useSelector((state: any) => state.country.selectedCountry);
+
+    useEffect(() => {
+        const decoded = country ? decodeURIComponent(country) : "";
+        if (decoded && decoded !== globalCountry) {
+            dispatch(setSelectedCountry(decoded));
+        }
+    }, [country, dispatch]);
 
     const displayCountry = country ? decodeURIComponent(country) : "Global";
 

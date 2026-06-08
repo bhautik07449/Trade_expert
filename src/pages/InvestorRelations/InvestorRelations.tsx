@@ -1,3 +1,4 @@
+import { setSelectedCountry } from '../../store/slice/countrySlice';
 import {
     Box,
     Divider,
@@ -21,7 +22,7 @@ export default function InvestorRelations() {
     const dispatch = useDispatch<AppDispatch>();
 
     const [activeTab, setActiveTab] = useState('product');
-    const [activeCountry, setActiveCountry] = useState<string>("");
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
     const [activeCategory, setActiveCategory] = useState<string>("");
     const [activeSubCategory, setActiveSubCategory] = useState<string>("");
     const [activeProduct, setActiveProduct] = useState<string>("");
@@ -109,7 +110,7 @@ export default function InvestorRelations() {
                 pb: { xs: 6, md: 10 }
             }}
         >
-            <PageMainLayout title="Investor Relations" slug="investor_relations" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+            <PageMainLayout title="Investor Relations" slug="investor_relations" image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" country={true} activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} />
 
             <Box
                 sx={{

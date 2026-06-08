@@ -10,14 +10,17 @@ import {
     Skeleton
 } from "@mui/material";
 import LabelTitle from "../../commonUI/labelTitle";
-import CountryTab from "../../commonUI/CountryTab";
+// import CountryTab from "../../commonUI/CountryTab";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomePageservice from "../../service/homepages.service";
+import { useSelector, useDispatch } from "react-redux";
+// import { setSelectedCountry } from "../../store/slice/countrySlice";
 
 export default function CountriesSnapshot() {
     const navigate = useNavigate()
-    const [activeCountry, setActiveCountry] = useState("India")
+    const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
+    // const dispatch = useDispatch();
     const [activeCategories, setActiveCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const theme = useTheme();
@@ -55,7 +58,7 @@ export default function CountriesSnapshot() {
             <Stack spacing={3}>
                 <LabelTitle title="Countries" label="Snapshot" tagLine="Get a comprehensive overview of the global market and the economic standing of different countries." />
 
-                <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />
+                {/* <CountryTab activeCountry={activeCountry} setActiveCountry={(c: string) => dispatch(setSelectedCountry(c))} /> */}
 
                 <Box
                     sx={{

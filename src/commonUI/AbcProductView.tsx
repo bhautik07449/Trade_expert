@@ -333,9 +333,6 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
 
                             {selectedProduct?.offer_type?.items && selectedProduct.offer_type.items.length > 0 && (
                                 <Box sx={{ mt: 2 }}>
-                                    <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2, color: "text.primary" }}>
-                                        Included Products:
-                                    </Typography>
                                     <CardUi 
                                         products={selectedProduct.offer_type.items
                                             .map((item: any) => item.product || item)
