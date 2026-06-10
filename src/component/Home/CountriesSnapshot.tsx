@@ -64,13 +64,13 @@ export default function CountriesSnapshot() {
                             md: "1.2fr 1fr 0.9fr",
                         },
                         gap: 3,
+                        bgcolor: "white"
                     }}
                 >
                     <Card
                         elevation={0}
                         sx={{
-                            border: `1px solid ${theme.palette.divider}`,
-                            bgcolor: "background.paper",
+                            bgcolor: "transparent",
                         }}
                     >
                         <CardContent>
@@ -137,8 +137,7 @@ export default function CountriesSnapshot() {
                     <Card
                         elevation={0}
                         sx={{
-                            border: `1px solid ${theme.palette.divider}`,
-                            bgcolor: "background.paper",
+                            bgcolor: "transparent",
                         }}
                     >
                         <CardContent>
@@ -213,8 +212,7 @@ export default function CountriesSnapshot() {
                     <Card
                         elevation={0}
                         sx={{
-                            border: `1px solid ${theme.palette.divider}`,
-                            bgcolor: "background.paper",
+                            bgcolor: "transparent",
                         }}
                     >
                         <CardContent>
