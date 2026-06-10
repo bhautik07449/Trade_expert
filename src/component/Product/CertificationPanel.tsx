@@ -92,7 +92,7 @@ export default function CertificationPanel({ product }: any) {
         <Tab label="Product Certification" />
         <Tab label="Seasonal Chart" />
 
-        {keys.map((key) => (
+        {(Array.isArray(keys) ? keys : []).map((key) => (
           <Tab
             key={key}
             label={key}
@@ -163,7 +163,7 @@ export default function CertificationPanel({ product }: any) {
                 }}
               >
                 <TableBody>
-                  {activeSpecRows.map((row: any, idx: number) => (
+                  {(Array.isArray(activeSpecRows) ? activeSpecRows : []).map((row: any, idx: number) => (
                     <TableRow
                       key={idx}
                       sx={{

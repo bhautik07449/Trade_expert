@@ -58,7 +58,7 @@ export default function ContactInfoCard({
                     borderColor: "divider",
                 }}
             >
-                {details.map((item, index) => (
+                {(Array.isArray(details) ? details : []).map((item, index) => (
                     <Typography
                         key={index}
                         sx={{

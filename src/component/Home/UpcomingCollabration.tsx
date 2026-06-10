@@ -153,8 +153,7 @@ export default function UpcomingCollabration({ visiblecard = 4 }: { visiblecard?
                                     </Card>
                                 </Box>
                             ))
-                        ) : data.length > 0 ? (
-                            data.map((item, index) => (
+                        ) : data.length > 0 ? ((Array.isArray(data) ? data : []).map((item, index) => (
                                 <Box
                                     key={index}
                                     sx={{

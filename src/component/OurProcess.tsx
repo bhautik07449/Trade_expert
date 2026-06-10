@@ -65,7 +65,7 @@ export default function OurProcess() {
                         alignItems: "stretch",
                     }}
                 >
-                    {processSteps.map((step, index) => (
+                    {(Array.isArray(processSteps) ? processSteps : []).map((step, index) => (
                         <Box
                             key={index}
                             sx={{

@@ -159,7 +159,7 @@ export default function CountryTab({
                             },
                         }}
                     >
-                        {country.map((countryName) => (
+                        {(Array.isArray(country) ? country : []).map((countryName) => (
                             <Tab
                                 key={countryName}
                                 label={countryName}

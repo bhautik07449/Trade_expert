@@ -638,7 +638,7 @@ export default function SuppliersRegister() {
                             <Divider sx={{ mb: 2 }} />
 
                             <List disablePadding>
-                                {benefits.map((item, index) => (
+                                {(Array.isArray(benefits) ? benefits : []).map((item, index) => (
                                     <ListItem
                                         key={index}
                                         disableGutters

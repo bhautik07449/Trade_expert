@@ -27,7 +27,7 @@ export default function ProductSpecsTabs({ specs }: { specs: Specs }) {
           "& .MuiTab-root": { textTransform: "none", fontWeight: 600 },
         }}
       >
-        {keys.map((k) => (
+        {(Array.isArray(keys) ? keys : []).map((k) => (
           <Tab key={k} label={k} id={`spec-tab-${k}`} aria-controls={`spec-panel-${k}`} />
         ))}
       </Tabs>

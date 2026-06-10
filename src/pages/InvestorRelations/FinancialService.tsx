@@ -75,8 +75,7 @@ export default function FinancialService({ activeCountry, selectedService, setSe
                             />
                         </Grid>
                     ))
-                ) : services.length > 0 ? (
-                    services.map((service, index) => (
+                ) : services.length > 0 ? ((Array.isArray(services) ? services : []).map((service, index) => (
                         <Grid
                             key={service?.id || index}
                             size={{ xs: 6, sm: 6, md: 3 }}

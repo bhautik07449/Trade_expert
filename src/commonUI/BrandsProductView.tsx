@@ -183,7 +183,7 @@ export default function BrandsProductView({ products, visiblecard = 4, }: { prod
                             }%)`,
                     }}
                 >
-                    {products.map((product) => (
+                    {(Array.isArray(products) ? products : []).map((product) => (
                         <Box
                             key={product.id}
                             sx={{

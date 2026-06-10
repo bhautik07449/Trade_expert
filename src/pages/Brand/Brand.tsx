@@ -180,13 +180,12 @@ export default function Brand() {
                                 <Skeleton variant="text" width="75%" sx={{ mx: "auto" }} />
                             </Box>
                         ))
-                    ) : list.length > 0 ? (
-                        list.map((countryGroup, countryIndex) => {
+                    ) : list.length > 0 ? ((Array.isArray(list) ? list : []).map((countryGroup, countryIndex) => {
                             const filteredCategoryGroups = countryGroup.category;
 
                             return (
                                 <Box key={countryGroup.country || countryIndex}>
-                                    {filteredCategoryGroups.map((categoryGroup, categoryIndex) => {
+                                    {(Array.isArray(filteredCategoryGroups) ? filteredCategoryGroups : []).map((categoryGroup, categoryIndex) => {
                                         const activeSubCategory = getActiveSubCategory(
                                             countryGroup.country,
                                             categoryGroup.category.name,
@@ -218,7 +217,7 @@ export default function Brand() {
                                                     {categoryGroup.category.name}
                                                 </Typography>
 
-                                                {categoryGroup.brands.map((brand, brandIndex) => (
+                                                {(Array.isArray(categoryGroup.brands) ? categoryGroup.brands : []).map((brand, brandIndex) => (
                                                     <Box key={brand.id || brandIndex}>
                                                         <Box
                                                             sx={{

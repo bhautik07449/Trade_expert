@@ -46,7 +46,7 @@ export default function SupplierTab() {
                 }}
             >
                 <Grid container spacing={4}>
-                    {tab.map((item, index) => (
+                    {(Array.isArray(tab) ? tab : []).map((item, index) => (
                         <Grid size={{ xs: 12, md: 4 }} key={index}>
                             <Box
                                 sx={{

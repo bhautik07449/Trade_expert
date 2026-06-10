@@ -62,7 +62,7 @@ export default function QualityPolicies() {
 
     const filteredByCountryList = useMemo(() => {
         if (!selectedCountry) return list;
-        return list.filter((item) => item?.country === selectedCountry);
+        return (Array.isArray(list) ? list : []).filter((item) => item?.country === selectedCountry);
     }, [list, selectedCountry]);
 
     const categoryTabs = useMemo(() => {
@@ -86,7 +86,7 @@ export default function QualityPolicies() {
             return filteredByCountryList;
         }
 
-        return filteredByCountryList.filter((item) => item?.category?.name === activeCategory);
+        return (Array.isArray(filteredByCountryList) ? filteredByCountryList : []).filter((item) => item?.category?.name === activeCategory);
     }, [filteredByCountryList, activeCategory]);
 
     useEffect(() => {
@@ -184,7 +184,7 @@ export default function QualityPolicies() {
                         >
                             <Tab label="All" value="all" />
 
-                            {categoryTabs.map((category) => (
+                            {(Array.isArray(categoryTabs) ? categoryTabs : []).map((category) => (
                                 <Tab
                                     key={category.id || category.name}
                                     label={category.name}
@@ -243,7 +243,7 @@ export default function QualityPolicies() {
                     </Stack>
                 ) : filteredList.length > 0 ? (
                     <Stack spacing={{ xs: 4, md: 6 }}>
-                        {filteredList.map((group, groupIndex) => (
+                        {(Array.isArray(filteredList) ? filteredList : []).map((group, groupIndex) => (
                             <Paper
                                 key={groupIndex}
                                 elevation={0}
@@ -299,7 +299,7 @@ export default function QualityPolicies() {
                                 </Box>
 
                                 <Stack spacing={3}>
-                                    {group.data.map((item, index) => (
+                                    {(Array.isArray(group.data) ? group.data : []).map((item, index) => (
                                         <Box key={item.id || index}>
                                             <Paper
                                                 elevation={0}

@@ -143,8 +143,7 @@ export default function BuyerDashboard() {
                                 </Card>
                             </Grid>
                         ))
-                    ) : (
-                        dashboardItems.map((item, index) => (
+                    ) : ((Array.isArray(dashboardItems) ? dashboardItems : []).map((item, index) => (
                             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                                 <Card
                                     sx={{

@@ -61,7 +61,7 @@ export default function TradeHistory() {
                 </Grid>
             ) : tradeHistory && tradeHistory.length > 0 ? (
                 <Grid container spacing={3}>
-                    {tradeHistory.map((item, index) => (
+                    {(Array.isArray(tradeHistory) ? tradeHistory : []).map((item, index) => (
                         <Grid size={{ xs: 12, sm: 6 }} key={item?.id || index}>
                             <Box
                                 sx={{

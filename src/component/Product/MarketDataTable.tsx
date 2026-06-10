@@ -45,8 +45,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
     if (!dmrs || dmrs.length === 0) return <NoDataFound message="No Market Data Available" />;
 
     // Flatten all market details into a single array
-    const allMarketData = dmrs.flatMap((dmr) =>
-        dmr.market.map((item) => ({
+    const allMarketData = dmrs.flatMap((dmr) =>(Array.isArray(dmr.market) ? dmr.market : []).map((item) => ({
             ...item,
             reportName: dmr.name,
         }))
@@ -54,7 +53,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
 
     if (allMarketData.length === 0) return <NoDataFound message="No Market Data Available" />;
 
-    const displayedData = isExpanded ? allMarketData : allMarketData.slice(0, 1);
+    const displayedData = isExpanded ? allMarketData : (Array.isArray(allMarketData) ? allMarketData : []).slice(0, 1);
 
     return (
         <Box sx={{ mt: 4, mb: 4 }}>
@@ -171,7 +170,7 @@ const MarketDataTable = ({ dmrs }: MarketDataTableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {displayedData.map((item, index) => (
+                        {(Array.isArray(displayedData) ? displayedData : []).map((item, index) => (
                             <TableRow
                                 key={item.id || index}
                                 sx={{

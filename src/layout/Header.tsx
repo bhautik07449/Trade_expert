@@ -192,21 +192,21 @@ export default function Header() {
             label: "Sectors",
             icon: <CategoryIcon fontSize="small" />,
             subItems:
-                Array.isArray(categories) ? categories.map((country: any) => ({
+                Array.isArray(categories) ?(Array.isArray(categories) ? categories : []).map((country: any) => ({
                     label: country?.country,
                     type: "country",
                     path: `/country/${country?.country}`,
                     subItems:
-                        Array.isArray(country?.categories) ? country.categories.map((category: any) => ({
+                        Array.isArray(country?.categories) ?(Array.isArray(country.categories) ? country.categories : []).map((category: any) => ({
                             label: category?.name,
                             type: "category",
                             path: `/category/${category?.id}`,
                             subItems:
-                                Array.isArray(category?.subcategories) ? category.subcategories.map((subcategory: any) => ({
+                                Array.isArray(category?.subcategories) ?(Array.isArray(category.subcategories) ? category.subcategories : []).map((subcategory: any) => ({
                                     label: subcategory?.name,
                                     type: "subcategory",
                                     subItems:
-                                        Array.isArray(subcategory?.products) ? subcategory.products.map((product: any) => ({
+                                        Array.isArray(subcategory?.products) ?(Array.isArray(subcategory.products) ? subcategory.products : []).map((product: any) => ({
                                             label: product?.name,
                                             type: "product",
                                             path: `/product-details/${product?.id}`,
@@ -357,7 +357,7 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {Array.isArray(countries) ? countries.map((c) => (
+                                    {Array.isArray(countries) ?(Array.isArray(countries) ? countries : []).map((c) => (
                                         <MenuItem key={c} value={c}>
                                             {c}
                                         </MenuItem>
@@ -471,7 +471,7 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {Array.isArray(countries) ? countries.map((c) => (
+                                    {Array.isArray(countries) ?(Array.isArray(countries) ? countries : []).map((c) => (
                                         <MenuItem key={c} value={c}>
                                             {c}
                                         </MenuItem>
@@ -505,7 +505,7 @@ export default function Header() {
                             position: "relative",
                         }}
                     >
-                        {navItems.map((item) => (
+                        {(Array.isArray(navItems) ? navItems : []).map((item) => (
                             <Box
                                 key={item.label}
                                 sx={{
@@ -826,7 +826,7 @@ function NestedMenu({
 
     return (
         <Box sx={{ minWidth: 220 }}>
-            {items.map((item, index) => (
+            {(Array.isArray(items) ? items : []).map((item, index) => (
                 <Box
                     key={item.label}
                     sx={{
@@ -933,7 +933,7 @@ function CountriesMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {items.map((country) => (
+                    {(Array.isArray(items) ? items : []).map((country) => (
                         <ListItem key={country.label} disablePadding>
                             <ListItemButton
                                 onMouseEnter={() => setHoveredCountry(country)}
@@ -986,8 +986,7 @@ function CountriesMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {hoveredCountry?.subItems?.length > 0 ? (
-                        hoveredCountry.subItems.map((category: any) => (
+                    {hoveredCountry?.subItems?.length > 0 ? ((Array.isArray(hoveredCountry.subItems) ? hoveredCountry.subItems : []).map((category: any) => (
                             <ListItem key={category.label} disablePadding>
                                 <ListItemButton
                                     onMouseEnter={() => setHoveredCategory(category)}
@@ -1043,8 +1042,7 @@ function CountriesMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {hoveredCategory?.subItems?.length > 0 ? (
-                        hoveredCategory.subItems.map((subcategory: any) => (
+                    {hoveredCategory?.subItems?.length > 0 ? ((Array.isArray(hoveredCategory.subItems) ? hoveredCategory.subItems : []).map((subcategory: any) => (
                             <ListItem key={subcategory.label} disablePadding>
                                 <ListItemButton
                                     onMouseEnter={() => setHoveredSubcategory(subcategory)}
@@ -1103,8 +1101,7 @@ function CountriesMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {hoveredSubcategory?.subItems?.length > 0 ? (
-                        hoveredSubcategory.subItems.map((product: any) => (
+                    {hoveredSubcategory?.subItems?.length > 0 ? ((Array.isArray(hoveredSubcategory.subItems) ? hoveredSubcategory.subItems : []).map((product: any) => (
                             <ListItem key={product.label} disablePadding>
                                 <ListItemButton
                                     onClick={() => {

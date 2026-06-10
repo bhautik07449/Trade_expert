@@ -139,7 +139,7 @@ export default function ComodityProfile({
                         spacing={{ xs: 2, sm: 2.5, md: 3 }}
                         justifyContent="center"
                     >
-                        {profileCards.map((card) => (
+                        {(Array.isArray(profileCards) ? profileCards : []).map((card) => (
                             <Grid
                                 size={{ xs: 12, sm: 6, lg: 4 }}
                                 key={card.label}

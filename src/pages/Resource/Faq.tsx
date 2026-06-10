@@ -95,7 +95,7 @@ export default function Faq() {
                         </Stack>
                     ) : faqs?.length > 0 ? (
                         <Stack spacing={2}>
-                            {faqs.map((faq, index) => {
+                            {(Array.isArray(faqs) ? faqs : []).map((faq, index) => {
                                 const isExpanded = expanded === index;
 
                                 return (

@@ -121,7 +121,7 @@ export default function Multilingual({
                                 </CardContent>
                             </Card>
                         ))
-                        : multilingualTiles.map((item, index) => (
+                        :(Array.isArray(multilingualTiles) ? multilingualTiles : []).map((item, index) => (
                             <Card
                                 key={index}
                                 elevation={0}

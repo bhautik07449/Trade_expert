@@ -296,7 +296,7 @@ export default function MarketDevelopment() {
                                 }}
                             >
                                 <MenuItem value="">Select Country</MenuItem>
-                                {countryOptions.map((item: any) => (
+                                {(Array.isArray(countryOptions) ? countryOptions : []).map((item: any) => (
                                     <MenuItem key={item.value} value={item.value}>
                                         {item.label}
                                     </MenuItem>
@@ -325,7 +325,7 @@ export default function MarketDevelopment() {
                                 }}
                             >
                                 <MenuItem value="">Select Category</MenuItem>
-                                {categoryOptions.map((item: any) => (
+                                {(Array.isArray(categoryOptions) ? categoryOptions : []).map((item: any) => (
                                     <MenuItem key={item.value} value={item.value}>
                                         {item.label}
                                     </MenuItem>
@@ -353,7 +353,7 @@ export default function MarketDevelopment() {
                                 }}
                             >
                                 <MenuItem value="">Select Sub Category</MenuItem>
-                                {subCategoryOptions.map((item: any) => (
+                                {(Array.isArray(subCategoryOptions) ? subCategoryOptions : []).map((item: any) => (
                                     <MenuItem key={item.value} value={item.value}>
                                         {item.label}
                                     </MenuItem>
@@ -373,7 +373,7 @@ export default function MarketDevelopment() {
                                 disabled={!formik.values.subCategory}
                             >
                                 <MenuItem value="">Select Product</MenuItem>
-                                {productOptions.map((item: any) => (
+                                {(Array.isArray(productOptions) ? productOptions : []).map((item: any) => (
                                     <MenuItem key={item.value} value={item.value}>
                                         {item.label}
                                     </MenuItem>
@@ -409,7 +409,7 @@ export default function MarketDevelopment() {
                     </Box>
 
                     <Grid container spacing={2} alignItems="stretch" justifyContent="center">
-                        {processSteps.map((step, index) => (
+                        {(Array.isArray(processSteps) ? processSteps : []).map((step, index) => (
                             <Grid key={index} size={{ xs: 12, sm: 6, md: 2.4 }}>
                                 <Paper
                                     variant="outlined"
@@ -491,7 +491,7 @@ export default function MarketDevelopment() {
                             </Typography>
 
                             <Stack spacing={1.2}>
-                                {stages.map((stage: Stage, index: number) => (
+                                {(Array.isArray(stages) ? stages : []).map((stage: Stage, index: number) => (
                                     <Box
                                         key={index}
                                         onClick={() => setSelectedStageIndex(index)}
@@ -567,8 +567,7 @@ export default function MarketDevelopment() {
                             </Typography>
 
                             <Stack spacing={1.5}>
-                                {processItems.length > 0 ? (
-                                    processItems.map((item: StageField, index: number) => {
+                                {processItems.length > 0 ? ((Array.isArray(processItems) ? processItems : []).map((item: StageField, index: number) => {
                                         const stageName = selectedStage?.name || `stage_${selectedStageIndex}`
                                         const fieldName = item?.label || `field_${index}`
                                         const formikName = `stages.${stageName}.${fieldName}`

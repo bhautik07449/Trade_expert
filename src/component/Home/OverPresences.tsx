@@ -97,8 +97,7 @@ export default function OverPresences() {
                                 }}
                             >
                                 <Geographies geography={geoUrl}>
-                                    {({ geographies }) =>
-                                        geographies.map((geo) => {
+                                    {({ geographies }) =>(Array.isArray(geographies) ? geographies : []).map((geo) => {
                                             const selected = isCountrySelected(geo);
 
                                             return (

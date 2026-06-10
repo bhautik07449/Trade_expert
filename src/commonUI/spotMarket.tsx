@@ -32,7 +32,7 @@ type RowType = {
 const transformMarketData = (data: any[]) => {
     if (!data || data.length === 0) return { columns: [], rows: [] }
 
-    const dynamicColumns = data.map((item) => ({
+    const dynamicColumns =(Array.isArray(data) ? data : []).map((item) => ({
         key: `col_${item.id}`,
         label: item.dmrName || "-",
     }))
@@ -47,7 +47,7 @@ const transformMarketData = (data: any[]) => {
         { key: "rate", label: "Rate per kg", isHighlighted: true },
     ]
 
-    const rows = attributes.map((attr) => {
+    const rows =(Array.isArray(attributes) ? attributes : []).map((attr) => {
         const row: any = {
             attribute: attr.label,
             isHighlighted: attr.isHighlighted || false,
@@ -93,7 +93,7 @@ export default function SpotMarketTable({ category }: any) {
     const visibleColumns = 5
     const columnWidth = 200
 
-    const baseColumns = tableData.columns.slice(1)
+    const baseColumns = (Array.isArray(tableData.columns) ? tableData.columns : []).slice(1)
     const dataColumns = [...baseColumns, ...baseColumns]
     const totalColumns = baseColumns.length
 
@@ -356,7 +356,7 @@ export default function SpotMarketTable({ category }: any) {
                                                     transition: "transform 0.6s ease-in-out",
                                                 }}
                                             >
-                                                {dataColumns.map((column, index) => (
+                                                {(Array.isArray(dataColumns) ? dataColumns : []).map((column, index) => (
                                                     <Box
                                                         key={index}
                                                         sx={{
@@ -376,7 +376,7 @@ export default function SpotMarketTable({ category }: any) {
                                 </TableHead>
 
                                 <TableBody>
-                                    {tableData.rows.map((row: any, rowIndex: number) => (
+                                    {(Array.isArray(tableData.rows) ? tableData.rows : []).map((row: any, rowIndex: number) => (
                                         <TableRow key={rowIndex}>
                                             <TableCell
                                                 sx={{
@@ -399,7 +399,7 @@ export default function SpotMarketTable({ category }: any) {
                                                         transition: "transform 0.6s ease-in-out",
                                                     }}
                                                 >
-                                                    {dataColumns.map((column, index) => (
+                                                    {(Array.isArray(dataColumns) ? dataColumns : []).map((column, index) => (
                                                         <Box
                                                             key={index}
                                                             sx={{

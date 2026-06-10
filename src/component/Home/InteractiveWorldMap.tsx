@@ -127,7 +127,7 @@ export default function InteractiveWorldMap() {
     const normalizeCountryName = (name: string = "") =>
         name.trim().toLowerCase();
 
-    const presenceCountries = presences.map((item: any) =>
+    const presenceCountries =(Array.isArray(presences) ? presences : []).map((item: any) =>
         normalizeCountryName(item?.country || item?.name || item)
     );
 
@@ -233,7 +233,7 @@ export default function InteractiveWorldMap() {
                             <Geographies geography={geoUrl}>
                                 {({ geographies }) => (
                                     <>
-                                        {geographies.map((geo) => {
+                                        {(Array.isArray(geographies) ? geographies : []).map((geo) => {
                                             return (
                                                 <Geography
                                                     key={geo.rsmKey}

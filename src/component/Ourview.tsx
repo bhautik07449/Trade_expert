@@ -157,7 +157,7 @@ export default function OurView() {
                                 />
                             ) : (
                                 <Slider {...sliderSettings}>
-                                    {certImages.map((img, index) => (
+                                    {(Array.isArray(certImages) ? certImages : []).map((img, index) => (
                                         <Box key={index} sx={{ outline: "none" }}>
                                             <Box
                                                 component="img"

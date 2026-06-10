@@ -119,8 +119,7 @@ export default function ProductListByCountry() {
                         </Box>
                     ))}
                 </Box>
-            ) : allProducts.length > 0 ? (
-                allProducts.map((pro, groupIndex) => {
+            ) : allProducts.length > 0 ? ((Array.isArray(allProducts) ? allProducts : []).map((pro, groupIndex) => {
                     const selectedIndex = activeCategory[groupIndex] || 0
                     const selectedCategory = pro?.item?.[selectedIndex]
 

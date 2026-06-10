@@ -93,7 +93,7 @@ export default function PersonnelRegister() {
                                 }}
                             >
                                 <Stack divider={<Divider />}>
-                                    {personnelData.map((item, index) => (
+                                    {(Array.isArray(personnelData) ? personnelData : []).map((item, index) => (
                                         <Box
                                             key={index}
                                             sx={{
@@ -144,7 +144,7 @@ export default function PersonnelRegister() {
                                     <Divider sx={{ mb: 3 }} />
 
                                     <Grid container spacing={2}>
-                                        {personnelData.map((item, index) => (
+                                        {(Array.isArray(personnelData) ? personnelData : []).map((item, index) => (
                                             <Grid
                                                 key={index}
                                                 size={{ xs: 12, sm: 6 }}

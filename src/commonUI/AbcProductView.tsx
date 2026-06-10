@@ -184,7 +184,7 @@ export default function AbcProductView({ products, visiblecard = 4, }: { product
                             }%)`,
                     }}
                 >
-                    {products.map((product) => (
+                    {(Array.isArray(products) ? products : []).map((product) => (
                         <Box
                             key={product.id}
                             sx={{

@@ -65,7 +65,7 @@ export default function Events() {
                         </Grid>
                     ) : (
                         <Grid container spacing={3}>
-                            {eventsData.map((item, index) => (
+                            {(Array.isArray(eventsData) ? eventsData : []).map((item, index) => (
                                 <Grid size={{ xs: 12, md: 6, lg: 6 }} key={index}>
                                     <Box
                                         sx={{

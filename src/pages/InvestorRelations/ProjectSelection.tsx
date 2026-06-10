@@ -105,7 +105,7 @@ export default function ProjectSelection({ activeCountry, selectedProject, setSe
                             scrollButtons="auto"
                             allowScrollButtonsMobile
                         >
-                            {projects.map((project) => (
+                            {(Array.isArray(projects) ? projects : []).map((project) => (
                                 <Tab
                                     key={project.id}
                                     value={project.id}

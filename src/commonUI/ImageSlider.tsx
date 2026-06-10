@@ -78,8 +78,7 @@ export default function ImageSlider({ slides, loading }: { slides: SlideData[]; 
                 <Skeleton animation="wave" variant="rectangular" width="100%" sx={{ height: { xs: 250, sm: 350, md: 400, lg: 500 } }} />
             ) : (
                 <Slider {...settings}>
-                    {slides?.length > 0 ? (
-                        slides.map((slide) => (
+                    {slides?.length > 0 ? ((Array.isArray(slides) ? slides : []).map((slide) => (
                             <Box key={slide.id}>
                                 <Box
                                     component="img"

@@ -164,7 +164,7 @@ export default function CategoryTabview({
                             },
                         }}
                     >
-                        {category.map((item) => (
+                        {(Array.isArray(category) ? category : []).map((item) => (
                             <Tab
                                 key={item.id}
                                 label={item.name}

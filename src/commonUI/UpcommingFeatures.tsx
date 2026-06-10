@@ -103,7 +103,7 @@ export default function UpcommingFeatures() {
                 </Box>
 
                 <Grid container spacing={3} justifyContent="center">
-                    {features.map((feature, index) => (
+                    {(Array.isArray(features) ? features : []).map((feature, index) => (
                         <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                             <Card
                                 elevation={0}

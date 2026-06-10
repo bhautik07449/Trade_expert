@@ -205,7 +205,7 @@ export default function CardImageSlider({
                     />
                 ) : cardImages?.length > 0 ? (
                     <Slider {...sliderSettings}>
-                        {cardImages.map((img, index) => (
+                        {(Array.isArray(cardImages) ? cardImages : []).map((img, index) => (
                             <Box key={index} sx={{ outline: "none" }}>
                                 <Box
                                     sx={{

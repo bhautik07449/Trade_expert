@@ -85,7 +85,7 @@ export default function Values() {
                 <Title title="Services to" label="look out for" tagLine="We provide a comprehensive suite of value-added services designed to support and enhance your trading experience on our platform." />
 
                 <Grid container spacing={{ xs: 2.5, sm: 3 }} mt={1}>
-                    {data.map((item, index) => {
+                    {(Array.isArray(data) ? data : []).map((item, index) => {
                         const Icon = item.icon
 
                         return (

@@ -138,7 +138,7 @@ export default function CategoryInsight({
                         spacing={{ xs: 2, sm: 2.5, md: 3 }}
                         justifyContent="center"
                     >
-                        {categoryStats.map((stat) => (
+                        {(Array.isArray(categoryStats) ? categoryStats : []).map((stat) => (
                             <Grid
                                 size={{ xs: 12, sm: 6, lg: 4 }}
                                 key={stat.label}

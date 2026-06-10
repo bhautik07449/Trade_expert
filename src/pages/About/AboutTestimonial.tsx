@@ -170,7 +170,7 @@ export default function AboutTestimonial() {
                                 containerStyle={{ width: "100%" }}
                                 slideStyle={{ padding: 0, minHeight: "auto", width: "100%" }}
                             >
-                                {testimonials.map((item, index) => (
+                                {(Array.isArray(testimonials) ? testimonials : []).map((item, index) => (
                                     <Box key={index} sx={{ width: "100%", px: { xs: 0, sm: 2 }, boxSizing: "border-box", display: "flex", justifyContent: "center" }}>
                                         <Paper
                                             elevation={3}

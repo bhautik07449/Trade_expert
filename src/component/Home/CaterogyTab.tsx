@@ -166,7 +166,7 @@ export default function CategoryTab() {
                     </Grid>
                 ) : categories && categories.length > 0 ? (
                     <Grid container spacing={2.5} justifyContent="center">
-                        {categories.map((cat: any, index: number) => (
+                        {(Array.isArray(categories) ? categories : []).map((cat: any, index: number) => (
                             <Grid
                                 size={{ xs: 6, sm: 6, md: 4, lg: 3 }}
                                 key={cat.id ?? cat.slug ?? index}

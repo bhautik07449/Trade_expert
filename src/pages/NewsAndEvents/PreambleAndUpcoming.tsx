@@ -83,7 +83,7 @@ export default function PreambleAndUpcoming({ country }: { country: string }) {
     }, [country]);
 
     const filteredPreamble = activeCategory
-        ? preamble.filter((item) => {
+        ?(Array.isArray(preamble) ? preamble : []).filter((item) => {
             const itemCategory =
                 typeof item.category === "object"
                     ? item.category?.name
@@ -162,7 +162,7 @@ export default function PreambleAndUpcoming({ country }: { country: string }) {
                             },
                         }}
                     >
-                        {categories.map((category) => (
+                        {(Array.isArray(categories) ? categories : []).map((category) => (
                             <Tab
                                 key={category.id}
                                 label={category.name}
@@ -208,7 +208,7 @@ export default function PreambleAndUpcoming({ country }: { country: string }) {
                             </Card>
                         </Grid>
                     ))
-                    : filteredPreamble.map((item, index) => {
+                    :(Array.isArray(filteredPreamble) ? filteredPreamble : []).map((item, index) => {
                         const categoryLabel =
                             typeof item.category === "object"
                                 ? item.category?.name

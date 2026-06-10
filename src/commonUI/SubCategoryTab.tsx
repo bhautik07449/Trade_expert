@@ -112,7 +112,7 @@ export default function SubCategoryTab({
                         },
                     }}
                 >
-                    {subcategory.map((item) => (
+                    {(Array.isArray(subcategory) ? subcategory : []).map((item) => (
                         <Tab
                             key={item?.id || item?.name}
                             label={item?.name}

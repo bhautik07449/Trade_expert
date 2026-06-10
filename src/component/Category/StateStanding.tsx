@@ -34,7 +34,7 @@ export default function StateStanding({
     loading?: boolean;
 }) {
 
-    const maxStateValue = Math.max(...stateStandingData.map((item) => item.value));
+    const maxStateValue = Math.max(...(Array.isArray(stateStandingData) ? stateStandingData : []).map((item) => item.value));
 
     return (
         <Box
@@ -89,7 +89,7 @@ export default function StateStanding({
                         }}
                     >
                         <Stack spacing={2.6}>
-                            {stateStandingData.map((item, index) => {
+                            {(Array.isArray(stateStandingData) ? stateStandingData : []).map((item, index) => {
                                 const percentage =
                                     (item.value / maxStateValue) * 100;
 

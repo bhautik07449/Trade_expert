@@ -37,7 +37,7 @@ export default function ProductGallery({ images, title }: Props) {
       </Paper>
 
       <ImageList cols={3} gap={8} sx={{ m: 0 }}>
-        {images.map((src, idx) => (
+        {(Array.isArray(images) ? images : []).map((src, idx) => (
           <ImageListItem key={idx} onClick={() => setActive(idx)} sx={{ cursor: "pointer" }}>
             <img
               src={getImageUrl(src)}

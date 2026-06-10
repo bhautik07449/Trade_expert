@@ -271,8 +271,7 @@ export default function PublicDashboard() {
                                     </Card>
                                 </Grid>
                             ))
-                        ) : (
-                            dashboardItems.map((item, index) => (
+                        ) : ((Array.isArray(dashboardItems) ? dashboardItems : []).map((item, index) => (
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                                     <Card
                                         sx={{
@@ -350,7 +349,7 @@ export default function PublicDashboard() {
                                 </TableHead>
 
                                 <TableBody>
-                                    {tableRows.map((row, index) => (
+                                    {(Array.isArray(tableRows) ? tableRows : []).map((row, index) => (
                                         <TableRow key={index}>
                                             <TableCell>
                                                 <Box

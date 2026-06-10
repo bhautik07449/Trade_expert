@@ -43,7 +43,7 @@ export default function OverViewContent({ category }: any) {
 
     const global_importance_raw = data?.global_importance || data?.global_impotance || data?.globalImportance;
     const globalItems: string[] = Array.isArray(global_importance_raw)
-        ? global_importance_raw.map(extractContent)
+        ?(Array.isArray(global_importance_raw) ? global_importance_raw : []).map(extractContent)
         : global_importance_raw
             ? String(global_importance_raw).split(",").map(s => s.trim())
             : [];
@@ -192,7 +192,7 @@ function GlobalImportanceRow({
             <ArrowLine />
 
             <Grid container spacing={2}>
-                {items.map((item, index) => (
+                {(Array.isArray(items) ? items : []).map((item, index) => (
                     <Grid size={{ xs: 6, sm: 3 }} key={index}>
                         <Paper
                             elevation={0}

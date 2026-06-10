@@ -125,7 +125,7 @@ export default function CommodityProcessFlow({
                     width: "100%",
                 }}
             >
-                {displaySteps.map((step, index) => (
+                {(Array.isArray(displaySteps) ? displaySteps : []).map((step, index) => (
                     <Stack
                         key={`${step}-${index}`}
                         direction="row"
@@ -165,7 +165,7 @@ export default function CommodityProcessFlow({
                 width: "100%",
             }}
         >
-            {steps.map((step, index) => (
+            {(Array.isArray(steps) ? steps : []).map((step, index) => (
                 <Box key={`${step}-${index}`}>
                     {renderStepCard(step)}
 
@@ -240,7 +240,7 @@ export default function CommodityProcessFlow({
                             display: { xs: "none", md: "flex" },
                         }}
                     >
-                        {rows.map((row, rowIndex) => (
+                        {(Array.isArray(rows) ? rows : []).map((row, rowIndex) => (
                             <Box key={rowIndex}>
                                 {renderDesktopRow(row, rowIndex)}
 

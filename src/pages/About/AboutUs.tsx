@@ -94,7 +94,7 @@ export default function AboutUs() {
             
             <Container maxWidth="lg" sx={{ py: { xs: 5, md: 9 } }}>
                 <Grid container spacing={4} id="vision-mission">
-                    {cards.map((item, index) => (
+                    {(Array.isArray(cards) ? cards : []).map((item, index) => (
                         <Grid size={{ xs: 12, sm: 6, md: 6 }} key={index}>
                             <Box
                                 sx={{

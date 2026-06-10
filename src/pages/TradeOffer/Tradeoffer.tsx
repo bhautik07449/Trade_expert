@@ -141,8 +141,7 @@ export default function Tradeoffer() {
                                     />
                                 </Grid>
                             ))
-                        ) : stockLots.length > 0 ? (
-                            stockLots.map((offer) => {
+                        ) : stockLots.length > 0 ? ((Array.isArray(stockLots) ? stockLots : []).map((offer) => {
                                 const isActive = selectedOfferId === offer?.id;
 
                                 return (
@@ -239,8 +238,7 @@ export default function Tradeoffer() {
                             </Box>
                         ))}
                     </Box>
-                ) : stockLotsData?.data?.items?.length > 0 ? (
-                    stockLotsData.data.items.map((item: any) => (
+                ) : stockLotsData?.data?.items?.length > 0 ? ((Array.isArray(stockLotsData.data.items) ? stockLotsData.data.items : []).map((item: any) => (
                         <Paper
                             key={item.id}
                             elevation={0}

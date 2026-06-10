@@ -69,7 +69,7 @@ export default function Gallery() {
                     ))
                 ) : (
                     <>
-                        {gallery.map((item, index) => {
+                        {(Array.isArray(gallery) ? gallery : []).map((item, index) => {
                             const isReverse = index % 2 !== 0;
 
                             return (

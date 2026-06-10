@@ -95,7 +95,7 @@ export default function ProductSelection({
                                     onChange={(e) => setActiveCategory(e.target.value as string)}
                                     disabled={!activeCountry}
                                 >
-                                    {categoryList.map((item: Category) => (
+                                    {(Array.isArray(categoryList) ? categoryList : []).map((item: Category) => (
                                         <MenuItem key={item.id} value={String(item.id)}>
                                             {item.name}
                                         </MenuItem>
@@ -113,7 +113,7 @@ export default function ProductSelection({
                                     onChange={(e) => setActiveSubCategory(e.target.value as string)}
                                     disabled={!activeCategory}
                                 >
-                                    {subcategoryList.map((item: SubCategory) => (
+                                    {(Array.isArray(subcategoryList) ? subcategoryList : []).map((item: SubCategory) => (
                                         <MenuItem key={item.id} value={String(item.id)}>
                                             {item.name}
                                         </MenuItem>
@@ -131,7 +131,7 @@ export default function ProductSelection({
                                     onChange={(e) => setActiveProduct(e.target.value as string)}
                                     disabled={!activeSubCategory}
                                 >
-                                    {productList.map((item: Product, index: number) => (
+                                    {(Array.isArray(productList) ? productList : []).map((item: Product, index: number) => (
                                         <MenuItem key={item?.id || index} value={String(item?.id)}>
                                             {item?.name}
                                         </MenuItem>
@@ -166,8 +166,7 @@ export default function ProductSelection({
                                     </Box>
                                 ))}
                             </>
-                        ) : productList.length > 0 ? (
-                            productList.map((item: Product, index: number) => (
+                        ) : productList.length > 0 ? ((Array.isArray(productList) ? productList : []).map((item: Product, index: number) => (
                                 <Box
                                     key={item?.id || index}
                                     onClick={() => setActiveProduct(String(item?.id || ""))}

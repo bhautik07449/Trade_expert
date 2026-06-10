@@ -90,7 +90,7 @@ export default function CountriesSnapshot() {
                                     mb: 2,
                                 }}
                             >
-                                {economicItems.map((item) => (
+                                {(Array.isArray(economicItems) ? economicItems : []).map((item) => (
                                     <Box
                                         key={item}
                                         sx={{
@@ -160,9 +160,9 @@ export default function CountriesSnapshot() {
                                     Array.from({ length: 9 }).map((_, index) => (
                                         <Skeleton key={index} variant="rounded" height={38} animation="wave" />
                                     ))
-                                ) : activeCategories?.length > 0 ? (
+                                ) : (Array.isArray(activeCategories) ? activeCategories : []).length > 0 ? (
                                     <>
-                                        {activeCategories.slice(0, activeCategories.length > 9 ? 8 : 9).map((item: any, index: number) => (
+                                        {(Array.isArray(activeCategories) ? activeCategories : []).slice(0, (Array.isArray(activeCategories) ? activeCategories : []).length > 9 ? 8 : 9).map((item: any, index: number) => (
                                             <Box
                                                 key={item?.id || index}
                                                 sx={{
@@ -181,7 +181,7 @@ export default function CountriesSnapshot() {
                                                 </Typography>
                                             </Box>
                                         ))}
-                                        {activeCategories.length > 9 && (
+                                        {(Array.isArray(activeCategories) ? activeCategories : []).length > 9 && (
                                             <Box
                                                 sx={{
                                                     height: 38,
@@ -195,7 +195,7 @@ export default function CountriesSnapshot() {
                                                 }}
                                             >
                                                 <Typography variant="body2" sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 600 }}>
-                                                    +{activeCategories.length - 8} more
+                                                    +{(Array.isArray(activeCategories) ? activeCategories : []).length - 8} more
                                                 </Typography>
                                             </Box>
                                         )}

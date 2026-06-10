@@ -134,7 +134,7 @@ export default function GetInTouch() {
                             </Typography>
 
                             <List disablePadding>
-                                {tabs.map((tab) => (
+                                {(Array.isArray(tabs) ? tabs : []).map((tab) => (
                                     <ListItemButton
                                         key={tab.value}
                                         onClick={() => setActiveTab(tab.value)}
