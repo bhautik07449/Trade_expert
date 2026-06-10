@@ -119,7 +119,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
         })) || [];
     }, [categories]);
 
-    const selectedCountry = categories?.find(
+    const selectedCountry = (Array.isArray(categories) ? categories : []).find(
         (country: any) => country.country === formik.values.country
     );
 
@@ -130,7 +130,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
         })) || [];
     }, [selectedCountry]);
 
-    const selectedCategory = selectedCountry?.categories?.find(
+    const selectedCategory = (Array.isArray(selectedCountry?.categories) ? selectedCountry?.categories : []).find(
         (cat: any) => String(cat.id) === formik.values.category
     );
 
@@ -141,7 +141,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
         })) || [];
     }, [selectedCategory]);
 
-    const selectedSubCategory = selectedCategory?.subcategories?.find(
+    const selectedSubCategory = (Array.isArray(selectedCategory?.subcategories) ? selectedCategory?.subcategories : []).find(
         (sub: any) => String(sub.id) === formik.values.subCategory
     );
 
@@ -180,7 +180,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
     }, [subCategory, setFieldValue]);
 
     useEffect(() => {
-        const selectedProduct = productOptions.find(
+        const selectedProduct = (Array.isArray(productOptions) ? productOptions : []).find(
             (option: any) => option.value === product
         );
         if (selectedProduct) {
@@ -334,7 +334,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     value={formik.values.product}
                                     onChange={(event) => {
                                         formik.handleChange(event);
-                                        const selectedProduct = productOptions?.find(
+                                        const selectedProduct = (Array.isArray(productOptions) ? productOptions : []).find(
                                             (product: any) => product.value === event.target.value
                                         );
                                         if (selectedProduct) {

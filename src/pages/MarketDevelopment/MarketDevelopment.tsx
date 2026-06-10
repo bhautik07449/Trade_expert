@@ -138,7 +138,7 @@ export default function MarketDevelopment() {
     }, [categories]);
 
     const selectedCountryObj = useMemo(() => {
-        return categories?.find((c: any) => c.country === formik.values.country);
+        return (Array.isArray(categories) ? categories : []).find((c: any) => c.country === formik.values.country);
     }, [categories, formik.values.country]);
 
     const categoryOptions = useMemo(() => {
@@ -148,7 +148,7 @@ export default function MarketDevelopment() {
         })) || [];
     }, [selectedCountryObj]);
 
-    const selectedCategory = selectedCountryObj?.categories?.find(
+    const selectedCategory = (Array.isArray(selectedCountryObj?.categories) ? selectedCountryObj?.categories : []).find(
         (cat: any) => String(cat.id) === formik.values.category
     );
 
@@ -159,7 +159,7 @@ export default function MarketDevelopment() {
         })) || [];
     }, [selectedCategory]);
 
-    const selectedSubCategory = selectedCategory?.subcategories?.find(
+    const selectedSubCategory = (Array.isArray(selectedCategory?.subcategories) ? selectedCategory?.subcategories : []).find(
         (sub: any) => String(sub.id) === formik.values.subCategory
     );
 

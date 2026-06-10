@@ -40,7 +40,7 @@ export default function ProjectSelection({ activeCountry, selectedProject, setSe
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const found = projects.find((project) => String(project.id) === String(activeProject)) || null;
+        const found = (Array.isArray(projects) ? projects : []).find((project) => String(project.id) === String(activeProject)) || null;
         setSelectedProject(found);
     }, [activeProject, projects, setSelectedProject]);
 

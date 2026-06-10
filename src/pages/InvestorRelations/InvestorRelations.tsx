@@ -37,7 +37,7 @@ export default function InvestorRelations() {
     }, [dispatch]);
 
     const selectedCountryData = useMemo(() => {
-        return categories?.find(
+        return (Array.isArray(categories) ? categories : []).find(
             (item: any) => item.country === selectedCountry
         ) || null;
     }, [categories, selectedCountry]);
@@ -47,7 +47,7 @@ export default function InvestorRelations() {
     }, [selectedCountryData]);
 
     const selectedCategoryData = useMemo(() => {
-        return categoryList.find(
+        return (Array.isArray(categoryList) ? categoryList : []).find(
             (cat: any) => String(cat.id) === activeCategory
         ) || null;
     }, [categoryList, activeCategory]);
@@ -57,7 +57,7 @@ export default function InvestorRelations() {
     }, [selectedCategoryData]);
 
     const selectedSubCategoryData = useMemo(() => {
-        return subcategoryList.find(
+        return (Array.isArray(subcategoryList) ? subcategoryList : []).find(
             (sub: any) => String(sub.id) === activeSubCategory
         ) || null;
     }, [subcategoryList, activeSubCategory]);
@@ -67,7 +67,7 @@ export default function InvestorRelations() {
     }, [selectedSubCategoryData]);
 
     const selectedProduct = useMemo(() => {
-        return productList.find(
+        return (Array.isArray(productList) ? productList : []).find(
             (prod: any) => String(prod.id) === activeProduct
         ) || null;
     }, [productList, activeProduct]);
