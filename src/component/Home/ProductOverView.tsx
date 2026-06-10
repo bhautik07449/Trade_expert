@@ -174,7 +174,7 @@ export default function ProductOverView({ category }: any) {
                     }}
                 >
                     <Tab label="All" value="All" />
-                    {subcategories?.map((item) => (
+                    {(Array.isArray(subcategories) ? subcategories : []).map((item) => (
                         <Tab
                             key={item?.id || item?.name}
                             label={item?.name}

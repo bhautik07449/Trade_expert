@@ -341,7 +341,7 @@ export default function AboutMap() {
             </Paper>
 
             <Box sx={{ textAlign: "center", mt: 3 }}>
-                {delivery?.map((list, index) => (
+                {(Array.isArray(delivery) ? delivery : []).map((list, index) => (
                     <Box key={index}>
                         <Typography
                             component="h2"

@@ -127,7 +127,7 @@ export default function Analytical({
                     </Grid>
                 ) : analyticsData && analyticsData.length > 0 ? (
                     <Grid container spacing={3} justifyContent="center">
-                        {analyticsData?.map((stat, index) => {
+                        {(Array.isArray(analyticsData) ? analyticsData : []).map((stat, index) => {
                             const Icon = icons[index % icons.length]
 
                             return (

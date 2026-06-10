@@ -192,28 +192,28 @@ export default function Header() {
             label: "Sectors",
             icon: <CategoryIcon fontSize="small" />,
             subItems:
-                categories?.map((country: any) => ({
+                Array.isArray(categories) ? categories.map((country: any) => ({
                     label: country?.country,
                     type: "country",
                     path: `/country/${country?.country}`,
                     subItems:
-                        country?.categories?.map((category: any) => ({
+                        Array.isArray(country?.categories) ? country.categories.map((category: any) => ({
                             label: category?.name,
                             type: "category",
                             path: `/category/${category?.id}`,
                             subItems:
-                                category?.subcategories?.map((subcategory: any) => ({
+                                Array.isArray(category?.subcategories) ? category.subcategories.map((subcategory: any) => ({
                                     label: subcategory?.name,
                                     type: "subcategory",
                                     subItems:
-                                        subcategory?.products?.map((product: any) => ({
+                                        Array.isArray(subcategory?.products) ? subcategory.products.map((product: any) => ({
                                             label: product?.name,
                                             type: "product",
                                             path: `/product-details/${product?.id}`,
-                                        })) || [],
-                                })) || [],
-                        })) || [],
-                })) || [],
+                                        })) : [],
+                                })) : [],
+                        })) : [],
+                })) : [],
         },
         {
             label: "ESG",
@@ -357,11 +357,11 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {countries.map((c) => (
+                                    {Array.isArray(countries) ? countries.map((c) => (
                                         <MenuItem key={c} value={c}>
                                             {c}
                                         </MenuItem>
-                                    ))}
+                                    )) : null}
                                 </Select>
                             </FormControl>
                             {!isLoggedIn ? (
@@ -471,11 +471,11 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {countries.map((c) => (
+                                    {Array.isArray(countries) ? countries.map((c) => (
                                         <MenuItem key={c} value={c}>
                                             {c}
                                         </MenuItem>
-                                    ))}
+                                    )) : null}
                                 </Select>
                             </FormControl>
 
@@ -684,9 +684,9 @@ export default function Header() {
                                 <Skeleton variant="text" height={50} />
                             </Box>
                         ) : (
-                            (menuStack.length === 0
-                                ? navItems
-                                : menuStack[menuStack.length - 1].subItems
+                            (Array.isArray(menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems) 
+                                ? (menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems) 
+                                : []
                             )?.map((item: any) => (
                                 <ListItem key={item.label} disablePadding>
                                     <ListItemButton

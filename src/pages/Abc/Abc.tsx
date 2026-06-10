@@ -76,7 +76,7 @@ export default function Abc() {
                         </Box>
                     ))
                 ) : list?.length > 0 ? (
-                    list?.map((entry: any, entryIndex: number) => {
+                    (Array.isArray(list) ? list : []).map((entry: any, entryIndex: number) => {
                         const selectedCategoryIndex = activeCategory[entryIndex] ?? 0;
                         const selectedItem = entry?.item?.[selectedCategoryIndex];
 
@@ -142,7 +142,7 @@ export default function Abc() {
                                         },
                                     }}
                                 >
-                                    {entry?.item?.map((item: any, categoryIndex: number) => (
+                                    {(Array.isArray(entry?.item) ? entry?.item : []).map((item: any, categoryIndex: number) => (
                                         <Tab
                                             key={item?.category?.id || categoryIndex}
                                             label={item?.category?.name}

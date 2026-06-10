@@ -34,8 +34,8 @@ export default function OverPresences() {
     }, []);
 
     const selectedCountries = useMemo(() => {
-        return presences
-            ?.map((presence) => presence?.toLowerCase()?.trim())
+        return (Array.isArray(presences) ? presences : [])
+            .map((presence) => presence?.toLowerCase()?.trim())
             ?.filter(Boolean);
     }, [presences]);
 

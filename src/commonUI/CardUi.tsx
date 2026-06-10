@@ -145,7 +145,7 @@ export default function CardUi({
                             <NoDataFound message={`No products found`} />
                         </Box>
                     ) : (
-                        products?.map((product) => (
+                        (Array.isArray(products) ? products : []).map((product) => (
                             <Box
                                 key={product.id}
                                 sx={{

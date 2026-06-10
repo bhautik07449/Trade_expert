@@ -131,7 +131,7 @@ export default function MarketDevelopment() {
     }, [selectedCountry]);
 
     const countryOptions = useMemo(() => {
-        return categories?.map((country: any) => ({
+        return (Array.isArray(categories) ? categories : []).map((country: any) => ({
             label: country.country,
             value: country.country,
         })) || [];
@@ -142,7 +142,7 @@ export default function MarketDevelopment() {
     }, [categories, formik.values.country]);
 
     const categoryOptions = useMemo(() => {
-        return selectedCountryObj?.categories?.map((cat: any) => ({
+        return (Array.isArray(selectedCountryObj?.categories) ? selectedCountryObj?.categories : []).map((cat: any) => ({
             label: cat.name,
             value: String(cat.id),
         })) || [];
@@ -153,7 +153,7 @@ export default function MarketDevelopment() {
     );
 
     const subCategoryOptions = useMemo(() => {
-        return selectedCategory?.subcategories?.map((sub: any) => ({
+        return (Array.isArray(selectedCategory?.subcategories) ? selectedCategory?.subcategories : []).map((sub: any) => ({
             label: sub.name,
             value: String(sub.id),
         })) || [];
@@ -164,7 +164,7 @@ export default function MarketDevelopment() {
     );
 
     const productOptions = useMemo(() => {
-        return selectedSubCategory?.products?.map((product: any) => ({
+        return (Array.isArray(selectedSubCategory?.products) ? selectedSubCategory?.products : []).map((product: any) => ({
             label: product.name,
             value: String(product.id),
         })) || [];

@@ -190,7 +190,7 @@ export default function ProjectSelection({ activeCountry, selectedProject, setSe
                                             overflow: "hidden",
                                         }}
                                     >
-                                        {selectedProject?.specification?.map((item, index) => (
+                                        {(Array.isArray(selectedProject?.specification) ? selectedProject?.specification : []).map((item, index) => (
                                             <Grid
                                                 container
                                                 key={index}

@@ -34,17 +34,17 @@ export default function ProductPage() {
                     dmrs: apiProduct?.dmrs || [],
                     specs: {
                         "Commercial Aspect":
-                            apiProduct.commercialAspect?.map((item: any) => ({
+                            (Array.isArray(apiProduct.commercialAspect) ? apiProduct.commercialAspect : []).map((item: any) => ({
                                 label: item.key,
                                 value: item.value,
                             })) || [],
                         "Technical Specification":
-                            apiProduct.technicalSpecification?.map((item: any) => ({
+                            (Array.isArray(apiProduct.technicalSpecification) ? apiProduct.technicalSpecification : []).map((item: any) => ({
                                 label: item.key,
                                 value: item.value,
                             })) || [],
                         "Shipment Manual":
-                            apiProduct.shipmentmanual?.map((item: any) => ({
+                            (Array.isArray(apiProduct.shipmentmanual) ? apiProduct.shipmentmanual : []).map((item: any) => ({
                                 label: item.key,
                                 value: item.value,
                             })) || [],

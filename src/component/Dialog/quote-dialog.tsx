@@ -113,7 +113,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
     });
 
     const countryOptions = useMemo(() => {
-        return categories?.map((country: any) => ({
+        return (Array.isArray(categories) ? categories : []).map((country: any) => ({
             label: country.country,
             value: country.country,
         })) || [];
@@ -124,7 +124,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
     );
 
     const categoryOptions = useMemo(() => {
-        return selectedCountry?.categories?.map((cat: any) => ({
+        return (Array.isArray(selectedCountry?.categories) ? selectedCountry?.categories : []).map((cat: any) => ({
             label: cat.name,
             value: String(cat.id),
         })) || [];
@@ -135,7 +135,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
     );
 
     const subCategoryOptions = useMemo(() => {
-        return selectedCategory?.subcategories?.map((sub: any) => ({
+        return (Array.isArray(selectedCategory?.subcategories) ? selectedCategory?.subcategories : []).map((sub: any) => ({
             label: sub.name,
             value: String(sub.id),
         })) || [];
@@ -146,7 +146,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
     );
 
     const productOptions = useMemo(() => {
-        return selectedSubCategory?.products?.map((product: any) => ({
+        return (Array.isArray(selectedSubCategory?.products) ? selectedSubCategory?.products : []).map((product: any) => ({
             label: product.name,
             value: String(product.id),
         })) || [];
@@ -189,14 +189,14 @@ export default function QuotationDialog({ open, onClose }: Props) {
     }, [product, productOptions, setFieldValue]);
 
     const unitOptions = useMemo(() => {
-        return measurements?.map((item: any) => ({
+        return (Array.isArray(measurements) ? measurements : []).map((item: any) => ({
             label: item.name,
             value: item.id
         }));
     }, [measurements]);
 
     const currencyOptions = useMemo(() => {
-        return currency?.map((item: any) => ({
+        return (Array.isArray(currency) ? currency : []).map((item: any) => ({
             label: item.name,
             value: item.id
         }));
@@ -273,7 +273,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.country && Boolean(formik.errors.country)}
                                 >
-                                    {countryOptions?.map((country: any) => (
+                                    {(Array.isArray(countryOptions) ? countryOptions : []).map((country: any) => (
                                         <MenuItem key={country.value} value={country.value}>
                                             {country.label}
                                         </MenuItem>
@@ -294,7 +294,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.category && Boolean(formik.errors.category)}
                                 >
-                                    {categoryOptions?.map((cat: any) => (
+                                    {(Array.isArray(categoryOptions) ? categoryOptions : []).map((cat: any) => (
                                         <MenuItem key={cat.value} value={cat.value}>
                                             {cat.label}
                                         </MenuItem>
@@ -315,7 +315,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.subCategory && Boolean(formik.errors.subCategory)}
                                 >
-                                    {subCategoryOptions?.map((sub: any) => (
+                                    {(Array.isArray(subCategoryOptions) ? subCategoryOptions : []).map((sub: any) => (
                                         <MenuItem key={sub.value} value={sub.value}>
                                             {sub.label}
                                         </MenuItem>
@@ -344,7 +344,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.product && Boolean(formik.errors.product)}
                                 >
-                                    {productOptions?.map((product: any) => (
+                                    {(Array.isArray(productOptions) ? productOptions : []).map((product: any) => (
                                         <MenuItem key={product.value} value={product.value}>
                                             {product.label}
                                         </MenuItem>
@@ -377,7 +377,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.unit && Boolean(formik.errors.unit)}
                                 >
-                                    {unitOptions?.map((unit: any) => (
+                                    {(Array.isArray(unitOptions) ? unitOptions : []).map((unit: any) => (
                                         <MenuItem key={unit.value} value={unit.value}>
                                             {unit.label}
                                         </MenuItem>
@@ -410,7 +410,7 @@ export default function QuotationDialog({ open, onClose }: Props) {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.currency && Boolean(formik.errors.currency)}
                                 >
-                                    {currencyOptions?.map((unit: any) => (
+                                    {(Array.isArray(currencyOptions) ? currencyOptions : []).map((unit: any) => (
                                         <MenuItem key={unit.value} value={unit.value}>
                                             {unit?.label}
                                         </MenuItem>

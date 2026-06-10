@@ -209,7 +209,7 @@ export default function ProductListByCountry() {
                                         },
                                     }}
                                 >
-                                    {pro?.item?.map((item: any, categoryIndex: number) => (
+                                    {(Array.isArray(pro?.item) ? pro?.item : []).map((item: any, categoryIndex: number) => (
                                         <Tab
                                             key={item?.category?.id || categoryIndex}
                                             label={item?.category?.name}

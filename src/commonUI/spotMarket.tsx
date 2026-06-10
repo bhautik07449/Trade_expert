@@ -253,7 +253,7 @@ export default function SpotMarketTable({ category }: any) {
                             },
                         }}
                     >
-                        {subcategories?.map((item) => (
+                        {(Array.isArray(subcategories) ? subcategories : []).map((item) => (
                             <Tab
                                 key={item?.id || item?.name}
                                 label={item?.name}
