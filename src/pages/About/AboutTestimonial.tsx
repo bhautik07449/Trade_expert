@@ -28,7 +28,7 @@ export default function AboutTestimonial() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([])
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(true)
-    const maxSteps = testimonials.length;
+    const maxSteps = testimonials?.length || 0;
 
     const [aboutContent, setAboutContent] = useState<any>(null);
 
@@ -37,7 +37,7 @@ export default function AboutTestimonial() {
         try {
             const res = await Homeservice.getTestimonial()
             if (res) {
-                setTestimonials(res?.data?.data)
+                setTestimonials(res?.data?.data || [])
             }
             const resAbout = await serverCall.get("/pages/slug/about_us");
             if (resAbout) {
