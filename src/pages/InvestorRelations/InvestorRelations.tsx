@@ -16,6 +16,7 @@ import FinancialService from "./FinancialService";
 import ProductSelection from "./ProductSelection";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import ProjectSelection from "./ProjectSelection";
+import ProjectMarketDevelopment from "./ProjectMarketDevelopment";
 
 export default function InvestorRelations() {
     const dispatch = useDispatch<AppDispatch>();
@@ -162,6 +163,13 @@ export default function InvestorRelations() {
                 <Divider sx={{ my: 5 }} />
 
                 <FinancialService activeCountry={selectedCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
+
+                {activeTab === 'project' && (
+                    <>
+                        <Divider sx={{ my: 5 }} />
+                        <ProjectMarketDevelopment />
+                    </>
+                )}
 
                 <Divider sx={{ my: 5 }} />
 
