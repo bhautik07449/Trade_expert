@@ -1,0 +1,87 @@
+import { useState } from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import PageMainLayout from "../../commonUI/PageMainLayout";
+
+export default function Commedium() {
+    const [selected, setSelected] = useState(0);
+
+    const buttons = [
+        "Comm-id",
+        "Comm-pact",
+        "Comm-tributor",
+        "Comm-press",
+        "Comm-trade",
+        "Comm-united"
+    ];
+
+    const handleTabChange = (_, newValue) => {
+        setSelected(newValue);
+    };
+
+    return (
+        <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+            <PageMainLayout slug="commedium" title="Commedium" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" activeCountry="" setActiveCountry={() => { }} />
+
+            <Box
+                sx={{
+                    maxWidth: "1400px",
+                    mx: "auto",
+                    px: { xs: 2, sm: 4, md: 6 },
+                    pb: { xs: 6, md: 10 },
+                }}
+            >
+                <Tabs
+                    value={selected}
+                    onChange={(_, value) => handleTabChange(_, value)}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    TabIndicatorProps={{ sx: { display: "none" } }}
+                    sx={{
+                        minHeight: "auto",
+                        mb: 4,
+
+                        "& .MuiTabs-flexContainer": {
+                            gap: 1.2,
+                            justifyContent: { xs: "flex-start", md: "center" },
+                        },
+
+                        "& .MuiTab-root": {
+                            minHeight: "auto",
+                            minWidth: "auto",
+                            px: { xs: 1.8, sm: 2.5 },
+                            py: 1,
+                            borderRadius: 99,
+                            textTransform: "none",
+                            fontWeight: 800,
+                            color: "text.secondary",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            bgcolor: "background.paper",
+                            transition: "all 0.3s ease",
+                        },
+
+                        "& .MuiTab-root:hover": {
+                            color: "primary.dark",
+                            borderColor: "primary.main",
+                            bgcolor: "primary.light",
+                        },
+
+                        "& .Mui-selected": {
+                            color: "#fff !important",
+                            bgcolor: "primary.main",
+                            borderColor: "primary.main",
+                            boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
+                        },
+                    }}
+                >
+                    {buttons.map((item, index) => (
+                        <Tab
+                            key={index}
+                            label={item}
+                        />
+                    ))}
+                </Tabs>
+            </Box>
+        </Box>
+    );
+}

@@ -33,6 +33,7 @@ const InvestorRelations = React.lazy(() => import('../pages/InvestorRelations/In
 const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
 const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister'))
 const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth/PulicPrivateAuthLogin'))
+const Commedium = React.lazy(() => import('../pages/Commedium/Commedium'))
 
 type Props = {
   children: JSX.Element;
@@ -161,6 +162,7 @@ export default function Router(): JSX.Element {
       />
       <Route path="/credit-account" element={<CreditAccount />} />
       <Route path="/trade-offers" element={<Tradeoffer />} />
+      <Route path="/commedium" element={<Commedium />} />
       <Route path="/abc" element={<Abc />} />
       <Route path="/market-development" element={<MarketDevelopment />} />
       <Route path="/news_and_events" element={<NewsAndEvents />} />

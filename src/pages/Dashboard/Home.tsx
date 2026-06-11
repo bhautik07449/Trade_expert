@@ -11,6 +11,7 @@ import HomePageservice from '../../service/homepages.service';
 import SEO from '../../component/SEO';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import { useLocation } from 'react-router-dom';
 import { fetchFlatPageBySlug } from '../../store/slice/pageSlice';
 import CountriesSnapshot from '../../component/Home/CountriesSnapshot';
 import ESG from '../../component/Home/ESG';
@@ -23,6 +24,7 @@ import SupplierTab from '../../component/SupplierTab';
 export default function Home() {
     const [analyticsData, setAnalyticsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -50,6 +52,24 @@ export default function Home() {
     useEffect(() => {
         getAnalyticalData(activeCountry);
     }, [activeCountry]);
+
+    useEffect(() => {
+        if (location.hash === '#supplier-tab-section') {
+            // Try immediately in case it's already rendered
+            const immediateElement = document.getElementById('supplier-tab-section');
+            if (immediateElement) {
+                immediateElement.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Try again after a delay to account for loading data
+            setTimeout(() => {
+                const element = document.getElementById('supplier-tab-section');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 500);
+        }
+    }, [location]);
 
     return (
         <>
@@ -102,7 +122,7 @@ export default function Home() {
                     <Values />
                 </Box>
 
-                <Box component="section">
+                <Box component="section" id="supplier-tab-section">
                     <SupplierTab />
                 </Box>
 

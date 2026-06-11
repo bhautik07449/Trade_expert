@@ -36,7 +36,7 @@ export default function SupplierTab() {
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="join as a" label="private / public" tagLine="Choose the right option to join our platform and start trading." />
+            <LabelTitle title="Join as a" label="private / public" tagLine="Choose the right option to join our platform and start trading." />
 
             <Container
                 sx={{

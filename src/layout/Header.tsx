@@ -244,9 +244,13 @@ export default function Header() {
             icon: <BusinessIcon fontSize="small" />
         },
         {
-
             label: "IR",
             path: "/investor_relations",
+            icon: <BusinessIcon fontSize="small" />
+        },
+        {
+            label: "Commedium",
+            path: "/commedium",
             icon: <BusinessIcon fontSize="small" />
         },
         {
@@ -303,7 +307,7 @@ export default function Header() {
                                 }}
                             >
                                 <LocalPhoneIcon sx={{ fontSize: 18, mr: 0.5 }} />
-                                +91 87653 37336
+                                +91 8200340373 / +1 226 977 293
                             </Typography>
 
                             <Typography
@@ -401,45 +405,26 @@ export default function Header() {
                                 </Select>
                             </FormControl>
                             {!isLoggedIn ? (
-                                <>
-                                    <Typography variant="body2">
-                                        <Link
-                                            component={RouterLink}
-                                            to="/login"
-                                            underline="none"
-                                            sx={{
-                                                color: "text.primary",
-                                                "&:hover": { color: "primary.main" },
-                                                fontWeight: 500,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: 0.5,
-                                            }}
-                                        >
-                                            <AccountCircleIcon sx={{ fontSize: 20 }} />
-                                            Login
-                                        </Link>
-                                    </Typography>
-
-                                    <Typography variant="body2">
-                                        <Link
-                                            component={RouterLink}
-                                            to="/sign-up"
-                                            underline="none"
-                                            sx={{
-                                                color: "text.primary",
-                                                "&:hover": { color: "primary.main" },
-                                                fontWeight: 500,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: 0.5,
-                                            }}
-                                        >
-                                            <LoginIcon sx={{ fontSize: 20 }} />
-                                            Register
-                                        </Link>
-                                    </Typography>
-                                </>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                        if (location.pathname === '/') {
+                                            const el = document.getElementById('supplier-tab-section');
+                                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                        } else {
+                                            navigate("/#supplier-tab-section");
+                                        }
+                                    }}
+                                    sx={{
+                                        textTransform: "none",
+                                        fontWeight: 600,
+                                        px: 3,
+                                        borderRadius: "8px",
+                                    }}
+                                >
+                                    Join the Platform
+                                </Button>
                             ) : (
                                 <>
                                     <Typography
@@ -822,24 +807,17 @@ export default function Header() {
                                 <ListItem disablePadding>
                                     <ListItemButton
                                         onClick={() => {
-                                            navigate("/login");
-                                            setMobileOpen(false);
-                                        }}
-                                    >
-                                        <AccountCircleIcon sx={{ mr: 1 }} />
-                                        <ListItemText primary="Login" />
-                                    </ListItemButton>
-                                </ListItem>
-
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        onClick={() => {
-                                            navigate("/sign-up");
+                                            if (location.pathname === '/') {
+                                                const el = document.getElementById('supplier-tab-section');
+                                                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                            } else {
+                                                navigate("/#supplier-tab-section");
+                                            }
                                             setMobileOpen(false);
                                         }}
                                     >
                                         <LoginIcon sx={{ mr: 1 }} />
-                                        <ListItemText primary="Register" />
+                                        <ListItemText primary="Join the Platform" />
                                     </ListItemButton>
                                 </ListItem>
                             </>

@@ -53,11 +53,7 @@ const Footer = () => {
               <Box sx={{ color: 'text.disabled' }}>
                 Registered Office
                 <br />
-                C-604, Shree Nidhi Residency
-                <br />
-                Nr. Sudamachowk, Satellite Road,
-                <br />
-                Mota Varachha, Surat(Guj), India - 3940101
+                Will be updated
               </Box>
             </Grid>
           </Grid>

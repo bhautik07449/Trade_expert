@@ -7,13 +7,12 @@ import {
     Stack,
     Paper,
 } from "@mui/material"
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined"
-import CardUi from "../../commonUI/CardUi"
 import { useEffect, useState } from "react"
 import Homeservice from "../../service/home.service"
 import LabelTitle from "../../commonUI/labelTitle"
 import { useSelector } from "react-redux"
 import NoDataFound from "../../commonUI/NoDataFound"
+import ProductView from "../../commonUI/ProductView"
 
 export default function ProductListByCountry() {
     const [allProducts, setAllProducts] = useState<any[]>([])
@@ -120,117 +119,115 @@ export default function ProductListByCountry() {
                     ))}
                 </Box>
             ) : allProducts.length > 0 ? ((Array.isArray(allProducts) ? allProducts : []).map((pro, groupIndex) => {
-                    const selectedIndex = activeCategory[groupIndex] || 0
-                    const selectedCategory = pro?.item?.[selectedIndex]
+                const selectedIndex = activeCategory[groupIndex] || 0
+                const selectedCategory = pro?.item?.[selectedIndex]
 
-                    return (
-                        <Box key={pro?.productname?.id || groupIndex} sx={{ mb: { xs: 5, md: 7 } }}>
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    fontWeight: 900,
-                                    mb: 2,
-                                    color: "text.primary",
-                                    textTransform: "uppercase",
-                                    letterSpacing: 1,
-                                    fontSize: { xs: "1.15rem", sm: "1.4rem" },
-                                    position: "relative",
-                                    display: "inline-block",
-                                    "&::after": {
-                                        content: '""',
-                                        position: "absolute",
-                                        left: 0,
-                                        bottom: -6,
-                                        width: "55%",
-                                        height: 3,
-                                        borderRadius: 99,
-                                        bgcolor: "primary.main",
-                                    },
-                                }}
-                            >
-                                {pro?.productname?.name}
-                            </Typography>
+                return (
+                    <Box key={pro?.productname?.id || groupIndex} sx={{ mb: { xs: 5, md: 7 } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontWeight: 900,
+                                mb: 2,
+                                color: "text.primary",
+                                textTransform: "uppercase",
+                                letterSpacing: 1,
+                                fontSize: { xs: "1.15rem", sm: "1.4rem" },
+                                position: "relative",
+                                display: "inline-block",
+                                "&::after": {
+                                    content: '""',
+                                    position: "absolute",
+                                    left: 0,
+                                    bottom: -6,
+                                    width: "55%",
+                                    height: 3,
+                                    borderRadius: 99,
+                                    bgcolor: "primary.main",
+                                },
+                            }}
+                        >
+                            {pro?.productname?.name}
+                        </Typography>
 
-                            <Box
+                        <Box
+                            sx={{
+                                mt: 3,
+                                mb: 3,
+                                overflowX: "auto",
+                                pb: 0.8,
+                                "&::-webkit-scrollbar": {
+                                    height: 4,
+                                },
+                                "&::-webkit-scrollbar-thumb": {
+                                    bgcolor: "primary.light",
+                                    borderRadius: 99,
+                                },
+                            }}
+                        >
+                            <Tabs
+                                value={selectedIndex}
+                                onChange={(_, value) => handleTabChange(groupIndex, value)}
+                                variant="scrollable"
+                                scrollButtons="auto"
+                                TabIndicatorProps={{ sx: { display: "none" } }}
                                 sx={{
-                                    mt: 3,
-                                    mb: 3,
-                                    overflowX: "auto",
-                                    pb: 0.8,
-                                    "&::-webkit-scrollbar": {
-                                        height: 4,
+                                    minHeight: "auto",
+
+                                    "& .MuiTabs-flexContainer": {
+                                        gap: 1.2,
                                     },
-                                    "&::-webkit-scrollbar-thumb": {
-                                        bgcolor: "primary.light",
-                                        borderRadius: 99,
-                                    },
-                                }}
-                            >
-                                <Tabs
-                                    value={selectedIndex}
-                                    onChange={(_, value) => handleTabChange(groupIndex, value)}
-                                    variant="scrollable"
-                                    scrollButtons="auto"
-                                    TabIndicatorProps={{ sx: { display: "none" } }}
-                                    sx={{
+
+                                    "& .MuiTab-root": {
                                         minHeight: "auto",
+                                        minWidth: "auto",
+                                        px: { xs: 1.8, sm: 2.5 },
+                                        py: 1,
+                                        borderRadius: 99,
+                                        textTransform: "none",
+                                        fontWeight: 800,
+                                        color: "text.secondary",
+                                        border: "1px solid",
+                                        borderColor: "divider",
+                                        bgcolor: "background.paper",
+                                        transition: "all 0.3s ease",
+                                    },
 
-                                        "& .MuiTabs-flexContainer": {
-                                            gap: 1.2,
-                                        },
+                                    "& .MuiTab-root:hover": {
+                                        color: "primary.dark",
+                                        borderColor: "primary.main",
+                                        bgcolor: "primary.light",
+                                    },
 
-                                        "& .MuiTab-root": {
-                                            minHeight: "auto",
-                                            minWidth: "auto",
-                                            px: { xs: 1.8, sm: 2.5 },
-                                            py: 1,
-                                            borderRadius: 99,
-                                            textTransform: "none",
-                                            fontWeight: 800,
-                                            color: "text.secondary",
-                                            border: "1px solid",
-                                            borderColor: "divider",
-                                            bgcolor: "background.paper",
-                                            transition: "all 0.3s ease",
-                                        },
-
-                                        "& .MuiTab-root:hover": {
-                                            color: "primary.dark",
-                                            borderColor: "primary.main",
-                                            bgcolor: "primary.light",
-                                        },
-
-                                        "& .Mui-selected": {
-                                            color: "#fff !important",
-                                            bgcolor: "primary.main",
-                                            borderColor: "primary.main",
-                                            boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
-                                        },
-                                    }}
-                                >
-                                    {(Array.isArray(pro?.item) ? pro?.item : []).map((item: any, categoryIndex: number) => (
-                                        <Tab
-                                            key={item?.category?.id || categoryIndex}
-                                            label={item?.category?.name}
-                                        />
-                                    ))}
-                                </Tabs>
-                            </Box>
-
-                            {selectedCategory ? (
-                                <CardUi
-                                    label=""
-                                    products={selectedCategory?.product_data || []}
-                                    loading={loading}
-                                />
-                            ) : (
-                                <Box sx={{ py: 4 }}>
-                                    <NoDataFound message="No category products available." />
-                                </Box>
-                            )}
+                                    "& .Mui-selected": {
+                                        color: "#fff !important",
+                                        bgcolor: "primary.main",
+                                        borderColor: "primary.main",
+                                        boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
+                                    },
+                                }}
+                            >
+                                {(Array.isArray(pro?.item) ? pro?.item : []).map((item: any, categoryIndex: number) => (
+                                    <Tab
+                                        key={item?.category?.id || categoryIndex}
+                                        label={item?.category?.name}
+                                    />
+                                ))}
+                            </Tabs>
                         </Box>
-                    )
-                })
+
+                        {selectedCategory ? (
+                            <ProductView
+                                products={selectedCategory?.product_data || []}
+                            />
+                        ) : (
+                            <Box sx={{ py: 4 }}>
+                                <NoDataFound message="No category products available." />
+                            </Box>
+                        )}
+                    </Box>
+                )
+            })
             ) : (
                 <Paper
                     elevation={0}
