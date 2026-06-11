@@ -75,7 +75,7 @@ export default function UpcomingCollabration({ visiblecard = 4 }: { visiblecard?
     return (
         <Box
             sx={{
-                bgcolor: "white",
+                bgcolor: "background.default",
                 color: "text.primary",
                 px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
             }}

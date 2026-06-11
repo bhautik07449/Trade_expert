@@ -43,7 +43,12 @@ export default function CountriesSnapshot() {
         getCategory(activeCountry)
     }, [activeCountry])
 
-    const economicItems = ["18", "20", "115", "35"];
+    const economicItems = [
+        { label: "GDP", value: "18" },
+        { label: "Growth", value: "20" },
+        { label: "Export", value: "115" },
+        { label: "Import", value: "35" }
+    ];
 
     return (
         <Box
@@ -90,21 +95,26 @@ export default function CountriesSnapshot() {
                                     mb: 2,
                                 }}
                             >
-                                {(Array.isArray(economicItems) ? economicItems : []).map((item) => (
-                                    <Box
-                                        key={item}
-                                        sx={{
-                                            height: 42,
-                                            borderRadius: 1,
-                                            border: `1px solid ${theme.palette.divider}`,
-                                            bgcolor: "primary.light",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
-                                        <Typography variant="body2" fontWeight={600}>
-                                            {item}
+                                {(Array.isArray(economicItems) ? economicItems : []).map((item, index) => (
+                                    <Box key={index}>
+                                        <Box
+                                            sx={{
+                                                height: 42,
+                                                borderRadius: 1,
+                                                border: `1px solid ${theme.palette.divider}`,
+                                                bgcolor: "primary.light",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                mb: 0.5
+                                            }}
+                                        >
+                                            <Typography variant="body2" fontWeight={600}>
+                                                {item.value}
+                                            </Typography>
+                                        </Box>
+                                        <Typography variant="caption" color="text.secondary" align="center" display="block">
+                                            {item.label}
                                         </Typography>
                                     </Box>
                                 ))}
@@ -127,9 +137,9 @@ export default function CountriesSnapshot() {
                                     gap: 2,
                                 }}
                             >
-                                {[1, 2, 3].map((item) => (
-                                    <MiniChart key={item} />
-                                ))}
+                                <MiniChart label="Buyer" value="120" />
+                                <MiniChart label="Seller" value="120" />
+                                <MiniChart label="Both" value="120" />
                             </Box>
                         </CardContent>
                     </Card>
@@ -271,7 +281,7 @@ export default function CountriesSnapshot() {
     );
 }
 
-function MiniChart() {
+function MiniChart({ label = "Buyer", value = "120" }: { label?: string, value?: string }) {
     return (
         <Box>
             <Box
@@ -282,28 +292,17 @@ function MiniChart() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    mb: 1,
+                    mb: 0.5,
                 }}
             >
                 <Typography variant="body2" fontWeight={600}>
-                    120
+                    {value}
                 </Typography>
             </Box>
 
-            <Box
-                sx={{
-                    height: 42,
-                    borderRadius: 1,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    bgcolor: "background.default",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                Buyer
-            </Box>
+            <Typography variant="caption" color="text.secondary" align="center" display="block">
+                {label}
+            </Typography>
         </Box>
     );
 }

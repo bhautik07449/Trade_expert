@@ -32,11 +32,11 @@ export default function SupplierTab() {
             sx={{
                 px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 width: "100%",
-                bgcolor: "background.default",
+                bgcolor: "white",
                 boxSizing: "border-box",
             }}
         >
-            <LabelTitle title="Join the" label="Platform" tagLine="Choose the right option to join our platform and start trading." />
+            <LabelTitle title="join as a" label="private / public" tagLine="Choose the right option to join our platform and start trading." />
 
             <Container
                 sx={{

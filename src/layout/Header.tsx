@@ -19,9 +19,12 @@ import {
     Select,
     MenuItem,
     FormControl,
+    ListSubheader,
+    TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
@@ -72,6 +75,10 @@ export default function Header() {
     const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null);
     const [menuStack, setMenuStack] = useState<any[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
+    const [allCountries, setAllCountries] = useState<string[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [presenceOpen, setPresenceOpen] = useState(true);
+    const [allOpen, setAllOpen] = useState(true);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -119,6 +126,18 @@ export default function Header() {
             }
         };
         getPresencesData();
+
+        const getAllCountries = async () => {
+            try {
+                const res = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
+                const data = await res.json();
+                const names = data.objects.countries.geometries.map((g: any) => g.properties.name).sort();
+                setAllCountries(names);
+            } catch (error) {
+                console.log("Failed to fetch all countries");
+            }
+        };
+        getAllCountries();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
@@ -191,29 +210,28 @@ export default function Header() {
         {
             label: "Sectors",
             icon: <CategoryIcon fontSize="small" />,
-            subItems:
-                Array.isArray(categories) ?(Array.isArray(categories) ? categories : []).map((country: any) => ({
-                    label: country?.country,
-                    type: "country",
-                    path: `/country/${country?.country}`,
+            subItems: (() => {
+                const currentCountryData = Array.isArray(categories) 
+                    ? categories.find((c: any) => c.country === selectedCountry) 
+                    : null;
+                const categoriesList = currentCountryData ? currentCountryData.categories : [];
+                return Array.isArray(categoriesList) ? categoriesList.map((category: any) => ({
+                    label: category?.name,
+                    type: "category",
+                    path: `/category/${category?.id}`,
                     subItems:
-                        Array.isArray(country?.categories) ?(Array.isArray(country.categories) ? country.categories : []).map((category: any) => ({
-                            label: category?.name,
-                            type: "category",
-                            path: `/category/${category?.id}`,
+                        Array.isArray(category?.subcategories) ? category.subcategories.map((subcategory: any) => ({
+                            label: subcategory?.name,
+                            type: "subcategory",
                             subItems:
-                                Array.isArray(category?.subcategories) ?(Array.isArray(category.subcategories) ? category.subcategories : []).map((subcategory: any) => ({
-                                    label: subcategory?.name,
-                                    type: "subcategory",
-                                    subItems:
-                                        Array.isArray(subcategory?.products) ?(Array.isArray(subcategory.products) ? subcategory.products : []).map((product: any) => ({
-                                            label: product?.name,
-                                            type: "product",
-                                            path: `/product-details/${product?.id}`,
-                                        })) : [],
+                                Array.isArray(subcategory?.products) ? subcategory.products.map((product: any) => ({
+                                    label: product?.name,
+                                    type: "product",
+                                    path: `/product-details/${product?.id}`,
                                 })) : [],
                         })) : [],
-                })) : [],
+                })) : [];
+            })(),
         },
         {
             label: "ESG",
@@ -341,12 +359,8 @@ export default function Header() {
                                     value={selectedCountry || ""}
                                     onChange={(e) => {
                                         const newCountry = e.target.value as string;
-                                        dispatch(setSelectedCountry(newCountry));
-                                        const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
-                                        if (location.pathname === `/country/${oldCountryEncoded}` || location.pathname === `/country/${selectedCountry}`) {
-                                            navigate(`/country/${encodeURIComponent(newCountry)}`);
-                                        } else if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
-                                            navigate(`/${encodeURIComponent(newCountry)}`);
+                                        if (newCountry) {
+                                            dispatch(setSelectedCountry(newCountry));
                                         }
                                     }}
                                     displayEmpty
@@ -357,11 +371,33 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {Array.isArray(countries) ?(Array.isArray(countries) ? countries : []).map((c) => (
-                                        <MenuItem key={c} value={c}>
+                                    <MenuItem disableRipple sx={{ '&:hover': { bgcolor: 'transparent' }, cursor: 'default', py: 1 }} onKeyDownCapture={(e) => e.stopPropagation()} onClickCapture={(e) => e.stopPropagation()}>
+                                        <TextField size="small" placeholder="Search Country..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.stopPropagation()} fullWidth />
+                                    </MenuItem>
+                                    <ListSubheader 
+                                        sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                        onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setPresenceOpen(prev => !prev); }}
+                                        onMouseDownCapture={(e) => e.stopPropagation()}
+                                    >
+                                        Presence Country {presenceOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+                                    </ListSubheader>
+                                    {presenceOpen && (Array.isArray(countries) ? countries : []).filter(c => c.toLowerCase().includes(searchQuery.toLowerCase())).map((c) => (
+                                        <MenuItem key={`presence-${c}`} value={c}>
                                             {c}
                                         </MenuItem>
-                                    )) : null}
+                                    ))}
+                                    <ListSubheader 
+                                        sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                        onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setAllOpen(prev => !prev); }}
+                                        onMouseDownCapture={(e) => e.stopPropagation()}
+                                    >
+                                        All Country {allOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+                                    </ListSubheader>
+                                    {allOpen && allCountries.filter(c => c.toLowerCase().includes(searchQuery.toLowerCase())).map((c) => (
+                                        <MenuItem key={`all-${c}`} value={c}>
+                                            {c}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             {!isLoggedIn ? (
@@ -455,12 +491,8 @@ export default function Header() {
                                     value={selectedCountry || ""}
                                     onChange={(e) => {
                                         const newCountry = e.target.value as string;
-                                        dispatch(setSelectedCountry(newCountry));
-                                        const oldCountryEncoded = encodeURIComponent(selectedCountry || "");
-                                        if (location.pathname === `/country/${oldCountryEncoded}` || location.pathname === `/country/${selectedCountry}`) {
-                                            navigate(`/country/${encodeURIComponent(newCountry)}`);
-                                        } else if (location.pathname === `/${oldCountryEncoded}` || location.pathname === `/${selectedCountry}`) {
-                                            navigate(`/${encodeURIComponent(newCountry)}`);
+                                        if (newCountry) {
+                                            dispatch(setSelectedCountry(newCountry));
                                         }
                                     }}
                                     displayEmpty
@@ -471,11 +503,33 @@ export default function Header() {
                                         fontWeight: 500
                                     }}
                                 >
-                                    {Array.isArray(countries) ?(Array.isArray(countries) ? countries : []).map((c) => (
-                                        <MenuItem key={c} value={c}>
+                                    <MenuItem disableRipple sx={{ '&:hover': { bgcolor: 'transparent' }, cursor: 'default', py: 1 }} onKeyDownCapture={(e) => e.stopPropagation()} onClickCapture={(e) => e.stopPropagation()}>
+                                        <TextField size="small" placeholder="Search Country..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.stopPropagation()} fullWidth />
+                                    </MenuItem>
+                                    <ListSubheader 
+                                        sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                        onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setPresenceOpen(prev => !prev); }}
+                                        onMouseDownCapture={(e) => e.stopPropagation()}
+                                    >
+                                        Presence Country {presenceOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+                                    </ListSubheader>
+                                    {presenceOpen && (Array.isArray(countries) ? countries : []).filter(c => c.toLowerCase().includes(searchQuery.toLowerCase())).map((c) => (
+                                        <MenuItem key={`presence-${c}`} value={c}>
                                             {c}
                                         </MenuItem>
-                                    )) : null}
+                                    ))}
+                                    <ListSubheader 
+                                        sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                        onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setAllOpen(prev => !prev); }}
+                                        onMouseDownCapture={(e) => e.stopPropagation()}
+                                    >
+                                        All Country {allOpen ? <KeyboardArrowUpIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+                                    </ListSubheader>
+                                    {allOpen && allCountries.filter(c => c.toLowerCase().includes(searchQuery.toLowerCase())).map((c) => (
+                                        <MenuItem key={`all-${c}`} value={c}>
+                                            {c}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
 
@@ -561,7 +615,7 @@ export default function Header() {
                                                 item.label === "Sectors"
                                                     ? "translateX(-50%)"
                                                     : "none",
-                                            width: item.label === "Sectors" ? "1100px" : "auto",
+                                            width: item.label === "Sectors" ? "840px" : "auto",
                                             maxWidth: "98vw",
                                             zIndex: 999,
                                             overflow: "hidden",
@@ -616,7 +670,7 @@ export default function Header() {
                                                     ))}
                                                 </Box>
                                             ) : (
-                                                <CountriesMegaMenu
+                                                <CategoriesMegaMenu
                                                     items={item.subItems}
                                                     navigate={navigate}
                                                     onClose={() => setOpenSubmenu(null)}
@@ -892,7 +946,7 @@ function NestedMenu({
     );
 }
 
-function CountriesMegaMenu({
+function CategoriesMegaMenu({
     items,
     navigate,
     onClose,
@@ -901,27 +955,20 @@ function CountriesMegaMenu({
     navigate: any;
     onClose: () => void;
 }) {
-    const [hoveredCountry, setHoveredCountry] = useState<any>(items[0] || null);
-    const [hoveredCategory, setHoveredCategory] = useState<any>(null);
+    const [hoveredCategory, setHoveredCategory] = useState<any>(items[0] || null);
     const [hoveredSubcategory, setHoveredSubcategory] = useState<any>(null);
 
     useEffect(() => {
-        setHoveredCountry(items[0] || null);
-        setHoveredCategory(null);
+        setHoveredCategory(items[0] || null);
         setHoveredSubcategory(null);
     }, [items]);
-
-    useEffect(() => {
-        setHoveredCategory(null);
-        setHoveredSubcategory(null);
-    }, [hoveredCountry]);
 
     useEffect(() => {
         setHoveredSubcategory(null);
     }, [hoveredCategory]);
 
     return (
-        <Box sx={{ display: "flex", height: 550, width: 1100 }}>
+        <Box sx={{ display: "flex", height: 550, width: 840 }}>
             <Box
                 sx={{
                     width: 260,
@@ -933,12 +980,12 @@ function CountriesMegaMenu({
                 }}
             >
                 <List sx={{ p: 0 }}>
-                    {(Array.isArray(items) ? items : []).map((country) => (
-                        <ListItem key={country.label} disablePadding>
+                    {(Array.isArray(items) ? items : []).map((category: any) => (
+                        <ListItem key={category.label} disablePadding>
                             <ListItemButton
-                                onMouseEnter={() => setHoveredCountry(country)}
-                                onClick={() => country.path && navigate(country.path)}
-                                selected={hoveredCountry?.label === country.label}
+                                onMouseEnter={() => setHoveredCategory(category)}
+                                onClick={() => category.path && navigate(category.path)}
+                                selected={hoveredCategory?.label === category.label}
                                 sx={{
                                     py: 1.5,
                                     px: 2,
@@ -955,7 +1002,7 @@ function CountriesMegaMenu({
                                 }}
                             >
                                 <ListItemText
-                                    primary={country.label}
+                                    primary={category.label}
                                     primaryTypographyProps={{
                                         fontWeight: 700,
                                         fontSize: "1.05rem",
@@ -963,7 +1010,7 @@ function CountriesMegaMenu({
                                     }}
                                 />
 
-                                {country.subItems?.length > 0 && (
+                                {category.subItems?.length > 0 && (
                                     <KeyboardArrowRightIcon
                                         sx={{ fontSize: 18, color: "divider" }}
                                     />
@@ -976,68 +1023,12 @@ function CountriesMegaMenu({
 
             <Box
                 sx={{
-                    width: 260,
-                    flexShrink: 0,
-                    borderRight: "1px solid",
-                    borderColor: "divider",
-                    py: 1,
-                    bgcolor: "white",
-                    overflowY: "auto",
-                }}
-            >
-                <List sx={{ p: 0 }}>
-                    {hoveredCountry?.subItems?.length > 0 ? ((Array.isArray(hoveredCountry.subItems) ? hoveredCountry.subItems : []).map((category: any) => (
-                            <ListItem key={category.label} disablePadding>
-                                <ListItemButton
-                                    onMouseEnter={() => setHoveredCategory(category)}
-                                    onClick={() => category.path && navigate(category.path)}
-                                    selected={hoveredCategory?.label === category.label}
-                                    sx={{
-                                        py: 1.2,
-                                        px: 2,
-                                        "&.Mui-selected": {
-                                            bgcolor: "rgba(0,0,0,0.03)",
-                                            color: "primary.main",
-                                            fontWeight: 700,
-                                        },
-                                    }}
-                                >
-                                    <ListItemText
-                                        primary={category.label}
-                                        primaryTypographyProps={{
-                                            fontSize: "1rem",
-                                            fontWeight:
-                                                hoveredCategory?.label === category.label
-                                                    ? 700
-                                                    : 500,
-                                            noWrap: true,
-                                        }}
-                                    />
-
-                                    {category.subItems?.length > 0 && (
-                                        <KeyboardArrowRightIcon
-                                            sx={{ fontSize: 16, color: "divider" }}
-                                        />
-                                    )}
-                                </ListItemButton>
-                            </ListItem>
-                        ))
-                    ) : (
-                        <Box sx={{ p: 2 }}>
-                            <NoDataFound message="No categories found" />
-                        </Box>
-                    )}
-                </List>
-            </Box>
-
-            <Box
-                sx={{
                     width: 280,
                     flexShrink: 0,
                     borderRight: "1px solid",
                     borderColor: "divider",
                     py: 1,
-                    bgcolor: "#fafafa",
+                    bgcolor: "white",
                     overflowY: "auto",
                 }}
             >
@@ -1051,7 +1042,7 @@ function CountriesMegaMenu({
                                         py: 1.2,
                                         px: 2,
                                         "&.Mui-selected": {
-                                            bgcolor: "white",
+                                            bgcolor: "rgba(0,0,0,0.03)",
                                             color: "primary.main",
                                             fontWeight: 700,
                                         },
@@ -1060,7 +1051,7 @@ function CountriesMegaMenu({
                                     <ListItemText
                                         primary={subcategory.label}
                                         primaryTypographyProps={{
-                                            fontSize: "0.95rem",
+                                            fontSize: "1rem",
                                             fontWeight:
                                                 hoveredSubcategory?.label === subcategory.label
                                                     ? 700
@@ -1078,15 +1069,9 @@ function CountriesMegaMenu({
                             </ListItem>
                         ))
                     ) : (
-                        <Typography
-                            sx={{
-                                p: 2,
-                                color: "text.disabled",
-                                fontSize: "0.9rem",
-                            }}
-                        >
-                            Select category
-                        </Typography>
+                        <Box sx={{ p: 2 }}>
+                            <NoDataFound message="No subcategories found" />
+                        </Box>
                     )}
                 </List>
             </Box>

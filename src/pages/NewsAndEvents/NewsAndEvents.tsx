@@ -46,7 +46,7 @@ export default function NewsAndEvents() {
                 minHeight: "100vh",
             }}
         >
-            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" activeCountry="" setActiveCountry={() => {}} />
+            <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -80,10 +80,10 @@ export default function NewsAndEvents() {
                 <Box component="section">
                     <Multilingual multilingualTiles={multilingual} loading={multilingualLoading} />
                 </Box>
-
-                <Box component="section">
-                    <PreambleAndUpcoming country={selectedCountry} />
-                </Box>
+            </Box>
+            
+            <Box component="section">
+                <PreambleAndUpcoming country={selectedCountry} />
             </Box>
 
             <Eventsection country={selectedCountry} />

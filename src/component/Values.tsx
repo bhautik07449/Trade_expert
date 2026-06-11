@@ -42,7 +42,7 @@ export default function Values() {
                 position: "relative",
                 overflow: "hidden",
                 py: { xs: 6, md: 10 },
-                bgcolor: "white"
+                bgcolor: "background.default"
             }}
         >
             <Box
