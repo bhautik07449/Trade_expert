@@ -80,7 +80,7 @@ export default function ProjectSelection({ activeCountry, selectedProject, setSe
                     mb: 3,
                 }}
             >
-                Project Selection
+                Available Project
             </Typography>
 
             {loading ? (

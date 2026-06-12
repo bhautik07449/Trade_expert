@@ -62,7 +62,7 @@ export default function ProductSelection({
                     mb: 3,
                 }}
             >
-                Product Selection
+                Product
             </Typography>
 
             <Paper

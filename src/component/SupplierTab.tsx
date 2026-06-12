@@ -14,8 +14,8 @@ export default function SupplierTab() {
             link: "/suppliers/register",
         },
         {
-            label: "Join as public or",
-            value: "private personnel",
+            label: "join as a service",
+            value: "personnel",
             button: "Register",
             link: "/pages/career",
         },
@@ -38,7 +38,7 @@ export default function SupplierTab() {
         >
             <LabelTitle title="Join as a" label="private / public" tagLine="Choose the right option to join our platform and start trading." />
 
-            <Container
+            <Box
                 sx={{
                     maxWidth: "1400px !important",
                     mx: "auto",
@@ -135,7 +135,7 @@ export default function SupplierTab() {
                         </Grid>
                     ))}
                 </Grid>
-            </Container>
+            </Box>
         </Box>
     );
 }

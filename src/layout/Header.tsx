@@ -211,8 +211,8 @@ export default function Header() {
             label: "Sectors",
             icon: <CategoryIcon fontSize="small" />,
             subItems: (() => {
-                const currentCountryData = Array.isArray(categories) 
-                    ? categories.find((c: any) => c.country === selectedCountry) 
+                const currentCountryData = Array.isArray(categories)
+                    ? categories.find((c: any) => c.country === selectedCountry)
                     : null;
                 const categoriesList = currentCountryData ? currentCountryData.categories : [];
                 return Array.isArray(categoriesList) ? categoriesList.map((category: any) => ({
@@ -378,7 +378,7 @@ export default function Header() {
                                     <MenuItem disableRipple sx={{ '&:hover': { bgcolor: 'transparent' }, cursor: 'default', py: 1 }} onKeyDownCapture={(e) => e.stopPropagation()} onClickCapture={(e) => e.stopPropagation()}>
                                         <TextField size="small" placeholder="Search Country..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.stopPropagation()} fullWidth />
                                     </MenuItem>
-                                    <ListSubheader 
+                                    <ListSubheader
                                         sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                                         onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setPresenceOpen(prev => !prev); }}
                                         onMouseDownCapture={(e) => e.stopPropagation()}
@@ -390,7 +390,7 @@ export default function Header() {
                                             {c}
                                         </MenuItem>
                                     ))}
-                                    <ListSubheader 
+                                    <ListSubheader
                                         sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                                         onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setAllOpen(prev => !prev); }}
                                         onMouseDownCapture={(e) => e.stopPropagation()}
@@ -462,7 +462,6 @@ export default function Header() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                size="small"
                                 sx={{ px: 3, fontWeight: 600 }}
                                 onClick={() => setOpenRFQ(true)}
                             >
@@ -491,7 +490,7 @@ export default function Header() {
                                     <MenuItem disableRipple sx={{ '&:hover': { bgcolor: 'transparent' }, cursor: 'default', py: 1 }} onKeyDownCapture={(e) => e.stopPropagation()} onClickCapture={(e) => e.stopPropagation()}>
                                         <TextField size="small" placeholder="Search Country..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.stopPropagation()} fullWidth />
                                     </MenuItem>
-                                    <ListSubheader 
+                                    <ListSubheader
                                         sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                                         onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setPresenceOpen(prev => !prev); }}
                                         onMouseDownCapture={(e) => e.stopPropagation()}
@@ -503,7 +502,7 @@ export default function Header() {
                                             {c}
                                         </MenuItem>
                                     ))}
-                                    <ListSubheader 
+                                    <ListSubheader
                                         sx={{ fontWeight: 700, lineHeight: '30px', bgcolor: '#f5f5f5', color: 'primary.main', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                                         onClickCapture={(e) => { e.stopPropagation(); e.preventDefault(); setAllOpen(prev => !prev); }}
                                         onMouseDownCapture={(e) => e.stopPropagation()}
@@ -723,8 +722,8 @@ export default function Header() {
                                 <Skeleton variant="text" height={50} />
                             </Box>
                         ) : (
-                            (Array.isArray(menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems) 
-                                ? (menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems) 
+                            (Array.isArray(menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems)
+                                ? (menuStack.length === 0 ? navItems : menuStack[menuStack.length - 1].subItems)
                                 : []
                             )?.map((item: any) => (
                                 <ListItem key={item.label} disablePadding>
@@ -1012,40 +1011,40 @@ function CategoriesMegaMenu({
             >
                 <List sx={{ p: 0 }}>
                     {hoveredCategory?.subItems?.length > 0 ? ((Array.isArray(hoveredCategory.subItems) ? hoveredCategory.subItems : []).map((subcategory: any) => (
-                            <ListItem key={subcategory.label} disablePadding>
-                                <ListItemButton
-                                    onMouseEnter={() => setHoveredSubcategory(subcategory)}
-                                    selected={hoveredSubcategory?.label === subcategory.label}
-                                    sx={{
-                                        py: 1.2,
-                                        px: 2,
-                                        "&.Mui-selected": {
-                                            bgcolor: "rgba(0,0,0,0.03)",
-                                            color: "primary.main",
-                                            fontWeight: 700,
-                                        },
+                        <ListItem key={subcategory.label} disablePadding>
+                            <ListItemButton
+                                onMouseEnter={() => setHoveredSubcategory(subcategory)}
+                                selected={hoveredSubcategory?.label === subcategory.label}
+                                sx={{
+                                    py: 1.2,
+                                    px: 2,
+                                    "&.Mui-selected": {
+                                        bgcolor: "rgba(0,0,0,0.03)",
+                                        color: "primary.main",
+                                        fontWeight: 700,
+                                    },
+                                }}
+                            >
+                                <ListItemText
+                                    primary={subcategory.label}
+                                    primaryTypographyProps={{
+                                        fontSize: "1rem",
+                                        fontWeight:
+                                            hoveredSubcategory?.label === subcategory.label
+                                                ? 700
+                                                : 500,
+                                        noWrap: true,
                                     }}
-                                >
-                                    <ListItemText
-                                        primary={subcategory.label}
-                                        primaryTypographyProps={{
-                                            fontSize: "1rem",
-                                            fontWeight:
-                                                hoveredSubcategory?.label === subcategory.label
-                                                    ? 700
-                                                    : 500,
-                                            noWrap: true,
-                                        }}
-                                    />
+                                />
 
-                                    {subcategory.subItems?.length > 0 && (
-                                        <KeyboardArrowRightIcon
-                                            sx={{ fontSize: 16, color: "divider" }}
-                                        />
-                                    )}
-                                </ListItemButton>
-                            </ListItem>
-                        ))
+                                {subcategory.subItems?.length > 0 && (
+                                    <KeyboardArrowRightIcon
+                                        sx={{ fontSize: 16, color: "divider" }}
+                                    />
+                                )}
+                            </ListItemButton>
+                        </ListItem>
+                    ))
                     ) : (
                         <Box sx={{ p: 2 }}>
                             <NoDataFound message="No subcategories found" />
@@ -1065,37 +1064,37 @@ function CategoriesMegaMenu({
             >
                 <List sx={{ p: 0 }}>
                     {hoveredSubcategory?.subItems?.length > 0 ? ((Array.isArray(hoveredSubcategory.subItems) ? hoveredSubcategory.subItems : []).map((product: any) => (
-                            <ListItem key={product.label} disablePadding>
-                                <ListItemButton
-                                    onClick={() => {
-                                        if (product.path) {
-                                            navigate(product.path);
-                                            onClose();
-                                        }
+                        <ListItem key={product.label} disablePadding>
+                            <ListItemButton
+                                onClick={() => {
+                                    if (product.path) {
+                                        navigate(product.path);
+                                        onClose();
+                                    }
+                                }}
+                                sx={{
+                                    py: 1.2,
+                                    px: 2,
+                                    mx: 1,
+                                    borderRadius: 1,
+                                    "&:hover": {
+                                        bgcolor: "white",
+                                        transform: "translateX(4px)",
+                                    },
+                                    transition: "all 0.2s",
+                                }}
+                            >
+                                <ListItemText
+                                    primary={product.label}
+                                    primaryTypographyProps={{
+                                        fontSize: "0.9rem",
+                                        color: "text.secondary",
+                                        fontWeight: 500,
                                     }}
-                                    sx={{
-                                        py: 1.2,
-                                        px: 2,
-                                        mx: 1,
-                                        borderRadius: 1,
-                                        "&:hover": {
-                                            bgcolor: "white",
-                                            transform: "translateX(4px)",
-                                        },
-                                        transition: "all 0.2s",
-                                    }}
-                                >
-                                    <ListItemText
-                                        primary={product.label}
-                                        primaryTypographyProps={{
-                                            fontSize: "0.9rem",
-                                            color: "text.secondary",
-                                            fontWeight: 500,
-                                        }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    ))
                     ) : (
                         <Box
                             sx={{

@@ -134,6 +134,7 @@ export default function InvestorRelations() {
                     >
                         <Tab label="Product" value="product" />
                         <Tab label="Project" value="project" />
+                        <Tab label="Project to build " value="project_build" />
                     </Tabs>
                 </Box>
 
@@ -160,16 +161,13 @@ export default function InvestorRelations() {
                     <ProjectSelection activeCountry={selectedCountry} selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
                 )}
 
+                {activeTab === 'project_build' && (
+                    <ProjectMarketDevelopment />
+                )}
+
                 <Divider sx={{ my: 5 }} />
 
                 <FinancialService activeCountry={selectedCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
-
-                {activeTab === 'project' && (
-                    <>
-                        <Divider sx={{ my: 5 }} />
-                        <ProjectMarketDevelopment />
-                    </>
-                )}
 
                 <Divider sx={{ my: 5 }} />
 

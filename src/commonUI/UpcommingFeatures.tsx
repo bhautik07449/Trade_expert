@@ -16,22 +16,22 @@ import LabelTitle from "./labelTitle"
 export default function UpcommingFeatures() {
     const features = [
         {
-            title: "Advanced Analytics",
+            title: "Trade Controller",
             description: "Advanced analytics dashboard for market trends.",
             icon: <AnalyticsIcon />,
         },
         {
-            title: "Logistics Integration",
+            title: "Trade Complier",
             description: "Integration with third-party logistics providers.",
             icon: <LocalShippingIcon />,
         },
         {
-            title: "AI Recommendations",
+            title: "Trade Regulator",
             description: "AI-powered product recommendation engine.",
             icon: <AutoAwesomeIcon />,
         },
         {
-            title: "Enhanced Mobile App",
+            title: "Trade Arbitrator",
             description: "Enhanced mobile app with offline capabilities.",
             icon: <PhoneIphoneIcon />,
         },
@@ -76,11 +76,13 @@ export default function UpcommingFeatures() {
                 }}
             />
 
-            <Container
-                maxWidth="lg"
+            <Box
                 sx={{
                     position: "relative",
                     zIndex: 1,
+                    maxWidth: "1400px",
+                    mx: 'auto',
+                    px: { xs: 2, sm: 3 },
                 }}
             >
                 <Box sx={{ textAlign: "center", mb: 5 }}>
@@ -249,7 +251,7 @@ export default function UpcommingFeatures() {
                         </Grid>
                     ))}
                 </Grid>
-            </Container>
+            </Box>
         </Box>
     )
 }

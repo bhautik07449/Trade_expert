@@ -73,7 +73,7 @@ export default function Values() {
                 }}
             />
 
-            <Container
+            <Box
                 sx={{
                     maxWidth: "1400px !important",
                     mx: "auto",
@@ -245,7 +245,7 @@ export default function Values() {
                         )
                     })}
                 </Grid>
-            </Container>
+            </Box>
         </Box>
     )
 }

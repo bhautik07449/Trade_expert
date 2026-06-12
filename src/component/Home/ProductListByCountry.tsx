@@ -76,7 +76,6 @@ export default function ProductListByCountry() {
                     maxWidth: "680px",
                     mx: "auto",
                     mb: { xs: 4, md: 6 },
-                    mt: { xs: -1.5, md: -2.5 },
                     fontSize: { xs: "0.9rem", sm: "1rem" },
                     lineHeight: 1.8,
                 }}

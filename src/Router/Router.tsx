@@ -34,6 +34,7 @@ const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicD
 const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister'))
 const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth/PulicPrivateAuthLogin'))
 const Commedium = React.lazy(() => import('../pages/Commedium/Commedium'))
+const ComingSoon = React.lazy(() => import('../pages/ComingSoon/ComingSoon'))
 
 type Props = {
   children: JSX.Element;
@@ -168,6 +169,7 @@ export default function Router(): JSX.Element {
       <Route path="/news_and_events" element={<NewsAndEvents />} />
       <Route path="/investor_relations" element={<InvestorRelations />} />
       <Route path="/personnel/register" element={<PersonnelRegister />} />
+      <Route path="/coming-soon" element={<ComingSoon />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
