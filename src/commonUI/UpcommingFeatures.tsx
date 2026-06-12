@@ -103,7 +103,18 @@ export default function UpcommingFeatures() {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={3} justifyContent="center">
+                <Grid container spacing={3} justifyContent="center"
+                    sx={{
+                        borderRadius: 6,
+                        p: { xs: 3, sm: 5, md: 8 },
+                        bgcolor: "background.paper",
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: "0 24px 64px -12px rgba(95, 75, 59, 0.12)",
+                        position: "relative",
+                        overflow: "hidden",
+                    }}
+                >
                     {(Array.isArray(features) ? features : []).map((feature, index) => (
                         <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                             <Card

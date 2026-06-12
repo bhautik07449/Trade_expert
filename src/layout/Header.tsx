@@ -265,6 +265,11 @@ export default function Header() {
             ],
         },
         {
+            label: "Trade View",
+            path: "/trade-view",
+            icon: <WidgetsIcon fontSize="small" />
+        },
+        {
             label: "About",
             path: "/about_us",
             icon: <InfoIcon fontSize="small" />

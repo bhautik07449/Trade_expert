@@ -35,6 +35,7 @@ const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/Pe
 const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth/PulicPrivateAuthLogin'))
 const Commedium = React.lazy(() => import('../pages/Commedium/Commedium'))
 const ComingSoon = React.lazy(() => import('../pages/ComingSoon/ComingSoon'))
+const TradeView = React.lazy(() => import('../pages/TradeView/TradeView'))
 
 type Props = {
   children: JSX.Element;
@@ -170,6 +171,7 @@ export default function Router(): JSX.Element {
       <Route path="/investor_relations" element={<InvestorRelations />} />
       <Route path="/personnel/register" element={<PersonnelRegister />} />
       <Route path="/coming-soon" element={<ComingSoon />} />
+      <Route path="/trade-view" element={<TradeView />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
