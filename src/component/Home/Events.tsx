@@ -7,11 +7,13 @@ import {
 } from "@mui/material";
 import LabelTitle from "../../commonUI/labelTitle";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HomePageservice from "../../service/homepages.service";
 import { useSelector } from "react-redux";
 import NoDataFound from "../../commonUI/NoDataFound";
 
 export default function Events() {
+    const navigate = useNavigate();
     const [eventsData, setEventsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const activeCountry = useSelector((state: any) => state.country.selectedCountry) || "India";
@@ -68,7 +70,9 @@ export default function Events() {
                             {(Array.isArray(eventsData) ? eventsData : []).map((item, index) => (
                                 <Grid size={{ xs: 12, md: 6, lg: 6 }} key={index}>
                                     <Box
+                                        onClick={() => navigate(`/news_and_events?eventId=${item?.id || item?._id || index}#trade-events`)}
                                         sx={{
+                                            cursor: 'pointer',
                                             display: "flex",
                                             flexDirection: "row",
                                             borderRadius: 1,

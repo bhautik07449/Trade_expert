@@ -6,11 +6,15 @@ import {
     Skeleton
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import HomePageservice from "../service/homepages.service";
 import LabelTitle from "../commonUI/labelTitle";
 import NoDataFound from "../commonUI/NoDataFound";
 
 export default function Eventsection({ country }: any) {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const highlightEventId = queryParams.get('eventId');
     const [eventsData, setEventsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -36,8 +40,27 @@ export default function Eventsection({ country }: any) {
         getEventsData(country);
     }, [country]);
 
+    useEffect(() => {
+        if (location.hash === '#trade-events') {
+            const timer = setTimeout(() => {
+                let element = document.getElementById('trade-events');
+                
+                if (highlightEventId) {
+                    const cardEl = document.getElementById(`event-card-${highlightEventId}`);
+                    if (cardEl) element = cardEl;
+                }
+                
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [location, eventsData, highlightEventId]);
+
     return (
         <Box
+            id="trade-events"
             sx={{
                 px: { xs: 2, sm: 4, md: 6 }, py: { xs: 3, md: 4 },
                 bgcolor: "background.default",
@@ -88,21 +111,27 @@ export default function Eventsection({ country }: any) {
                         </Grid>
                     ) : (
                         <Grid container spacing={3}>
-                            {(Array.isArray(eventsData) ? eventsData : []).map((item, index) => (
+                            {(Array.isArray(eventsData) ? eventsData : []).map((item, index) => {
+                                const currentId = String(item?.id || item?._id || index);
+                                const isCardHighlighted = highlightEventId === currentId;
+
+                                return (
                                 <Grid size={{ xs: 12 }} key={index}>
                                     <Box
+                                        id={`event-card-${currentId}`}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "row",
                                             borderRadius: 1,
                                             overflow: "hidden",
                                             border: "1px solid",
-                                            borderColor: "divider",
+                                            borderColor: isCardHighlighted ? 'primary.main' : "divider",
                                             backgroundColor: "background.paper",
-                                            boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
-                                            transition: "all 0.3s ease",
+                                            boxShadow: isCardHighlighted ? "0 0 0 3px rgba(244, 166, 42, 0.4), 0 8px 28px rgba(0,0,0,0.13)" : "0 2px 12px rgba(0,0,0,0.07)",
+                                            transition: "all 0.5s ease",
                                             height: "100%",
                                             minHeight: "200px",
+                                            transform: isCardHighlighted ? "scale(1.02)" : "none",
                                             "&:hover": {
                                                 boxShadow: "0 8px 28px rgba(0,0,0,0.13)",
                                                 transform: "translateY(-3px)",
@@ -203,7 +232,8 @@ export default function Eventsection({ country }: any) {
                                         </Box>
                                     </Box>
                                 </Grid>
-                            ))}
+                                );
+                            })}
                         </Grid>
                     )}
                 </Box>
