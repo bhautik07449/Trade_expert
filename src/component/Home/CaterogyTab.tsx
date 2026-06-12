@@ -8,7 +8,6 @@ import {
 } from "@mui/material"
 import CategoryIcon from "@mui/icons-material/Category"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import LabelTitle from "../../commonUI/labelTitle"

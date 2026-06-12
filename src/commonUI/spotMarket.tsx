@@ -9,7 +9,6 @@ import {
     Paper,
     Box,
     Skeleton,
-    Typography,
     Tabs,
     Tab,
 } from "@mui/material"

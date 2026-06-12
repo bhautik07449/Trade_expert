@@ -4,7 +4,6 @@ import {
   Paper,
   Tabs,
   Tab,
-  Typography,
   useTheme,
   useMediaQuery,
   Table,
