@@ -234,9 +234,12 @@ export default function Header() {
             })(),
         },
         {
-            label: "ESG",
-            path: "/pages/csr",
-            icon: <BusinessIcon fontSize="small" />
+            label: "Trade Specific",
+            icon: <SourceIcon fontSize="small" />,
+            subItems: [
+                { label: "Commedium", path: "/commedium" },
+                { label: "Trade View", path: "/trade-view" }
+            ],
         },
         {
             label: "News & Events",
@@ -249,30 +252,17 @@ export default function Header() {
             icon: <BusinessIcon fontSize="small" />
         },
         {
-            label: "Commedium",
-            path: "/commedium",
-            icon: <BusinessIcon fontSize="small" />
-        },
-        {
-            label: "Resource",
+            label: "Company Resources",
             icon: <SourceIcon fontSize="small" />,
             subItems: [
-                { label: "Gallery", path: "/pages/gallery" },
-                { label: "Career", path: "/pages/career" },
-                { label: "FAQ", path: "/pages/faq" },
-                { label: "Quality Policy", path: "/pages/quality_policies" },
+                { label: "ESG", path: "/pages/csr" },
                 { label: "Brands", path: "/pages/brands" },
+                { label: "Quality Policy", path: "/pages/quality_policies" },
+                { label: "FAQ", path: "/pages/faq" },
+                { label: "Gallery", path: "/pages/gallery" },
+                { label: "About", path: "/about_us" },
+                { label: "Career", path: "/pages/career" },
             ],
-        },
-        {
-            label: "Trade View",
-            path: "/trade-view",
-            icon: <WidgetsIcon fontSize="small" />
-        },
-        {
-            label: "About",
-            path: "/about_us",
-            icon: <InfoIcon fontSize="small" />
         },
         {
             label: "Get in Touch",
