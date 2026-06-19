@@ -21,6 +21,7 @@ import {
     FormControl,
     ListSubheader,
     TextField,
+    Popper,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -73,6 +74,7 @@ export default function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
     const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [menuStack, setMenuStack] = useState<any[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
     const [allCountries, setAllCountries] = useState<string[]>([]);
@@ -141,18 +143,19 @@ export default function Header() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
-    const handleMouseEnter = (label: string) => {
+    const handleMouseEnter = (e: React.MouseEvent<HTMLElement>, label: string) => {
         if (submenuTimeout) {
             clearTimeout(submenuTimeout);
             setSubmenuTimeout(null);
         }
-
+        setAnchorEl(e.currentTarget);
         setOpenSubmenu(label);
     };
 
     const handleMouseLeave = () => {
         const timeout = setTimeout(() => {
             setOpenSubmenu(null);
+            setAnchorEl(null);
         }, 150);
 
         setSubmenuTimeout(timeout);
@@ -556,14 +559,14 @@ export default function Header() {
                             <Box
                                 key={item.label}
                                 sx={{
-                                    position: item.label === "Sectors" ? "static" : "relative",
+                                    position: item.label === "Offerings" ? "static" : "relative",
                                     pb: 2,
                                     mb: -2,
                                     display: "flex",
                                     alignItems: "center",
                                     flexShrink: 0,
                                 }}
-                                onMouseEnter={() => handleMouseEnter(item.label)}
+                                onMouseEnter={(e) => handleMouseEnter(e, item.label)}
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <Typography
@@ -599,82 +602,78 @@ export default function Header() {
                                     )}
                                 </Typography>
 
-                                {item.subItems && openSubmenu === item.label && (
-                                    <Paper
-                                        elevation={16}
-                                        sx={{
-                                            position: "absolute",
-                                            top: "100%",
-                                            left: item.label === "Sectors" ? "50%" : 0,
-                                            transform:
-                                                item.label === "Sectors"
-                                                    ? "translateX(-50%)"
-                                                    : "none",
-                                            width: item.label === "Sectors" ? "840px" : "auto",
-                                            maxWidth: "98vw",
-                                            zIndex: 999,
-                                            overflow: "hidden",
-                                            border: "1px solid rgba(0,0,0,0.08)",
-                                            backgroundColor: "white",
-                                            boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
-                                            "&::after": {
-                                                content: '""',
-                                                position: "absolute",
-                                                top: -20,
-                                                left: 0,
-                                                right: 0,
-                                                height: 20,
-                                                zIndex: -1,
-                                            },
-                                            "&::before":
-                                                item.label === "Sectors"
-                                                    ? {
-                                                        content: '""',
-                                                        position: "absolute",
-                                                        top: -10,
-                                                        left: "50%",
-                                                        transform: "translateX(-50%)",
-                                                        borderLeft: "10px solid transparent",
-                                                        borderRight: "10px solid transparent",
-                                                        borderBottom: "10px solid white",
-                                                    }
-                                                    : {},
+                                {item.subItems && (
+                                    <Popper
+                                        open={openSubmenu === item.label}
+                                        anchorEl={item.label === "Offerings" || item.label === "Sectors" ? navRef.current : anchorEl}
+                                        placement={item.label === "Offerings" || item.label === "Sectors" ? "bottom" : "bottom-start"}
+                                        style={{ zIndex: 1300 }}
+                                        onMouseEnter={() => {
+                                            if (submenuTimeout) {
+                                                clearTimeout(submenuTimeout);
+                                                setSubmenuTimeout(null);
+                                            }
                                         }}
+                                        onMouseLeave={handleMouseLeave}
+                                        modifiers={[
+                                            {
+                                                name: 'offset',
+                                                options: {
+                                                    offset: [0, 8],
+                                                },
+                                            },
+                                        ]}
                                     >
-                                        {item.label === "Sectors" ? (
-                                            categoriesLoading ? (
-                                                <Box
-                                                    sx={{
-                                                        p: 4,
-                                                        display: "grid",
-                                                        gridTemplateColumns: "repeat(4, 1fr)",
-                                                        gap: 4,
-                                                    }}
-                                                >
-                                                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                                                        <Box key={i}>
-                                                            <Skeleton
-                                                                variant="text"
-                                                                width="60%"
-                                                                height={30}
-                                                            />
-                                                            <Skeleton variant="text" width="80%" />
-                                                            <Skeleton variant="text" width="70%" />
-                                                            <Skeleton variant="text" width="75%" />
-                                                        </Box>
-                                                    ))}
-                                                </Box>
+                                        <Paper
+                                            elevation={16}
+                                            sx={{
+                                                width: item.label === "Offerings" || item.label === "Sectors" ? "840px" : "auto",
+                                                maxWidth: "98vw",
+                                                overflow: "hidden",
+                                                border: "1px solid rgba(0,0,0,0.08)",
+                                                backgroundColor: "white",
+                                                boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
+                                                position: "relative"
+                                            }}
+                                        >
+                                            {item.label === "Offerings" || item.label === "Sectors" ? (
+                                                categoriesLoading ? (
+                                                    <Box
+                                                        sx={{
+                                                            p: 4,
+                                                            display: "grid",
+                                                            gridTemplateColumns: "repeat(4, 1fr)",
+                                                            gap: 4,
+                                                        }}
+                                                    >
+                                                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                                            <Box key={i}>
+                                                                <Skeleton
+                                                                    variant="text"
+                                                                    width="60%"
+                                                                    height={30}
+                                                                />
+                                                                <Skeleton variant="text" width="80%" />
+                                                                <Skeleton variant="text" width="70%" />
+                                                                <Skeleton variant="text" width="75%" />
+                                                            </Box>
+                                                        ))}
+                                                    </Box>
+                                                ) : (
+                                                    <CategoriesMegaMenu
+                                                        items={item.subItems}
+                                                        navigate={navigate}
+                                                        onClose={() => {
+                                                            setOpenSubmenu(null);
+                                                            setAnchorEl(null);
+                                                        }}
+                                                    />
+                                                )
                                             ) : (
-                                                <CategoriesMegaMenu
-                                                    items={item.subItems}
-                                                    navigate={navigate}
-                                                    onClose={() => setOpenSubmenu(null)}
-                                                />
-                                            )
-                                        ) : (
-                                            <NestedMenu items={item.subItems} navigate={navigate} />
-                                        )}
-                                    </Paper>
+                                                <NestedMenu items={item.subItems} navigate={navigate} />
+                                            )}
+                                        </Paper>
+                                    </Popper>
                                 )}
                             </Box>
                         ))}
@@ -724,7 +723,7 @@ export default function Header() {
                         )}
 
                         {menuStack.length > 0 &&
-                            menuStack[menuStack.length - 1].label === "Sectors" &&
+                            menuStack[menuStack.length - 1].label === "Offerings" &&
                             categoriesLoading ? (
                             <Box sx={{ px: 2 }}>
                                 <Skeleton variant="text" height={50} />
