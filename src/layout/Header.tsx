@@ -208,7 +208,7 @@ export default function Header() {
             icon: <HomeIcon fontSize="small" />,
         },
         {
-            label: "Sectors",
+            label: "Offerings",
             icon: <CategoryIcon fontSize="small" />,
             subItems: (() => {
                 const currentCountryData = Array.isArray(categories)
@@ -232,6 +232,16 @@ export default function Header() {
                         })) : [],
                 })) : [];
             })(),
+        },
+        {
+            label: "Trade Diversity",
+            path: "/abc",
+            icon: <HomeIcon fontSize="small" />,
+        },
+        {
+            label: "Trade Offers",
+            path: "/trade-offers",
+            icon: <HomeIcon fontSize="small" />,
         },
         {
             label: "Trade Specific",
@@ -533,9 +543,13 @@ export default function Header() {
                         ref={navRef}
                         sx={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: { xs: "flex-start", md: "center" },
                             gap: 4,
                             position: "relative",
+                            overflowX: "auto",
+                            whiteSpace: "nowrap",
+                            scrollbarWidth: 'none', // For Firefox
+                            '&::-webkit-scrollbar': { height: '0px' }, // For Chrome/Safari, hide scrollbar visually but allow scroll
                         }}
                     >
                         {(Array.isArray(navItems) ? navItems : []).map((item) => (
@@ -547,6 +561,7 @@ export default function Header() {
                                     mb: -2,
                                     display: "flex",
                                     alignItems: "center",
+                                    flexShrink: 0,
                                 }}
                                 onMouseEnter={() => handleMouseEnter(item.label)}
                                 onMouseLeave={handleMouseLeave}
@@ -564,6 +579,7 @@ export default function Header() {
                                         color: "white",
                                         fontWeight: 500,
                                         "&:hover": { color: "primary.light" },
+                                        whiteSpace: "nowrap",
                                     }}
                                 >
                                     {item.label}

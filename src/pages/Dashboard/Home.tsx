@@ -1,5 +1,9 @@
 import {
-    Box
+    Box,
+    Card,
+    CardContent,
+    Divider,
+    Typography
 } from '@mui/material';
 import InteractiveWorldMap from '../../component/Home/InteractiveWorldMap';
 import Analytical from '../../component/Home/Analytical';
@@ -20,6 +24,7 @@ import ProductListByCountry from '../../component/Home/ProductListByCountry';
 import PreambleAndUpcoming from '../NewsAndEvents/PreambleAndUpcoming';
 import TradeHistory from '../../component/Home/TradeHistory';
 import SupplierTab from '../../component/SupplierTab';
+import EconomicStanding from '../../commonUI/EconomicStanding';
 
 export default function Home() {
     const [analyticsData, setAnalyticsData] = useState<any[]>([]);
@@ -60,7 +65,7 @@ export default function Home() {
             if (immediateElement) {
                 immediateElement.scrollIntoView({ behavior: 'smooth' });
             }
-            
+
             // Try again after a delay to account for loading data
             setTimeout(() => {
                 const element = document.getElementById('supplier-tab-section');
@@ -91,7 +96,9 @@ export default function Home() {
                 </Box>
 
                 <Box component="section">
-                    <Analytical analyticsData={analyticsData} loading={loading} title="Important" label="Stats" />
+                    <Analytical analyticsData={analyticsData} loading={loading} title="Economic" label="Stature" />
+
+                    <EconomicStanding />
                 </Box>
 
                 <Box component="section">
