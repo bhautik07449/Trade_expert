@@ -36,7 +36,7 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
             <Box
                 sx={{
                     width: "100%",
-                    height: { xs: 180, sm: 260, md: 340 },
+                    height: { xs: 160, sm: 240, md: 300 },
                     overflow: "hidden",
                     position: "relative",
                 }}
@@ -63,6 +63,7 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
                         justifyContent: "center",
                         textAlign: "center",
                         px: 2,
+                        pb: { xs: 10, sm: 15, md: 18.75 },
                     }}
                 >
                     <Box>
@@ -82,9 +83,9 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
 
             <Box
                 sx={{
-                    maxWidth: "1400px",
+                    maxWidth: "1600px",
                     mx: "auto",
-                    mt: { xs: -5, md: -7 },
+                    mt: { xs: -10, sm: -15, md: -18.75 },
                     px: { xs: 2, sm: 3, md: 4 },
                     position: "relative",
                     zIndex: 2,

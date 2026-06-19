@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import Brandservice from "../../service/brand.service";
 import { getImageUrl } from "../../utils/imageUtils";
 import SubCategoryTab from "../../commonUI/SubCategoryTab";
-import BrandsProductView from "../../commonUI/BrandsProductView";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import NoDataFound from "../../commonUI/NoDataFound";
+import ProductView from '../../commonUI/ProductView';
 
 interface BrandItem {
     id?: number;
@@ -291,7 +291,7 @@ export default function Brand() {
                                                     </Box>
                                                 ))}
 
-                                                <BrandsProductView products={filteredProducts} />
+                                                <ProductView products={filteredProducts} />
 
                                                 {categoryIndex !== filteredCategoryGroups.length - 1 && (
                                                     <Divider

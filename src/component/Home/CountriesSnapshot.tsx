@@ -43,13 +43,6 @@ export default function CountriesSnapshot() {
         getCategory(activeCountry)
     }, [activeCountry])
 
-    const economicItems = [
-        { label: "GDP", value: "18" },
-        { label: "Growth", value: "20" },
-        { label: "Export", value: "115" },
-        { label: "Import", value: "35" }
-    ];
-
     return (
         <Box
             sx={{
@@ -66,84 +59,15 @@ export default function CountriesSnapshot() {
                         display: "grid",
                         gridTemplateColumns: {
                             xs: "1fr",
-                            md: "1.2fr 1fr 0.9fr",
+                            md: "2fr 1fr",
                         },
                         gap: 3,
-                        bgcolor: "white"
+                        bgcolor: "white",
+                        p: 3,
+                        borderRadius: 2,
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
                     }}
                 >
-                    <Card
-                        elevation={0}
-                        sx={{
-                            bgcolor: "transparent",
-                        }}
-                    >
-                        <CardContent>
-                            <Typography
-                                variant="subtitle1"
-                                fontWeight={700}
-                                sx={{ mb: 2, color: "secondary.main" }}
-                            >
-                                Country Economic Standing
-                            </Typography>
-
-                            <Box
-                                sx={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(4, 1fr)",
-                                    gap: 1.5,
-                                    mb: 2,
-                                }}
-                            >
-                                {(Array.isArray(economicItems) ? economicItems : []).map((item, index) => (
-                                    <Box key={index}>
-                                        <Box
-                                            sx={{
-                                                height: 42,
-                                                borderRadius: 1,
-                                                border: `1px solid ${theme.palette.divider}`,
-                                                bgcolor: "primary.light",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                mb: 0.5
-                                            }}
-                                        >
-                                            <Typography variant="body2" fontWeight={600}>
-                                                {item.value}
-                                            </Typography>
-                                        </Box>
-                                        <Typography variant="caption" color="text.secondary" align="center" display="block">
-                                            {item.label}
-                                        </Typography>
-                                    </Box>
-                                ))}
-                            </Box>
-
-                            <Divider sx={{ my: 2 }} />
-
-                            <Typography
-                                variant="subtitle1"
-                                fontWeight={700}
-                                sx={{ mb: 2, color: "secondary.main" }}
-                            >
-                                Registered Accounts
-                            </Typography>
-
-                            <Box
-                                sx={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(3, 1fr)",
-                                    gap: 2,
-                                }}
-                            >
-                                <MiniChart label="Buyer" value="120" />
-                                <MiniChart label="Seller" value="120" />
-                                <MiniChart label="Both" value="120" />
-                            </Box>
-                        </CardContent>
-                    </Card>
-
                     <Card
                         elevation={0}
                         sx={{
@@ -161,57 +85,67 @@ export default function CountriesSnapshot() {
 
                             <Box
                                 sx={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(3, 1fr)",
+                                    display: "flex",
+                                    flexWrap: "wrap",
                                     gap: 1.5
                                 }}
                             >
                                 {loading ? (
-                                    Array.from({ length: 9 }).map((_, index) => (
-                                        <Skeleton key={index} variant="rounded" height={38} animation="wave" />
+                                    Array.from({ length: 12 }).map((_, index) => (
+                                        <Skeleton key={index} variant="rounded" height={42} width={80 + Math.random() * 60} animation="wave" />
                                     ))
                                 ) : (Array.isArray(activeCategories) ? activeCategories : []).length > 0 ? (
                                     <>
-                                        {(Array.isArray(activeCategories) ? activeCategories : []).slice(0, (Array.isArray(activeCategories) ? activeCategories : []).length > 9 ? 8 : 9).map((item: any, index: number) => (
+                                        {(Array.isArray(activeCategories) ? activeCategories : []).slice(0, (Array.isArray(activeCategories) ? activeCategories : []).length > 12 ? 11 : 12).map((item: any, index: number) => (
                                             <Box
                                                 key={item?.id || index}
                                                 sx={{
-                                                    height: 38,
+                                                    height: 42,
                                                     borderRadius: 1,
                                                     border: `1px solid ${theme.palette.divider}`,
-                                                    bgcolor: "background.default",
+                                                    bgcolor: "primary.light",
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent: "center",
-                                                    px: 1,
+                                                    px: 2,
+                                                    transition: "all 0.2s ease",
+                                                    "&:hover": {
+                                                        bgcolor: "primary.main",
+                                                        color: "white",
+                                                        cursor: "pointer"
+                                                    }
                                                 }}
                                             >
-                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", fontWeight: 500 }}>
                                                     {item?.name}
                                                 </Typography>
                                             </Box>
                                         ))}
-                                        {(Array.isArray(activeCategories) ? activeCategories : []).length > 9 && (
+                                        {(Array.isArray(activeCategories) ? activeCategories : []).length > 12 && (
                                             <Box
                                                 sx={{
-                                                    height: 38,
+                                                    height: 42,
                                                     borderRadius: 1,
-                                                    border: `1px solid ${theme.palette.divider}`,
-                                                    bgcolor: "background.default",
+                                                    border: `1px dashed ${theme.palette.primary.main}`,
+                                                    bgcolor: "transparent",
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent: "center",
-                                                    px: 1,
+                                                    px: 2,
+                                                    cursor: "pointer",
+                                                    "&:hover": {
+                                                        bgcolor: "primary.light",
+                                                    }
                                                 }}
                                             >
-                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 600 }}>
-                                                    +{(Array.isArray(activeCategories) ? activeCategories : []).length - 8} more
+                                                <Typography variant="body2" sx={{ whiteSpace: "nowrap", fontWeight: 600, color: "primary.dark" }}>
+                                                    +{(Array.isArray(activeCategories) ? activeCategories : []).length - 11} more
                                                 </Typography>
                                             </Box>
                                         )}
                                     </>
                                 ) : (
-                                    <Box sx={{ gridColumn: "span 3", py: 2 }}>
+                                    <Box sx={{ gridColumn: { xs: "span 2", sm: "span 3", md: "span 4" }, py: 4 }}>
                                         <NoDataFound message="No categories found." />
                                     </Box>
                                 )}
@@ -277,32 +211,6 @@ export default function CountriesSnapshot() {
                     </Card>
                 </Box>
             </Stack>
-        </Box>
-    );
-}
-
-function MiniChart({ label = "Buyer", value = "120" }: { label?: string, value?: string }) {
-    return (
-        <Box>
-            <Box
-                sx={{
-                    height: 42,
-                    borderRadius: 1,
-                    bgcolor: "primary.light",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    mb: 0.5,
-                }}
-            >
-                <Typography variant="body2" fontWeight={600}>
-                    {value}
-                </Typography>
-            </Box>
-
-            <Typography variant="caption" color="text.secondary" align="center" display="block">
-                {label}
-            </Typography>
         </Box>
     );
 }

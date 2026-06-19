@@ -4,6 +4,7 @@ import Title from "../../commonUI/labelTitle"
 import { useEffect, useState, useCallback } from "react"
 import HomePageservice from "../../service/homepages.service"
 import CMSservice from "../../service/cms.service"
+import ProductView from "../../commonUI/ProductView"
 
 export default function ProductOverView({ category }: any) {
     const [allProducts, setAllProducts] = useState([])
@@ -194,9 +195,8 @@ export default function ProductOverView({ category }: any) {
                     <Box sx={{ mb: 6 }}>
                         <Title title='All Season' label='Availability' />
                         {renderSubcategoryTabs(activeAllSubcategory, setActiveAllSubcategory)}
-                        <CardUi
+                        <ProductView
                             products={allProducts}
-                            loading={allLoading}
                         />
                     </Box>
                 )}
@@ -205,9 +205,8 @@ export default function ProductOverView({ category }: any) {
                     <Box sx={{ mb: 6 }}>
                         <Title title='Current' label='Season' />
                         {renderSubcategoryTabs(activeCurrentSubcategory, setActiveCurrentSubcategory)}
-                        <CardUi
+                        <ProductView
                             products={currentProducts}
-                            loading={currentLoading}
                         />
                     </Box>
                 )}
@@ -216,9 +215,8 @@ export default function ProductOverView({ category }: any) {
                     <Box sx={{ mb: 6 }}>
                         <Title title='Upcoming' label='Season' />
                         {renderSubcategoryTabs(activeUpcomingSubcategory, setActiveUpcomingSubcategory)}
-                        <CardUi
+                        <ProductView
                             products={upcomingProducts}
-                            loading={upcomingLoading}
                         />
                     </Box>
                 )}

@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     Card,
-    CardContent,
     Typography,
     IconButton,
     TextField,
@@ -12,6 +11,9 @@ import {
     Dialog,
     DialogContent,
     CircularProgress,
+    Chip,
+    DialogActions,
+    DialogTitle,
 } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { getImageUrl } from "../utils/imageUtils";
@@ -21,6 +23,7 @@ import { useFormik } from "formik"
 import { toast } from "react-toastify";
 import CardUi from "./CardUi";
 import NoDataFound from "./NoDataFound";
+import jsPDF from "jspdf";
 
 type Product = {
     id: number
@@ -29,6 +32,7 @@ type Product = {
     category: string
     categoryColor: string
     description: string
+    status?: string
     offer_type?: {
         id: number
         name: string
@@ -43,6 +47,7 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
     const [currentStartIndex, setCurrentStartIndex] = useState(0);
     const [visibleCards, setVisibleCards] = useState(visiblecard);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [viewProduct, setViewProduct] = useState<Product | null>(null);
     const [offerNotExistOpen, setOfferNotExistOpen] = useState(false);
 
     useEffect(() => {
@@ -123,6 +128,31 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
         }
     };
 
+    const downloadProductPdf = (product: Product) => {
+        const pdf = new jsPDF();
+
+        pdf.setFontSize(20);
+        pdf.text(product.name, 20, 20);
+
+        pdf.setFontSize(12);
+        pdf.text(`Category: ${product.category}`, 20, 40);
+
+        const description = pdf.splitTextToSize(
+            product.description || "No Description",
+            160
+        );
+
+        pdf.text(description, 20, 60);
+
+        pdf.text(
+            `Status: ${product.status || "Available"}`,
+            20,
+            110
+        );
+
+        pdf.save(`${product.name}.pdf`);
+    };
+
     return (
         <Box
             sx={{
@@ -194,9 +224,11 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
                         >
                             <Card
                                 sx={{
+                                    position: "relative",
                                     borderRadius: 3,
                                     overflow: "hidden",
-                                    boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                                    bgcolor: "background.paper",
+                                    boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
                                     border:
                                         selectedProduct?.id === product.id
                                             ? "2px solid"
@@ -205,52 +237,160 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
                                         selectedProduct?.id === product.id
                                             ? "primary.main"
                                             : "divider",
+                                    transition: "all .3s ease",
+
+                                    "&:hover .hover-overlay": {
+                                        opacity: 1,
+                                    },
+
+                                    "&:hover": {
+                                        transform: "translateY(-4px)",
+                                    },
                                 }}
                             >
-                                <Box
-                                    component="img"
-                                    src={getImageUrl(product?.images?.[0])}
-                                    alt={product?.name}
+                                <Chip
+                                    label={product.status || "Available"}
+                                    size="small"
                                     sx={{
-                                        width: "100%",
-                                        height: 220,
-                                        objectFit: "contain",
-                                        bgcolor: "#f5f5f5",
+                                        position: "absolute",
+                                        top: 10,
+                                        right: 10,
+                                        zIndex: 3,
+                                        bgcolor: "primary.main",
+                                        color: "#fff",
+                                        fontWeight: 700,
                                     }}
                                 />
 
-                                <CardContent>
-                                    <Typography align="center" fontWeight={600}>
-                                        {product.name}
-                                    </Typography>
+                                <Box
+                                    sx={{
+                                        position: "relative",
+                                        height: 220,
+                                        overflow: "hidden",
+
+                                        "&:hover .hover-overlay": {
+                                            opacity: 1,
+                                        },
+                                    }}
+                                >
+                                    <Box
+                                        component="img"
+                                        src={getImageUrl(product?.images?.[0])}
+                                        alt={product?.name}
+                                        sx={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "contain",
+                                            bgcolor: "background.default",
+                                        }}
+                                    />
 
                                     <Box
+                                        className="hover-overlay"
                                         sx={{
+                                            position: "absolute",
+                                            inset: 0,
+                                            bgcolor: "rgba(59,48,39,0.92)",
+                                            opacity: 0,
+                                            transition: "all .3s ease",
                                             display: "flex",
-                                            gap: 2,
+                                            flexDirection: "column",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            p: 3,
+                                            textAlign: "center",
+                                            zIndex: 2,
                                         }}
                                     >
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            fullWidth
-                                            sx={{ mt: 2, fontSize: "12px" }}
-                                            onClick={(e) => navigate(`/product-details/${product?.id}`)}
-                                        >
-                                            Trade
-                                        </Button>
+                                        <Typography
+                                            sx={{
+                                                color: "#fff",
+                                                mb: 3,
+                                                fontSize: 14,
+                                                display: "-webkit-box",
+                                                overflow: "hidden",
+                                                WebkitLineClamp: 4,
+                                                WebkitBoxOrient: "vertical",
+                                            }}
+                                            dangerouslySetInnerHTML={{ __html: product.description }}
+                                        />
 
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            fullWidth
-                                            sx={{ mt: 2, fontSize: "12px" }}
-                                            onClick={() => handleCheckOffer(product)}
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                gap: 2,
+                                            }}
                                         >
-                                            Check Offer
-                                        </Button>
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => setViewProduct(product)}
+                                                sx={{
+                                                    bgcolor: "primary.main",
+                                                    "&:hover": {
+                                                        bgcolor: "primary.dark",
+                                                    },
+                                                }}
+                                            >
+                                                View
+                                            </Button>
+
+                                            <Button
+                                                variant="outlined"
+                                                onClick={() => downloadProductPdf(product)}
+                                                sx={{
+                                                    borderColor: "#fff",
+                                                    color: "#fff",
+
+                                                    "&:hover": {
+                                                        borderColor: "primary.light",
+                                                        color: "primary.light",
+                                                    },
+                                                }}
+                                            >
+                                                Download
+                                            </Button>
+                                        </Box>
                                     </Box>
-                                </CardContent>
+                                </Box>
+
+                                <Typography
+                                    align="center"
+                                    fontWeight={700}
+                                    color="secondary.main"
+                                    sx={{
+                                        pt: 2
+                                    }}
+                                >
+                                    {product.name}
+                                </Typography>
+
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        gap: 2,
+                                        m: 2
+                                    }}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        sx={{ mt: 2, fontSize: "12px" }}
+                                        onClick={(e) => navigate(`/product-details/${product?.id}`)}
+                                    >
+                                        Trade
+                                    </Button>
+
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        sx={{ mt: 2, fontSize: "12px" }}
+                                        onClick={() => handleCheckOffer(product)}
+                                    >
+                                        Check Offer
+                                    </Button>
+                                </Box>
                             </Card>
                         </Box>
                     ))}
@@ -298,10 +438,10 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
                     <Divider />
                     <Box sx={{ p: { xs: 2.5, sm: 4 }, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
                         {/* Left Side: Offer Details */}
-                        <Box sx={{ 
-                            flex: 1, 
-                            bgcolor: "background.paper", 
-                            p: 3, 
+                        <Box sx={{
+                            flex: 1,
+                            bgcolor: "background.paper",
+                            p: 3,
                             borderRadius: 3,
                             border: "1px solid",
                             borderColor: "divider",
@@ -333,11 +473,11 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
 
                             {selectedProduct?.offer_type?.items && selectedProduct.offer_type.items.length > 0 && (
                                 <Box sx={{ mt: 2 }}>
-                                    <CardUi 
+                                    <CardUi
                                         products={selectedProduct.offer_type.items
                                             .map((item: any) => item.product || item)
-                                            .filter((p: any) => p && p.name)} 
-                                        visiblecard={1} 
+                                            .filter((p: any) => p && p.name)}
+                                        visiblecard={1}
                                     />
                                 </Box>
                             )}
@@ -534,6 +674,82 @@ export default function ProductView({ products, visiblecard = 4, }: { products: 
                         This product offer does not exist.
                     </Typography>
                 </DialogContent>
+            </Dialog>
+
+            <Dialog
+                open={Boolean(viewProduct)}
+                onClose={() => setViewProduct(null)}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                    },
+                }}
+            >
+                <DialogTitle
+                    sx={{
+                        bgcolor: "primary.light",
+                        color: "secondary.main",
+                        fontWeight: 700,
+                    }}
+                >
+                    Product Details
+                </DialogTitle>
+
+                <DialogContent sx={{ pt: 3 }}>
+                    {viewProduct && (
+                        <Box>
+                            <Box
+                                component="img"
+                                src={getImageUrl(viewProduct.images?.[0])}
+                                alt={viewProduct.name}
+                                sx={{
+                                    width: "100%",
+                                    maxHeight: 300,
+                                    objectFit: "contain",
+                                    mb: 3,
+                                }}
+                            />
+
+                            <Typography
+                                variant="h6"
+                                fontWeight={700}
+                                color="secondary.main"
+
+                            >
+                                {viewProduct.name}
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    mt: 2,
+                                    color: "text.secondary",
+                                    lineHeight: 1.8,
+                                }}
+                                dangerouslySetInnerHTML={{ __html: viewProduct.description }}
+                            />
+
+                            <Chip
+                                label={viewProduct.status || "Available"}
+                                sx={{
+                                    mt: 3,
+                                    bgcolor: "primary.main",
+                                    color: "#fff",
+                                }}
+                            />
+                        </Box>
+                    )}
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        onClick={() => setViewProduct(null)}
+                    >
+                        Close
+                    </Button>
+                </DialogActions>
             </Dialog>
         </Box>
     );
