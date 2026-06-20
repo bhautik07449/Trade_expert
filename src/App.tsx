@@ -4,6 +4,7 @@ import { AppContainer } from './layout/AppContainer';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HelmetProvider } from 'react-helmet-async';
+import PinScreen from './component/PinScreen';
 
 function SplashScreen() {
   return (
@@ -44,6 +45,9 @@ function SplashScreen() {
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return sessionStorage.getItem('site_pin_auth') === 'true';
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,6 +58,15 @@ function App() {
 
   if (showSplash) {
     return <SplashScreen />;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <PinScreen onSuccess={() => {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('site_pin_auth', 'true');
+      }} />
+    );
   }
 
   return (
