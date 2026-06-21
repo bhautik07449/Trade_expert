@@ -34,7 +34,8 @@ export default function Commedium() {
                     value={selected}
                     onChange={(_, value) => handleTabChange(_, value)}
                     variant="scrollable"
-                    scrollButtons="auto"
+                    scrollButtons={true}
+                    allowScrollButtonsMobile
                     TabIndicatorProps={{ sx: { display: "none" } }}
                     sx={{
                         minHeight: "auto",
@@ -42,7 +43,16 @@ export default function Commedium() {
 
                         "& .MuiTabs-flexContainer": {
                             gap: 1.2,
-                            justifyContent: { xs: "flex-start", md: "center" },
+                            justifyContent: "flex-start",
+                        },
+
+                        "& .MuiTabs-scrollButtons": {
+                            color: "primary.main",
+                            width: 40,
+                            borderRadius: 2,
+                            "&.Mui-disabled": {
+                                opacity: 0.3,
+                            },
                         },
 
                         "& .MuiTab-root": {

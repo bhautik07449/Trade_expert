@@ -3,36 +3,41 @@ import {
     Typography,
     Card,
     CardContent,
-    Grid,
     Stack,
 } from "@mui/material"
-import AnalyticsIcon from "@mui/icons-material/Analytics"
-import LocalShippingIcon from "@mui/icons-material/LocalShipping"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone"
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import PolicyIcon from '@mui/icons-material/Policy';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import GavelIcon from '@mui/icons-material/Gavel';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import LabelTitle from "./labelTitle"
 
 export default function UpcommingFeatures() {
     const features = [
         {
-            title: "Trade Controller",
-            description: "Advanced analytics dashboard for market trends.",
-            icon: <AnalyticsIcon />,
-        },
-        {
-            title: "Trade Complier",
-            description: "Integration with third-party logistics providers.",
-            icon: <LocalShippingIcon />,
+            title: 'Trade Controller',
+            description: "Manage and oversee all your trade operations securely from a centralized dashboard.",
+            icon: <AdminPanelSettingsIcon />,
         },
         {
             title: "Trade Regulator",
-            description: "AI-powered product recommendation engine.",
-            icon: <AutoAwesomeIcon />,
+            description: "Ensure strict adherence to international trade guidelines and standard regulations.",
+            icon: <PolicyIcon />,
         },
         {
-            title: "Trade Arbitrator",
-            description: "Enhanced mobile app with offline capabilities.",
-            icon: <PhoneIphoneIcon />,
+            title: "Trade Compliance",
+            description: "Automated checks to maintain flawless compliance with customs and export controls.",
+            icon: <FactCheckIcon />,
+        },
+        {
+            title: "Trade Laws",
+            description: "Stay updated with global trade legislations, treaties, and legal frameworks.",
+            icon: <GavelIcon />,
+        },
+        {
+            title: "Trade Grievance",
+            description: "A dedicated portal to seamlessly raise, track, and resolve trade disputes.",
+            icon: <SupportAgentIcon />,
         },
     ]
 
@@ -103,10 +108,14 @@ export default function UpcommingFeatures() {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={3} justifyContent="center"
+                <Box
                     sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        gap: 3,
                         borderRadius: 6,
-                        p: { xs: 3, sm: 5, md: 8 },
+                        p: { xs: 3, sm: 5, lg: 6 },
                         bgcolor: "background.paper",
                         border: "1px solid",
                         borderColor: "divider",
@@ -116,12 +125,23 @@ export default function UpcommingFeatures() {
                     }}
                 >
                     {(Array.isArray(features) ? features : []).map((feature, index) => (
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
+                        <Box 
+                            key={index} 
+                            sx={{ 
+                                flex: { 
+                                    xs: "1 1 100%", 
+                                    sm: "1 1 calc(50% - 24px)", 
+                                    md: "1 1 calc(33.333% - 24px)",
+                                    lg: "1 1 calc(20% - 24px)" 
+                                },
+                                minWidth: 200
+                            }}
+                        >
                             <Card
                                 elevation={0}
                                 sx={{
                                     height: "100%",
-                                    minHeight: 220,
+                                    minHeight: 240,
                                     borderRadius: 4,
                                     position: "relative",
                                     overflow: "hidden",
@@ -205,7 +225,7 @@ export default function UpcommingFeatures() {
                                     sx={{
                                         position: "relative",
                                         zIndex: 1,
-                                        p: { xs: 2.8, sm: 3.5 },
+                                        p: { xs: 2, sm: 2.5 },
                                         height: "100%",
                                     }}
                                 >
@@ -213,8 +233,8 @@ export default function UpcommingFeatures() {
                                         <Box
                                             className="featureIcon"
                                             sx={{
-                                                width: 62,
-                                                height: 62,
+                                                width: 56,
+                                                height: 56,
                                                 borderRadius: 3,
                                                 bgcolor: "primary.light",
                                                 color: "primary.dark",
@@ -224,7 +244,7 @@ export default function UpcommingFeatures() {
                                                 transition: "all 0.35s ease",
 
                                                 "& svg": {
-                                                    fontSize: 32,
+                                                    fontSize: 28,
                                                 },
                                             }}
                                         >
@@ -234,12 +254,13 @@ export default function UpcommingFeatures() {
                                         <Box>
                                             <Typography
                                                 className="featureTitle"
-                                                variant="h6"
+                                                variant="subtitle1"
                                                 sx={{
                                                     fontWeight: 800,
                                                     color: "text.primary",
                                                     mb: 1,
                                                     transition: "color 0.3s ease",
+                                                    lineHeight: 1.2
                                                 }}
                                             >
                                                 {feature.title}
@@ -249,7 +270,8 @@ export default function UpcommingFeatures() {
                                                 variant="body2"
                                                 sx={{
                                                     color: "text.secondary",
-                                                    lineHeight: 1.8,
+                                                    lineHeight: 1.6,
+                                                    fontSize: '0.85rem'
                                                 }}
                                             >
                                                 {feature.description}
@@ -258,9 +280,9 @@ export default function UpcommingFeatures() {
                                     </Stack>
                                 </CardContent>
                             </Card>
-                        </Grid>
+                        </Box>
                     ))}
-                </Grid>
+                </Box>
             </Box>
         </Box>
     )

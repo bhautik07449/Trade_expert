@@ -42,7 +42,7 @@ export default function TradeHistory() {
                 mb: 4,
             }}
         >
-            <LabelTitle title="Trade" label="Important" tagLine={`Explore the historical trade trends and patterns in ${selectedCountry ? selectedCountry : "Global"} to understand market dynamics and identify potential opportunities for growth.`} />
+            <LabelTitle title="Trade" label="Importance" tagLine={`Explore the historical trade trends and patterns in ${selectedCountry ? selectedCountry : "Global"} to understand market dynamics and identify potential opportunities for growth.`} />
 
             {loading ? (
                 <Grid container spacing={3}>

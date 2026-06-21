@@ -26,8 +26,8 @@ export default function EconomicStanding() {
                     overflow: "hidden"
                 }}
             >
-                <CardContent 
-                    sx={{ 
+                <CardContent
+                    sx={{
                         p: { xs: 2.5, sm: 3 },
                         display: "flex",
                         flexDirection: { xs: "column", md: "row" },
@@ -43,44 +43,15 @@ export default function EconomicStanding() {
                         >
                             Country Economic Standing
                         </Typography>
-
                         <Box
                             sx={{
                                 display: "grid",
-                                gridTemplateColumns: { xs: "repeat(2, 1fr)", sm: "repeat(4, 1fr)" },
+                                gridTemplateColumns: { xs: "1fr", sm: "repeat(4, 1fr)" },
                                 gap: 2,
                             }}
                         >
-                            {economicItems.map((item, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        p: 2,
-                                        borderRadius: 2,
-                                        bgcolor: "action.hover",
-                                        border: "1px solid",
-                                        borderColor: "divider",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        transition: "all 0.2s ease-in-out",
-                                        cursor: "default",
-                                        "&:hover": {
-                                            transform: "translateY(-4px)",
-                                            boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
-                                            bgcolor: "white",
-                                            borderColor: "primary.main"
-                                        }
-                                    }}
-                                >
-                                    <Typography variant="h5" fontWeight={800} color="primary.main">
-                                        {item.value}
-                                    </Typography>
-                                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                                        {item.label}
-                                    </Typography>
-                                </Box>
+                            {economicItems.map((item) => (
+                                <MiniChart label={item?.label} value={item?.value} />
                             ))}
                         </Box>
                     </Box>
@@ -96,7 +67,7 @@ export default function EconomicStanding() {
                             fontWeight={700}
                             sx={{ mb: 3, color: "secondary.main" }}
                         >
-                            Registered Accounts
+                            Platform stature
                         </Typography>
 
                         <Box
