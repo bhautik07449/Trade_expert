@@ -1,5 +1,4 @@
 import { Box, Tabs, Tab } from "@mui/material"
-import CardUi from "../../commonUI/CardUi"
 import Title from "../../commonUI/labelTitle"
 import { useEffect, useState, useCallback } from "react"
 import HomePageservice from "../../service/homepages.service"

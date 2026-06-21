@@ -1,10 +1,4 @@
-import {
-    Box,
-    Card,
-    CardContent,
-    Divider,
-    Typography
-} from '@mui/material';
+import { Box } from '@mui/material';
 import InteractiveWorldMap from '../../component/Home/InteractiveWorldMap';
 import Analytical from '../../component/Home/Analytical';
 import Events from '../../component/Home/Events';

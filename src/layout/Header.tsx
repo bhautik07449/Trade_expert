@@ -36,7 +36,6 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import CategoryIcon from "@mui/icons-material/Category";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
 import SourceIcon from "@mui/icons-material/Source";
 import BusinessIcon from "@mui/icons-material/Business";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
