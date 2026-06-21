@@ -251,7 +251,7 @@ export default function Header() {
             icon: <SourceIcon fontSize="small" />,
             subItems: [
                 { label: "Commedium", path: "/commedium" },
-                { label: "Trade View", path: "/trade-view" }
+                { label: "Trade Bureau", path: "/trade-view" }
             ],
         },
         {
@@ -265,7 +265,7 @@ export default function Header() {
             icon: <BusinessIcon fontSize="small" />
         },
         {
-            label: "Company Resources",
+            label: "Initiatives Resources",
             icon: <SourceIcon fontSize="small" />,
             subItems: [
                 { label: "ESG", path: "/pages/csr" },
@@ -670,7 +670,14 @@ export default function Header() {
                                                     />
                                                 )
                                             ) : (
-                                                <NestedMenu items={item.subItems} navigate={navigate} />
+                                                <NestedMenu 
+                                                    items={item.subItems} 
+                                                    navigate={navigate} 
+                                                    onClose={() => {
+                                                        setOpenSubmenu(null);
+                                                        setAnchorEl(null);
+                                                    }}
+                                                />
                                             )}
                                         </Paper>
                                     </Popper>
@@ -859,9 +866,11 @@ export default function Header() {
 function NestedMenu({
     items,
     navigate,
+    onClose,
 }: {
     items: any[];
     navigate: any;
+    onClose?: () => void;
 }) {
     const [hovered, setHovered] = useState<number | null>(null);
 
@@ -878,7 +887,13 @@ function NestedMenu({
                     onMouseLeave={() => setHovered(null)}
                 >
                     <Typography
-                        onClick={() => item.path && navigate(item.path)}
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            if (item.path) {
+                                navigate(item.path);
+                                if (onClose) onClose();
+                            }
+                        }}
                         sx={{
                             px: 2,
                             py: 1.2,
@@ -924,7 +939,7 @@ function NestedMenu({
                                 borderRadius: 2,
                             }}
                         >
-                            <NestedMenu items={item.subItems} navigate={navigate} />
+                            <NestedMenu items={item.subItems} navigate={navigate} onClose={onClose} />
                         </Paper>
                     )}
                 </Box>
@@ -971,7 +986,13 @@ function CategoriesMegaMenu({
                         <ListItem key={category.label} disablePadding>
                             <ListItemButton
                                 onMouseEnter={() => setHoveredCategory(category)}
-                                onClick={() => category.path && navigate(category.path)}
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    if (category.path) {
+                                        navigate(category.path);
+                                        onClose();
+                                    }
+                                }}
                                 selected={hoveredCategory?.label === category.label}
                                 sx={{
                                     py: 1.5,
@@ -1025,6 +1046,13 @@ function CategoriesMegaMenu({
                             <ListItemButton
                                 onMouseEnter={() => setHoveredSubcategory(subcategory)}
                                 selected={hoveredSubcategory?.label === subcategory.label}
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    if (subcategory.path) {
+                                        navigate(subcategory.path);
+                                        onClose();
+                                    }
+                                }}
                                 sx={{
                                     py: 1.2,
                                     px: 2,
@@ -1076,7 +1104,8 @@ function CategoriesMegaMenu({
                     {hoveredSubcategory?.subItems?.length > 0 ? ((Array.isArray(hoveredSubcategory.subItems) ? hoveredSubcategory.subItems : []).map((product: any) => (
                         <ListItem key={product.label} disablePadding>
                             <ListItemButton
-                                onClick={() => {
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
                                     if (product.path) {
                                         navigate(product.path);
                                         onClose();

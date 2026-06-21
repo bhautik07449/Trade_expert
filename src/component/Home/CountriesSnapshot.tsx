@@ -203,7 +203,7 @@ export default function CountriesSnapshot() {
                                         }}
                                         onClick={() => navigate("/abc")}
                                     >
-                                        Go to ABC
+                                        Go to Trade Diversity 
                                     </Button>
                                 </Box>
                             </Stack>

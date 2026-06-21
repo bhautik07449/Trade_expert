@@ -47,7 +47,7 @@ export default function Abc() {
 
     return (
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-            <PageMainLayout slug="abc" title="Abc Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" activeCountry="" setActiveCountry={() => { }} />
+            <PageMainLayout slug="abc" title="Trade Diversity Menus" image="https://sourceseas.itcoders.in/img/my_account_bg1.jpg" activeCountry="" setActiveCountry={() => { }} />
 
             <Box
                 sx={{
@@ -158,7 +158,7 @@ export default function Abc() {
                     })
                 ) : (
                     <Grid size={{ xs: 12 }}>
-                        <NoDataFound message="No Abc data Found" />
+                        <NoDataFound message="No Trade Diversity data Found" />
                     </Grid>
                 )}
             </Box>
