@@ -208,10 +208,19 @@ const forgotPassword = async (body) => {
     }
 }
 
+const getContactNo = async (country: string) => {
+    try {
+        const response = await serverCall.get('/contactno', { params: country ? { country: country } : {} })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach, getCategoryById, addOfferRequest, getProject, PublicPrivateLogin, forgotPassword
+    getDeliveryReach, getCategoryById, addOfferRequest, getProject, PublicPrivateLogin, forgotPassword, getContactNo
 };
 
 export default CMSservice;

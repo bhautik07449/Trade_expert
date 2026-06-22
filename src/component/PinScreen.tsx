@@ -40,7 +40,7 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
   const handleSubmit = (e: React.FormEvent) => {
     setLoading(true)
     e.preventDefault();
-    if (pin === '1234') {
+    if (pin === '4198') {
       setError(false);
       onSuccess();
       setLoading(false)

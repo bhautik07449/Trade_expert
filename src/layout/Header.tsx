@@ -49,6 +49,7 @@ import { fetchFlatCategories } from "../store/slice/categoriesSlice";
 import HomePageservice from "../service/homepages.service";
 import { setSelectedCountry } from "../store/slice/countrySlice";
 import NoDataFound from "../commonUI/NoDataFound";
+import CMSservice from "../service/cms.service";
 
 interface Props {
     firstName?: string;
@@ -80,6 +81,7 @@ export default function Header() {
     const [searchQuery, setSearchQuery] = useState("");
     const [presenceOpen, setPresenceOpen] = useState(true);
     const [allOpen, setAllOpen] = useState(true);
+    const [contactNo, setContactNo] = useState<string>("NA");
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -93,6 +95,31 @@ export default function Header() {
     const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categories
     );
+
+    useEffect(() => {
+        const fetchContact = async () => {
+            if (selectedCountry) {
+                try {
+                    const res = await CMSservice.getContactNo(selectedCountry);
+                    let responseData = res?.data?.data || res?.data;
+                    
+                    // If the data is an array, take the first item
+                    if (Array.isArray(responseData) && responseData.length > 0) {
+                        responseData = responseData[0];
+                    }
+
+                    const number = responseData?.contactNo || responseData?.phone || responseData?.contact_number || responseData?.number || (typeof responseData === "string" ? responseData : null);
+                    setContactNo(number ? number : "NA");
+                } catch (error) {
+                    console.error("Failed to fetch contact number", error);
+                    setContactNo("NA");
+                }
+            } else {
+                setContactNo("NA");
+            }
+        };
+        fetchContact();
+    }, [selectedCountry]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -314,7 +341,7 @@ export default function Header() {
                                 }}
                             >
                                 <LocalPhoneIcon sx={{ fontSize: 18, mr: 0.5 }} />
-                                +91 8200340373 / +1 226 977 293
+                                {contactNo}
                             </Typography>
 
                             <Typography
@@ -669,9 +696,9 @@ export default function Header() {
                                                     />
                                                 )
                                             ) : (
-                                                <NestedMenu 
-                                                    items={item.subItems} 
-                                                    navigate={navigate} 
+                                                <NestedMenu
+                                                    items={item.subItems}
+                                                    navigate={navigate}
                                                     onClose={() => {
                                                         setOpenSubmenu(null);
                                                         setAnchorEl(null);
