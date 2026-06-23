@@ -13,7 +13,8 @@ import {
     Stack,
     Divider,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CMSservice from "../../service/cms.service";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Homeservice from "../../service/home.service";
@@ -31,6 +32,31 @@ const tabs = [
 export default function GetInTouch() {
     const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
     const [activeTab, setActiveTab] = useState("fill-form");
+    const [contactNo, setContactNo] = useState<string>("NA");
+
+    useEffect(() => {
+        const fetchContact = async () => {
+            if (selectedCountry) {
+                try {
+                    const res = await CMSservice.getContactNo(selectedCountry);
+                    let responseData = res?.data?.data || res?.data;
+
+                    if (Array.isArray(responseData) && responseData.length > 0) {
+                        responseData = responseData[0];
+                    }
+
+                    const number = responseData?.contactNo || responseData?.phone || responseData?.contact_number || responseData?.number || (typeof responseData === "string" ? responseData : null);
+                    setContactNo(number ? number : "NA");
+                } catch (error) {
+                    console.error("Failed to fetch contact number", error);
+                    setContactNo("NA");
+                }
+            } else {
+                setContactNo("NA");
+            }
+        };
+        fetchContact();
+    }, [selectedCountry]);
 
     const validationSchema = Yup.object({
         first_name: Yup.string()
@@ -360,7 +386,7 @@ export default function GetInTouch() {
                                 description="Need assistance in buying or clarification on products?"
                                 details={[
                                     "Call or WhatsApp us at",
-                                    "(+91) 9925099215",
+                                    contactNo !== "NA" ? contactNo : "NA",
                                 ]}
                             />
                         )}
@@ -413,7 +439,7 @@ export default function GetInTouch() {
                                             fontSize: 18,
                                         }}
                                     >
-                                        Sourceseas Overseas Pvt. Ltd.
+                                        MM initiative
                                     </Typography>
 
                                     <Divider sx={{ borderColor: "divider" }} />
@@ -433,19 +459,16 @@ export default function GetInTouch() {
                                             lineHeight: 1.8,
                                         }}
                                     >
-                                        C-604, Shree Nidhi Residency <br />
-                                        Nr. Sudamachowk, <br />
-                                        Satellite Road, <br />
-                                        Mota Varachha, Surat, Gujarat, <br />
-                                        India - 394010 <br />
-                                        +91 9925099215
+                                        MM initiative <br />
+
+                                        address will updated as it gets launched <br />
                                     </Typography>
                                 </Stack>
                             </Paper>
                         )}
                     </Grid>
-                </Grid>
-            </Box>
-        </Box>
+                </Grid >
+            </Box >
+        </Box >
     );
 }

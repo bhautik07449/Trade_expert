@@ -94,7 +94,7 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
 
         <Box
           component="img"
-          src="/logo.jpg"
+          src="/logo.png"
           alt="Logo"
           sx={{
             height: 50,

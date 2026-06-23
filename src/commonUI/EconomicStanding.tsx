@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 
 export default function EconomicStanding() {
 
@@ -42,48 +42,44 @@ export default function EconomicStanding() {
                             Platform stature
                         </Typography>
 
-                        <Box
-                            sx={{
-                                display: "grid",
-                                gridTemplateColumns: { xs: "repeat(2, 1fr)", sm: "repeat(3, 1fr)" },
-                                gap: 2,
-                            }}
-                        >
+                        <Grid container spacing={3} justifyContent="center">
                             {registerAccount.map((item, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        p: 2,
-                                        borderRadius: 2,
-                                        bgcolor: "action.hover",
-                                        border: "1px solid",
-                                        borderColor: "divider",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        transition: "all 0.2s ease-in-out",
-                                        cursor: "default",
-                                        "&:hover": {
-                                            transform: "translateY(-4px)",
-                                            boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
-                                            bgcolor: "white",
-                                            borderColor: "primary.main"
-                                        }
-                                    }}
-                                >
-                                    <Typography variant="h5" fontWeight={800} color="primary.main">
-                                        {item.value}
-                                    </Typography>
-                                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                                        {item.label}
-                                    </Typography>
-                                </Box>
+                                <Grid size={{ xs: 6, lg: 3 }}>
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            p: 2,
+                                            borderRadius: 2,
+                                            bgcolor: "action.hover",
+                                            border: "1px solid",
+                                            borderColor: "divider",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            transition: "all 0.2s ease-in-out",
+                                            cursor: "default",
+                                            "&:hover": {
+                                                transform: "translateY(-4px)",
+                                                boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+                                                bgcolor: "white",
+                                                borderColor: "primary.main"
+                                            }
+                                        }}
+                                    >
+                                        <Typography variant="h5" fontWeight={800} color="primary.main">
+                                            {item.value}
+                                        </Typography>
+                                        <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                                            {item.label}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
                             ))}
-                        </Box>
+                        </Grid>
                     </Box>
                 </CardContent>
             </Card>
-        </Box>
+        </Box >
     )
 }

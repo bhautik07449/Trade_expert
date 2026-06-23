@@ -87,7 +87,7 @@ export default function Header() {
     const location = useLocation();
     const navRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch<AppDispatch>();
-    const logoSrc = "/logo.jpg";
+    const logoSrc = "/logo.png";
 
     useSelector((state: any) => state.page);
     const selectedCountry = useSelector((state: any) => state.country.selectedCountry);

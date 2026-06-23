@@ -13,6 +13,7 @@ export default function Abc() {
 
     const [list, setList] = useState<any>([])
     const [loading, setLoading] = useState(true)
+console.log("list",list);
 
     const getList = async (country: string) => {
         setLoading(true)

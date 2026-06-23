@@ -25,7 +25,7 @@ function SplashScreen() {
     >
       <Box
         component="img"
-        src="/logo.jpg"
+        src="/logo.png"
         alt="Logo"
         sx={{
           width: { xs: 150, md: 200 },

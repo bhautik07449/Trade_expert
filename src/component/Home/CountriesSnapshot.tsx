@@ -115,6 +115,7 @@ export default function CountriesSnapshot() {
                                                         cursor: "pointer"
                                                     }
                                                 }}
+                                                onClick={() => navigate(`/category/${item?.id}`)}
                                             >
                                                 <Typography variant="body2" sx={{ whiteSpace: "nowrap", fontWeight: 500 }}>
                                                     {item?.name}
