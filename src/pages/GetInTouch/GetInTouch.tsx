@@ -439,7 +439,7 @@ export default function GetInTouch() {
                                             fontSize: 18,
                                         }}
                                     >
-                                        MM initiative
+                                        MM, a sourceseas initiative
                                     </Typography>
 
                                     <Divider sx={{ borderColor: "divider" }} />
@@ -459,7 +459,7 @@ export default function GetInTouch() {
                                             lineHeight: 1.8,
                                         }}
                                     >
-                                        MM initiative <br />
+                                        MM, a sourceseas initiative <br />
 
                                         address will updated as it gets launched <br />
                                     </Typography>
