@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button, Paper, CircularProgress, Fade } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, TextField, Button, Paper, CircularProgress, keyframes } from '@mui/material';
 
 interface PinScreenProps {
   onSuccess: () => void;
@@ -10,46 +10,38 @@ const MESSAGES = [
   'Consolidated Trade Compliance',
   'Controlled End to End Services',
   'Traceable Ecosystem',
-  'Self Service Deskboard'
+  'Self Service Deskboard',
+  'Facilitated Procurement Partnering',
+  'Administered Individualized Accounts',
+  'Listed of Categorized & Classified Rates',
+  'Regulated Accessible Financial Services'
 ];
+
+const marqueeAnim = keyframes`
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+`;
 
 const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false)
-
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [messageVisible, setMessageVisible] = useState(true);
-
-  useEffect(() => {
-    const cycleTime = 3000;
-    const fadeOutTime = 500;
-
-    const interval = setInterval(() => {
-      setMessageVisible(false);
-
-      setTimeout(() => {
-        setMessageIndex((prev) => (prev + 1) % MESSAGES.length);
-        setMessageVisible(true);
-      }, fadeOutTime);
-    }, cycleTime);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
     if (pin === '4198') {
       setError(false);
       onSuccess();
-      setLoading(false)
+      setLoading(false);
     } else {
       setError(true);
       setPin('');
-      setLoading(false)
+      setLoading(false);
     }
   };
+
+  const allMessages = MESSAGES.join('   •   ');
 
   return (
     <Box
@@ -57,6 +49,7 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
         height: '100vh',
         width: '100vw',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         bgcolor: '#f8f9fa',
@@ -72,45 +65,79 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        maxWidth: 460,
+        maxWidth: 500,
         width: '90%',
-        borderRadius: 3
+        borderRadius: 3,
+        overflow: 'hidden'
       }}>
-        <Box sx={{ height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', mb: 2 }}>
-          <Fade in={messageVisible} timeout={400}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: 'primary.main',
-                textAlign: 'center',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {MESSAGES[messageIndex]}
-            </Typography>
-          </Fade>
-        </Box>
 
         <Box
           component="img"
           src="/logo.png"
           alt="Logo"
           sx={{
-            height: 50,
+            height: 60,
             borderRadius: 1,
-            opacity: 0.9
+            mb: 3,
+            opacity: 0.95
           }}
         />
+
+        <Box
+          sx={{
+            width: '100%',
+            bgcolor: 'background.paper',
+            py: 2,
+            mb: 4,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            borderTop: '1px solid',
+            borderBottom: '1px solid',
+            borderColor: 'divider'
+          }}
+        >
+          <Typography
+            variant="overline"
+            sx={{
+              fontWeight: 800,
+              color: 'primary.main',
+              letterSpacing: '0.15em',
+              mb: 1,
+              fontSize: '0.75rem'
+            }}
+          >
+            Feature enriched by
+          </Typography>
+
+          <Box sx={{ width: '100%', overflow: 'hidden' }}>
+            <Box
+              sx={{
+                display: 'inline-block',
+                whiteSpace: 'nowrap',
+                animation: `${marqueeAnim} 50s linear infinite`,
+                width: 'max-content'
+              }}
+            >
+              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '0.95rem' }}>
+                {allMessages}   •
+              </Typography>
+              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '0.95rem' }}>
+                {allMessages}   •
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
 
         <Typography variant="h5" gutterBottom fontWeight="700" color="text.primary">
           Restricted Access
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center', px: 2 }}>
-          Please enter the 4-digit PIN to securely access the platform.
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center', px: 2, lineHeight: 1.6 }}>
+          Please enter your authorized 4-digit PIN to securely access the platform.
         </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
           <TextField
             fullWidth
             type="password"

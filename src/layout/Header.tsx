@@ -631,8 +631,8 @@ export default function Header() {
                                 {item.subItems && (
                                     <Popper
                                         open={openSubmenu === item.label}
-                                        anchorEl={item.label === "Offerings" || item.label === "Sectors" ? navRef.current : anchorEl}
-                                        placement={item.label === "Offerings" || item.label === "Sectors" ? "bottom" : "bottom-start"}
+                                        anchorEl={anchorEl}
+                                        placement="bottom-start"
                                         style={{ zIndex: 1300 }}
                                         onMouseEnter={() => {
                                             if (submenuTimeout) {
@@ -984,16 +984,10 @@ function CategoriesMegaMenu({
     onClose: () => void;
 }) {
     const [hoveredCategory, setHoveredCategory] = useState<any>(items[0] || null);
-    const [hoveredSubcategory, setHoveredSubcategory] = useState<any>(null);
 
     useEffect(() => {
         setHoveredCategory(items[0] || null);
-        setHoveredSubcategory(null);
     }, [items]);
-
-    useEffect(() => {
-        setHoveredSubcategory(null);
-    }, [hoveredCategory]);
 
     return (
         <Box sx={{ display: "flex", height: 550, width: 840 }}>
@@ -1057,21 +1051,17 @@ function CategoriesMegaMenu({
 
             <Box
                 sx={{
-                    width: 280,
-                    flexShrink: 0,
-                    borderRight: "1px solid",
-                    borderColor: "divider",
-                    py: 1,
+                    flexGrow: 1,
+                    py: 2,
+                    px: 3,
                     bgcolor: "white",
                     overflowY: "auto",
                 }}
             >
-                <List sx={{ p: 0 }}>
-                    {hoveredCategory?.subItems?.length > 0 ? ((Array.isArray(hoveredCategory.subItems) ? hoveredCategory.subItems : []).map((subcategory: any) => (
-                        <ListItem key={subcategory.label} disablePadding>
-                            <ListItemButton
-                                onMouseEnter={() => setHoveredSubcategory(subcategory)}
-                                selected={hoveredSubcategory?.label === subcategory.label}
+                {hoveredCategory?.subItems?.length > 0 ? (
+                    (Array.isArray(hoveredCategory.subItems) ? hoveredCategory.subItems : []).map((subcategory: any) => (
+                        <Box key={subcategory.label} sx={{ mb: 3 }}>
+                            <Typography
                                 onMouseDown={(e) => {
                                     e.preventDefault();
                                     if (subcategory.path) {
@@ -1080,113 +1070,66 @@ function CategoriesMegaMenu({
                                     }
                                 }}
                                 sx={{
-                                    py: 1.2,
-                                    px: 2,
-                                    "&.Mui-selected": {
-                                        bgcolor: "rgba(0,0,0,0.03)",
-                                        color: "primary.main",
-                                        fontWeight: 700,
-                                    },
+                                    fontWeight: 700,
+                                    fontSize: "1.1rem",
+                                    mb: 1.5,
+                                    cursor: subcategory.path ? "pointer" : "default",
+                                    display: "inline-block",
+                                    "&:hover": { color: "primary.main" },
+                                    borderBottom: "1px solid",
+                                    borderColor: "divider",
+                                    paddingBottom: "4px",
+                                    width: "100%"
                                 }}
                             >
-                                <ListItemText
-                                    primary={subcategory.label}
-                                    primaryTypographyProps={{
-                                        fontSize: "1rem",
-                                        fontWeight:
-                                            hoveredSubcategory?.label === subcategory.label
-                                                ? 700
-                                                : 500,
-                                        noWrap: true,
-                                    }}
-                                />
+                                {subcategory.label}
+                            </Typography>
 
-                                {subcategory.subItems?.length > 0 && (
-                                    <KeyboardArrowRightIcon
-                                        sx={{ fontSize: 16, color: "divider" }}
-                                    />
-                                )}
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                    ) : (
-                        <Box sx={{ p: 2 }}>
-                            <NoDataFound message="No subcategories found" />
-                        </Box>
-                    )}
-                </List>
-            </Box>
-
-            <Box
-                sx={{
-                    width: 300,
-                    flexGrow: 1,
-                    py: 1,
-                    bgcolor: "#f5f5f5",
-                    overflowY: "auto",
-                }}
-            >
-                <List sx={{ p: 0 }}>
-                    {hoveredSubcategory?.subItems?.length > 0 ? ((Array.isArray(hoveredSubcategory.subItems) ? hoveredSubcategory.subItems : []).map((product: any) => (
-                        <ListItem key={product.label} disablePadding>
-                            <ListItemButton
-                                onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    if (product.path) {
-                                        navigate(product.path);
-                                        onClose();
-                                    }
-                                }}
-                                sx={{
-                                    py: 1.2,
-                                    px: 2,
-                                    mx: 1,
-                                    borderRadius: 1,
-                                    "&:hover": {
-                                        bgcolor: "white",
-                                        transform: "translateX(4px)",
-                                    },
-                                    transition: "all 0.2s",
-                                }}
-                            >
-                                <ListItemText
-                                    primary={product.label}
-                                    primaryTypographyProps={{
-                                        fontSize: "0.9rem",
-                                        color: "text.secondary",
-                                        fontWeight: 500,
-                                    }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                    ) : (
-                        <Box
-                            sx={{
-                                height: "100%",
-                                minHeight: 250,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                p: 3,
-                            }}
-                        >
-                            <Box sx={{ textAlign: "center", opacity: 0.5 }}>
-                                <CategoryIcon
-                                    sx={{
-                                        fontSize: 48,
-                                        mb: 2,
-                                        color: "text.disabled",
-                                    }}
-                                />
-
-                                <Typography variant="body2" color="text.disabled">
-                                    Select subcategory to view products
+                            {subcategory.subItems?.length > 0 ? (
+                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.5 }}>
+                                    {(Array.isArray(subcategory.subItems) ? subcategory.subItems : []).map((product: any) => (
+                                        <Box
+                                            key={product.label}
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                if (product.path) {
+                                                    navigate(product.path);
+                                                    onClose();
+                                                }
+                                            }}
+                                            sx={{
+                                                px: 2,
+                                                py: 0.5,
+                                                border: "1px solid",
+                                                borderColor: "divider",
+                                                borderRadius: 4,
+                                                cursor: "pointer",
+                                                fontSize: "0.9rem",
+                                                color: "text.secondary",
+                                                transition: "all 0.2s",
+                                                "&:hover": {
+                                                    bgcolor: "primary.light",
+                                                    color: "primary.dark",
+                                                    borderColor: "primary.light",
+                                                },
+                                            }}
+                                        >
+                                            {product.label}
+                                        </Box>
+                                    ))}
+                                </Box>
+                            ) : (
+                                <Typography variant="body2" color="text.disabled" sx={{ ml: 1 }}>
+                                    No products found
                                 </Typography>
-                            </Box>
+                            )}
                         </Box>
-                    )}
-                </List>
+                    ))
+                ) : (
+                    <Box sx={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <NoDataFound message="No subcategories found" />
+                    </Box>
+                )}
             </Box>
         </Box>
     );

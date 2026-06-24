@@ -48,7 +48,7 @@ const Footer = () => {
                 Get in Touch
               </Typography>
               <Typography sx={{ py: 2 }}>
-                MM initiative
+                MM initiative instead Sourceseas overseas
               </Typography>
               <Box sx={{ color: 'text.disabled' }}>
                 Registered Office

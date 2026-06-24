@@ -102,6 +102,22 @@ export default function InvestorRelations() {
         }
     }, [activeSubCategory, productList]);
 
+    const currentServices = useMemo(() => {
+        if (activeTab === 'product') {
+            return selectedProduct?.finacial_service || selectedProduct?.financial_service || [];
+        } else if (activeTab === 'project') {
+            return selectedProject?.finacial_service || selectedProject?.financial_service || [];
+        }
+        return [];
+    }, [activeTab, selectedProduct, selectedProject]);
+
+    useEffect(() => {
+        setSelectedService(null);
+        if (currentServices.length > 0) {
+            setSelectedService(currentServices[0]);
+        }
+    }, [currentServices]);
+
     return (
         <Box
             sx={{
@@ -165,54 +181,57 @@ export default function InvestorRelations() {
                     <ProjectMarketDevelopment />
                 )}
 
-                <Divider sx={{ my: 5 }} />
+                {activeTab !== 'project_build' && (
+                    <>
+                        <Divider sx={{ my: 5 }} />
+                        <FinancialService loading={categoriesLoading} services={currentServices} selectedService={selectedService} setSelectedService={setSelectedService} />
 
-                <FinancialService activeCountry={selectedCountry} selectedService={selectedService} setSelectedService={setSelectedService} />
+                        <Divider sx={{ my: 5 }} />
 
-                <Divider sx={{ my: 5 }} />
-
-                <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, md: 6 }}>
-                        {selectedService && (
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    p: { xs: 2, md: 3 },
-                                    border: "1px solid",
-                                    borderColor: "divider",
-                                    borderRadius: 3,
-                                    bgcolor: "background.default",
-                                    height: "100%",
-                                }}
-                            >
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        color: "secondary.main",
-                                        fontWeight: 700,
-                                        mb: 2,
-                                    }}
-                                >
-                                    {selectedService?.name} Details
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        color: "text.secondary",
-                                        lineHeight: 1.8,
-                                    }}
-                                    dangerouslySetInnerHTML={{
-                                        __html:
-                                            selectedService?.description ||
-                                            "No description available.",
-                                    }}
-                                />
-                            </Paper>
-                        )}
-                    </Grid>
-                    <Grid size={{ xs: 12, md: 6 }}>
-                        <InquiryForm activeCountry={selectedCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
-                    </Grid>
-                </Grid>
+                        <Grid container spacing={3}>
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                {selectedService && (
+                                    <Paper
+                                        elevation={0}
+                                        sx={{
+                                            p: { xs: 2, md: 3 },
+                                            border: "1px solid",
+                                            borderColor: "divider",
+                                            borderRadius: 3,
+                                            bgcolor: "background.default",
+                                            height: "100%",
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                color: "secondary.main",
+                                                fontWeight: 700,
+                                                mb: 2,
+                                            }}
+                                        >
+                                            {selectedService?.name} Details
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                color: "text.secondary",
+                                                lineHeight: 1.8,
+                                            }}
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    selectedService?.description ||
+                                                    "No description available.",
+                                            }}
+                                        />
+                                    </Paper>
+                                )}
+                            </Grid>
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <InquiryForm activeCountry={selectedCountry} selectedProduct={selectedProduct} selectedProject={selectedProject} selectedService={selectedService} activeTab={activeTab} />
+                            </Grid>
+                        </Grid>
+                    </>
+                )}
             </Box>
         </Box >
     );
