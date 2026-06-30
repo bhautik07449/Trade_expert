@@ -105,7 +105,7 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
               color: 'primary.main',
               letterSpacing: '0.15em',
               mb: 1,
-              fontSize: '0.75rem'
+              fontSize: '1.5rem'
             }}
           >
             Feature enriched by
@@ -120,10 +120,10 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
                 width: 'max-content'
               }}
             >
-              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '0.95rem' }}>
+              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '1rem' }}>
                 {allMessages}   •
               </Typography>
-              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '0.95rem' }}>
+              <Typography sx={{ display: 'inline-block', px: 2, fontWeight: 600, color: 'text.secondary', fontSize: '1rem' }}>
                 {allMessages}   •
               </Typography>
             </Box>

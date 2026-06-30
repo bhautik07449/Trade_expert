@@ -1,43 +1,35 @@
 import {
     Box,
-    Typography,
-    Divider,
 } from "@mui/material";
-import Multilingual from "./Multilingual";
-import PreambleAndUpcoming from "./PreambleAndUpcoming";
 import { useEffect, useState } from "react";
-import Eventsection from "../../component/Eventsection";
-import NewsandeventService from "../../service/newsandevent.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
-import { useSelector } from "react-redux";
+import EventDetailView from "./EventDetailView";
+import HomePageservice from "../../service/homepages.service";
 
 export default function NewsAndEvents() {
-    const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
-    const [multilingual, setMultilingual] = useState([]);
-    const [multilingualLoading, setMultilingualLoading] = useState(false);
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('eventId');
+    const [event, setEvent] = useState<any>(null);
 
-    const getMultilingual = async (country: string) => {
-        if (!country) return;
-
+    const getEventData = async (id: string) => {
         try {
-            setMultilingualLoading(true);
-            const res = await NewsandeventService.getMultilingual(country);
+            const res = await HomePageservice.getEventsByid(id);
 
             if (res) {
-                setMultilingual(res?.data?.data || []);
+                setEvent(res?.data?.data || []);
             }
         } catch (error: any) {
             toast.error(error?.response?.data?.message);
-            setMultilingual([]);
-        } finally {
-            setMultilingualLoading(false);
+            setEvent([]);
         }
     };
 
     useEffect(() => {
-        getMultilingual(selectedCountry);
-    }, [selectedCountry]);
+        if (eventId) {
+            getEventData(eventId);
+        }
+    }, [eventId]);
 
     return (
         <Box
@@ -48,45 +40,9 @@ export default function NewsAndEvents() {
         >
             <PageMainLayout image="https://sourceseas.itcoders.in/img/front-end/csr-2.jpg" title="News & Events" slug="news_and_events" activeCountry="" setActiveCountry={() => { }} />
 
-            <Box
-                sx={{
-                    maxWidth: "1400px",
-                    mx: "auto",
-                    px: { xs: 2, sm: 3, md: 4 }
-                }}
-            >
-                <Box sx={{ textAlign: "center", mb: 4 }}>
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            color: "secondary.main",
-                            fontWeight: 800,
-                            mb: 1,
-                        }}
-                    >
-                        {selectedCountry}
-                    </Typography>
-
-                    <Divider
-                        sx={{
-                            width: 120,
-                            mx: "auto",
-                            borderColor: "primary.main",
-                            borderBottomWidth: 2,
-                        }}
-                    />
-                </Box>
-
-                <Box component="section">
-                    <Multilingual multilingualTiles={multilingual} loading={multilingualLoading} />
-                </Box>
-            </Box>
-            
-            <Box component="section">
-                <PreambleAndUpcoming country={selectedCountry} />
-            </Box>
-
-            <Eventsection country={selectedCountry} />
+            <EventDetailView
+                eventData={event}
+            />
         </Box>
     );
 }

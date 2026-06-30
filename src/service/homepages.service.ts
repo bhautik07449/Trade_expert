@@ -18,6 +18,15 @@ const getEvents = async (country?: string) => {
     }
 }
 
+const getEventsByid = async (id: string) => {
+    try {
+        const response = serverCall.get(`/events/${id}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const getPresences = async () => {
     try {
         const response = serverCall.get('/presences/countries')
@@ -170,7 +179,7 @@ const HomePageservice = {
     getAnalyticalData, getEvents, getPresences, getImageSliderByCountry, getImageSliderByCategory,
     getProductByCountry, getSpotMarketRateByCategory, getTradeHistoryByCountry, getAnalyticalByCountry,
     getCategoriesByCountry, getProductsByCategory, getContentOverViewByCategory, getMembership, getAffiliation,
-    getProduct, getServices, inquiryIR, getUpcomingCollaboration
+    getProduct, getServices, inquiryIR, getUpcomingCollaboration, getEventsByid
 };
 
 export default HomePageservice;
