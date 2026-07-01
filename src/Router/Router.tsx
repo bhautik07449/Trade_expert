@@ -1,10 +1,5 @@
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import Association from '../pages/TradeOffer/Association';
-import Dealer from '../pages/TradeOffer/Dealer';
-import Tender from '../pages/TradeOffer/Tender';
-import Stocklots from '../pages/TradeOffer/Stocklots';
-import TakeFurtherInitiative from '../pages/TradeOffer/TakeFurtherInitiative';
 
 // Lazy loaded page components
 const Home = React.lazy(() => import('../pages/Dashboard/Home'));
@@ -41,6 +36,12 @@ const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth
 const Commedium = React.lazy(() => import('../pages/Commedium/Commedium'))
 const ComingSoon = React.lazy(() => import('../pages/ComingSoon/ComingSoon'))
 const TradeView = React.lazy(() => import('../pages/TradeView/TradeView'))
+const Association = React.lazy(() => import('../pages/TradeOffer/Association'));
+const Dealer = React.lazy(() => import('../pages/TradeOffer/Dealer'));
+const Tender = React.lazy(() => import('../pages/TradeOffer/Tender'));
+const Stocklots = React.lazy(() => import('../pages/TradeOffer/Stocklots'));
+const TakeFurtherInitiative = React.lazy(() => import('../pages/TradeOffer/TakeFurtherInitiative'));
+const TradeImpoExpo = React.lazy(() => import('../pages/TradeView/TradeImpoExpo'));
 
 type Props = {
   children: JSX.Element;
@@ -182,6 +183,7 @@ export default function Router(): JSX.Element {
       <Route path="/personnel/register" element={<PersonnelRegister />} />
       <Route path="/coming-soon" element={<ComingSoon />} />
       <Route path="/trade-view" element={<TradeView />} />
+      <Route path="/trade-view/impo-expo" element={<TradeImpoExpo />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
