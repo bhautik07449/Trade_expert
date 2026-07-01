@@ -1,6 +1,10 @@
-import { useState } from "react";
-import { Box, Tab, Tabs } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Tab, Tabs, Divider } from "@mui/material";
 import PageMainLayout from "../../commonUI/PageMainLayout";
+import CommoditiesSection from "./CommoditiesSection";
+import FundsFinancesSection from "./FundsFinancesSection";
+import MarketSwitcherSection from "./MarketSwitcherSection";
+import CommPressSection from "./CommPressSection";
 
 export default function Commedium() {
     const [selected, setSelected] = useState(0);
@@ -14,7 +18,7 @@ export default function Commedium() {
         "Comm-united"
     ];
 
-    const handleTabChange = (_, newValue) => {
+    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
         setSelected(newValue);
     };
 
@@ -91,6 +95,16 @@ export default function Commedium() {
                         />
                     ))}
                 </Tabs>
+                
+                <Box sx={{ mt: 4, pt: 4, borderTop: '2px dashed', borderColor: 'divider' }}>
+                    <CommoditiesSection />
+                    <Divider sx={{ my: 6 }} />
+                    <FundsFinancesSection />
+                    <Divider sx={{ my: 6 }} />
+                    <MarketSwitcherSection />
+                    <Divider sx={{ my: 6 }} />
+                    <CommPressSection />
+                </Box>
             </Box>
         </Box>
     );
