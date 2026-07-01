@@ -4,41 +4,27 @@ import { useNavigate } from "react-router-dom";
 import {
     Box,
     Button,
-    Container,
     Grid,
     Typography,
     Skeleton,
-    Paper,
-    IconButton,
+    Paper
 } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CMSservice from "../../service/cms.service";
 import { toast } from "react-toastify";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import NoDataFound from "../../commonUI/NoDataFound";
-import Stocklots from "./Stocklots";
-import Dealer from "./Dealer";
-import Tender from "./Tender";
-import Association from "./Association";
 
 export default function Tradeoffer() {
     const selectedCountry = useSelector((state: any) => state.country.selectedCountry);
 
     const [stockLots, setStockLots] = useState<any[]>([]);
-    const [selectedOfferId, setSelectedOfferId] = useState<number | string>("");
-    const [selectedOfferName, setSelectedOfferName] = useState("");
-    const [stockLotsData, setStockLotsData] = useState<any>(null);
     const navigate = useNavigate();
 
     const [offerLoading, setOfferLoading] = useState(false);
-    const [detailLoading, setDetailLoading] = useState(false);
 
     const getTradeOffer = async (country: string) => {
         setOfferLoading(true);
         setStockLots([]);
-        setStockLotsData(null);
-        setSelectedOfferId("");
-        setSelectedOfferName("");
 
         try {
             const res = await CMSservice.getTradeOffer(country);
@@ -53,34 +39,11 @@ export default function Tradeoffer() {
         }
     };
 
-    const getStockLotsById = async (id: number | string) => {
-        setDetailLoading(true);
-        setStockLotsData(null);
-
-        try {
-            const res = await CMSservice.getStocklots(id);
-
-            if (res) {
-                setStockLotsData(res?.data);
-            }
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || "Something went wrong");
-        } finally {
-            setDetailLoading(false);
-        }
-    };
-
     useEffect(() => {
         if (selectedCountry) {
             getTradeOffer(selectedCountry);
         }
     }, [selectedCountry]);
-
-    useEffect(() => {
-        if (selectedOfferId) {
-            getStockLotsById(selectedOfferId);
-        }
-    }, [selectedOfferId]);
 
     const handleOfferSelect = (offer: any) => {
         const name = offer?.trade_type?.name || "";

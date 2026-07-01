@@ -8,8 +8,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  TextField
+  TableRow
 } from '@mui/material';
 
 export default function TradeGrievance() {

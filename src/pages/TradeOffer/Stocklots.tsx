@@ -11,10 +11,9 @@ import {
     Container,
 } from "@mui/material";
 import { getImageUrl } from "../../utils/imageUtils";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CMSservice from "../../service/cms.service";
-import PageMainLayout from "../../commonUI/PageMainLayout";
 
 export default function Stocklots() {
     const location = useLocation();
