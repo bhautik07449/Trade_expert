@@ -572,8 +572,8 @@ export default function Header() {
                         ref={navRef}
                         sx={{
                             display: "flex",
-                            justifyContent: { xs: "flex-start", md: "center" },
-                            gap: 4,
+                            justifyContent: { xs: "flex-start", xl: "center" },
+                            gap: { md: 1, lg: 2, xl: 4 },
                             position: "relative",
                             overflowX: "auto",
                             whiteSpace: "nowrap",
@@ -599,12 +599,12 @@ export default function Header() {
                                     onClick={() => item.path && navigate(item.path)}
                                     sx={{
                                         cursor: item.path ? "pointer" : "default",
-                                        px: 2,
+                                        px: { md: 1, lg: 2 },
                                         py: 1,
                                         display: "flex",
                                         alignItems: "center",
                                         gap: 0.5,
-                                        fontSize: { xs: "0.95rem", md: "1.1rem" },
+                                        fontSize: { xs: "0.95rem", md: "0.9rem", lg: "1rem" },
                                         color: "white",
                                         fontWeight: 500,
                                         "&:hover": { color: "primary.light" },
