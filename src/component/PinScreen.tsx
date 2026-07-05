@@ -59,9 +59,9 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
         zIndex: 9999,
         background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       }}
-    >
+    > 
       <Paper elevation={6} sx={{
-        p: { xs: 4, md: 5 },
+        p: { xs: 2, md: 5 },
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -105,7 +105,8 @@ const PinScreen: React.FC<PinScreenProps> = ({ onSuccess }) => {
               color: 'primary.main',
               letterSpacing: '0.15em',
               mb: 1,
-              fontSize: '1.5rem'
+              fontSize: { xs: '1.1rem', sm: '1.5rem' },
+              whiteSpace: 'nowrap'
             }}
           >
             Feature enriched by

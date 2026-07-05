@@ -29,7 +29,7 @@ export default function TradeImpoExpo() {
         <Box sx={{ width: '100%', bgcolor: 'background.default', minHeight: '100vh', py: { xs: 6, md: 10 } }}>
             <Box sx={{ mb: 4, textAlign: 'center' }}>
                 <Typography variant="h4" fontWeight="bold" sx={{ color: 'secondary.main', textTransform: 'uppercase', mb: 1 }}>
-                    Trade Compliance
+                    Trade Regulations & Compliances
                 </Typography>
             </Box>
             <Container sx={{ maxWidth: '1400px !important', mx: 'auto', px: { xs: 2, sm: 3, md: 4 }, mt: 5 }}>
@@ -40,21 +40,21 @@ export default function TradeImpoExpo() {
                             onClick={() => setActiveTab('Regulation')}
                             sx={{ textTransform: 'none', fontWeight: 'bold', borderRadius: 0 }}
                         >
-                            Import Regul- / Export Regulation
+                            Export / Import
                         </Button>
                         <Button
                             variant={activeTab === 'Policy' ? 'contained' : 'outlined'}
                             onClick={() => setActiveTab('Policy')}
                             sx={{ textTransform: 'none', fontWeight: 'bold', borderRadius: 0 }}
                         >
-                            POLICY DOCUMENTS
+                            Policy Documents
                         </Button>
                         <Button
                             variant={activeTab === 'Estimation' ? 'contained' : 'outlined'}
                             onClick={() => setActiveTab('Estimation')}
                             sx={{ textTransform: 'none', fontWeight: 'bold', borderRadius: 0 }}
                         >
-                            ESTIMATION CONTROL
+                            Estimation Control
                         </Button>
                     </Box>
 
@@ -103,8 +103,35 @@ export default function TradeImpoExpo() {
                     )}
 
                     {activeTab === 'Policy' && (
-                        <Box sx={{ p: 4, textAlign: 'center', bgcolor: 'grey.50', border: '1px dashed grey' }}>
-                            <Typography color="text.secondary">Policy Documents content will go here.</Typography>
+                        <Box>
+                            <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 0 }}>
+                                <Table size="small">
+                                    <TableHead sx={{ bgcolor: 'grey.100' }}>
+                                        <TableRow>
+                                            <TableCell sx={{ fontWeight: 'bold', borderRight: '1px solid', borderColor: 'divider', width: '10%' }}>Sr No.</TableCell>
+                                            <TableCell sx={{ fontWeight: 'bold', borderRight: '1px solid', borderColor: 'divider' }}>Policy or Compliance Name</TableCell>
+                                            <TableCell sx={{ fontWeight: 'bold' }}>Document Guideline</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {[
+                                            { id: 1, name: "Export Policy 2024", file: "export_policy_2024.pdf" },
+                                            { id: 2, name: "Import Compliance Guidelines", file: "import_guidelines.pdf" },
+                                            { id: 3, name: "Customs Duty Regulations", file: "customs_duty.pdf" }
+                                        ].map((item) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell sx={{ borderRight: '1px solid', borderColor: 'divider' }}>{item.id}</TableCell>
+                                                <TableCell sx={{ borderRight: '1px solid', borderColor: 'divider' }}>{item.name}</TableCell>
+                                                <TableCell>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'primary.main', cursor: 'pointer' }}>
+                                                        <Typography variant="body2" sx={{ textDecoration: 'underline' }}>{item.file}</Typography>
+                                                    </Box>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </Box>
                     )}
 

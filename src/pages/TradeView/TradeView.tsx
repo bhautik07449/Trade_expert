@@ -15,9 +15,9 @@ import OtherTrades from './OtherTrades';
 export default function TradeView() {
   const tabs = [
     'Trade Controller',
-    'Trade Regulator',
+    'Trade Law',
+    'Trade Arbitration',
     'Trade Compliance',
-    'Trade Laws',
     'Trade Grievance'
   ];
 
@@ -50,20 +50,20 @@ export default function TradeView() {
         }}
       >
         <Box sx={{ mb: 4, textAlign: 'center' }}>
-          <Typography variant="h4" fontWeight="bold" sx={{ color: 'secondary.main', textTransform: 'uppercase', mb: 1 }}>
+          <Typography variant="h4" fontWeight="bold" sx={{ color: 'secondary.main', textTransform: 'uppercase', mb: 2 }}>
             Trade Bureau.
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, mb: 1 }}>
-            <Typography variant="subtitle1" fontWeight="500" sx={{ borderBottom: '1px solid', borderColor: 'primary.main', display: 'inline-block' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: { xs: 2, md: 4 }, flexWrap: 'wrap', mb: 1 }}>
+            <Typography variant="h6" fontWeight="bold" sx={{ color: 'secondary.main', borderBottom: '1px solid', borderColor: 'primary.main', display: 'inline-block' }}>
               Engineered for Efficiency
             </Typography>
-            <Typography variant="subtitle1" fontWeight="500" sx={{ borderBottom: '1px solid', borderColor: 'primary.main', display: 'inline-block' }}>
+            <Typography variant="h6" fontWeight="bold" sx={{ color: 'secondary.main', borderBottom: '1px solid', borderColor: 'primary.main', display: 'inline-block' }}>
               Executed for Proficiency
             </Typography>
+            <Typography variant="h6" fontWeight="bold" fontStyle="italic" sx={{ color: 'secondary.main', borderBottom: '1px solid', borderColor: 'primary.main', display: 'inline-block' }}>
+              'Powered' by Consolidated Components.
+            </Typography>
           </Box>
-          <Typography variant="body1" color="text.secondary" fontStyle="italic">
-            'Powered' by Consolidated Components.
-          </Typography>
         </Box>
         <Box sx={{ mb: 4 }}>
           <Tabs
@@ -140,9 +140,9 @@ export default function TradeView() {
             boxShadow: "0 8px 24px rgba(59, 48, 39, 0.04)",
           }}
         >
-          {(activeTab === 'Trade Controller' || activeTab === 'Trade Regulator' || activeTab === 'Trade Compliance') ? (
+          {(activeTab === 'Trade Controller' || activeTab === 'Trade Arbitration' || activeTab === 'Trade Compliance') ? (
             <TradeCompliance activeTab={activeTab} />
-          ) : activeTab === 'Trade Laws' ? (
+          ) : activeTab === 'Trade Law' ? (
             <TradeLaw />
           ) : activeTab === 'Trade Grievance' ? (
             <TradeGrievance />

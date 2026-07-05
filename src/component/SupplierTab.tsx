@@ -15,16 +15,22 @@ export default function SupplierTab() {
         },
         {
             label: "Join as",
+            value: "a Buyer",
+            button: "Login or Register",
+            link: "/login",
+        },
+        {
+            label: "Join as",
             value: "Service Personnel",
             button: "Register",
             link: "/pages/career",
         },
         {
             label: "Join as",
-            value: "a Buyer",
+            value: "Investor",
             button: "Login or Register",
             link: "/login",
-        },
+        }
     ];
 
     return (
@@ -47,7 +53,7 @@ export default function SupplierTab() {
             >
                 <Grid container spacing={4}>
                     {(Array.isArray(tab) ? tab : []).map((item, index) => (
-                        <Grid size={{ xs: 12, md: 4 }} key={index}>
+                        <Grid size={{ xs: 12, md: 3 }} key={index}>
                             <Box
                                 sx={{
                                     height: "100%",

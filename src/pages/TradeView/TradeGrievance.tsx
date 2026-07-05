@@ -27,18 +27,16 @@ export default function TradeGrievance() {
               <TableCell rowSpan={2} sx={{ minWidth: 200, fontWeight: 'bold', borderRight: '1px solid', borderColor: 'divider', textAlign: 'center', p: 3 }}>
                 <Typography variant="h6" fontWeight="bold">Threshold</Typography>
               </TableCell>
-              <TableCell sx={{ minWidth: 200, borderRight: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>15000 & above</TableCell>
+              <TableCell sx={{ minWidth: 200, borderRight: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>15000 &gt; above</TableCell>
               <TableCell sx={{ minWidth: 200, borderRight: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>ITBP</TableCell>
               <TableCell sx={{ minWidth: 200 }}></TableCell>
             </TableRow>
             <TableRow>
               <TableCell sx={{ borderRight: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>
-                15000 & below
-                <Typography variant="caption" display="block" color="text.secondary">Limit/Item</Typography>
+                15000 &lt; below
               </TableCell>
               <TableCell sx={{ borderRight: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>
                 BSF
-                <Typography variant="caption" display="block" color="text.secondary">(Organization)</Typography>
               </TableCell>
               <TableCell sx={{ minWidth: 200 }}></TableCell>
             </TableRow>
@@ -71,7 +69,7 @@ export default function TradeGrievance() {
               </TableCell>
               <TableCell sx={{ verticalAlign: 'middle', p: 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                  {[1, 2, 3, 4].map((_,index) => (
+                  {[1, 2, 3, 4].map((_, index) => (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, width: '100%', justifyContent: 'center' }} key={index}>
                       <Typography fontWeight="bold" color="primary">(A)</Typography>
                       <Typography sx={{ p: 3 }}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus corporis doloremque, asperiores ea temporibus eum reiciendis dolore vero beatae dignissimos officia? Ipsam error tempora quod autem dolor dicta. Provident, tempora.</Typography>
