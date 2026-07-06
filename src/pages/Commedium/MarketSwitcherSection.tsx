@@ -1,4 +1,4 @@
-import { Box, Typography, Select, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Divider } from "@mui/material";
+import { Box, Typography, Select, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export default function MarketSwitcherSection() {
