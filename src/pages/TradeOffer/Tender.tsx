@@ -46,11 +46,19 @@ export default function Tender() {
                         <Grid container spacing={4}>
                             <Grid size={{ xs: 12, sm: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h6" fontWeight="bold" gutterBottom sx={{
-                                        borderBottom: '2px solid',
-                                        borderColor: 'primary.main',
+                                    <Typography variant="subtitle1" fontWeight="bold" sx={{
+                                        bgcolor: 'primary.main',
+                                        color: 'primary.contrastText',
+                                        px: 4,
+                                        py: 0.75,
+                                        borderRadius: 8,
                                         display: 'inline-block',
-                                        pb: 0.5
+                                        textTransform: 'uppercase',
+                                        letterSpacing: 1,
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                                        mb: 2,
+                                        userSelect: 'none',
+                                        pointerEvents: 'none'
                                     }}>
                                         Eyes ON
                                     </Typography>
@@ -65,11 +73,19 @@ export default function Tender() {
 
                             <Grid size={{ xs: 12, sm: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h6" fontWeight="bold" gutterBottom sx={{
-                                        borderBottom: '2px solid',
-                                        borderColor: 'primary.main',
+                                    <Typography variant="subtitle1" fontWeight="bold" sx={{
+                                        bgcolor: 'primary.main',
+                                        color: 'primary.contrastText',
+                                        px: 4,
+                                        py: 0.75,
+                                        borderRadius: 8,
                                         display: 'inline-block',
-                                        pb: 0.5
+                                        textTransform: 'uppercase',
+                                        letterSpacing: 1,
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                                        mb: 2,
+                                        userSelect: 'none',
+                                        pointerEvents: 'none'
                                     }}>
                                         Sorted ON
                                     </Typography>
@@ -84,11 +100,19 @@ export default function Tender() {
 
                             <Grid size={{ xs: 12, sm: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h6" fontWeight="bold" gutterBottom sx={{
-                                        borderBottom: '2px solid',
-                                        borderColor: 'primary.main',
+                                    <Typography variant="subtitle1" fontWeight="bold" sx={{
+                                        bgcolor: 'primary.main',
+                                        color: 'primary.contrastText',
+                                        px: 4,
+                                        py: 0.75,
+                                        borderRadius: 8,
                                         display: 'inline-block',
-                                        pb: 0.5
+                                        textTransform: 'uppercase',
+                                        letterSpacing: 1,
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                                        mb: 2,
+                                        userSelect: 'none',
+                                        pointerEvents: 'none'
                                     }}>
                                         Detailed for
                                     </Typography>
@@ -166,10 +190,6 @@ export default function Tender() {
                                         <Typography variant="body2" color="text.secondary">More information filters.</Typography>
                                     </AccordionDetails>
                                 </Accordion>
-
-                                <Typography variant="caption" color="text.secondary" sx={{ mt: 1, ml: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                    <span style={{ fontSize: '16px' }}>&#8595;</span> Open more tab on click.
-                                </Typography>
                             </Box>
                         </Box>
 
