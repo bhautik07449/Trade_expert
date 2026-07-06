@@ -59,6 +59,10 @@ export default function Commedium() {
                         mx: 'auto',
                     }}>
                         <Typography variant="body1" fontWeight="500" sx={{ opacity: 0.9, letterSpacing: 1 }}>
+                            MONETILE
+                        </Typography>
+
+                        <Typography variant="body1" fontWeight="500" sx={{ opacity: 0.9, letterSpacing: 1 }}>
                             Powered with
                         </Typography>
 
@@ -75,7 +79,7 @@ export default function Commedium() {
                         </Typography>
 
                         <Typography variant="h5" fontWeight="800" sx={{ color: 'primary.light', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-                            Live performance Tracker
+                            Live Performance Tracker
                         </Typography>
 
                         <Typography variant="body2" fontStyle="italic" sx={{ mt: 2, opacity: 0.85, maxWidth: '85%', lineHeight: 1.6 }}>

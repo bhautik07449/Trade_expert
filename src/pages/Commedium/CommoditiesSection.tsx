@@ -13,11 +13,12 @@ export default function CommoditiesSection() {
                 <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
                     <MenuItem value="">Categories</MenuItem>
                 </Select>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">MCDEX/NCDEX</MenuItem>
+                <Select size="small" defaultValue="MCDEX" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
+                    <MenuItem value="MCDEX">MCDEX</MenuItem>
+                    <MenuItem value="NCDEX">NCDEX</MenuItem>
                 </Select>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">CLASSIFICATION</MenuItem>
+                <Select size="small" defaultValue="CLASSIFICATION" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
+                    <MenuItem value="CLASSIFICATION">CLASSIFICATION</MenuItem>
                 </Select>
             </Box>
 

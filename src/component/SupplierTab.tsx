@@ -27,7 +27,7 @@ export default function SupplierTab() {
         },
         {
             label: "Join as",
-            value: "Investor",
+            value: "Investor/Trader ",
             button: "Login or Register",
             link: "/login",
         }

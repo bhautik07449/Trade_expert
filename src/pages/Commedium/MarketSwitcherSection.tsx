@@ -5,12 +5,13 @@ export default function MarketSwitcherSection() {
     return (
         <Box>
             <Typography variant="h6" align="center" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase' }}>
-                Market Switcher
+                COMM EQUITY
             </Typography>
 
             <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">MARKET SWITCHER</MenuItem>
+                <Select size="small" defaultValue="NSE" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
+                    <MenuItem value="NSE">NSE</MenuItem>
+                    <MenuItem value="BSE">BSE</MenuItem>
                 </Select>
                 <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
                     <MenuItem value="">Category</MenuItem>

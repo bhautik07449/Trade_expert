@@ -16,8 +16,8 @@ export default function TradeView() {
   const tabs = [
     'Trade Controller',
     'Trade Law',
-    'Trade Arbitration',
-    'Trade Compliance',
+    // 'Trade Arbitration',
+    // 'Trade Compliance',
     'Trade Grievance'
   ];
 
