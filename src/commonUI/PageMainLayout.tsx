@@ -8,7 +8,7 @@ import PageContentSkeleton from "../component/PageContentSkeleton";
 import CountryTab from "./CountryTab";
 import NoDataFound from "./NoDataFound";
 
-export default function PageMainLayout({ image, title, slug, country = false, activeCountry, setActiveCountry }: { image?: string, title?: string, slug: string, country?: boolean, activeCountry: string, setActiveCountry: (country: string) => void }) {
+export default function PageMainLayout({ image, title, slug, country = false, activeCountry, setActiveCountry, bannerContent }: { image?: string, title?: string, slug: string, country?: boolean, activeCountry: string, setActiveCountry: (country: string) => void, bannerContent?: React.ReactNode }) {
     const dispatch = useDispatch<AppDispatch>();
 
     const { pageDetail, loading } = useSelector((state: RootState) => state.page);
@@ -36,7 +36,7 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
             <Box
                 sx={{
                     width: "100%",
-                    height: { xs: 160, sm: 240, md: 300 },
+                    height: bannerContent ? { xs: 450, sm: 500, md: 550 } : { xs: 160, sm: 240, md: 300 },
                     overflow: "hidden",
                     position: "relative",
                 }}
@@ -66,7 +66,7 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
                         pb: { xs: 10, sm: 15, md: 18.75 },
                     }}
                 >
-                    <Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', mt: bannerContent ? 10 : 0 }}>
                         <Typography
                             variant="h3"
                             sx={{
@@ -77,54 +77,60 @@ export default function PageMainLayout({ image, title, slug, country = false, ac
                         >
                             {title || pageDetail?.page_title || ""}
                         </Typography>
+                        {bannerContent && (
+                            <Box sx={{ mt: { xs: 3, md: 4 }, width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                {bannerContent}
+                            </Box>
+                        )}
                     </Box>
                 </Box>
             </Box>
 
-            <Box
-                sx={{
-                    maxWidth: "1600px",
-                    mx: "auto",
-                    mt: { xs: -10, sm: -15, md: -18.75 },
-                    px: { xs: 2, sm: 3, md: 4 },
-                    position: "relative",
-                    zIndex: 2,
-                }}
-            >
-                <Paper
-                    elevation={0}
+            {pageDetail?.content && (
+                <Box
                     sx={{
-                        mb: 4,
-                        p: { xs: 2.5, sm: 3, md: 4 },
-                        borderRadius: 4,
-                        bgcolor: "background.paper",
-                        border: "1px solid",
-                        borderColor: "divider",
-                        boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                        maxWidth: "1600px",
+                        mx: "auto",
+                        mt: { xs: -10, sm: -15, md: -18.75 },
+                        px: { xs: 2, sm: 3, md: 4 },
+                        position: "relative",
+                        zIndex: 2,
                     }}
                 >
-                    {loading ? (
-                        <PageContentSkeleton />
-                    ) : pageDetail?.content ? (
-                        <Typography
-                            sx={{
-                                color: "text.secondary",
-                                fontSize: { xs: "14px", sm: "16px" },
-                                lineHeight: 1.8,
-                                textAlign: "justify",
-                            }}
-                            dangerouslySetInnerHTML={{
-                                __html: decodeHTML(pageDetail?.content || ""),
-                            }}
-                        />
-                    ) : (
-                        <Box sx={{ py: 5 }}>
-                            <NoDataFound message="No content found" />
-                        </Box>
-                    )}
-                </Paper>
-            </Box>
-
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            mb: 4,
+                            p: { xs: 2.5, sm: 3, md: 4 },
+                            borderRadius: 4,
+                            bgcolor: "background.paper",
+                            border: "1px solid",
+                            borderColor: "divider",
+                            boxShadow: "0 18px 45px rgba(62,49,38,0.08)",
+                        }}
+                    >
+                        {loading ? (
+                            <PageContentSkeleton />
+                        ) : pageDetail?.content ? (
+                            <Typography
+                                sx={{
+                                    color: "text.secondary",
+                                    fontSize: { xs: "14px", sm: "16px" },
+                                    lineHeight: 1.8,
+                                    textAlign: "justify",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: decodeHTML(pageDetail?.content || ""),
+                                }}
+                            />
+                        ) : (
+                            <Box sx={{ py: 5 }}>
+                                <NoDataFound message="No content found" />
+                            </Box>
+                        )}
+                    </Paper>
+                </Box>
+            )}
             {country && <CountryTab activeCountry={activeCountry} setActiveCountry={setActiveCountry} />}
         </Box>
     );

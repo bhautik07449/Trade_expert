@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Box, Typography, Button, Divider } from "@mui/material";
+import SideTableView from './SideTableView';
 
 export default function FundsFinancesSection() {
     const countryRef = useRef<HTMLDivElement>(null);
@@ -39,32 +40,44 @@ export default function FundsFinancesSection() {
 
             <Divider sx={{ mb: 6 }} />
 
-            <Box ref={countryRef} sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 6, scrollMarginTop: '100px' }}>
-                <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
-                    COUNTRY BACKED
-                </Typography>
-                <Typography variant="body1" color="text.secondary" fontStyle="italic">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
-                </Typography>
+            <Box ref={countryRef} sx={{ minHeight: '100vh', mb: 6, scrollMarginTop: '100px' }}>
+                <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
+                        COUNTRY BACKED
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" fontStyle="italic">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
+                    </Typography>
+                </Box>
+
+                <SideTableView />
             </Box>
 
-            <Box ref={companiesRef} sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 6, scrollMarginTop: '100px' }}>
-                <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
-                    COMPANIES BACKED
-                </Typography>
-                <Typography variant="body1" color="text.secondary" fontStyle="italic">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
-                </Typography>
+            <Box ref={companiesRef} sx={{ minHeight: '100vh', mb: 6, scrollMarginTop: '100px' }}>
+                <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
+                        COMPANIES BACKED
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" fontStyle="italic">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
+                    </Typography>
+                </Box>
+
+                <SideTableView />
             </Box>
 
-            <Box ref={commerceRef} sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 6, scrollMarginTop: '100px' }}>
-                <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
-                    COMMERCE BACKED
-                </Typography>
-                <Typography variant="body1" color="text.secondary" fontStyle="italic">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
-                </Typography>
+            <Box ref={commerceRef} sx={{ minHeight: '100vh', mb: 6, scrollMarginTop: '100px' }}>
+                <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography variant="h6" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase', borderBottom: '2px solid', borderColor: 'primary.main', pb: 0.5 }}>
+                        COMMERCE BACKED
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" fontStyle="italic">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
+                    </Typography>
+                </Box>
+
+                <SideTableView />
             </Box>
-        </Box>
+        </Box >
     );
 }

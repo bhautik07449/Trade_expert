@@ -1,27 +1,12 @@
-import { Box, Typography, Select, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Divider } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-export default function MarketSwitcherSection() {
+export default function Commounion() {
     return (
         <Box>
             <Typography variant="h6" align="center" fontWeight="bold" sx={{ mb: 3, textTransform: 'uppercase' }}>
-                Market Switcher
+                COMM / UNION
             </Typography>
-
-            <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">MARKET SWITCHER</MenuItem>
-                </Select>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">Category</MenuItem>
-                </Select>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">Sub</MenuItem>
-                </Select>
-                <Select size="small" defaultValue="" displayEmpty sx={{ minWidth: 250, bgcolor: 'white' }}>
-                    <MenuItem value="">Products</MenuItem>
-                </Select>
-            </Box>
 
             <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2, mb: 4 }}>
                 <Table size="small">
@@ -52,5 +37,5 @@ export default function MarketSwitcherSection() {
                 </Table>
             </TableContainer>
         </Box>
-    );
+    )
 }
