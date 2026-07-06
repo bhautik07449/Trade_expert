@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Box, Typography, Select, MenuItem, Paper, List, ListItem, ListItemButton, ListItemText, ListItemIcon } from "@mui/material";
+import { Box, Typography, Select, MenuItem } from "@mui/material";
 import SideTableView from './SideTableView';
 
 export default function CommoditiesSection() {
