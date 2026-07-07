@@ -101,98 +101,89 @@ export default function Commedium() {
                     pb: { xs: 6, md: 10 },
                 }}
             >
-                <Box
-                    sx={{
-                        maxWidth: "1400px",
-                        mx: "auto",
-                        px: { xs: 2, sm: 4, md: 6 },
-                        pb: { xs: 6, md: 10 },
-                    }}
-                >
-                    <Box sx={{ position: 'sticky', top: { xs: 56, md: 130 }, zIndex: 100, bgcolor: 'background.default', pt: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
-                        <Tabs
-                            value={selected}
-                            onChange={(_, value) => handleTabChange(_, value)}
-                            variant="scrollable"
-                            scrollButtons={true}
-                            allowScrollButtonsMobile
-                            TabIndicatorProps={{ sx: { display: "none" } }}
-                            sx={{
+                <Box sx={{ position: 'sticky', top: { xs: 56, md: 130 }, zIndex: 100, bgcolor: 'background.default', pt: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                    <Tabs
+                        value={selected}
+                        onChange={(_, value) => handleTabChange(_, value)}
+                        variant="scrollable"
+                        scrollButtons={true}
+                        allowScrollButtonsMobile
+                        TabIndicatorProps={{ sx: { display: "none" } }}
+                        sx={{
+                            minHeight: "auto",
+
+                            "& .MuiTabs-flexContainer": {
+                                gap: 1.2,
+                                justifyContent: "flex-start",
+                            },
+
+                            "& .MuiTabs-scrollButtons": {
+                                color: "primary.main",
+                                width: 40,
+                                borderRadius: 2,
+                                "&.Mui-disabled": {
+                                    opacity: 0.3,
+                                },
+                            },
+
+                            "& .MuiTab-root": {
                                 minHeight: "auto",
+                                minWidth: "auto",
+                                px: { xs: 1.8, sm: 2.5 },
+                                py: 1,
+                                borderRadius: 99,
+                                textTransform: "none",
+                                fontWeight: 800,
+                                color: "text.secondary",
+                                border: "1px solid",
+                                borderColor: "divider",
+                                bgcolor: "background.paper",
+                                transition: "all 0.3s ease",
+                            },
 
-                                "& .MuiTabs-flexContainer": {
-                                    gap: 1.2,
-                                    justifyContent: "flex-start",
-                                },
+                            "& .MuiTab-root:hover": {
+                                color: "primary.dark",
+                                borderColor: "primary.main",
+                                bgcolor: "primary.light",
+                            },
 
-                                "& .MuiTabs-scrollButtons": {
-                                    color: "primary.main",
-                                    width: 40,
-                                    borderRadius: 2,
-                                    "&.Mui-disabled": {
-                                        opacity: 0.3,
-                                    },
-                                },
+                            "& .Mui-selected": {
+                                color: "#fff !important",
+                                bgcolor: "primary.main",
+                                borderColor: "primary.main",
+                                boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
+                            },
+                        }}
+                    >
+                        {buttons.map((item, index) => (
+                            <Tab
+                                key={index}
+                                label={item}
+                                value={index}
+                            />
+                        ))}
+                    </Tabs>
+                </Box>
 
-                                "& .MuiTab-root": {
-                                    minHeight: "auto",
-                                    minWidth: "auto",
-                                    px: { xs: 1.8, sm: 2.5 },
-                                    py: 1,
-                                    borderRadius: 99,
-                                    textTransform: "none",
-                                    fontWeight: 800,
-                                    color: "text.secondary",
-                                    border: "1px solid",
-                                    borderColor: "divider",
-                                    bgcolor: "background.paper",
-                                    transition: "all 0.3s ease",
-                                },
-
-                                "& .MuiTab-root:hover": {
-                                    color: "primary.dark",
-                                    borderColor: "primary.main",
-                                    bgcolor: "primary.light",
-                                },
-
-                                "& .Mui-selected": {
-                                    color: "#fff !important",
-                                    bgcolor: "primary.main",
-                                    borderColor: "primary.main",
-                                    boxShadow: "0 8px 20px rgba(59, 48, 39, 0.16)",
-                                },
-                            }}
-                        >
-                            {buttons.map((item, index) => (
-                                <Tab
-                                    key={index}
-                                    label={item}
-                                    value={index}
-                                />
-                            ))}
-                        </Tabs>
+                <Box sx={{ mt: 4, pt: 4, borderTop: '2px dashed', borderColor: 'divider' }}>
+                    <Box ref={commTrackerRef} sx={{ scrollMarginTop: '180px', minHeight: '100vh' }}>
+                        <CommoditiesSection />
                     </Box>
-
-                    <Box sx={{ mt: 4, pt: 4, borderTop: '2px dashed', borderColor: 'divider' }}>
-                        <Box ref={commTrackerRef} sx={{ scrollMarginTop: '180px', minHeight: '100vh' }}>
-                            <CommoditiesSection />
-                        </Box>
-                        <Divider sx={{ my: 6 }} />
-                        <Box ref={fundsRef} sx={{ scrollMarginTop: '180px', minHeight: '100vh' }}>
-                            <FundsFinancesSection />
-                        </Box>
-                        <Divider sx={{ my: 6 }} />
-                        <Box ref={commEquityRef} sx={{ scrollMarginTop: '180px', minHeight: '50vh' }}>
-                            <MarketSwitcherSection />
-                        </Box>
-                        <Divider sx={{ my: 6 }} />
-                        <Box ref={commUnionRef} sx={{ scrollMarginTop: '180px', minHeight: '50vh' }}>
-                            <Commounion />
-                        </Box>
-                        <Divider sx={{ my: 6 }} />
-                        <Box ref={commPressRef} sx={{ scrollMarginTop: '180px' }}>
-                            <CommPressSection />
-                        </Box>
+                    <Divider sx={{ my: 6 }} />
+                    <Box ref={fundsRef} sx={{ scrollMarginTop: '180px', minHeight: '100vh' }}>
+                        <FundsFinancesSection />
+                    </Box>
+                    <Divider sx={{ my: 6 }} />
+                    <Box ref={commEquityRef} sx={{ scrollMarginTop: '180px', minHeight: '50vh' }}>
+                        <MarketSwitcherSection />
+                    </Box>
+                    <Divider sx={{ my: 6 }} />
+                    <Box ref={commUnionRef} sx={{ scrollMarginTop: '180px', minHeight: '50vh' }}>
+                        <Commounion />
+                    </Box>
+                    <Divider sx={{ my: 6 }} />
+                    <Box ref={commPressRef} sx={{ scrollMarginTop: '180px' }}>
+                        <CommPressSection />
                     </Box>
                 </Box>
             </Box>

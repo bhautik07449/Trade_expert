@@ -29,8 +29,8 @@ export default function SideTableView() {
     const [selectedTrend, setSelectedTrend] = useState(trends[0]);
 
     return (
-        <Paper variant="outlined" sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: 400, borderRadius: 2, overflow: 'hidden' }}>
-            <Box sx={{ width: { xs: '100%', md: 250 }, borderRight: { xs: 'none', md: '1px solid' }, borderBottom: { xs: '1px solid', md: 'none' }, borderColor: 'divider', bgcolor: 'grey.50' }}>
+        <Paper variant="outlined" sx={{ display: 'flex', minHeight: 400, borderRadius: 2, overflow: 'hidden' }}>
+            <Box sx={{ width: 250, borderRight: '1px solid', borderColor: 'divider', bgcolor: 'grey.50' }}>
                 <Typography variant="subtitle2" fontWeight="bold" sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider', textTransform: 'uppercase' }}>
                     TREND SWITCHER
                 </Typography>
