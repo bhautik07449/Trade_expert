@@ -101,7 +101,7 @@ export default function Commedium() {
                     pb: { xs: 6, md: 10 },
                 }}
             >
-                <Box sx={{ position: 'sticky', top: { xs: 56, md: 130 }, zIndex: 100, bgcolor: 'background.default', pt: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                <Box sx={{ position: 'sticky', top: { xs: 56, md: 130 }, zIndex: 100, bgcolor: 'background.default', pt: 2, pb: 1 }}>
                     <Tabs
                         value={selected}
                         onChange={(_, value) => handleTabChange(_, value)}

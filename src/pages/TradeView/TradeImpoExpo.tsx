@@ -78,27 +78,6 @@ export default function TradeImpoExpo() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-
-                            <Box sx={{ display: 'flex', mt: 4 }} justifyContent='center'>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mr: 2, fontWeight: 'bold' }}>
-                                    <Typography>N</Typography>
-                                    <Typography>O</Typography>
-                                    <Typography>T</Typography>
-                                    <Typography>E</Typography>
-                                </Box>
-                                <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 0, maxWidth: 600 }}>
-                                    <Table size="small">
-                                        <TableBody>
-                                            {[1, 2, 3, 4].map((row) => (
-                                                <TableRow key={row}>
-                                                    <TableCell sx={{ borderRight: '1px solid', borderColor: 'divider', width: '20%', height: 32 }}>note</TableCell>
-                                                    <TableCell sx={{ height: 32 }}>note details</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Box>
                         </Box>
                     )}
 
