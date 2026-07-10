@@ -19,6 +19,7 @@ import * as Yup from "yup"
 import Buyerservice from "../../service/buyes.service"
 import Supplierservice from "../../service/supplier.service"
 import CMSservice from "../../service/cms.service"
+import Investorservice from "../../service/investor.service"
 import { toast } from "react-toastify"
 
 export default function ForgotPassword() {
@@ -51,6 +52,8 @@ export default function ForgotPassword() {
           res = await Supplierservice.forgotPassword(values)
         } else if (role === "career") {
           res = await CMSservice.forgotPassword(values)
+        } else if (role === "investor") {
+          res = await Investorservice.forgotPassword(values)
         } else {
           res = await Buyerservice.forgotPassword(values)
         }
@@ -62,6 +65,8 @@ export default function ForgotPassword() {
             navigate("/suppliers/login")
           } else if (role === "career") {
             navigate("/public_private_login")
+          } else if (role === "investor") {
+            navigate("/investors/login")
           } else {
             navigate("/login")
           }
@@ -108,7 +113,7 @@ export default function ForgotPassword() {
             textAlign: "center"
           }}
         >
-          {role === "supplier" ? "Supplier Portal" : role === "career" ? "Public / Private Personnel" : "Buyer Portal"}
+          {role === "supplier" ? "Supplier Portal" : role === "career" ? "Public / Private Personnel" : role === "investor" ? "Investor / Trader Portal" : "Buyer Portal"}
         </Typography>
 
         <Typography
@@ -224,7 +229,7 @@ export default function ForgotPassword() {
 
           <Box sx={{ mt: 3, textAlign: "center" }}>
             <Button
-              onClick={() => navigate(role === "supplier" ? "/suppliers/login" : role === "career" ? "/public_private_login" : "/login")}
+              onClick={() => navigate(role === "supplier" ? "/suppliers/login" : role === "career" ? "/public_private_login" : role === "investor" ? "/investors/login" : "/login")}
               sx={{ textTransform: "none", fontWeight: 600 }}
             >
               Back to Login

@@ -8,6 +8,8 @@ const CategoryPage = React.lazy(() => import('../pages/Dashboard/Categorypage'))
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound').then(m => ({ default: m.PageNotFound })));
 const SignupForm = React.lazy(() => import('../pages/BuyerAuth/Signup'));
 const LoginForm = React.lazy(() => import('../pages/BuyerAuth/Login'));
+const InvestorLoginForm = React.lazy(() => import('../pages/InvestorAuth/Login'));
+const InvestorSignupForm = React.lazy(() => import('../pages/InvestorAuth/Signup'));
 const ForgotPassword = React.lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
 const ProductPage = React.lazy(() => import('../pages/ProductDetail/ProductDetail'));
 const AboutUs = React.lazy(() => import('../pages/About/AboutUs'));
@@ -104,6 +106,22 @@ export default function Router(): JSX.Element {
     return children;
   }
 
+  function InvestorPrivateRoute({ children }: Props) {
+    const investor = localStorage.getItem('investor');
+    if (investor !== 'true') {
+      return <Navigate to="/investors/login" replace />;
+    }
+    return children;
+  }
+
+  function InvestorPublicRoute({ children }: Props) {
+    const investor = localStorage.getItem('investor');
+    if (investor === 'true') {
+      return <Navigate to="/investor-dashboard" replace />;
+    }
+    return children;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -144,6 +162,13 @@ export default function Router(): JSX.Element {
         <SupplierPublicRoute>
           <SuppliersLogin />
         </SupplierPublicRoute>
+      }
+      />
+      <Route path="/investors/register" element={<InvestorSignupForm />} />
+      <Route path="/investors/login" element={
+        <InvestorPublicRoute>
+          <InvestorLoginForm />
+        </InvestorPublicRoute>
       }
       />
       <Route
