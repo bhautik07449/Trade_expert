@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import CMSservice from "../../service/cms.service";
 import {
     Box,
     Container,
@@ -15,14 +17,36 @@ import RequestInfo from './RequestInfo';
 import DetailInDepth from './DetailsInDepth';
 
 export default function Dealer() {
-    const [activeView, setActiveView] = useState<'cards' | 'detailInDepth' | 'requestInfo'>('cards');
+    const location = useLocation();
+    const offer = location.state?.offer;
 
-    const dummyCards = Array.from(new Array(4)).map((_, i) => ({
-        id: i,
-        name: `Franchise Name ${i + 1}`,
-        detail: 'Details In-Depth',
-        image: 'https://res.cloudinary.com/dr0xw4ztr/image/upload/v1781003921/f9bl0do4tlddtad1hrtr.jpg'
-    }));
+    const [activeView, setActiveView] = useState<'cards' | 'detailInDepth' | 'requestInfo'>('cards');
+    const [selectedCard, setSelectedCard] = useState<any>(null);
+    const [detailLoading, setDetailLoading] = useState(false);
+    const [offerData, setOfferData] = useState<any>(null);
+
+    useEffect(() => {
+        if (offer?.id) {
+            getOfferDataById(offer.id);
+        }
+    }, [offer?.id]);
+
+    const getOfferDataById = async (id: number | string) => {
+        setDetailLoading(true);
+        setOfferData(null);
+        try {
+            const res = await CMSservice.getStocklots(id);
+            if (res) {
+                setOfferData(res?.data);
+            }
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            setDetailLoading(false);
+        }
+    };
+
+    const items = offerData?.data?.dealer || offerData?.data?.franchise || offerData?.data?.items || [];
 
     return (
         <Box
@@ -91,7 +115,7 @@ export default function Dealer() {
 
                         {activeView === 'cards' && (
                             <Grid container spacing={4}>
-                                {dummyCards.map((card, index) => (
+                                {items.length > 0 ? items.map((card: any, index: number) => (
                                     <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
                                         <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%' }}>
                                             <Box sx={{
@@ -108,31 +132,38 @@ export default function Dealer() {
 
                                             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                                                 <Typography fontWeight="bold" sx={{ p: 1.5, borderBottom: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
-                                                    {card.name}
+                                                    {card.franchiseName || card.franchise_type?.franchise_type || card.franchise_type || card?.category?.name || "Franchise"}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary" sx={{ p: 1.5, borderBottom: '1px solid', borderColor: 'divider', textAlign: 'center', flex: 1 }}>
-                                                    {card.detail}
+                                                    Details In-Depth
                                                 </Typography>
                                                 <Button
                                                     fullWidth
                                                     sx={{ py: 1.5, textTransform: 'none', borderRadius: 0, fontWeight: 'bold' }}
-                                                    onClick={() => setActiveView('detailInDepth')}
+                                                    onClick={() => {
+                                                        setSelectedCard(card);
+                                                        setActiveView('detailInDepth');
+                                                    }}
                                                 >
                                                     More Info
                                                 </Button>
                                             </Box>
                                         </Paper>
                                     </Grid>
-                                ))}
+                                )) : (
+                                    <Grid size={{ xs: 12 }}>
+                                        <Typography align="center" color="text.secondary">No items found.</Typography>
+                                    </Grid>
+                                )}
                             </Grid>
                         )}
 
                         {activeView === 'detailInDepth' && (
-                            <DetailInDepth setActiveView={setActiveView} />
+                            <DetailInDepth setActiveView={setActiveView} card={selectedCard} />
                         )}
 
                         {activeView === 'requestInfo' && (
-                            <RequestInfo setActiveView={setActiveView} />
+                            <RequestInfo setActiveView={setActiveView} card={selectedCard} />
                         )}
 
                     </Paper>

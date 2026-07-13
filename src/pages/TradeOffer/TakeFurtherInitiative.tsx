@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Box,
     Typography,
@@ -9,9 +10,14 @@ import {
     ListItemButton,
     ListItemText,
     Container,
+    Button,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function TakeFurtherInitiative() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const card = location.state?.card;
     const [activeTab, setActiveTab] = useState('EOI');
 
     const menuItems = [
@@ -70,34 +76,50 @@ export default function TakeFurtherInitiative() {
                     scrollBehavior: 'smooth'
                 }}
             >
-                {menuItems.map(item => (
-                    <Box key={item.id} id={`section-${item.id}`} sx={{ minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h5" fontWeight="bold" color="primary.main" gutterBottom>
-                            {item.label}
-                        </Typography>
+                {menuItems.map(item => {
+                    const contentMap: Record<string, string> = {
+                        'EOI': card?.eoi,
+                        'MOU': card?.mou,
+                        'MOA': card?.moa,
+                        'MOIS': card?.mois,
+                        'TRACK_PROGRESS': card?.track_progress
+                    };
+                    const itemContent = contentMap[item.id];
 
-                        <Paper
-                            elevation={0}
-                            sx={{
-                                flex: 1,
-                                mt: 2,
-                                p: 4,
-                                border: '2px dashed',
-                                borderColor: 'grey.300',
-                                borderRadius: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                bgcolor: 'grey.50'
-                            }}
-                        >
-                            <Typography color="text.secondary" variant="body1" fontStyle="italic" align="center">
-                                Detailed description and information for {item.label} will be shown here. <br />
-                                (Information only appears if it is available and progress has happened.)
+                    return (
+                        <Box key={item.id} id={`section-${item.id}`} sx={{ minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
+                            <Typography variant="h5" fontWeight="bold" color="primary.main" gutterBottom>
+                                {item.label}
                             </Typography>
-                        </Paper>
-                    </Box>
-                ))}
+
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    flex: 1,
+                                    mt: 2,
+                                    p: 4,
+                                    border: '2px dashed',
+                                    borderColor: 'grey.300',
+                                    borderRadius: 2,
+                                    display: 'flex',
+                                    alignItems: itemContent ? 'flex-start' : 'center',
+                                    justifyContent: itemContent ? 'flex-start' : 'center',
+                                    bgcolor: 'grey.50',
+                                    overflow: 'auto'
+                                }}
+                            >
+                                {itemContent ? (
+                                    <Typography color="text.primary" component="div" dangerouslySetInnerHTML={{ __html: itemContent }} />
+                                ) : (
+                                    <Typography color="text.secondary" variant="body1" fontStyle="italic" align="center">
+                                        Detailed description and information for {item.label} will be shown here. <br />
+                                        (Information only appears if it is available and progress has happened.)
+                                    </Typography>
+                                )}
+                            </Paper>
+                        </Box>
+                    );
+                })}
             </Box>
         );
     };
@@ -119,8 +141,16 @@ export default function TakeFurtherInitiative() {
                 }}
             >
                 <Box sx={{ width: '100%', bgcolor: 'background.paper', p: { xs: 2, md: 4 }, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+                    <Button
+                        startIcon={<ArrowBackIcon />}
+                        onClick={() => navigate(-1)}
+                        sx={{ mb: 2 }}
+                        color="inherit"
+                    >
+                        Back
+                    </Button>
                     <Typography variant="h5" align="center" fontWeight="800" gutterBottom sx={{ color: 'secondary.main', textTransform: 'uppercase', letterSpacing: 0.5, mb: 4, borderBottom: '2px solid', borderColor: 'divider', pb: 2, display: 'inline-block', width: '100%' }}>
-                        Take further Initiative.
+                        Take further Initiative {card?.company_name ? `- ${card.company_name}` : ''}
                     </Typography>
 
                     <Grid container spacing={4}>

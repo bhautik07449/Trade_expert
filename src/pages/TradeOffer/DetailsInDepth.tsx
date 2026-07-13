@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Box, Button, Divider, Grid, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export default function DetailInDepth({ setActiveView }: any) {
+export default function DetailInDepth({ setActiveView, card }: any) {
     const [detailTab, setDetailTab] = useState('Image');
 
     const imageRef = useRef<HTMLDivElement>(null);
@@ -72,10 +72,14 @@ export default function DetailInDepth({ setActiveView }: any) {
                             <Typography variant="h6" color="primary.main" gutterBottom>
                                 Image Information
                             </Typography>
-                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2 }}>
-                                <Typography color="text.secondary" fontStyle="italic">
-                                    (Content for Image will show here)
-                                </Typography>
+                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2, overflow: 'hidden' }}>
+                                {card?.image ? (
+                                    <Box component="img" src={card.image} alt="Detail" sx={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} />
+                                ) : (
+                                    <Typography color="text.secondary" fontStyle="italic">
+                                        No Image available
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
                         
@@ -85,10 +89,14 @@ export default function DetailInDepth({ setActiveView }: any) {
                             <Typography variant="h6" color="primary.main" gutterBottom>
                                 Profile Information
                             </Typography>
-                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2 }}>
-                                <Typography color="text.secondary" fontStyle="italic">
-                                    (Content for Profile will show here)
-                                </Typography>
+                            <Box sx={{ minHeight: 200, p: 3, bgcolor: 'grey.50', borderRadius: 2, border: '1px solid', borderColor: 'grey.200', mt: 2 }}>
+                                {card?.profile ? (
+                                    <Typography color="text.primary" dangerouslySetInnerHTML={{ __html: card.profile }} />
+                                ) : (
+                                    <Typography color="text.secondary" fontStyle="italic" align="center" sx={{ mt: 8 }}>
+                                        No Profile information available
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
 
@@ -98,10 +106,14 @@ export default function DetailInDepth({ setActiveView }: any) {
                             <Typography variant="h6" color="primary.main" gutterBottom>
                                 Financials Information
                             </Typography>
-                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2 }}>
-                                <Typography color="text.secondary" fontStyle="italic">
-                                    (Content for Financials will show here)
-                                </Typography>
+                            <Box sx={{ minHeight: 200, p: 3, bgcolor: 'grey.50', borderRadius: 2, border: '1px solid', borderColor: 'grey.200', mt: 2 }}>
+                                {card?.financials ? (
+                                    <Typography color="text.primary" dangerouslySetInnerHTML={{ __html: card.financials }} />
+                                ) : (
+                                    <Typography color="text.secondary" fontStyle="italic" align="center" sx={{ mt: 8 }}>
+                                        No Financials information available
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
 
@@ -111,10 +123,14 @@ export default function DetailInDepth({ setActiveView }: any) {
                             <Typography variant="h6" color="primary.main" gutterBottom>
                                 Video Information
                             </Typography>
-                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2 }}>
-                                <Typography color="text.secondary" fontStyle="italic">
-                                    (Content for Video will show here)
-                                </Typography>
+                            <Box sx={{ minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50', borderRadius: 2, border: '1px dashed', borderColor: 'grey.300', mt: 2, overflow: 'hidden' }}>
+                                {card?.video ? (
+                                    <video src={card.video} controls style={{ maxWidth: '100%', maxHeight: '400px' }} />
+                                ) : (
+                                    <Typography color="text.secondary" fontStyle="italic">
+                                        No Video available
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
 

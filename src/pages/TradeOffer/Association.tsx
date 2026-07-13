@@ -12,17 +12,40 @@ import {
     Container,
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import CMSservice from "../../service/cms.service";
 
 export default function Association() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const offer = location.state?.offer;
 
-    const dummyData = Array.from(new Array(5)).map((_, i) => ({
-        id: i,
-        name: `Company Name ${i + 1}`,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        status: i % 2 === 0 ? 'Active' : 'Pending',
-    }));
+    const [detailLoading, setDetailLoading] = useState(false);
+    const [offerData, setOfferData] = useState<any>(null);
+
+    useEffect(() => {
+        if (offer?.id) {
+            getOfferDataById(offer.id);
+        }
+    }, [offer?.id]);
+
+    const getOfferDataById = async (id: number | string) => {
+        setDetailLoading(true);
+        setOfferData(null);
+        try {
+            const res = await CMSservice.getStocklots(id);
+            if (res) {
+                setOfferData(res?.data);
+            }
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            setDetailLoading(false);
+        }
+    };
+
+    const items = offerData?.data?.association || offerData?.data?.items || [];
 
     return (
         <Box
@@ -92,7 +115,7 @@ export default function Association() {
                     <Divider sx={{ mb: 4 }} />
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 4 }}>
-                        {dummyData.map((item) => (
+                        {items.length > 0 ? items.map((item: any, index: number) => (
                             <Paper
                                 key={item.id}
                                 elevation={0}
@@ -107,15 +130,19 @@ export default function Association() {
                                 }}
                             >
                                 <Box sx={{ width: { xs: '100%', sm: 120 }, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
-                                    <Avatar variant="rounded" sx={{ width: 120, height: 120, bgcolor: 'grey.200', color: 'grey.500' }}>
-                                        <ImageIcon fontSize="large" />
-                                    </Avatar>
+                                    {item.association_image || item.image ? (
+                                        <Box component="img" src={item.association_image || item.image} alt="Association" sx={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 2 }} />
+                                    ) : (
+                                        <Avatar variant="rounded" sx={{ width: 120, height: 120, bgcolor: 'grey.200', color: 'grey.500' }}>
+                                            <ImageIcon fontSize="large" />
+                                        </Avatar>
+                                    )}
                                 </Box>
 
                                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                                         <Typography variant="h6" fontWeight="bold">
-                                            {item.name}
+                                            {item.company_name || "Company Name"}
                                         </Typography>
                                         <Chip
                                             label={item.status}
@@ -125,16 +152,14 @@ export default function Association() {
                                         />
                                     </Box>
 
-                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flex: 1 }}>
-                                        {item.description}
-                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flex: 1 }} dangerouslySetInnerHTML={{ __html: item.details || item.description || '' }} />
 
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 'auto' }}>
                                         <Button
                                             variant="contained"
                                             color="primary"
                                             size="small"
-                                            onClick={() => navigate('/trade-offers/association/initiative')}
+                                            onClick={() => navigate('/trade-offers/association/initiative', { state: { card: item } })}
                                             sx={{ borderRadius: 6, px: 3, textTransform: 'none', fontWeight: 'bold' }}
                                         >
                                             Take further Initiative
@@ -145,7 +170,9 @@ export default function Association() {
                                     </Box>
                                 </Box>
                             </Paper>
-                        ))}
+                        )) : (
+                            <Typography align="center" color="text.secondary">No items found.</Typography>
+                        )}
                     </Box>
                 </Box>
             </Container>

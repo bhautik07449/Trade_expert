@@ -16,8 +16,40 @@ import {
     ListItemText,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import CMSservice from "../../service/cms.service";
 
 export default function Tender() {
+    const location = useLocation();
+    const offer = location.state?.offer;
+
+    const [detailLoading, setDetailLoading] = useState(false);
+    const [offerData, setOfferData] = useState<any>(null);
+
+    useEffect(() => {
+        if (offer?.id) {
+            getOfferDataById(offer.id);
+        }
+    }, [offer?.id]);
+
+    const getOfferDataById = async (id: number | string) => {
+        setDetailLoading(true);
+        setOfferData(null);
+        try {
+            const res = await CMSservice.getStocklots(id);
+            if (res) {
+                setOfferData(res?.data);
+            }
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            setDetailLoading(false);
+        }
+    };
+
+    const items = offerData?.data?.tender || offerData?.data?.items || [];
+
     return (
         <Box
             sx={{
@@ -208,9 +240,32 @@ export default function Tender() {
                                     borderRadius: 2
                                 }}
                             >
-                                <Typography color="text.secondary" variant="h6" fontStyle="italic">
-                                    (Content / Results Area)
-                                </Typography>
+                                {items.length > 0 ? (
+                                    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2, width: '100%', height: '100%', overflowY: 'auto' }}>
+                                        {items.map((item: any, index: number) => (
+                                            <Paper key={index} variant="outlined" sx={{ p: 2, bgcolor: 'background.paper', borderColor: 'divider' }}>
+                                                <Typography variant="h6" fontWeight="bold" gutterBottom>{item.categoryName || item?.category?.name || "Tender"}</Typography>
+                                                <Grid container spacing={2} sx={{ mb: 1 }}>
+                                                    <Grid size={{ xs: 12, sm: 4 }}>
+                                                        <Typography variant="body2" color="text.secondary"><strong>Level:</strong> {item.tender_level}</Typography>
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 4 }}>
+                                                        <Typography variant="body2" color="text.secondary"><strong>Type:</strong> {item.govt_private}</Typography>
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 4 }}>
+                                                        <Typography variant="body2" color="text.secondary"><strong>Department:</strong> {item.department}</Typography>
+                                                    </Grid>
+                                                </Grid>
+                                                {item.extra_info && <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}><strong>Extra Info:</strong> {item.extra_info}</Typography>}
+                                                <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: item.details || item.description || '' }} />
+                                            </Paper>
+                                        ))}
+                                    </Box>
+                                ) : (
+                                    <Typography color="text.secondary" variant="h6" fontStyle="italic">
+                                        No tenders found.
+                                    </Typography>
+                                )}
                             </Paper>
                         </Box>
                     </Box>

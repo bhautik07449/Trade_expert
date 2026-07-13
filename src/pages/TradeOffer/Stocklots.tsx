@@ -114,7 +114,7 @@ export default function Stocklots() {
                                 </Box>
                             ))}
                         </Box>
-                    ) : stockLotsData?.data?.items?.length > 0 ? ((Array.isArray(stockLotsData.data.items) ? stockLotsData.data.items : []).map((item: any) => (
+                    ) : (stockLotsData?.data?.ready_stock || stockLotsData?.data?.items)?.length > 0 ? ((stockLotsData.data.ready_stock || stockLotsData.data.items).map((item: any) => (
                         <Paper
                             key={item.id}
                             elevation={0}
