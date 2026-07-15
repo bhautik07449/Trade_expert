@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, Tab, Tabs, Divider, Typography, Button } from "@mui/material";
 import PageMainLayout from "../../commonUI/PageMainLayout";
 import CommoditiesSection from "./CommoditiesSection";
@@ -6,9 +6,27 @@ import FundsFinancesSection from "./FundsFinancesSection";
 import MarketSwitcherSection from "./MarketSwitcherSection";
 import CommPressSection from "./CommPressSection";
 import Commounion from "./Commounion";
+import { useNavigate } from "react-router-dom";
+
+const CURRENCY_SYMBOLS = ['₹', '$', '€', '£', '¥'];
 
 export default function Commedium() {
     const [selected, setSelected] = useState(0);
+    const [currencyIndex, setCurrencyIndex] = useState(0);
+    const [symbolVisible, setSymbolVisible] = useState(true);
+    const navigate = useNavigate();
+
+    // Cycle currency symbol with fade-out → change → fade-in
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSymbolVisible(false);
+            setTimeout(() => {
+                setCurrencyIndex(prev => (prev + 1) % CURRENCY_SYMBOLS.length);
+                setSymbolVisible(true);
+            }, 350);
+        }, 1800);
+        return () => clearInterval(interval);
+    }, []);
 
     const commTrackerRef = useRef<HTMLDivElement>(null);
     const fundsRef = useRef<HTMLDivElement>(null);
@@ -58,6 +76,66 @@ export default function Commedium() {
                         maxWidth: '700px',
                         mx: 'auto',
                     }}>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: 0.6,
+                            mb: 0.5,
+                        }}>
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: 1.5,
+                            }}>
+                                <Box sx={{
+                                    width: { xs: 44, md: 52 },
+                                    height: { xs: 44, md: 52 },
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    border: '2px solid rgba(255,255,255,0.55)',
+                                    borderRadius: '10px',
+                                    background: 'rgba(255,255,255,0.08)',
+                                    backdropFilter: 'blur(6px)',
+                                    flexShrink: 0,
+                                }}>
+                                    <Typography sx={{
+                                        fontSize: { xs: '1.5rem', md: '1.75rem' },
+                                        fontWeight: 900,
+                                        color: '#FFD700',
+                                        lineHeight: 1,
+                                        opacity: symbolVisible ? 1 : 0,
+                                        transform: symbolVisible ? 'scale(1) translateY(0)' : 'scale(0.6) translateY(6px)',
+                                        transition: 'opacity 0.35s ease, transform 0.35s ease',
+                                        userSelect: 'none',
+                                    }}>
+                                        {CURRENCY_SYMBOLS[currencyIndex]}
+                                    </Typography>
+                                </Box>
+
+                                <Box sx={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Box
+                                        component="img"
+                                        src="/commedium.jpg"
+                                        alt="Commedium Logo"
+                                        sx={{
+                                            height: { xs: 38, md: 58 },
+                                            width: 'auto',
+                                            // filter: 'invert(1) brightness(1.3)',
+                                            objectFit: 'contain',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
                         <Typography variant="body1" fontWeight="500" sx={{ opacity: 0.9, letterSpacing: 1 }}>
                             MONETILE
                         </Typography>
@@ -86,7 +164,7 @@ export default function Commedium() {
                             Hold or Release Equities which contributes from Micro to Macro Economy
                         </Typography>
 
-                        <Button variant="contained" sx={{ mt: 3, borderRadius: 8, px: 5, py: 1.2, fontWeight: 'bold', fontSize: '1.05rem', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.39)', '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 6px 20px rgba(0,0,0,0.23)' }, transition: 'all 0.2s ease' }}>
+                        <Button onClick={() => navigate("/investors/register")} variant="contained" sx={{ mt: 3, borderRadius: 8, px: 5, py: 1.2, fontWeight: 'bold', fontSize: '1.05rem', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.39)', '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 6px 20px rgba(0,0,0,0.23)' }, transition: 'all 0.2s ease' }}>
                             Login / Register
                         </Button>
                     </Box>
