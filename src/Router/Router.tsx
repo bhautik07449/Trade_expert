@@ -106,14 +106,6 @@ export default function Router(): JSX.Element {
     return children;
   }
 
-  function InvestorPrivateRoute({ children }: Props) {
-    const investor = localStorage.getItem('investor');
-    if (investor !== 'true') {
-      return <Navigate to="/investors/login" replace />;
-    }
-    return children;
-  }
-
   function InvestorPublicRoute({ children }: Props) {
     const investor = localStorage.getItem('investor');
     if (investor === 'true') {

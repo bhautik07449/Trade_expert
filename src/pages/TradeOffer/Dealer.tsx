@@ -24,6 +24,7 @@ export default function Dealer() {
     const [selectedCard, setSelectedCard] = useState<any>(null);
     const [detailLoading, setDetailLoading] = useState(false);
     const [offerData, setOfferData] = useState<any>(null);
+    console.log("detailLoading", detailLoading);
 
     useEffect(() => {
         if (offer?.id) {

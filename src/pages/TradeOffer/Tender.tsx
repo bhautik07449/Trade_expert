@@ -16,7 +16,7 @@ import {
     ListItemText,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import CMSservice from "../../service/cms.service";
 
@@ -26,6 +26,7 @@ export default function Tender() {
 
     const [detailLoading, setDetailLoading] = useState(false);
     const [offerData, setOfferData] = useState<any>(null);
+    console.log("detailLoading", detailLoading);
 
     useEffect(() => {
         if (offer?.id) {

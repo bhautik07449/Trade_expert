@@ -217,10 +217,20 @@ const getContactNo = async (country: string) => {
     }
 }
 
+const submitRequestInfo = async (body: any) => {
+    try {
+        const response = await serverCall.post('/request_info', body)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
 const CMSservice = {
     getList, requestSample, enquiry, getMarketRate, getPage, newsletter, imageUpload, quotation, buyerDashboard,
     creditAccount, getCertificate, getFaq, getGallery, getTradeOffer, getStocklots, getAbc, careerForm,
-    getDeliveryReach, getCategoryById, addOfferRequest, getProject, PublicPrivateLogin, forgotPassword, getContactNo
+    getDeliveryReach, getCategoryById, addOfferRequest, getProject, PublicPrivateLogin, forgotPassword,
+    getContactNo, submitRequestInfo
 };
 
 export default CMSservice;

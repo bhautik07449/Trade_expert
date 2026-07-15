@@ -10,10 +10,6 @@ export default function ProductOverView({ category }: any) {
     const [currentProducts, setCurrentProducts] = useState([])
     const [upcomingProducts, setUpcomingProducts] = useState([])
 
-    const [allLoading, setAllLoading] = useState(true)
-    const [currentLoading, setCurrentLoading] = useState(true)
-    const [upcomingLoading, setUpcomingLoading] = useState(true)
-
     const [subcategories, setSubcategories] = useState<any[]>([])
 
     const [activeAllSubcategory, setActiveAllSubcategory] = useState<string>("All")
@@ -55,8 +51,8 @@ export default function ProductOverView({ category }: any) {
         }
     }, [category])
 
-    const fetchProducts = useCallback(async (season: string, subCategory: string, setProducts: any, setLoading: any, setShowSection: any) => {
-        setLoading(true)
+    const fetchProducts = useCallback(async (season: string, subCategory: string, setProducts: any, setShowSection: any) => {
+        // setLoading(true)
         try {
             const res = await HomePageservice.getProductsByCategory(category, season, subCategory)
             const data = res?.data?.data || []
@@ -67,25 +63,25 @@ export default function ProductOverView({ category }: any) {
             setProducts([])
             setShowSection(false)
         } finally {
-            setLoading(false)
+            // setLoading(false)
         }
     }, [category])
 
     useEffect(() => {
         if (category) {
-            fetchProducts('All', activeAllSubcategory, setAllProducts, setAllLoading, setShowAllSection)
+            fetchProducts('All', activeAllSubcategory, setAllProducts, setShowAllSection)
         }
     }, [category, activeAllSubcategory, fetchProducts])
 
     useEffect(() => {
         if (category) {
-            fetchProducts('Current', activeCurrentSubcategory, setCurrentProducts, setCurrentLoading, setShowCurrentSection)
+            fetchProducts('Current', activeCurrentSubcategory, setCurrentProducts, setShowCurrentSection)
         }
     }, [category, activeCurrentSubcategory, fetchProducts])
 
     useEffect(() => {
         if (category) {
-            fetchProducts('Upcoming', activeUpcomingSubcategory, setUpcomingProducts, setUpcomingLoading, setShowUpcomingSection)
+            fetchProducts('Upcoming', activeUpcomingSubcategory, setUpcomingProducts, setShowUpcomingSection)
         }
     }, [category, activeUpcomingSubcategory, fetchProducts])
 

@@ -1,7 +1,6 @@
 import * as React from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { keyframes } from "@mui/material/styles"
 import {
   Box,
   Paper,
@@ -32,16 +31,6 @@ import { toast } from "react-toastify"
 import Investorservice from "../../service/investor.service"
 import UpcommingFeatures from "../../commonUI/UpcommingFeatures"
 import AbcTradeoffer from "../../component/AbcTradeoffer"
-
-const flipIn = keyframes`
-  from { transform: rotateY(-90deg); opacity: 0; }
-  to { transform: rotateY(0); opacity: 1; }
-`
-
-const flipOut = keyframes`
-  from { transform: rotateY(0); opacity: 1; }
-  to { transform: rotateY(90deg); opacity: 0; }
-`
 
 export default function SignupForm() {
 

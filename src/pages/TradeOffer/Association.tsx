@@ -23,6 +23,7 @@ export default function Association() {
 
     const [detailLoading, setDetailLoading] = useState(false);
     const [offerData, setOfferData] = useState<any>(null);
+    console.log("detailLoading", detailLoading);
 
     useEffect(() => {
         if (offer?.id) {
