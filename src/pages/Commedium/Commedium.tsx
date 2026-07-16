@@ -95,10 +95,6 @@ export default function Commedium() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    border: '2px solid rgba(255,255,255,0.55)',
-                                    borderRadius: '10px',
-                                    background: 'rgba(255,255,255,0.08)',
-                                    backdropFilter: 'blur(6px)',
                                     flexShrink: 0,
                                 }}>
                                     <Typography sx={{
@@ -141,6 +137,10 @@ export default function Commedium() {
                         </Typography>
 
                         <Typography variant="body1" fontWeight="500" sx={{ opacity: 0.9, letterSpacing: 1 }}>
+                            Eased recurrence for Every Instance
+                        </Typography>
+
+<Typography variant="body1" fontWeight="500" sx={{ opacity: 0.9, letterSpacing: 1 }}>
                             Powered with
                         </Typography>
 

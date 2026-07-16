@@ -41,7 +41,7 @@ export default function Multilingual({
 
     return (
         <Box sx={{ mb: 7, position: "relative" }}>
-            <LabelTitle title="Multilingual" label="Title" />
+            <LabelTitle title="Material" label="Ministerial" />
 
             <Box sx={{ position: "relative", mt: 3 }}>
                 {!loading && multilingualTiles.length > 0 && (
