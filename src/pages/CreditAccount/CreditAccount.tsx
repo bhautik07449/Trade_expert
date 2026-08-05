@@ -387,7 +387,7 @@ export default function CreditAccount() {
 
                                     <Grid size={{ xs: 12 }}>
                                         <Typography variant="body2">
-                                            I wish to apply for a credit account at Sourceseas Overseas Private limited. I am authorised to make this application on behalf of my organisation. Sourceseas Overseas Private limited may contact the bank and trade suppliers to gather information on the financial reputation of my organisation. I acknowledge it may take time to receive replies and this may delay my application, and that credit may not be approved. If less favourable terms are offered than requested, more favourable terms may be granted once our trading relationship is established.
+                                            I wish to apply for a credit account at MM, a standard of FiatCo initiative. I am authorised to make this application on behalf of my organisation. MM, a standard of FiatCo initiative may contact the bank and trade suppliers to gather information on the financial reputation of my organisation. I acknowledge it may take time to receive replies and this may delay my application, and that credit may not be approved. If less favourable terms are offered than requested, more favourable terms may be granted once our trading relationship is established.
                                         </Typography>
                                     </Grid>
 

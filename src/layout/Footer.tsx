@@ -64,7 +64,7 @@ const Footer = () => {
             Concept designed and maintained by - TDS (the_digital_salon)
           </Typography> */}
         <Typography variant="body2">
-          © 2025 All rights reserved by MM, a standard of FiatCo initiative Private Limited
+          © 2025 All rights reserved by MM, a standard of FiatCo initiative
         </Typography>
       </Box>
     </>

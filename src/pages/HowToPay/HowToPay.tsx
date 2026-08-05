@@ -27,7 +27,7 @@ export default function HowToPay() {
             <Grid container>
                 <Grid size={{ xs: 12, md: 6 }} sx={{ p: 3 }}>
                     {[
-                        ["Beneficiary Name", "Sourceseas Overseas Private Limited"],
+                        ["Beneficiary Name", "MM, a standard of FiatCo initiative"],
                         ["Beneficiary Address", "C-604, Shree Nidhi Res., Near Sudama Chowk, Surat (GUJ), India - 394101"],
                         ["Bank Name", "AXIS BANK LTD."],
                         ["Bank Address", "Ground floor, Shop No: 5–9, Garden Valley, Surat"],
