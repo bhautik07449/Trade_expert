@@ -439,7 +439,7 @@ export default function GetInTouch() {
                                             fontSize: 18,
                                         }}
                                     >
-                                        MM ,a Standard of FiatCo initiative
+                                        MM ,a standard of FiatCo initiative
                                     </Typography>
 
                                     <Divider sx={{ borderColor: "divider" }} />
@@ -459,7 +459,7 @@ export default function GetInTouch() {
                                             lineHeight: 1.8,
                                         }}
                                     >
-                                        MM ,a Standard of FiatCo initiative <br />
+                                        MM ,a standard of FiatCo initiative <br />
 
                                         address will updated as it gets launched <br />
                                     </Typography>
