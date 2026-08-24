@@ -105,7 +105,7 @@ export default function SuppliersRegister() {
         if (selectedCountry) {
             formik.setFieldValue("country", selectedCountry);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCountry]);
 
     const tabData = [
@@ -539,12 +539,10 @@ export default function SuppliersRegister() {
                                             }
                                         >
                                             <MenuItem value="">Select Service</MenuItem>
-                                            <MenuItem value="Sole Single Commodity">Sole Single Commodity</MenuItem>
-                                            <MenuItem value="Sole Multiple Commodity">Sole Multiple Commodity</MenuItem>
-                                            <MenuItem value="Consolidator Single Commodity">Consolidator Single Commodity</MenuItem>
-                                            <MenuItem value="Consolidator Multiple Commodity">Consolidator Multiple Commodity</MenuItem>
-                                            <MenuItem value="Composite Single Commodity">Composite Single Commodity</MenuItem>
-                                            <MenuItem value="Composite Multiple Commodity">Composite Multiple Commodity</MenuItem>
+                                            <MenuItem value="Standalone">Standalone</MenuItem>
+                                            <MenuItem value="Supervised">Supervised</MenuItem>
+                                            <MenuItem value="Sectored">Sectored</MenuItem>
+                                            <MenuItem value="Sovereign">Sovereign</MenuItem>
                                         </TextField>
                                     </Grid>
 
