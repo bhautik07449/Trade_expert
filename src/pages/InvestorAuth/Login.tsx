@@ -28,6 +28,17 @@ export default function LoginForm() {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = React.useState(false)
 
+  React.useEffect(() => {
+    const investor = localStorage.getItem('investor')
+    const token = localStorage.getItem('token')
+    if (investor === 'true' && token) {
+      const cleanToken = token.replace(/^"|"$/g, '')
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
+      const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com"
+      window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
+    }
+  }, [])
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email format")
