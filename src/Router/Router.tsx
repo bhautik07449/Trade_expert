@@ -106,10 +106,22 @@ export default function Router(): JSX.Element {
     return children;
   }
 
+  function InvestorPrivateRoute({ children }: Props) {
+    const investor = localStorage.getItem('investor');
+    if (investor !== 'true') {
+      return <Navigate to="/investors/login" replace />;
+    }
+    return children;
+  }
+
   function InvestorPublicRoute({ children }: Props) {
     const investor = localStorage.getItem('investor');
     if (investor === 'true') {
-      return <Navigate to="/investor-dashboard" replace />;
+      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+      const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+      return <></>;
     }
     return children;
   }
@@ -183,6 +195,34 @@ export default function Router(): JSX.Element {
           <SupplierPrivateRoute>
             <PublicDashboard />
           </SupplierPrivateRoute>
+        }
+      />
+      <Route
+        path="/investor-dashboard"
+        element={
+          <InvestorPrivateRoute>
+            {React.createElement(() => {
+              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+              const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+              window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+              return <></>;
+            })}
+          </InvestorPrivateRoute>
+        }
+      />
+      <Route
+        path="/investor/profile"
+        element={
+          <InvestorPrivateRoute>
+            {React.createElement(() => {
+              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+              const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+              window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+              return <></>;
+            })}
+          </InvestorPrivateRoute>
         }
       />
       <Route path="/credit-account" element={<CreditAccount />} />

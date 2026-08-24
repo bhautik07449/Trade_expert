@@ -52,10 +52,20 @@ export default function LoginForm() {
 
         if (res) {
           toast.success(res?.data?.message || "Login successful")
+          const investorId = res?.data?.data?.id
           localStorage.setItem("investor", "true")
-          localStorage.setItem("token", JSON.stringify(res?.data?.data?.id))
+          localStorage.setItem("token", JSON.stringify(investorId))
+
+          // Set Root Domain Cookie for MONETILE Subdomain SSO
+          const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
+          document.cookie = `investor_token=${investorId}; path=/; domain=${domain}; max-age=86400; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`
+
           resetForm()
-          navigate("/")
+          
+          // Direct Redirection to MONETILE Subdomain Project with Token
+          const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+          const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+          window.location.href = `${targetBase}?token=${encodeURIComponent(investorId)}`;
         }
       } catch {
         toast.error("Invalid email or password")
