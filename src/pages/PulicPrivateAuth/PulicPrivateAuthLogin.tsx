@@ -28,6 +28,17 @@ export default function PulicPrivateAuthLogin() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = React.useState(false)
 
+    React.useEffect(() => {
+        const publicPrivate = localStorage.getItem('public_private')
+        const token = localStorage.getItem('token')
+        if (publicPrivate === 'true' && token) {
+            const cleanToken = token.replace(/^"|"$/g, '')
+            const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
+            const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com"
+            window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
+        }
+    }, [])
+
     const validationSchema = Yup.object({
         email: Yup.string()
             .email("Invalid email format")
@@ -49,9 +60,18 @@ export default function PulicPrivateAuthLogin() {
 
                 if (res) {
                     toast.success(res?.data?.message || "Login successful")
+                    const serviceId = res?.data?.data?.id || res?.data?.id || "true"
                     localStorage.setItem("public_private", "true")
+                    localStorage.setItem("token", JSON.stringify(serviceId))
+
+                    const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
+                    document.cookie = `public_private_token=${serviceId}; path=/; domain=${domain}; max-age=86400; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`
+
                     resetForm()
-                    navigate("/supplier_dashboard")
+
+                    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
+                    const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com"
+                    window.location.href = `${targetBase}?token=${encodeURIComponent(serviceId)}`
                 }
             } catch (error: any) {
                 toast.error(error?.response?.data?.message || "Invalid email or password")

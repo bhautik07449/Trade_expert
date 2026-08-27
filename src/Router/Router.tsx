@@ -69,7 +69,11 @@ export default function Router(): JSX.Element {
     const token = localStorage.getItem('token');
     const buyer = localStorage.getItem('buyer');
     if (token && buyer === 'true') {
-      return <Navigate to="/buyer-dashboard" replace />;
+      const rawToken = token.replace(/^"|"$/g, '');
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+      const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com";
+      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+      return <></>;
     }
     return children;
   }
@@ -85,7 +89,11 @@ export default function Router(): JSX.Element {
   function SupplierPublicRoute({ children }: Props) {
     const buyer = localStorage.getItem('supplier');
     if (buyer === 'true') {
-      return <Navigate to="/supplier_dashboard" replace />;
+      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+      const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com";
+      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+      return <></>;
     }
     return children;
   }
@@ -101,7 +109,11 @@ export default function Router(): JSX.Element {
   function PPPublicRoute({ children }: Props) {
     const buyer = localStorage.getItem('public_private');
     if (buyer === 'true') {
-      return <Navigate to="/public_dashboard" replace />;
+      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+      const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com";
+      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+      return <></>;
     }
     return children;
   }
@@ -179,13 +191,25 @@ export default function Router(): JSX.Element {
         path="/buyer-dashboard"
         element={
           <PrivateRoute>
-            <BuyerDashboard />
+            {React.createElement(() => {
+              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+              const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com";
+              window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+              return <></>;
+            })}
           </PrivateRoute>
         }
       />
       <Route path="/public_dashboard" element={
         <PPPrivateRoute>
-          <PublicDashboard />
+          {React.createElement(() => {
+            const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+            const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+            const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com";
+            window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+            return <></>;
+          })}
         </PPPrivateRoute>
       }
       />
@@ -193,7 +217,13 @@ export default function Router(): JSX.Element {
         path="/supplier_dashboard"
         element={
           <SupplierPrivateRoute>
-            <PublicDashboard />
+            {React.createElement(() => {
+              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
+              const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com";
+              window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+              return <></>;
+            })}
           </SupplierPrivateRoute>
         }
       />
