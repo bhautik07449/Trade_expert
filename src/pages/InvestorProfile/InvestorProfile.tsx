@@ -292,8 +292,8 @@ export default function InvestorProfile() {
                                 size="large"
                                 onClick={() => {
                                     const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || ""
-                                    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-                                    const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
+                                    
+                                    const targetBase = process.env.REACT_APP_MONETILE_URL
                                     const redirectUrl = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
                                     window.open(redirectUrl, "_blank", "noopener,noreferrer");
                                 }}

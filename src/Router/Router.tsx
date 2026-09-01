@@ -70,8 +70,8 @@ export default function Router(): JSX.Element {
     const buyer = localStorage.getItem('buyer');
     if (token && buyer === 'true') {
       const rawToken = token.replace(/^"|"$/g, '');
-      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com";
+
+      const targetBase = process.env.REACT_APP_CLIENT_URL
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -90,8 +90,8 @@ export default function Router(): JSX.Element {
     const buyer = localStorage.getItem('supplier');
     if (buyer === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com";
+
+      const targetBase = process.env.REACT_APP_SUPPLIER_URL;
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -110,8 +110,8 @@ export default function Router(): JSX.Element {
     const buyer = localStorage.getItem('public_private');
     if (buyer === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com";
+
+      const targetBase = process.env.REACT_APP_SERVICE_URL
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -130,8 +130,8 @@ export default function Router(): JSX.Element {
     const investor = localStorage.getItem('investor');
     if (investor === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
+
+      const targetBase = process.env.REACT_APP_MONETILE_URL
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -193,8 +193,8 @@ export default function Router(): JSX.Element {
           <PrivateRoute>
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com";
+
+              const targetBase = process.env.REACT_APP_CLIENT_URL
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -205,8 +205,8 @@ export default function Router(): JSX.Element {
         <PPPrivateRoute>
           {React.createElement(() => {
             const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-            const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-            const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com";
+
+            const targetBase = process.env.REACT_APP_SERVICE_URL
             window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
             return <></>;
           })}
@@ -219,8 +219,8 @@ export default function Router(): JSX.Element {
           <SupplierPrivateRoute>
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com";
+
+              const targetBase = process.env.REACT_APP_SUPPLIER_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -233,8 +233,8 @@ export default function Router(): JSX.Element {
           <InvestorPrivateRoute>
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
+
+              const targetBase = process.env.REACT_APP_MONETILE_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -247,8 +247,8 @@ export default function Router(): JSX.Element {
           <InvestorPrivateRoute>
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
-              const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
+
+              const targetBase = process.env.REACT_APP_MONETILE_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}

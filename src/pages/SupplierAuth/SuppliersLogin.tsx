@@ -33,8 +33,8 @@ export default function SuppliersLogin() {
         const token = localStorage.getItem('token')
         if (supplier === 'true' && token) {
             const cleanToken = token.replace(/^"|"$/g, '')
-            const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-            const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com"
+            
+            const targetBase = process.env.REACT_APP_SUPPLIER_URL
             window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
         }
     }, [])
@@ -72,8 +72,7 @@ export default function SuppliersLogin() {
 
                     resetForm()
 
-                    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-                    const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com"
+                    const targetBase = process.env.REACT_APP_SUPPLIER_URL
                     window.location.href = `${targetBase}?token=${encodeURIComponent(supplierId)}`;
                 }
             } catch (error: any) {
