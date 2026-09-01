@@ -34,7 +34,7 @@ export default function PulicPrivateAuthLogin() {
         if (publicPrivate === 'true' && token) {
             const cleanToken = token.replace(/^"|"$/g, '')
             const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-            const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com"
+            const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com"
             window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
         }
     }, [])
@@ -60,9 +60,12 @@ export default function PulicPrivateAuthLogin() {
 
                 if (res) {
                     toast.success(res?.data?.message || "Login successful")
-                    const serviceId = res?.data?.data?.id || res?.data?.id || "true"
+                    const serviceData = res?.data?.data || res?.data || {}
+                    const serviceId = serviceData?.id || serviceData?._id || serviceData?.user?.id || serviceData?.user?._id || serviceData?.token
                     localStorage.setItem("public_private", "true")
-                    localStorage.setItem("token", JSON.stringify(serviceId))
+                    if (serviceId) {
+                        localStorage.setItem("token", JSON.stringify(serviceId))
+                    }
 
                     const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
                     document.cookie = `public_private_token=${serviceId}; path=/; domain=${domain}; max-age=86400; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`
@@ -70,7 +73,7 @@ export default function PulicPrivateAuthLogin() {
                     resetForm()
 
                     const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-                    const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com"
+                    const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com"
                     window.location.href = `${targetBase}?token=${encodeURIComponent(serviceId)}`
                 }
             } catch (error: any) {

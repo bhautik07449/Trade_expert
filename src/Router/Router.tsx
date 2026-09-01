@@ -21,7 +21,7 @@ const GetInTouch = React.lazy(() => import('../pages/GetInTouch/GetInTouch'));
 const Resource = React.lazy(() => import('../pages/Resource/Resource'));
 const SuppliersRegister = React.lazy(() => import('../pages/SupplierAuth/SuppliersRegister'));
 const SuppliersLogin = React.lazy(() => import('../pages/SupplierAuth/SuppliersLogin'));
-const BuyerDashboard = React.lazy(() => import('../pages/BuyerDashboard/BuyerDashboard'));
+// const BuyerDashboard = React.lazy(() => import('../pages/BuyerDashboard/BuyerDashboard'));
 const CreditAccount = React.lazy(() => import('../pages/CreditAccount/CreditAccount'));
 const Gallery = React.lazy(() => import('../pages/Resource/Gallery'));
 const CSR = React.lazy(() => import('../pages/Resource/CSR'));
@@ -32,7 +32,7 @@ const Tradeoffer = React.lazy(() => import('../pages/TradeOffer/Tradeoffer'));
 const MarketDevelopment = React.lazy(() => import('../pages/MarketDevelopment/MarketDevelopment'));
 const NewsAndEvents = React.lazy(() => import('../pages/NewsAndEvents/NewsAndEvents'));
 const InvestorRelations = React.lazy(() => import('../pages/InvestorRelations/InvestorRelations'));
-const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
+// const PublicDashboard = React.lazy(() => import('../pages/BuyerDashboard/PublicDashboard'));
 const PersonnelRegister = React.lazy(() => import('../pages/PersonnelRegister/PersonnelRegister'))
 const PulicPrivateAuthLogin = React.lazy(() => import('../pages/PulicPrivateAuth/PulicPrivateAuthLogin'))
 const Commedium = React.lazy(() => import('../pages/Commedium/Commedium'))
@@ -71,7 +71,7 @@ export default function Router(): JSX.Element {
     if (token && buyer === 'true') {
       const rawToken = token.replace(/^"|"$/g, '');
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com";
+      const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com";
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -91,7 +91,7 @@ export default function Router(): JSX.Element {
     if (buyer === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com";
+      const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com";
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -111,7 +111,7 @@ export default function Router(): JSX.Element {
     if (buyer === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com";
+      const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com";
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -131,7 +131,7 @@ export default function Router(): JSX.Element {
     if (investor === 'true') {
       const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-      const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+      const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
       return <></>;
     }
@@ -194,7 +194,7 @@ export default function Router(): JSX.Element {
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
               const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com";
+              const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com";
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -206,7 +206,7 @@ export default function Router(): JSX.Element {
           {React.createElement(() => {
             const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
             const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-            const targetBase = isLocalhost ? "http://localhost:3005" : "https://service.sourceseas.com";
+            const targetBase = isLocalhost ? "http://192.168.1.5:3005" : "https://service.sourceseas.com";
             window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
             return <></>;
           })}
@@ -220,7 +220,7 @@ export default function Router(): JSX.Element {
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
               const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com";
+              const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com";
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -234,7 +234,7 @@ export default function Router(): JSX.Element {
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
               const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+              const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}
@@ -248,7 +248,7 @@ export default function Router(): JSX.Element {
             {React.createElement(() => {
               const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
               const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-              const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+              const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
               return <></>;
             })}

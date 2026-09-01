@@ -34,7 +34,7 @@ export default function SuppliersLogin() {
         if (supplier === 'true' && token) {
             const cleanToken = token.replace(/^"|"$/g, '')
             const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-            const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com"
+            const targetBase = isLocalhost ? "http://192.168.1.6:3003" : "https://supplier.sourceseas.com"
             window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
         }
     }, [])
@@ -60,9 +60,12 @@ export default function SuppliersLogin() {
 
                 if (res) {
                     toast.success(res?.data?.message || "Login successful")
-                    const supplierId = res?.data?.data?.id || res?.data?.id || "true"
+                    const supplierData = res?.data?.supplier || res?.data?.data || res?.data || {}
+                    const supplierId = supplierData?.id || supplierData?._id || supplierData?.user?.id || supplierData?.token
                     localStorage.setItem("supplier", "true")
-                    localStorage.setItem("token", JSON.stringify(supplierId))
+                    if (supplierId) {
+                        localStorage.setItem("token", JSON.stringify(supplierId))
+                    }
 
                     const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
                     document.cookie = `supplier_token=${supplierId}; path=/; domain=${domain}; max-age=86400; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`
@@ -71,7 +74,7 @@ export default function SuppliersLogin() {
 
                     const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
                     const targetBase = isLocalhost ? "http://localhost:3003" : "https://supplier.sourceseas.com"
-                    window.location.href = `${targetBase}?token=${encodeURIComponent(supplierId)}`
+                    window.location.href = `${targetBase}?token=${encodeURIComponent(supplierId)}`;
                 }
             } catch (error: any) {
                 toast.error(error?.response?.data?.message || "Invalid email or password")

@@ -34,7 +34,7 @@ export default function LoginForm() {
     if (investor === 'true' && token) {
       const cleanToken = token.replace(/^"|"$/g, '')
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-      const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com"
+      const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com"
       window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
     }
   }, [])
@@ -75,7 +75,7 @@ export default function LoginForm() {
           
           // Direct Redirection to MONETILE Subdomain Project with Token
           const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.");
-          const targetBase = isLocalhost ? "http://localhost:3002" : "https://monetile.sourceseas.com";
+          const targetBase = isLocalhost ? "http://192.168.1.5:3002" : "https://monetile.sourceseas.com";
           window.location.href = `${targetBase}?token=${encodeURIComponent(investorId)}`;
         }
       } catch {

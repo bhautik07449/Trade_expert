@@ -58,7 +58,7 @@ export default function LoginForm() {
     if (buyer === 'true' && token) {
       const cleanToken = token.replace(/^"|"$/g, '')
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-      const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com"
+      const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com"
       window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
     }
   }, [])
@@ -87,9 +87,12 @@ export default function LoginForm() {
 
         if (res) {
           toast.success(res?.data?.message || "Login successful")
-          const buyerId = res?.data?.data?.id || res?.data?.id || "true"
+          const buyerData = res?.data?.data || res?.data || {}
+          const buyerId = buyerData?.id || buyerData?._id || buyerData?.user?.id || buyerData?.user?._id || buyerData?.token
           localStorage.setItem("buyer", "true")
-          localStorage.setItem("token", JSON.stringify(buyerId))
+          if (buyerId) {
+            localStorage.setItem("token", JSON.stringify(buyerId))
+          }
 
           const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
           document.cookie = `buyer_token=${buyerId}; path=/; domain=${domain}; max-age=86400; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`
@@ -97,7 +100,7 @@ export default function LoginForm() {
           resetForm()
 
           const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.startsWith("192.168.")
-          const targetBase = isLocalhost ? "http://localhost:3004" : "https://client.sourceseas.com"
+          const targetBase = isLocalhost ? "http://192.168.1.5:3004" : "https://client.sourceseas.com"
           window.location.href = `${targetBase}?token=${encodeURIComponent(buyerId)}`
         }
       } catch {
