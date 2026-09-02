@@ -34,30 +34,35 @@ export default function InvestorProfile() {
     const [profile, setProfile] = React.useState<any>(null)
     const [loading, setLoading] = React.useState(true)
 
-    const fetchInvestorProfile = async () => {
-        setLoading(true)
-        try {
-            const rawToken = sessionStorage.getItem("token")
-            if (!rawToken) {
-                toast.error("Session expired, please login again")
-                navigate("/investors/login")
-                return
-            }
-            const id = rawToken.replace(/^"|"$/g, '')
-            const res = await Investorservice.getProfile(id)
-            if (res?.data) {
-                setProfile(res?.data?.data || res?.data)
-            }
-        } catch (error) {
-            console.error("Error fetching investor profile:", error)
-            toast.error("Failed to load investor profile")
-        } finally {
-            setLoading(false)
-        }
-    }
-
     React.useEffect(() => {
-        fetchInvestorProfile()
+        let isSubscribed = true
+        const loadProfile = async () => {
+            setLoading(true)
+            try {
+                const rawToken = sessionStorage.getItem("token")
+                if (!rawToken) {
+                    toast.error("Session expired, please login again")
+                    navigate("/investors/login")
+                    return
+                }
+                const id = rawToken.replace(/^"|"$/g, '')
+                const res = await Investorservice.getProfile(id)
+                if (res?.data && isSubscribed) {
+                    setProfile(res?.data?.data || res?.data)
+                }
+            } catch (error) {
+                if (isSubscribed) {
+                    console.error("Error fetching investor profile:", error)
+                    toast.error("Failed to load investor profile")
+                }
+            } finally {
+                if (isSubscribed) setLoading(false)
+            }
+        }
+        loadProfile()
+        return () => {
+            isSubscribed = false
+        }
     }, [])
 
     const handleLogout = () => {

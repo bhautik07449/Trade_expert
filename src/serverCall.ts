@@ -20,7 +20,7 @@ const requestHandler = (request: any) => {
 const responseHandler = (response: any) => {
   if (response.status === 401 || response.status === 403 || response.status === 400) {
     sessionStorage.clear();
-    window.location.replace("/");
+    // window.location.replace("/");
   }
 
   if (response.status === 500) {
@@ -38,7 +38,7 @@ const responseErrorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status === 401 || error.response.status === 403) {
       sessionStorage.clear();
-      window.location.replace("/");
+      // window.location.replace("/");
       return Promise.reject(error);
     }
   }
