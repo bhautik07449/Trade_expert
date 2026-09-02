@@ -8,7 +8,7 @@ const customAxios = axios.create({
 });
 
 const requestHandler = (request: any) => {
-  const user = localStorage.getItem("token");
+  const user = sessionStorage.getItem("token");
 
   if (user) {
     const token = user;
@@ -19,7 +19,7 @@ const requestHandler = (request: any) => {
 
 const responseHandler = (response: any) => {
   if (response.status === 401 || response.status === 403 || response.status === 400) {
-    // localStorage.clear();
+    sessionStorage.clear();
     window.location.replace("/");
   }
 
@@ -37,7 +37,7 @@ const requestErrorHandler = (error: any) => {
 const responseErrorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status === 401 || error.response.status === 403) {
-      // localStorage.clear();
+      sessionStorage.clear();
       window.location.replace("/");
       return Promise.reject(error);
     }

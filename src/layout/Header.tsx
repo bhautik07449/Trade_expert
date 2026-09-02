@@ -30,7 +30,6 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import React, { useState, useEffect, useRef } from "react";
 import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -39,8 +38,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import SourceIcon from "@mui/icons-material/Source";
 import BusinessIcon from "@mui/icons-material/Business";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
-import { toast } from "react-toastify";
-import Buyerservice from "../service/buyes.service";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchFlatPage } from "../store/slice/pageSlice";
@@ -51,10 +48,6 @@ import { setSelectedCountry } from "../store/slice/countrySlice";
 import NoDataFound from "../commonUI/NoDataFound";
 import CMSservice from "../service/cms.service";
 
-interface Props {
-    firstName?: string;
-    lastName?: string;
-}
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
     const trigger = useScrollTrigger({ threshold: 50 });
@@ -67,9 +60,6 @@ function HideOnScroll({ children }: { children: React.ReactElement }) {
 }
 
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [id, setId] = useState<string>();
-    const [profile, setProfile] = useState<Props>();
     const [openRFQ, setOpenRFQ] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -102,7 +92,7 @@ export default function Header() {
                 try {
                     const res = await CMSservice.getContactNo(selectedCountry);
                     let responseData = res?.data?.data || res?.data;
-                    
+
                     // If the data is an array, take the first item
                     if (Array.isArray(responseData) && responseData.length > 0) {
                         responseData = responseData[0];
@@ -120,21 +110,6 @@ export default function Header() {
         };
         fetchContact();
     }, [selectedCountry]);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        const buyer = localStorage.getItem("buyer");
-
-        if (token && buyer === "true") {
-            setIsLoggedIn(true);
-            // Remove quotes if the token was stored with JSON.stringify
-            setId(token.replace(/^"|"$/g, ''));
-        } else {
-            setIsLoggedIn(false);
-            setId(undefined);
-            setProfile(undefined);
-        }
-    }, [location.pathname]);
 
     useEffect(() => {
         dispatch(fetchFlatPage());
@@ -192,13 +167,6 @@ export default function Header() {
         if (!open) setMenuStack([]);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("buyer");
-        window.location.reload();
-        toast.success("Buyer Logout Successfully");
-    };
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (navRef.current && !navRef.current.contains(event.target as Node)) {
@@ -210,25 +178,6 @@ export default function Header() {
 
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-
-    useEffect(() => {
-        const getData = async (id: any) => {
-            try {
-                const res = await Buyerservice.getProfile(id);
-
-                if (res) {
-                    setProfile(res?.data);
-                }
-            } catch (error) {
-                toast.error("Buyer Profile not Found");
-                handleLogout();
-            }
-        };
-
-        if (id) {
-            getData(id);
-        }
-    }, [id]);
 
     const navItems: any[] = [
         {
@@ -438,60 +387,27 @@ export default function Header() {
                                     ))}
                                 </Select>
                             </FormControl>
-                            {!isLoggedIn ? (
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {
-                                        if (location.pathname === '/') {
-                                            const el = document.getElementById('supplier-tab-section');
-                                            if (el) el.scrollIntoView({ behavior: 'smooth' });
-                                        } else {
-                                            navigate("/#supplier-tab-section");
-                                        }
-                                    }}
-                                    sx={{
-                                        textTransform: "none",
-                                        fontWeight: 600,
-                                        px: 3,
-                                        borderRadius: "8px",
-                                    }}
-                                >
-                                    Join the Platform
-                                </Button>
-                            ) : (
-                                <>
-                                    <Typography
-                                        sx={{
-                                            cursor: "pointer",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 0.5,
-                                            fontSize: "14px",
-                                            fontWeight: 500
-                                        }}
-                                        onClick={() => navigate("/buyer-dashboard")}
-                                    >
-                                        <AccountCircleIcon sx={{ fontSize: 20 }} />
-                                        {profile?.firstName + " " + profile?.lastName}
-                                    </Typography>
 
-                                    <Typography
-                                        sx={{
-                                            cursor: "pointer",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 0.5,
-                                            fontSize: "14px",
-                                            fontWeight: 500
-                                        }}
-                                        onClick={handleLogout}
-                                    >
-                                        <LoginIcon sx={{ fontSize: 20 }} />
-                                        Logout
-                                    </Typography>
-                                </>
-                            )}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                    if (location.pathname === '/') {
+                                        const el = document.getElementById('supplier-tab-section');
+                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                    } else {
+                                        navigate("/#supplier-tab-section");
+                                    }
+                                }}
+                                sx={{
+                                    textTransform: "none",
+                                    fontWeight: 600,
+                                    px: 3,
+                                    borderRadius: "8px",
+                                }}
+                            >
+                                Join the Platform
+                            </Button>
 
                             <Button
                                 variant="contained"
@@ -815,55 +731,22 @@ export default function Header() {
                             bgcolor: "#fafafa",
                         }}
                     >
-                        {isLoggedIn ? (
-                            <>
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        onClick={() => {
-                                            navigate("/buyer-dashboard");
-                                            setMobileOpen(false);
-                                        }}
-                                    >
-                                        <AccountCircleIcon sx={{ mr: 1 }} />
-                                        <ListItemText
-                                            primary={`${profile?.firstName ?? ""} ${profile?.lastName ?? ""
-                                                }`}
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        onClick={() => {
-                                            handleLogout();
-                                            setMobileOpen(false);
-                                        }}
-                                    >
-                                        <LoginIcon sx={{ mr: 1 }} />
-                                        <ListItemText primary="Logout" />
-                                    </ListItemButton>
-                                </ListItem>
-                            </>
-                        ) : (
-                            <>
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        onClick={() => {
-                                            if (location.pathname === '/') {
-                                                const el = document.getElementById('supplier-tab-section');
-                                                if (el) el.scrollIntoView({ behavior: 'smooth' });
-                                            } else {
-                                                navigate("/#supplier-tab-section");
-                                            }
-                                            setMobileOpen(false);
-                                        }}
-                                    >
-                                        <LoginIcon sx={{ mr: 1 }} />
-                                        <ListItemText primary="Join the Platform" />
-                                    </ListItemButton>
-                                </ListItem>
-                            </>
-                        )}
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => {
+                                    if (location.pathname === '/') {
+                                        const el = document.getElementById('supplier-tab-section');
+                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                    } else {
+                                        navigate("/#supplier-tab-section");
+                                    }
+                                    setMobileOpen(false);
+                                }}
+                            >
+                                <LoginIcon sx={{ mr: 1 }} />
+                                <ListItemText primary="Join the Platform" />
+                            </ListItemButton>
+                        </ListItem>
 
                         <Button
                             variant="contained"

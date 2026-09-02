@@ -57,8 +57,8 @@ export default function Router(): JSX.Element {
   }, [location.pathname]);
 
   function PrivateRoute({ children }: Props) {
-    const token = localStorage.getItem('token');
-    const buyer = localStorage.getItem('buyer');
+    const token = sessionStorage.getItem('token');
+    const buyer = sessionStorage.getItem('buyer');
     if (!token || buyer !== 'true') {
       return <Navigate to="/login" replace />;
     }
@@ -66,8 +66,8 @@ export default function Router(): JSX.Element {
   }
 
   function PublicRoute({ children }: Props) {
-    const token = localStorage.getItem('token');
-    const buyer = localStorage.getItem('buyer');
+    const token = sessionStorage.getItem('token');
+    const buyer = sessionStorage.getItem('buyer');
     if (token && buyer === 'true') {
       const rawToken = token.replace(/^"|"$/g, '');
 
@@ -79,7 +79,7 @@ export default function Router(): JSX.Element {
   }
 
   function SupplierPrivateRoute({ children }: Props) {
-    const buyer = localStorage.getItem('supplier');
+    const buyer = sessionStorage.getItem('supplier');
     if (buyer !== 'true') {
       return <Navigate to="/suppliers/login" replace />;
     }
@@ -87,9 +87,9 @@ export default function Router(): JSX.Element {
   }
 
   function SupplierPublicRoute({ children }: Props) {
-    const buyer = localStorage.getItem('supplier');
+    const buyer = sessionStorage.getItem('supplier');
     if (buyer === 'true') {
-      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
       const targetBase = process.env.REACT_APP_SUPPLIER_URL;
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -99,7 +99,7 @@ export default function Router(): JSX.Element {
   }
 
   function PPPrivateRoute({ children }: Props) {
-    const buyer = localStorage.getItem('public_private');
+    const buyer = sessionStorage.getItem('public_private');
     if (buyer !== 'true') {
       return <Navigate to="/public_private_login" replace />;
     }
@@ -107,9 +107,9 @@ export default function Router(): JSX.Element {
   }
 
   function PPPublicRoute({ children }: Props) {
-    const buyer = localStorage.getItem('public_private');
+    const buyer = sessionStorage.getItem('public_private');
     if (buyer === 'true') {
-      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
       const targetBase = process.env.REACT_APP_SERVICE_URL
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -119,7 +119,7 @@ export default function Router(): JSX.Element {
   }
 
   function InvestorPrivateRoute({ children }: Props) {
-    const investor = localStorage.getItem('investor');
+    const investor = sessionStorage.getItem('investor');
     if (investor !== 'true') {
       return <Navigate to="/investors/login" replace />;
     }
@@ -127,9 +127,9 @@ export default function Router(): JSX.Element {
   }
 
   function InvestorPublicRoute({ children }: Props) {
-    const investor = localStorage.getItem('investor');
+    const investor = sessionStorage.getItem('investor');
     if (investor === 'true') {
-      const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+      const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
       const targetBase = process.env.REACT_APP_MONETILE_URL
       window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -192,7 +192,7 @@ export default function Router(): JSX.Element {
         element={
           <PrivateRoute>
             {React.createElement(() => {
-              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
               const targetBase = process.env.REACT_APP_CLIENT_URL
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -204,7 +204,7 @@ export default function Router(): JSX.Element {
       <Route path="/public_dashboard" element={
         <PPPrivateRoute>
           {React.createElement(() => {
-            const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+            const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
             const targetBase = process.env.REACT_APP_SERVICE_URL
             window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -218,7 +218,7 @@ export default function Router(): JSX.Element {
         element={
           <SupplierPrivateRoute>
             {React.createElement(() => {
-              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
               const targetBase = process.env.REACT_APP_SUPPLIER_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -232,7 +232,7 @@ export default function Router(): JSX.Element {
         element={
           <InvestorPrivateRoute>
             {React.createElement(() => {
-              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
               const targetBase = process.env.REACT_APP_MONETILE_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
@@ -246,7 +246,7 @@ export default function Router(): JSX.Element {
         element={
           <InvestorPrivateRoute>
             {React.createElement(() => {
-              const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+              const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
               const targetBase = process.env.REACT_APP_MONETILE_URL;
               window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;

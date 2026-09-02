@@ -37,7 +37,7 @@ export default function InvestorProfile() {
     const fetchInvestorProfile = async () => {
         setLoading(true)
         try {
-            const rawToken = localStorage.getItem("token")
+            const rawToken = sessionStorage.getItem("token")
             if (!rawToken) {
                 toast.error("Session expired, please login again")
                 navigate("/investors/login")
@@ -61,8 +61,8 @@ export default function InvestorProfile() {
     }, [])
 
     const handleLogout = () => {
-        localStorage.removeItem("investor")
-        localStorage.removeItem("token")
+        sessionStorage.removeItem("investor")
+        sessionStorage.removeItem("token")
         toast.info("Logged out successfully")
         navigate("/investors/login")
     }
@@ -291,7 +291,7 @@ export default function InvestorProfile() {
                                 fullWidth
                                 size="large"
                                 onClick={() => {
-                                    const rawToken = localStorage.getItem("token")?.replace(/^"|"$/g, '') || ""
+                                    const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || ""
                                     
                                     const targetBase = process.env.REACT_APP_MONETILE_URL
                                     const redirectUrl = `${targetBase}?token=${encodeURIComponent(rawToken)}`;

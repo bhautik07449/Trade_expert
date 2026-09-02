@@ -122,7 +122,7 @@ export default function PublicDashboard() {
     ]
 
     const handleLogout = () => {
-        localStorage.clear()
+        sessionStorage.clear()
         navigate('/')
     }
 

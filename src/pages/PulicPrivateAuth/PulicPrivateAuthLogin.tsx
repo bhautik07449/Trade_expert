@@ -29,8 +29,8 @@ export default function PulicPrivateAuthLogin() {
     const [showPassword, setShowPassword] = React.useState(false)
 
     React.useEffect(() => {
-        const publicPrivate = localStorage.getItem('public_private')
-        const token = localStorage.getItem('token')
+        const publicPrivate = sessionStorage.getItem('public_private')
+        const token = sessionStorage.getItem('token')
         if (publicPrivate === 'true' && token) {
             const cleanToken = token.replace(/^"|"$/g, '')
             
@@ -62,9 +62,9 @@ export default function PulicPrivateAuthLogin() {
                     toast.success(res?.data?.message || "Login successful")
                     const serviceData = res?.data?.data || res?.data || {}
                     const serviceId = serviceData?.id || serviceData?._id || serviceData?.user?.id || serviceData?.user?._id || serviceData?.token
-                    localStorage.setItem("public_private", "true")
+                    sessionStorage.setItem("public_private", "true")
                     if (serviceId) {
-                        localStorage.setItem("token", JSON.stringify(serviceId))
+                        sessionStorage.setItem("token", JSON.stringify(serviceId))
                     }
 
                     const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname

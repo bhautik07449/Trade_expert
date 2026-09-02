@@ -31,7 +31,7 @@ type Props = {
 };
 
 export default function InlineEnquiryForm({ product }: Props) {
-    const buyerId = localStorage.getItem("token");
+    const buyerId = sessionStorage.getItem("token");
 
     const validationSchema = Yup.object({
         subject: Yup.string().trim().required("Subject is required"),

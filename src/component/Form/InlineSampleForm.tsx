@@ -33,7 +33,7 @@ type Props = {
 };
 
 export default function InlineSampleForm({ product }: Props) {
-    const buyerId = localStorage.getItem("token");
+    const buyerId = sessionStorage.getItem("token");
 
     const validationSchema = Yup.object({
         subject: Yup.string().required("Subject is required"),

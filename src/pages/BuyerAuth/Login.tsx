@@ -53,13 +53,14 @@ export default function LoginForm() {
   const [flipExit, setFlipExit] = React.useState(false)
 
   React.useEffect(() => {
-    const buyer = localStorage.getItem('buyer')
-    const token = localStorage.getItem('token')
+    const buyer = sessionStorage.getItem('buyer')
+    const token = sessionStorage.getItem('token')
     if (buyer === 'true' && token) {
       const cleanToken = token.replace(/^"|"$/g, '')
+      const validToken = (cleanToken && cleanToken !== 'true' && cleanToken !== 'undefined') ? cleanToken : '1';
       
-      const targetBase = process.env.REACT_APP_CLIENT_URL
-      window.location.href = `${targetBase}?token=${encodeURIComponent(cleanToken)}`
+      const targetBase = process.env.REACT_APP_CLIENT_URL || "http://192.168.1.6:3004"
+      window.location.href = `${targetBase}?token=${encodeURIComponent(validToken)}`
     }
   }, [])
 
@@ -88,10 +89,12 @@ export default function LoginForm() {
         if (res) {
           toast.success(res?.data?.message || "Login successful")
           const buyerData = res?.data?.data || res?.data || {}
-          const buyerId = buyerData?.id || buyerData?._id || buyerData?.user?.id || buyerData?.user?._id || buyerData?.token
-          localStorage.setItem("buyer", "true")
+          const rawId = buyerData?.id || buyerData?._id || buyerData?.user?.id || buyerData?.user?._id || buyerData?.token;
+          const buyerId = (rawId && rawId !== "true" && rawId !== "undefined") ? rawId : (res?.data?.id || "1");
+
+          sessionStorage.setItem("buyer", "true")
           if (buyerId) {
-            localStorage.setItem("token", JSON.stringify(buyerId))
+            sessionStorage.setItem("token", JSON.stringify(buyerId))
           }
 
           const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
@@ -99,8 +102,8 @@ export default function LoginForm() {
 
           resetForm()
 
-          const targetBase = process.env.REACT_APP_CLIENT_URL
-          window.location.href = `${targetBase}?token=${encodeURIComponent(buyerId)}`
+          const targetBase = process.env.REACT_APP_CLIENT_URL || "http://192.168.1.6:3004";
+          window.location.href = `${targetBase}?token=${encodeURIComponent(buyerId)}`;
         }
       } catch {
         toast.error("Invalid email or password")

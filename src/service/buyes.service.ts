@@ -21,10 +21,15 @@ const buyerLogin = async (body) => {
 
 const getProfile = async (id) => {
     try {
-        const response = await serverCall.get(`/buyers/admin/${id}`)
+        const response = await serverCall.get(`/buyers/${id}`)
         return response
     } catch (error) {
-        throw error
+        try {
+            const response = await serverCall.get(`/buyers/admin/${id}`)
+            return response
+        } catch (innerError) {
+            throw error
+        }
     }
 }
 

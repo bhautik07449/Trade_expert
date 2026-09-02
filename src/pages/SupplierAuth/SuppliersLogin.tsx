@@ -29,8 +29,8 @@ export default function SuppliersLogin() {
     const [showPassword, setShowPassword] = React.useState(false)
 
     React.useEffect(() => {
-        const supplier = localStorage.getItem('supplier')
-        const token = localStorage.getItem('token')
+        const supplier = sessionStorage.getItem('supplier')
+        const token = sessionStorage.getItem('token')
         if (supplier === 'true' && token) {
             const cleanToken = token.replace(/^"|"$/g, '')
             
@@ -62,9 +62,9 @@ export default function SuppliersLogin() {
                     toast.success(res?.data?.message || "Login successful")
                     const supplierData = res?.data?.supplier || res?.data?.data || res?.data || {}
                     const supplierId = supplierData?.id || supplierData?._id || supplierData?.user?.id || supplierData?.token
-                    localStorage.setItem("supplier", "true")
+                    sessionStorage.setItem("supplier", "true")
                     if (supplierId) {
-                        localStorage.setItem("token", JSON.stringify(supplierId))
+                        sessionStorage.setItem("token", JSON.stringify(supplierId))
                     }
 
                     const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname

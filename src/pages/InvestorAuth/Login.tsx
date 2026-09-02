@@ -29,8 +29,8 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false)
 
   React.useEffect(() => {
-    const investor = localStorage.getItem('investor')
-    const token = localStorage.getItem('token')
+    const investor = sessionStorage.getItem('investor')
+    const token = sessionStorage.getItem('token')
     if (investor === 'true' && token) {
       const cleanToken = token.replace(/^"|"$/g, '')
       
@@ -64,8 +64,8 @@ export default function LoginForm() {
         if (res) {
           toast.success(res?.data?.message || "Login successful")
           const investorId = res?.data?.data?.id
-          localStorage.setItem("investor", "true")
-          localStorage.setItem("token", JSON.stringify(investorId))
+          sessionStorage.setItem("investor", "true")
+          sessionStorage.setItem("token", JSON.stringify(investorId))
 
           // Set Root Domain Cookie for MONETILE Subdomain SSO
           const domain = window.location.hostname.includes("sourceseas.com") ? ".sourceseas.com" : window.location.hostname
