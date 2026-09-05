@@ -8,8 +8,8 @@ const CategoryPage = React.lazy(() => import('../pages/Dashboard/Categorypage'))
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound').then(m => ({ default: m.PageNotFound })));
 const SignupForm = React.lazy(() => import('../pages/BuyerAuth/Signup'));
 const LoginForm = React.lazy(() => import('../pages/BuyerAuth/Login'));
-const InvestorLoginForm = React.lazy(() => import('../pages/InvestorAuth/Login'));
-const InvestorSignupForm = React.lazy(() => import('../pages/InvestorAuth/Signup'));
+// const InvestorLoginForm = React.lazy(() => import('../pages/InvestorAuth/Login'));
+// const InvestorSignupForm = React.lazy(() => import('../pages/InvestorAuth/Signup'));
 const ForgotPassword = React.lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
 const ProductPage = React.lazy(() => import('../pages/ProductDetail/ProductDetail'));
 const AboutUs = React.lazy(() => import('../pages/About/AboutUs'));
@@ -19,8 +19,8 @@ const HowToPay = React.lazy(() => import('../pages/HowToPay/HowToPay'));
 const ProductList = React.lazy(() => import('../pages/ProductList/ProductList'));
 const GetInTouch = React.lazy(() => import('../pages/GetInTouch/GetInTouch'));
 const Resource = React.lazy(() => import('../pages/Resource/Resource'));
-const SuppliersRegister = React.lazy(() => import('../pages/SupplierAuth/SuppliersRegister'));
-const SuppliersLogin = React.lazy(() => import('../pages/SupplierAuth/SuppliersLogin'));
+// const SuppliersRegister = React.lazy(() => import('../pages/SupplierAuth/SuppliersRegister'));
+// const SuppliersLogin = React.lazy(() => import('../pages/SupplierAuth/SuppliersLogin'));
 // const BuyerDashboard = React.lazy(() => import('../pages/BuyerDashboard/BuyerDashboard'));
 const CreditAccount = React.lazy(() => import('../pages/CreditAccount/CreditAccount'));
 const Gallery = React.lazy(() => import('../pages/Resource/Gallery'));
@@ -86,17 +86,17 @@ export default function Router(): JSX.Element {
     return children;
   }
 
-  function SupplierPublicRoute({ children }: Props) {
-    const buyer = sessionStorage.getItem('supplier');
-    if (buyer === 'true') {
-      const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+  // function SupplierPublicRoute({ children }: Props) {
+  //   const buyer = sessionStorage.getItem('supplier');
+  //   if (buyer === 'true') {
+  //     const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
-      const targetBase = process.env.REACT_APP_SUPPLIER_URL;
-      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
-      return <></>;
-    }
-    return children;
-  }
+  //     const targetBase = process.env.REACT_APP_SUPPLIER_URL;
+  //     window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+  //     return <></>;
+  //   }
+  //   return children;
+  // }
 
   function PPPrivateRoute({ children }: Props) {
     const buyer = sessionStorage.getItem('public_private');
@@ -126,17 +126,17 @@ export default function Router(): JSX.Element {
     return children;
   }
 
-  function InvestorPublicRoute({ children }: Props) {
-    const investor = sessionStorage.getItem('investor');
-    if (investor === 'true') {
-      const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
+  // function InvestorPublicRoute({ children }: Props) {
+  //   const investor = sessionStorage.getItem('investor');
+  //   if (investor === 'true') {
+  //     const rawToken = sessionStorage.getItem("token")?.replace(/^"|"$/g, '') || "";
 
-      const targetBase = process.env.REACT_APP_MONETILE_URL
-      window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
-      return <></>;
-    }
-    return children;
-  }
+  //     const targetBase = process.env.REACT_APP_MONETILE_URL
+  //     window.location.href = `${targetBase}?token=${encodeURIComponent(rawToken)}`;
+  //     return <></>;
+  //   }
+  //   return children;
+  // }
 
   return (
     <Routes>
@@ -173,20 +173,10 @@ export default function Router(): JSX.Element {
         }
       />
       <Route path="/pages/faq" element={<Faq />} />
-      <Route path="/suppliers/register" element={<SuppliersRegister />} />
-      <Route path="/suppliers/login" element={
-        <SupplierPublicRoute>
-          <SuppliersLogin />
-        </SupplierPublicRoute>
-      }
-      />
-      <Route path="/investors/register" element={<InvestorSignupForm />} />
-      <Route path="/investors/login" element={
-        <InvestorPublicRoute>
-          <InvestorLoginForm />
-        </InvestorPublicRoute>
-      }
-      />
+      <Route path="/suppliers/register" element={React.createElement(() => { window.location.href = `${process.env.REACT_APP_SUPPLIER_URL || 'http://localhost:3003'}/register`; return <></>; })} />
+      <Route path="/suppliers/login" element={React.createElement(() => { window.location.href = `${process.env.REACT_APP_SUPPLIER_URL || 'http://localhost:3003'}/login`; return <></>; })} />
+      <Route path="/investors/register" element={React.createElement(() => { window.location.href = `${process.env.REACT_APP_MONETILE_URL || 'http://localhost:3002'}/register`; return <></>; })} />
+      <Route path="/investors/login" element={React.createElement(() => { window.location.href = `${process.env.REACT_APP_MONETILE_URL || 'http://localhost:3002'}/login`; return <></>; })} />
       <Route
         path="/buyer-dashboard"
         element={

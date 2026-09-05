@@ -6,35 +6,41 @@ export default function SupplierTab() {
     const navigate = useNavigate();
     const theme = useTheme();
 
+    const supplierUrl = process.env.REACT_APP_SUPPLIER_URL || "http://localhost:3003";
+    const clientUrl = process.env.REACT_APP_CLIENT_URL || "http://localhost:3004";
+    const serviceUrl = process.env.REACT_APP_SERVICE_URL || "http://localhost:3005";
+    const monetileUrl = process.env.REACT_APP_MONETILE_URL || "http://localhost:3002";
+
     const tab = [
         {
             label: "Join as",
             value: "Supplier",
-            button: "Register",
-            link: "/suppliers/register",
+            button: "Visit Supplier Portal",
+            link: supplierUrl,
         },
         {
             label: "Join as",
             value: "a Buyer",
-            button: "Login or Register",
-            link: "/login",
+            button: "Visit Client Portal",
+            link: clientUrl,
         },
         {
             label: "Join as",
             value: "Service Personnel",
-            button: "Register",
-            link: "/pages/career",
+            button: "Visit Service Portal",
+            link: serviceUrl,
         },
         {
             label: "Join as",
-            value: "Investor/Trader ",
-            button: "Login or Register",
-            link: "/investors/register",
+            value: "Investor/Trader",
+            button: "Visit Montile Portal",
+            link: monetileUrl,
         }
     ];
 
     return (
         <Box
+            id="supplier-tab-section"
             sx={{
                 px: { xs: 2, sm: 4, md: 6 }, py: { xs: 6, md: 10 },
                 width: "100%",
@@ -133,7 +139,13 @@ export default function SupplierTab() {
                                             boxShadow: "0 6px 18px rgba(122, 90, 58, 0.28)",
                                         },
                                     }}
-                                    onClick={() => navigate(item.link)}
+                                    onClick={() => {
+                                        if (item.link.startsWith("http://") || item.link.startsWith("https://")) {
+                                            window.location.href = item.link;
+                                        } else {
+                                            navigate(item.link);
+                                        }
+                                    }}
                                 >
                                     {item.button}
                                 </Button>
